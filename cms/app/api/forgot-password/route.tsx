@@ -1,12 +1,13 @@
-import { ForgotPasswordEmail } from '@/emails/forgot-password-email'
-import prismadb from '@/lib/prismadb'
-import { render } from '@react-email/render'
-import bcrypt from 'bcrypt'
-import { NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
-import Mail from 'nodemailer/lib/mailer'
+import { NextResponse } from "next/server"
+import { ForgotPasswordEmail } from "@/emails/forgot-password-email"
+import { render } from "@react-email/render"
+import bcrypt from "bcrypt"
+import nodemailer from "nodemailer"
+import Mail from "nodemailer/lib/mailer"
 
-const stripHtml = (html: string) => html.replace(/<\/?[^>]+>/gi, '')
+import prismadb from "@/lib/prismadb"
+
+const stripHtml = (html: string) => html.replace(/<\/?[^>]+>/gi, "")
 
 export async function POST(req: Request) {
   try {
@@ -15,7 +16,7 @@ export async function POST(req: Request) {
     const { email } = body
 
     if (!email) {
-      return new NextResponse('Email is required', { status: 400 })
+      return new NextResponse("Email is required", { status: 400 })
     }
 
     const user = await prismadb.user.findUnique({
@@ -25,7 +26,7 @@ export async function POST(req: Request) {
     })
 
     if (!user) {
-      return new NextResponse('No User found', { status: 400 })
+      return new NextResponse("No User found", { status: 400 })
     }
 
     const token = await bcrypt.genSalt(10)
@@ -39,7 +40,7 @@ export async function POST(req: Request) {
     })
 
     const transport = nodemailer.createTransport({
-      service: 'gmail',
+      service: "gmail",
       auth: {
         user: process.env.SMTP_EMAIL,
         pass: process.env.SMTP_PASSWORD,
@@ -53,7 +54,7 @@ export async function POST(req: Request) {
     const mailOptions: Mail.Options = {
       from: process.env.SMTP_EMAIL,
       to: email,
-      subject: 'Instructies voor het resetten van uw wachtwoord bij Physis',
+      subject: "Instructies voor het resetten van uw wachtwoord bij Physis",
       text: stripHtml(html),
       html,
     }
@@ -62,7 +63,7 @@ export async function POST(req: Request) {
       new Promise<string>((resolve, reject) => {
         transport.sendMail(mailOptions, function (err) {
           if (!err) {
-            resolve('Email sent')
+            resolve("Email sent")
           } else {
             reject(err.message)
           }
@@ -71,13 +72,13 @@ export async function POST(req: Request) {
 
     try {
       await sendMailPromise()
-      return NextResponse.json({ message: 'Email sent' })
+      return NextResponse.json({ message: "Email sent" })
     } catch (err) {
       console.log({ err })
       return NextResponse.json({ error: err }, { status: 500 })
     }
   } catch (error) {
-    console.log('[FORGOT_PASSWORD_POST]', error)
-    return new NextResponse('Internal error', { status: 500 })
+    console.log("[FORGOT_PASSWORD_POST]", error)
+    return new NextResponse("Internal error", { status: 500 })
   }
 }

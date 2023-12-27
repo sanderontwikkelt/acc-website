@@ -1,8 +1,10 @@
-import { deleteFile } from '../helpers/deleteFile'
-import prismadb from '@/lib/prismadb'
-import { getPermissions, getUserServer } from '@/lib/user'
-import { ActionEnum, EntityEnum } from '@/types/permissions'
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server"
+
+import { ActionEnum, EntityEnum } from "@/types/permissions"
+import prismadb from "@/lib/prismadb"
+import { getPermissions, getUserServer } from "@/lib/user"
+
+import { deleteFile } from "../helpers/deleteFile"
 
 export async function GET(
   req: Request,
@@ -12,11 +14,11 @@ export async function GET(
     const [allowed] = await getPermissions([EntityEnum.MEDIA, ActionEnum.FIND])
 
     if (!allowed) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
 
     if (!params.mediaId) {
-      return new NextResponse('Media id is required', { status: 400 })
+      return new NextResponse("Media id is required", { status: 400 })
     }
 
     const media = await prismadb.media.findUnique({
@@ -27,8 +29,8 @@ export async function GET(
 
     return NextResponse.json(media)
   } catch (error) {
-    console.log('[MEDIA_GET]', error)
-    return new NextResponse('Internal error', { status: 500 })
+    console.log("[MEDIA_GET]", error)
+    return new NextResponse("Internal error", { status: 500 })
   }
 }
 
@@ -43,12 +45,12 @@ export async function DELETE(
     ])
 
     if (!allowed) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
     const authMedia = await getUserServer()
 
     if (!authMedia) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
 
     const media = await prismadb.media.findFirst({
@@ -58,7 +60,7 @@ export async function DELETE(
     })
 
     if (!media) {
-      return new NextResponse('No media found', { status: 400 })
+      return new NextResponse("No media found", { status: 400 })
     }
 
     const response = await prismadb.media.delete({
@@ -70,8 +72,8 @@ export async function DELETE(
 
     return NextResponse.json(response)
   } catch (error) {
-    console.log('[MEDIA_DELETE]', error)
-    return new NextResponse('Internal error', { status: 500 })
+    console.log("[MEDIA_DELETE]", error)
+    return new NextResponse("Internal error", { status: 500 })
   }
 }
 
@@ -86,7 +88,7 @@ export async function PATCH(
     ])
 
     if (!allowed) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
     const authMedia = await getUserServer()
 
@@ -95,15 +97,15 @@ export async function PATCH(
     const { filename } = body
 
     if (!authMedia) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
 
     if (!filename) {
-      return new NextResponse('filename is required', { status: 400 })
+      return new NextResponse("filename is required", { status: 400 })
     }
 
     if (!params.mediaId) {
-      return new NextResponse('Media id is required', { status: 400 })
+      return new NextResponse("Media id is required", { status: 400 })
     }
 
     const media = await prismadb.media.update({
@@ -117,7 +119,7 @@ export async function PATCH(
 
     return NextResponse.json(media)
   } catch (error) {
-    console.log('[MEDIA_PATCH]', error)
-    return new NextResponse('Internal error', { status: 500 })
+    console.log("[MEDIA_PATCH]", error)
+    return new NextResponse("Internal error", { status: 500 })
   }
 }

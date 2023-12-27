@@ -1,13 +1,15 @@
-import PageEditorClient from './components/client'
-import prismadb from '@/lib/prismadb'
-import { BlockBackup, Page, SEO } from '@prisma/client'
+import { BlockBackup, Page, SEO } from "@prisma/client"
+
+import prismadb from "@/lib/prismadb"
+
+import PageEditorClient from "./components/client"
 
 type PageType = Page & { seo: SEO; backups: BlockBackup[] }
 
 const PageEditorPage = async ({ params }: { params: { pageId: string } }) => {
   const pages = await prismadb.page.findMany({
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
     include: {
       seo: true,
@@ -19,7 +21,7 @@ const PageEditorPage = async ({ params }: { params: { pageId: string } }) => {
       id: params.pageId,
     },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
     include: {
       seo: true,

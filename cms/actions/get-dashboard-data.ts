@@ -1,6 +1,6 @@
-'use server'
+"use server"
 
-import { BetaAnalyticsDataClient } from '@google-analytics/data'
+import { BetaAnalyticsDataClient } from "@google-analytics/data"
 
 const {
   GOOGLE_ANALITCS_CREDENTIALS_BASE64,
@@ -11,7 +11,7 @@ const analyticsDataClient = new BetaAnalyticsDataClient({
   credentials: JSON.parse(
     Buffer.from(
       GOOGLE_ANALITCS_CREDENTIALS_BASE64 as string,
-      'base64'
+      "base64"
     ).toString()
   ),
 })
@@ -47,12 +47,12 @@ const fillDateRangeMap = (
     date <= end;
     date.setDate(date.getDate() + 1)
   ) {
-    const formattedDate = date.toISOString().split('T')[0]
+    const formattedDate = date.toISOString().split("T")[0]
     dateMap.set(formattedDate, 0)
   }
 
   // Ensure the end date is included
-  const endFormatted = end.toISOString().split('T')[0]
+  const endFormatted = end.toISOString().split("T")[0]
   if (!dateMap.has(endFormatted)) {
     dateMap.set(endFormatted, 0)
   }
@@ -71,26 +71,26 @@ export const getDashboardData = async ({
     property: `properties/${propertyId}`,
     dateRanges: [{ startDate, endDate }],
     dimensions: [
-      { name: 'pageTitle' },
-      { name: 'country' },
-      { name: 'city' },
-      { name: 'date' },
-      { name: 'pagePath' },
+      { name: "pageTitle" },
+      { name: "country" },
+      { name: "city" },
+      { name: "date" },
+      { name: "pagePath" },
     ],
     metrics: [
-      { name: 'screenPageViews' },
-      { name: 'sessions' },
-      { name: 'averageSessionDuration' },
-      { name: 'bounceRate' },
-      { name: 'activeUsers' },
+      { name: "screenPageViews" },
+      { name: "sessions" },
+      { name: "averageSessionDuration" },
+      { name: "bounceRate" },
+      { name: "activeUsers" },
     ],
   })
 
   const dashboardData: DashboardData = {
     pageViewsPerTitle: [],
     totalSessions: 0,
-    averageSessionDuration: '0',
-    averageBounceRate: '0',
+    averageSessionDuration: "0",
+    averageBounceRate: "0",
     usersByCountryAndCity: [],
     trafficOverMonth: [],
   }
@@ -115,15 +115,15 @@ export const getDashboardData = async ({
     const dateMap = fillDateRangeMap(startDate, endDate)
 
     for (const row of response.rows) {
-      const pageTitle = row.dimensionValues?.[0]?.value || 'Niet beschikbaar'
-      const country = row.dimensionValues?.[1]?.value || 'Niet beschikbaar'
-      const city = row.dimensionValues?.[2]?.value || 'Niet beschikbaar'
-      const date = row.dimensionValues?.[3]?.value || 'Niet beschikbaar'
-      const pagePath = row.dimensionValues?.[4]?.value || 'Niet beschikbaar'
-      const pageViews = parseInt(row.metricValues?.[0]?.value || '0')
-      const sessions = parseInt(row.metricValues?.[1]?.value || '0')
-      const sessionDuration = parseFloat(row.metricValues?.[2]?.value || '0')
-      const bounceRate = parseFloat(row.metricValues?.[3]?.value || '0')
+      const pageTitle = row.dimensionValues?.[0]?.value || "Niet beschikbaar"
+      const country = row.dimensionValues?.[1]?.value || "Niet beschikbaar"
+      const city = row.dimensionValues?.[2]?.value || "Niet beschikbaar"
+      const date = row.dimensionValues?.[3]?.value || "Niet beschikbaar"
+      const pagePath = row.dimensionValues?.[4]?.value || "Niet beschikbaar"
+      const pageViews = parseInt(row.metricValues?.[0]?.value || "0")
+      const sessions = parseInt(row.metricValues?.[1]?.value || "0")
+      const sessionDuration = parseFloat(row.metricValues?.[2]?.value || "0")
+      const bounceRate = parseFloat(row.metricValues?.[3]?.value || "0")
 
       // Aggregate sessions and calculate totals for averages
       dashboardData.totalSessions += sessions
@@ -153,7 +153,7 @@ export const getDashboardData = async ({
         })
       }
 
-      const views = parseInt(row.metricValues?.[0]?.value || '0', 10) // Assuming the first metric is views
+      const views = parseInt(row.metricValues?.[0]?.value || "0", 10) // Assuming the first metric is views
       const formatDate = `${date.substring(0, 4)}-${date.substring(
         4,
         6
@@ -180,7 +180,7 @@ export const getDashboardData = async ({
       totalDuration / (sessionCount || 1)
     ).toFixed(2)
     dashboardData.averageBounceRate =
-      ((totalBounceRate / (sessionCount || 1)) * 100).toFixed(2) + '%' // Convert to percentage
+      ((totalBounceRate / (sessionCount || 1)) * 100).toFixed(2) + "%" // Convert to percentage
   }
 
   return dashboardData

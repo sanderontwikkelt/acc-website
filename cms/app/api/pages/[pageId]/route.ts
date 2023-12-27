@@ -1,8 +1,9 @@
-import { prefixPathname } from '@/lib/prefixPathname'
-import prismadb from '@/lib/prismadb'
-import { getPermissions, getUserServer } from '@/lib/user'
-import { ActionEnum, EntityEnum } from '@/types/permissions'
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server"
+
+import { ActionEnum, EntityEnum } from "@/types/permissions"
+import { prefixPathname } from "@/lib/prefixPathname"
+import prismadb from "@/lib/prismadb"
+import { getPermissions, getUserServer } from "@/lib/user"
 
 export async function GET(
   req: Request,
@@ -12,11 +13,11 @@ export async function GET(
     const [allowed] = await getPermissions([EntityEnum.PAGE, ActionEnum.FIND])
 
     if (!allowed) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
 
     if (!params.pageId) {
-      return new NextResponse('Page id is required', { status: 400 })
+      return new NextResponse("Page id is required", { status: 400 })
     }
 
     const page = await prismadb.page.findUnique({
@@ -27,8 +28,8 @@ export async function GET(
 
     return NextResponse.json(page)
   } catch (error) {
-    console.log('[PAGE_GET]', error)
-    return new NextResponse('Internal error', { status: 500 })
+    console.log("[PAGE_GET]", error)
+    return new NextResponse("Internal error", { status: 500 })
   }
 }
 
@@ -40,17 +41,17 @@ export async function DELETE(
     const [allowed] = await getPermissions([EntityEnum.PAGE, ActionEnum.DELETE])
 
     if (!allowed) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
 
     const user = await getUserServer()
 
     if (!user) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
 
     if (!params.pageId) {
-      return new NextResponse('Page id is required', { status: 400 })
+      return new NextResponse("Page id is required", { status: 400 })
     }
 
     await prismadb.sEO.deleteMany({
@@ -67,8 +68,8 @@ export async function DELETE(
 
     return NextResponse.json(page)
   } catch (error) {
-    console.log('[PAGE_DELETE]', error)
-    return new NextResponse('Internal error', { status: 500 })
+    console.log("[PAGE_DELETE]", error)
+    return new NextResponse("Internal error", { status: 500 })
   }
 }
 
@@ -80,13 +81,13 @@ export async function PATCH(
     const [allowed] = await getPermissions([EntityEnum.PAGE, ActionEnum.UPDATE])
 
     if (!allowed) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
 
     const user = await getUserServer()
 
     if (!user) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
 
     const body = await req.json()
@@ -94,7 +95,7 @@ export async function PATCH(
     const { name, blocks, concept, pathname } = body
 
     if (!params.pageId) {
-      return new NextResponse('Page id is required', { status: 400 })
+      return new NextResponse("Page id is required", { status: 400 })
     }
 
     const data = {} as {
@@ -139,7 +140,7 @@ export async function PATCH(
 
     return NextResponse.json(page)
   } catch (error) {
-    console.log('[PAGE_PATCH]', error)
-    return new NextResponse('Internal error', { status: 500 })
+    console.log("[PAGE_PATCH]", error)
+    return new NextResponse("Internal error", { status: 500 })
   }
 }

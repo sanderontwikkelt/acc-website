@@ -1,5 +1,6 @@
-import { MediaType } from '@/components/modals/media-modal'
-import React from 'react'
+import React from "react"
+
+import { MediaType } from "@/components/modals/media-modal"
 
 const Article = ({
   title,

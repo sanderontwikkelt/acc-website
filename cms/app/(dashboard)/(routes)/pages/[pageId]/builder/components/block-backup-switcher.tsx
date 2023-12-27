@@ -1,22 +1,19 @@
-'use client'
+"use client"
 
-import { Button } from '@/components/ui/button'
-import {
-  Command,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command'
-import { Dialog } from '@/components/ui/dialog'
+import * as React from "react"
+import { BlockBackup } from "@prisma/client"
+import { ClockIcon } from "lucide-react"
+
+import { BlockType } from "@/lib/html-blocks"
+import { cn, formatDate } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Command, CommandItem, CommandList } from "@/components/ui/command"
+import { Dialog } from "@/components/ui/dialog"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
-import { BlockType } from '@/lib/html-blocks'
-import { cn, formatDate } from '@/lib/utils'
-import { BlockBackup } from '@prisma/client'
-import { ClockIcon } from 'lucide-react'
-import * as React from 'react'
+} from "@/components/ui/popover"
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
@@ -46,25 +43,25 @@ export default function BlockBackupSwitcher({
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
-            variant='secondary'
-            role='combobox'
+            variant="secondary"
+            role="combobox"
             aria-expanded={open}
-            aria-label='Selecteer een pagina'
-            className={cn('justify-between px-2 text-xs', className)}
+            aria-label="Selecteer een pagina"
+            className={cn("justify-between px-2 text-xs", className)}
           >
-            <ClockIcon className='w-4' />
+            <ClockIcon className="w-4" />
           </Button>
         </PopoverTrigger>
         {mounted && (
-          <PopoverContent className='w-[200px] p-0'>
+          <PopoverContent className="w-[200px] p-0">
             <Command>
               <CommandList>
-                <CommandItem disabled className='font-medium'>
+                <CommandItem disabled className="font-medium">
                   Content historie
                 </CommandItem>
                 {!backups.length && (
                   <CommandItem>
-                    <div className='py-3 flex items-center justify-center w-full text-center text-sm'>
+                    <div className="flex w-full items-center justify-center py-3 text-center text-sm">
                       Geen historie gevonden.
                     </div>
                   </CommandItem>
@@ -80,10 +77,10 @@ export default function BlockBackupSwitcher({
                       )
                       setOpen(false)
                     }}
-                    className='text-sm w-full flex justify-between items-center'
+                    className="flex w-full items-center justify-between text-sm"
                   >
                     Versie {i + 1}
-                    <span className='text-muted-foreground text-xs ml-2'>
+                    <span className="ml-2 text-xs text-muted-foreground">
                       {formatDate(blockBackup.createdAt)}
                     </span>
                   </CommandItem>

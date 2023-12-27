@@ -1,13 +1,15 @@
-import DragList from './drag-list'
-import { Label } from './label'
+import React, { useCallback } from "react"
+
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import React, { useCallback } from 'react'
+} from "@/components/ui/select"
+
+import DragList from "./drag-list"
+import { Label } from "./label"
 
 type Item = { pathname: string; name: string; values: Item[] }
 
@@ -33,7 +35,7 @@ const DynamicNavs = ({
 
   const dragItem = useCallback(
     ({ value, index }: { value: Item; index: number }) => (
-      <div className='space-y-2 w-full'>
+      <div className="w-full space-y-2">
         <Select
           value={value.pathname}
           onValueChange={(v) => {
@@ -42,7 +44,7 @@ const DynamicNavs = ({
           }}
         >
           <SelectTrigger>
-            <SelectValue placeholder='Selecteer een link' />
+            <SelectValue placeholder="Selecteer een link" />
           </SelectTrigger>
           <SelectContent>
             {items?.map(({ pathname, name }, i) => (
@@ -53,8 +55,8 @@ const DynamicNavs = ({
           </SelectContent>
         </Select>
         {!!root && (
-          <div className='pt-2'>
-            <div className='-translate-y-1'>
+          <div className="pt-2">
+            <div className="-translate-y-1">
               <Label>Onderliggende links</Label>
             </div>
             <DynamicNavs

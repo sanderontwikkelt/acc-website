@@ -1,7 +1,8 @@
-import DragList from './drag-list'
-import { Input } from './input'
-import MediaSelect, { MediaValue } from './media-select'
-import React, { useCallback } from 'react'
+import React, { useCallback } from "react"
+
+import DragList from "./drag-list"
+import { Input } from "./input"
+import MediaSelect, { MediaValue } from "./media-select"
 
 type Item = {
   href: string
@@ -18,7 +19,7 @@ const DynamicLinkImages = ({
   const handleChange = useCallback(
     (
       value: Item,
-      field: 'href' | 'image',
+      field: "href" | "image",
       fieldValue: string | MediaValue,
       index: number
     ) => {
@@ -33,15 +34,15 @@ const DynamicLinkImages = ({
 
   const dragItem = useCallback(
     ({ value, index }: { value: Item; index: number }) => (
-      <div className='space-y-2 w-full'>
+      <div className="w-full space-y-2">
         <MediaSelect
           values={[value.image]}
-          onChange={([media]) => handleChange(value, 'image', media, index)}
+          onChange={([media]) => handleChange(value, "image", media, index)}
         />
         <Input
           value={value.href}
-          placeholder='Href'
-          onChange={(e) => handleChange(value, 'href', e.target.value, index)}
+          placeholder="Href"
+          onChange={(e) => handleChange(value, "href", e.target.value, index)}
         />
       </div>
     ),

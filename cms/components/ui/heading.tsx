@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode } from "react"
 
 interface HeadingProps {
   title: string
@@ -12,10 +12,10 @@ export const Heading: React.FC<HeadingProps> = ({
   children,
 }) => {
   return (
-    <div className='flex md:justify-between w-full md:items-center max-md:flex-col max-md:space-y-4 md:space-x-4'>
+    <div className="flex w-full max-md:flex-col max-md:space-y-4 md:items-center md:justify-between md:space-x-4">
       <div>
-        <h2 className='text-3xl font-bold tracking-tight'>{title}</h2>
-        <p className='text-sm text-muted-foreground'>{description}</p>
+        <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
+        <p className="text-sm text-muted-foreground">{description}</p>
       </div>
       {children}
     </div>

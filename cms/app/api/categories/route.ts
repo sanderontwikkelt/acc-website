@@ -1,7 +1,8 @@
-import prismadb from '@/lib/prismadb'
-import { getPermissions, getUserServer } from '@/lib/user'
-import { ActionEnum, EntityEnum } from '@/types/permissions'
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server"
+
+import { ActionEnum, EntityEnum } from "@/types/permissions"
+import prismadb from "@/lib/prismadb"
+import { getPermissions, getUserServer } from "@/lib/user"
 
 export async function POST(req: Request) {
   try {
@@ -11,7 +12,7 @@ export async function POST(req: Request) {
     ])
 
     if (!allowed) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
 
     const authUser = await getUserServer()
@@ -21,11 +22,11 @@ export async function POST(req: Request) {
     const { title } = body
 
     if (!authUser) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
 
     if (!title) {
-      return new NextResponse('Title is required', { status: 400 })
+      return new NextResponse("Title is required", { status: 400 })
     }
 
     const category = await prismadb.category.create({
@@ -36,8 +37,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json(category)
   } catch (error) {
-    console.log('[Categories_POST]', error)
-    return new NextResponse('Internal error', { status: 500 })
+    console.log("[Categories_POST]", error)
+    return new NextResponse("Internal error", { status: 500 })
   }
 }
 
@@ -49,13 +50,13 @@ export async function GET(req: Request) {
     ])
 
     if (!allowed) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
     const categories = await prismadb.category.findMany()
 
     return NextResponse.json(categories)
   } catch (error) {
-    console.log('[Categories_GET]', error)
-    return new NextResponse('Internal error', { status: 500 })
+    console.log("[Categories_GET]", error)
+    return new NextResponse("Internal error", { status: 500 })
   }
 }

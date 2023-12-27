@@ -1,18 +1,20 @@
-'use client'
+"use client"
 
-import { buttonVariants } from './button'
-import { Input } from './input'
-import { Label } from './label'
-import { cn } from '@/lib/utils'
-import { resetPasswordSchema } from '@/lib/validation/resetPasswordSchema'
-import { zodResolver } from '@hookform/resolvers/zod'
-import axios from 'axios'
-import { Loader2 } from 'lucide-react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
-import { type z } from 'zod'
+import { useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
+import axios from "axios"
+import { Loader2 } from "lucide-react"
+import { useForm } from "react-hook-form"
+import toast from "react-hot-toast"
+import { type z } from "zod"
+
+import { cn } from "@/lib/utils"
+import { resetPasswordSchema } from "@/lib/validation/resetPasswordSchema"
+
+import { buttonVariants } from "./button"
+import { Input } from "./input"
+import { Label } from "./label"
 
 type FormData = z.infer<typeof resetPasswordSchema>
 
@@ -30,25 +32,25 @@ export const ResetPasswordForm = ({
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const searchParams = useSearchParams()
-  const token = searchParams.get('token')
+  const token = searchParams.get("token")
   const router = useRouter()
 
   const onSubmit = async (data: FormData) => {
     setIsLoading(true)
 
     try {
-      await axios.post('reset-password', {
+      await axios.post("reset-password", {
         password: data.password,
         token,
       })
 
       toast.success(
-        'Wachtwoord is succesvol aangepast. Log in met uw nieuwe wachtwoord!'
+        "Wachtwoord is succesvol aangepast. Log in met uw nieuwe wachtwoord!"
       )
 
-      router.push('/sign-in')
+      router.push("/sign-in")
     } catch (e) {
-      toast.error('Aanvraag is verlopen.')
+      toast.error("Aanvraag is verlopen.")
       console.log(e)
     } finally {
       setIsLoading(false)
@@ -56,33 +58,33 @@ export const ResetPasswordForm = ({
   }
 
   return (
-    <div className={cn('grid gap-6', className)} {...props}>
+    <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='space-y-4'>
-          <div className='space-y-2'>
-            <Label htmlFor='email' className='sr-only'>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="email" className="sr-only">
               Wachtwoord
             </Label>
 
             <Input
-              id='password'
-              type='password'
-              placeholder='***********'
-              autoComplete='password'
-              autoCorrect='off'
+              id="password"
+              type="password"
+              placeholder="***********"
+              autoComplete="password"
+              autoCorrect="off"
               disabled={isLoading}
-              {...register('password')}
+              {...register("password")}
             />
 
             {errors?.password && (
-              <p className='px-1 pb-2 text-xs text-destructive'>
+              <p className="px-1 pb-2 text-xs text-destructive">
                 {errors.password.message}
               </p>
             )}
           </div>
 
           <button className={cn(buttonVariants())} disabled={isLoading}>
-            {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Wachtwoord resetten
           </button>
         </div>

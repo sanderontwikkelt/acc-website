@@ -1,8 +1,18 @@
-'use client'
+"use client"
 
-import { ApiAlert } from '@/components/ui/api-alert'
-import { Button } from '@/components/ui/button'
-import DynamicButtonList from '@/components/ui/dynamic-button-list'
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Header } from "@prisma/client"
+import axios from "axios"
+import { useForm } from "react-hook-form"
+import { toast } from "react-hot-toast"
+import * as z from "zod"
+
+import { useOrigin } from "@/hooks/use-origin"
+import { ApiAlert } from "@/components/ui/api-alert"
+import { Button } from "@/components/ui/button"
+import DynamicButtonList from "@/components/ui/dynamic-button-list"
 import {
   Form,
   FormControl,
@@ -10,19 +20,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Heading } from '@/components/ui/heading'
-import { Separator } from '@/components/ui/separator'
-import SingleImageSelect from '@/components/ui/single-image-select'
-import { useOrigin } from '@/hooks/use-origin'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Header } from '@prisma/client'
-import axios from 'axios'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { toast } from 'react-hot-toast'
-import * as z from 'zod'
+} from "@/components/ui/form"
+import { Heading } from "@/components/ui/heading"
+import { Separator } from "@/components/ui/separator"
+import SingleImageSelect from "@/components/ui/single-image-select"
 
 const formSchema = z.object({
   mediaId: z.string().min(2).nullable(),
@@ -51,9 +52,9 @@ export const HeaderForm: React.FC<HeaderFormProps> = ({ initialData }) => {
       setLoading(true)
       await axios.patch(`/api/header`, data)
       router.refresh()
-      toast.success('Header aangepast.')
+      toast.success("Header aangepast.")
     } catch (error: any) {
-      toast.error('Er is iets mis gegaan.')
+      toast.error("Er is iets mis gegaan.")
     } finally {
       setLoading(false)
     }
@@ -61,19 +62,19 @@ export const HeaderForm: React.FC<HeaderFormProps> = ({ initialData }) => {
 
   return (
     <>
-      <div className='flex items-center justify-between'>
-        <Heading title='Header' description='Beheer website Header' />
+      <div className="flex items-center justify-between">
+        <Heading title="Header" description="Beheer website Header" />
       </div>
       <Separator />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='w-full space-y-8'
+          className="w-full space-y-8"
         >
-          <div className='grid grid-cols-3 gap-8'>
+          <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
-              name='links'
+              name="links"
               render={({ field }) => {
                 return (
                   <FormItem>
@@ -83,7 +84,7 @@ export const HeaderForm: React.FC<HeaderFormProps> = ({ initialData }) => {
                         disabled={loading}
                         {...field}
                         value={
-                          typeof field.value === 'string'
+                          typeof field.value === "string"
                             ? JSON.parse(field.value)
                             : field.value
                         }
@@ -96,13 +97,13 @@ export const HeaderForm: React.FC<HeaderFormProps> = ({ initialData }) => {
             />
             <FormField
               control={form.control}
-              name='mediaId'
+              name="mediaId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Afbeelding</FormLabel>
                   <FormControl>
                     <SingleImageSelect
-                      value={field.value || ''}
+                      value={field.value || ""}
                       onChange={field.onChange}
                     />
                   </FormControl>
@@ -111,15 +112,15 @@ export const HeaderForm: React.FC<HeaderFormProps> = ({ initialData }) => {
               )}
             />
           </div>
-          <Button disabled={loading} className='ml-auto' type='submit'>
+          <Button disabled={loading} className="ml-auto" type="submit">
             Opslaan
           </Button>
         </form>
       </Form>
       <Separator />
       <ApiAlert
-        title='NEXT_PUBLIC_API_URL'
-        variant='public'
+        title="NEXT_PUBLIC_API_URL"
+        variant="public"
         description={`${origin}/api`}
       />
     </>

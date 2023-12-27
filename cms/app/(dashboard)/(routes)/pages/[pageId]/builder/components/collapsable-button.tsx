@@ -1,32 +1,33 @@
-'use client'
+"use client"
 
-import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
+import * as React from "react"
+import { ChevronsUpDown } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@/components/ui/collapsible'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+} from "@/components/ui/collapsible"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { ChevronsUpDown } from 'lucide-react'
-import * as React from 'react'
+} from "@/components/ui/select"
 
 export type ButtonValue = {
   title: string
   children: React.ReactNode
   href: string
-  target: '_blank' | '_self'
-  variant: 'default' | 'accent' | 'main' | 'outline' | 'link'
-  rounded: 'default' | 'sm' | 'md'
-  size: 'default' | 'lg'
+  target: "_blank" | "_self"
+  variant: "default" | "accent" | "main" | "outline" | "link"
+  rounded: "default" | "sm" | "md"
+  size: "default" | "lg"
   withArrow: boolean
 }
 
@@ -46,100 +47,100 @@ export function CollapsibleButton({ children, value, setValue }: Props) {
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
-      className='w-full space-y-2 h-full'
+      className="h-full w-full space-y-2"
     >
-      <div className='flex items-center justify-between space-x-4 h-full'>
+      <div className="flex h-full items-center justify-between space-x-4">
         {children || (
-          <div className='space-y-2 w-full'>
+          <div className="w-full space-y-2">
             <Input
-              placeholder='Titel'
+              placeholder="Titel"
               value={title}
-              onChange={(e) => onChange('title', e.target.value)}
+              onChange={(e) => onChange("title", e.target.value)}
             />
           </div>
         )}
         <CollapsibleTrigger asChild>
-          <Button variant='outline' size='icon' className='w-9 p-0'>
-            <ChevronsUpDown className='h-4 w-4' />
-            <span className='sr-only'>Toggle</span>
+          <Button variant="outline" size="icon" className="w-9 p-0">
+            <ChevronsUpDown className="h-4 w-4" />
+            <span className="sr-only">Toggle</span>
           </Button>
         </CollapsibleTrigger>
       </div>
-      <div className='space-y-2'>
+      <div className="space-y-2">
         {!!children && (
-          <div className='space-y-2'>
+          <div className="space-y-2">
             <Input
-              placeholder='Titel'
+              placeholder="Titel"
               value={title}
-              onChange={(e) => onChange('title', e.target.value)}
+              onChange={(e) => onChange("title", e.target.value)}
             />
           </div>
         )}
-        <CollapsibleContent className='space-y-2'>
+        <CollapsibleContent className="space-y-2">
           <Input
-            placeholder='Navigeer naar'
+            placeholder="Navigeer naar"
             value={href}
-            onChange={(e) => onChange('href', e.target.value)}
+            onChange={(e) => onChange("href", e.target.value)}
           />
           <Select
             value={target}
-            onValueChange={(value) => onChange('target', value)}
+            onValueChange={(value) => onChange("target", value)}
           >
             <SelectTrigger>
-              <SelectValue placeholder='Selecteer target' />
+              <SelectValue placeholder="Selecteer target" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value='_self'>Self</SelectItem>
-              <SelectItem value='_blank'>Blank</SelectItem>
+              <SelectItem value="_self">Self</SelectItem>
+              <SelectItem value="_blank">Blank</SelectItem>
             </SelectContent>
           </Select>
           <Select
             value={variant}
-            onValueChange={(value) => onChange('variant', value)}
+            onValueChange={(value) => onChange("variant", value)}
           >
             <SelectTrigger>
-              <SelectValue placeholder='Selecteer variant' />
+              <SelectValue placeholder="Selecteer variant" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value='default'>Standaard</SelectItem>
-              <SelectItem value='accent'>Accent</SelectItem>
-              <SelectItem value='main'>Primair</SelectItem>
-              <SelectItem value='outline'>Omranding</SelectItem>
-              <SelectItem value='success'>Succes</SelectItem>
-              <SelectItem value='link'>Link</SelectItem>
+              <SelectItem value="default">Standaard</SelectItem>
+              <SelectItem value="accent">Accent</SelectItem>
+              <SelectItem value="main">Primair</SelectItem>
+              <SelectItem value="outline">Omranding</SelectItem>
+              <SelectItem value="success">Succes</SelectItem>
+              <SelectItem value="link">Link</SelectItem>
             </SelectContent>
           </Select>
           <Select
             value={size}
-            onValueChange={(value) => onChange('size', value)}
+            onValueChange={(value) => onChange("size", value)}
           >
             <SelectTrigger>
-              <SelectValue placeholder='Selecteer formaat' />
+              <SelectValue placeholder="Selecteer formaat" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value='default'>Normaal</SelectItem>
-              <SelectItem value='lg'>Groot</SelectItem>
+              <SelectItem value="default">Normaal</SelectItem>
+              <SelectItem value="lg">Groot</SelectItem>
             </SelectContent>
           </Select>
           <Select
             value={rounded}
-            onValueChange={(value) => onChange('rounded', value)}
+            onValueChange={(value) => onChange("rounded", value)}
           >
             <SelectTrigger>
-              <SelectValue placeholder='Selecteer radius' />
+              <SelectValue placeholder="Selecteer radius" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value='default'>Geen</SelectItem>
-              <SelectItem value='sm'>Klein</SelectItem>
-              <SelectItem value='md'>Middel</SelectItem>
+              <SelectItem value="default">Geen</SelectItem>
+              <SelectItem value="sm">Klein</SelectItem>
+              <SelectItem value="md">Middel</SelectItem>
             </SelectContent>
           </Select>
 
-          <div className='flex items-center space-x-2 pt-1'>
+          <div className="flex items-center space-x-2 pt-1">
             <Checkbox
               checked={withArrow}
               // @ts-ignore
-              onCheckedChange={(checked) => onChange('withArrow', checked)}
+              onCheckedChange={(checked) => onChange("withArrow", checked)}
             />
             <Label>Met pijl</Label>
           </div>

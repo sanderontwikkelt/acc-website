@@ -1,25 +1,27 @@
-import { Input } from './input'
+import React from "react"
+
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import React from 'react'
+} from "@/components/ui/select"
+
+import { Input } from "./input"
 
 const options = [
-  { label: 'Pixels', key: 'px' },
-  { label: 'Procent', key: '%' },
-  { label: 'Viewport Width', key: 'vw' },
-  { label: 'Viewport Height', key: 'vh' },
+  { label: "Pixels", key: "px" },
+  { label: "Procent", key: "%" },
+  { label: "Viewport Width", key: "vw" },
+  { label: "Viewport Height", key: "vh" },
 ]
 function separateNumbersAndChars(input: string) {
-  let numbers = ''
-  let chars = ''
+  let numbers = ""
+  let chars = ""
 
   for (let i = 0; i < input.length; i++) {
-    if (!isNaN(input[i] as any) && input[i] !== ' ') {
+    if (!isNaN(input[i] as any) && input[i] !== " ") {
       // Check if the character is a number (ignoring spaces)
       numbers += input[i]
     } else {
@@ -32,27 +34,27 @@ function separateNumbersAndChars(input: string) {
 }
 
 const SizePicker = ({
-  value = '980px',
+  value = "980px",
   onChange,
 }: {
   value: string
   onChange: (v: any) => void
 }) => {
-  const { numbers, chars = 'px' } = separateNumbersAndChars(value)
+  const { numbers, chars = "px" } = separateNumbersAndChars(value)
   return (
-    <div className='space-x-2 flex'>
+    <div className="flex space-x-2">
       <Input
         value={numbers}
-        type='number'
-        placeholder='980'
+        type="number"
+        placeholder="980"
         onChange={(v) => {
-          const { chars = 'px' } = separateNumbersAndChars(value)
-          onChange(v.target.value + (chars || 'px'))
+          const { chars = "px" } = separateNumbersAndChars(value)
+          onChange(v.target.value + (chars || "px"))
         }}
       />
-      <Select value={chars || 'px'} onValueChange={onChange}>
+      <Select value={chars || "px"} onValueChange={onChange}>
         <SelectTrigger>
-          <SelectValue placeholder='px' />
+          <SelectValue placeholder="px" />
         </SelectTrigger>
         <SelectContent>
           {options?.map(({ key, label }: { key: string; label: string }) => (

@@ -1,8 +1,18 @@
-'use client'
+"use client"
 
-import { ApiAlert } from '@/components/ui/api-alert'
-import { Button } from '@/components/ui/button'
-import DynamicButtonList from '@/components/ui/dynamic-button-list'
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Footer } from "@prisma/client"
+import axios from "axios"
+import { useForm } from "react-hook-form"
+import { toast } from "react-hot-toast"
+import * as z from "zod"
+
+import { useOrigin } from "@/hooks/use-origin"
+import { ApiAlert } from "@/components/ui/api-alert"
+import { Button } from "@/components/ui/button"
+import DynamicButtonList from "@/components/ui/dynamic-button-list"
 import {
   Form,
   FormControl,
@@ -10,19 +20,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Heading } from '@/components/ui/heading'
-import { Input } from '@/components/ui/input'
-import { Separator } from '@/components/ui/separator'
-import { useOrigin } from '@/hooks/use-origin'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Footer } from '@prisma/client'
-import axios from 'axios'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { toast } from 'react-hot-toast'
-import * as z from 'zod'
+} from "@/components/ui/form"
+import { Heading } from "@/components/ui/heading"
+import { Input } from "@/components/ui/input"
+import { Separator } from "@/components/ui/separator"
 
 const formSchema = z.object({
   title: z.string().min(2),
@@ -52,9 +53,9 @@ export const FooterForm: React.FC<FooterFormProps> = ({ initialData }) => {
       setLoading(true)
       await axios.patch(`/api/footer`, data)
       router.refresh()
-      toast.success('Footer aangepast.')
+      toast.success("Footer aangepast.")
     } catch (error: any) {
-      toast.error('Er is iets mis gegaan.')
+      toast.error("Er is iets mis gegaan.")
     } finally {
       setLoading(false)
     }
@@ -62,19 +63,19 @@ export const FooterForm: React.FC<FooterFormProps> = ({ initialData }) => {
 
   return (
     <>
-      <div className='flex items-center justify-between'>
-        <Heading title='Footer' description='Beheer website Footer' />
+      <div className="flex items-center justify-between">
+        <Heading title="Footer" description="Beheer website Footer" />
       </div>
       <Separator />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='w-full space-y-8'
+          className="w-full space-y-8"
         >
-          <div className='grid grid-cols-3 gap-8'>
+          <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
-              name='physisLinks'
+              name="physisLinks"
               render={({ field }) => {
                 return (
                   <FormItem>
@@ -84,7 +85,7 @@ export const FooterForm: React.FC<FooterFormProps> = ({ initialData }) => {
                         disabled={loading}
                         {...field}
                         value={
-                          typeof field.value === 'string'
+                          typeof field.value === "string"
                             ? JSON.parse(field.value)
                             : field.value
                         }
@@ -97,7 +98,7 @@ export const FooterForm: React.FC<FooterFormProps> = ({ initialData }) => {
             />
             <FormField
               control={form.control}
-              name='contactLinks'
+              name="contactLinks"
               render={({ field }) => {
                 return (
                   <FormItem>
@@ -107,7 +108,7 @@ export const FooterForm: React.FC<FooterFormProps> = ({ initialData }) => {
                         disabled={loading}
                         {...field}
                         value={
-                          typeof field.value === 'string'
+                          typeof field.value === "string"
                             ? JSON.parse(field.value)
                             : field.value
                         }
@@ -120,14 +121,14 @@ export const FooterForm: React.FC<FooterFormProps> = ({ initialData }) => {
             />
             <FormField
               control={form.control}
-              name='title'
+              name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Titel</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder='Footer Titel'
+                      placeholder="Footer Titel"
                       {...field}
                     />
                   </FormControl>
@@ -136,15 +137,15 @@ export const FooterForm: React.FC<FooterFormProps> = ({ initialData }) => {
               )}
             />
           </div>
-          <Button disabled={loading} className='ml-auto' type='submit'>
+          <Button disabled={loading} className="ml-auto" type="submit">
             Opslaan
           </Button>
         </form>
       </Form>
       <Separator />
       <ApiAlert
-        title='NEXT_PUBLIC_API_URL'
-        variant='public'
+        title="NEXT_PUBLIC_API_URL"
+        variant="public"
         description={`${origin}/api`}
       />
     </>

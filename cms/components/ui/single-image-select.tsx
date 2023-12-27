@@ -1,11 +1,12 @@
-'use client'
+"use client"
 
-import { MediaModal } from '../modals/media-modal'
-import { Loader } from './loader'
-import axios from 'axios'
-import { ImagePlus } from 'lucide-react'
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react"
+import Image from "next/image"
+import axios from "axios"
+import { ImagePlus } from "lucide-react"
+
+import { MediaModal } from "../modals/media-modal"
+import { Loader } from "./loader"
 
 export type MediaValue = {
   src: string
@@ -28,7 +29,7 @@ const getImage = async (
   setLoading: (b: boolean) => void
 ) => {
   setLoading(true)
-  const { data } = await axios.get('/api/media/' + id)
+  const { data } = await axios.get("/api/media/" + id)
 
   if (data)
     setImage({
@@ -65,23 +66,23 @@ const SingleImageSelect: React.FC<SingleImageSelectProps> = ({
         onClose={() => setIsOpen(false)}
         selected={image ? [image] : []}
         onSelect={([{ id }]) => onChange(id)}
-        type='image'
+        type="image"
       />
       <button
         disabled={isLoading}
-        type='button'
-        className='w-full h-36 overflow-hidden rounded-md bg-secondary border border-input relative'
+        type="button"
+        className="relative h-36 w-full overflow-hidden rounded-md border border-input bg-secondary"
         onClick={() => setIsOpen(true)}
       >
         {image ? (
           <Image
             fill
-            className='object-contain px-5'
+            className="object-contain px-5"
             alt={image.name}
             src={image.src}
           />
         ) : (
-          <div className='flex items-center justify-center w-full h-full'>
+          <div className="flex h-full w-full items-center justify-center">
             {isLoading ? <Loader /> : <ImagePlus />}
           </div>
         )}

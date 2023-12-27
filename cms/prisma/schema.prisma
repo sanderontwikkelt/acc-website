@@ -195,8 +195,8 @@ model Settings {
 
 model Course {
   id             String   @id @default(uuid())
-  slug          String
   title          String
+  description          String
   mediaId        String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt

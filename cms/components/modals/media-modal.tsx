@@ -1,16 +1,18 @@
-'use client'
+"use client"
 
-import { Loader } from '../ui/loader'
-import { MediaGrid } from '../ui/media-grid'
-import { MediaValue } from '../ui/media-select'
-import { Button } from '@/components/ui/button'
-import { Modal } from '@/components/ui/modal'
-import { Media } from '@prisma/client'
-import axios from 'axios'
-import { ImagePlus } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react"
+import { Media } from "@prisma/client"
+import axios from "axios"
+import { ImagePlus } from "lucide-react"
 
-export type MediaType = 'image' | 'video'
+import { Button } from "@/components/ui/button"
+import { Modal } from "@/components/ui/modal"
+
+import { Loader } from "../ui/loader"
+import { MediaGrid } from "../ui/media-grid"
+import { MediaValue } from "../ui/media-select"
+
+export type MediaType = "image" | "video"
 
 interface MediaModalProps {
   isOpen: boolean
@@ -26,7 +28,7 @@ export const MediaModal: React.FC<MediaModalProps> = ({
   onClose,
   onSelect,
   selected,
-  type = 'image',
+  type = "image",
   multiple,
 }) => {
   const [isMounted, setIsMounted] = useState(false)
@@ -38,7 +40,7 @@ export const MediaModal: React.FC<MediaModalProps> = ({
   const [media, setMedia] = useState<Media[]>([])
 
   const fetchMedia = async () => {
-    const { data } = await axios.get('/api/media?type=' + type)
+    const { data } = await axios.get("/api/media?type=" + type)
     if (isFetching) setIsFetching(false)
     setMedia(data)
   }
@@ -63,16 +65,16 @@ export const MediaModal: React.FC<MediaModalProps> = ({
       // Create a FormData object and append the file to it
       const formData = new FormData()
       const file = files[0]
-      formData.append('file', file)
+      formData.append("file", file)
 
       // Send a POST request to your API endpoint
-      const response = await axios.post('/api/media', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      const response = await axios.post("/api/media", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       })
 
       setMedia((prev) => [...prev, response.data])
     } catch (error) {
-      console.error('Error uploading file:', error)
+      console.error("Error uploading file:", error)
     } finally {
       setLoading(false)
     }
@@ -86,20 +88,20 @@ export const MediaModal: React.FC<MediaModalProps> = ({
 
   return (
     <Modal
-      className='sm:max-w-4xl'
-      title='Select an image'
-      description='Select one of the images from your media store.'
+      className="sm:max-w-4xl"
+      title="Select an image"
+      description="Select one of the images from your media store."
       isOpen={isOpen}
       onClose={onClose}
     >
-      <div className='space-y-4 pt-2'>
+      <div className="space-y-4 pt-2">
         {loading ? (
-          <div className='flex h-full w-full items-center justify-center absolute inset-0'>
+          <div className="absolute inset-0 flex h-full w-full items-center justify-center">
             <Loader />
           </div>
         ) : null}
         {isFetching ? (
-          <div className='flex w-full items-center justify-center h-36'>
+          <div className="flex h-36 w-full items-center justify-center">
             <Loader />
           </div>
         ) : (
@@ -111,35 +113,35 @@ export const MediaModal: React.FC<MediaModalProps> = ({
             refetch={fetchMedia}
           />
         )}
-        <div className='space-y-2 sticky bottom-0'>
-          <div className='flex w-full items-center justify-end space-x-2 pt-6'>
+        <div className="sticky bottom-0 space-y-2">
+          <div className="flex w-full items-center justify-end space-x-2 pt-6">
             <div>
               <input
-                type='file'
+                type="file"
                 hidden
-                id='media-model-upload'
-                accept={type === 'image' ? 'image/*' : 'video/*'}
+                id="media-model-upload"
+                accept={type === "image" ? "image/*" : "video/*"}
                 onChange={(e) => onChange(e.target.files)}
               />
               <Button
-                type='button'
+                type="button"
                 disabled={loading}
-                variant='secondary'
+                variant="secondary"
                 onClick={(e) => {
                   e.stopPropagation()
-                  document?.getElementById('media-model-upload')?.click()
+                  document?.getElementById("media-model-upload")?.click()
                 }}
               >
-                <ImagePlus className='mr-2 h-4 w-4' />
+                <ImagePlus className="mr-2 h-4 w-4" />
                 Afbeelding uploaden
               </Button>
             </div>
             <Button
               disabled={loading || !selectedMedia}
-              type='button'
+              type="button"
               onClick={onSubmit}
             >
-              Continue
+              Selecteren
             </Button>
           </div>
         </div>

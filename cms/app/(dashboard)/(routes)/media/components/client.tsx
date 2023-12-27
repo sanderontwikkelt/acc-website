@@ -1,19 +1,20 @@
-'use client'
+"use client"
 
-import { AlertModal } from '@/components/modals/alert-modal'
-import { Button } from '@/components/ui/button'
-import { Heading } from '@/components/ui/heading'
-import { MediaGrid } from '@/components/ui/media-grid'
-import { MediaValue } from '@/components/ui/media-select'
-import { Separator } from '@/components/ui/separator'
-import { useHasPermissions } from '@/lib/utils'
-import { ActionEnum, EntityEnum } from '@/types/permissions'
-import { Media } from '@prisma/client'
-import axios from 'axios'
-import { ImagePlus } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import toast from 'react-hot-toast'
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { Media } from "@prisma/client"
+import axios from "axios"
+import { ImagePlus } from "lucide-react"
+import toast from "react-hot-toast"
+
+import { ActionEnum, EntityEnum } from "@/types/permissions"
+import { useHasPermissions } from "@/lib/utils"
+import { AlertModal } from "@/components/modals/alert-modal"
+import { Button } from "@/components/ui/button"
+import { Heading } from "@/components/ui/heading"
+import { MediaGrid } from "@/components/ui/media-grid"
+import { MediaValue } from "@/components/ui/media-select"
+import { Separator } from "@/components/ui/separator"
 
 const Client = ({ media }: { media: Media[] }) => {
   const [selectedMedia, setSelectedMedia] = useState<MediaValue[]>([])
@@ -38,7 +39,7 @@ const Client = ({ media }: { media: Media[] }) => {
         toast.success(
           `${
             selectedMedia.length === 1
-              ? '1 bestand'
+              ? "1 bestand"
               : `${selectedMedia.length} bestanden`
           } succesvol verwijderd.`
         )
@@ -65,15 +66,15 @@ const Client = ({ media }: { media: Media[] }) => {
       // Create a FormData object and append the file to it
       const formData = new FormData()
       const file = files[0]
-      formData.append('file', file)
+      formData.append("file", file)
 
       // Send a POST request to your API endpoint
-      await axios.post('/api/media', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+      await axios.post("/api/media", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       })
       refetch()
     } catch (error) {
-      console.error('Error uploading file:', error)
+      console.error("Error uploading file:", error)
     } finally {
       setLoading(false)
     }
@@ -82,23 +83,23 @@ const Client = ({ media }: { media: Media[] }) => {
   return (
     <>
       <input
-        type='file'
+        type="file"
         hidden
-        id='media-model-upload'
-        accept='image/*,video/*'
+        id="media-model-upload"
+        accept="image/*,video/*"
         onChange={(e) => onChange(e.target.files)}
       />
-      <div className='flex items-center justify-between'>
+      <div className="flex items-center justify-between">
         <Heading
           title={`Media (${media.length})`}
-          description='Beheer Media voor je website'
+          description="Beheer Media voor je website"
         >
-          <div className='flex items-center space-x-3'>
+          <div className="flex items-center space-x-3">
             {canDelete && (
               <Button
                 disabled={!selectedMedia.length}
-                type='button'
-                variant='outline'
+                type="button"
+                variant="outline"
                 onClick={() => setShowDeleteDialog(true)}
               >
                 Verwijderen
@@ -106,14 +107,14 @@ const Client = ({ media }: { media: Media[] }) => {
             )}
             {canCreate && (
               <Button
-                type='button'
+                type="button"
                 disabled={loading}
                 onClick={(e) => {
                   e.stopPropagation()
-                  document?.getElementById('media-model-upload')?.click()
+                  document?.getElementById("media-model-upload")?.click()
                 }}
               >
-                <ImagePlus className='mr-2 h-4 w-4' />
+                <ImagePlus className="mr-2 h-4 w-4" />
                 Nieuwe toevoegen
               </Button>
             )}

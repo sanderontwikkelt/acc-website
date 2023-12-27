@@ -1,23 +1,24 @@
-import { hasPermission } from './lib/hasPermission'
-import { ActionEnum, EntityEnum } from './types/permissions'
-import { Permission } from '@prisma/client'
-import { withAuth } from 'next-auth/middleware'
+import { Permission } from "@prisma/client"
+import { withAuth } from "next-auth/middleware"
+
+import { hasPermission } from "./lib/hasPermission"
+import { ActionEnum, EntityEnum } from "./types/permissions"
 
 export default withAuth({
   callbacks: {
     async authorized({ req, token }) {
       const permissions = (token?.permissions as Permission[]) || []
       const { pathname } = req.nextUrl
-      if (['/footer', '/header'].includes(pathname))
+      if (["/footer", "/header"].includes(pathname))
         return hasPermission(permissions, EntityEnum.PAGE, ActionEnum.UPDATE)
 
       const entity = Object.values(EntityEnum).find((ent) =>
         pathname.includes(ent)
       )
 
-      const action = pathname.includes('/new')
+      const action = pathname.includes("/new")
         ? ActionEnum.CREATE
-        : pathname.split('/').length <= 2
+        : pathname.split("/").length <= 2
         ? ActionEnum.FIND
         : ActionEnum.UPDATE
 
@@ -32,24 +33,24 @@ export default withAuth({
 
 export const config = {
   matcher: [
-    '/',
-    '/settings',
-    '/header',
-    '/footer',
-    '/pages',
-    '/pages/new',
-    '/pages/:path*',
-    '/categories',
-    '/categories/new',
-    '/categories/:path*',
-    '/users',
-    '/users/new',
-    '/users/:path*',
-    '/roles',
-    '/roles/new',
-    '/roles/:path*',
-    '/media',
-    '/media/new',
-    '/media/:path*',
+    "/",
+    "/settings",
+    "/header",
+    "/footer",
+    "/pages",
+    "/pages/new",
+    "/pages/:path*",
+    "/categories",
+    "/categories/new",
+    "/categories/:path*",
+    "/users",
+    "/users/new",
+    "/users/:path*",
+    "/roles",
+    "/roles/new",
+    "/roles/:path*",
+    "/media",
+    "/media/new",
+    "/media/:path*",
   ],
 }

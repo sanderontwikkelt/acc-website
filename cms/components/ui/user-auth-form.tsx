@@ -1,19 +1,21 @@
-'use client'
+"use client"
 
-import { buttonVariants } from './button'
-import { Input } from './input'
-import { Label } from './label'
-import { cn } from '@/lib/utils'
-import { userAuthSchema } from '@/lib/validation/userAuthSchema'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Loader2 } from 'lucide-react'
-import { signIn } from 'next-auth/react'
-import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import toast from 'react-hot-toast'
-import { type z } from 'zod'
+import { useState } from "react"
+import Link from "next/link"
+import { useRouter, useSearchParams } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Loader2 } from "lucide-react"
+import { signIn } from "next-auth/react"
+import { useForm } from "react-hook-form"
+import toast from "react-hot-toast"
+import { type z } from "zod"
+
+import { cn } from "@/lib/utils"
+import { userAuthSchema } from "@/lib/validation/userAuthSchema"
+
+import { buttonVariants } from "./button"
+import { Input } from "./input"
+import { Label } from "./label"
 
 type FormData = z.infer<typeof userAuthSchema>
 
@@ -36,7 +38,7 @@ export const UserAuthForm = ({
     setIsLoading(true)
 
     try {
-      const signInResult = await signIn('credentials', {
+      const signInResult = await signIn("credentials", {
         email: data.email.toLowerCase(),
         password: data.password,
         redirect: false,
@@ -44,70 +46,70 @@ export const UserAuthForm = ({
 
       if (signInResult && signInResult.status === 401) {
         return toast.error(
-          'Gebruiker niet gevonden. Probeer het opnieuw of vraag een nieuw wachtwoord aan.'
+          "Gebruiker niet gevonden. Probeer het opnieuw of vraag een nieuw wachtwoord aan."
         )
       }
 
       if (signInResult && signInResult.status === 500) {
-        return toast.error('Er is iets mis gegaan.')
+        return toast.error("Er is iets mis gegaan.")
       }
 
-      return router.push('/')
+      return router.push("/")
     } catch (e) {
       console.log(e)
-      toast.error('Er is iets mis gegaan')
+      toast.error("Er is iets mis gegaan")
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className={cn('grid gap-6', className)} {...props}>
+    <div className={cn("grid gap-6", className)} {...props}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='space-y-4'>
-          <div className='space-y-2'>
-            <Label htmlFor='email' className='sr-only'>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="email" className="sr-only">
               Email
             </Label>
 
             <Input
-              id='email'
-              type='email'
-              placeholder='name@example.com'
-              autoCapitalize='none'
-              autoComplete='email'
-              autoCorrect='off'
+              id="email"
+              type="email"
+              placeholder="name@example.com"
+              autoCapitalize="none"
+              autoComplete="email"
+              autoCorrect="off"
               disabled={isLoading}
-              {...register('email')}
+              {...register("email")}
             />
             {errors?.email && (
-              <p className='px-1 pb-2 text-xs text-destructive'>
+              <p className="px-1 pb-2 text-xs text-destructive">
                 {errors.email.message}
               </p>
             )}
             <Input
-              id='password'
-              type='password'
-              placeholder='***********'
-              autoComplete='password'
-              autoCorrect='off'
+              id="password"
+              type="password"
+              placeholder="***********"
+              autoComplete="password"
+              autoCorrect="off"
               disabled={isLoading}
-              {...register('password')}
+              {...register("password")}
             />
             {errors?.password && (
-              <p className='px-1 pb-2 text-xs text-destructive'>
+              <p className="px-1 pb-2 text-xs text-destructive">
                 {errors.password.message}
               </p>
             )}
           </div>
 
           <button className={cn(buttonVariants())} disabled={isLoading}>
-            {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Inloggen
           </button>
           <Link
-            href='/forgot-password'
-            className='text-sm block hover:underline'
+            href="/forgot-password"
+            className="block text-sm hover:underline"
           >
             Wachtwoord vergeten?
           </Link>

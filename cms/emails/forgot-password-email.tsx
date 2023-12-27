@@ -1,3 +1,4 @@
+import * as React from "react"
 import {
   Body,
   Button,
@@ -10,17 +11,16 @@ import {
   Row,
   Section,
   Text,
-} from '@react-email/components'
-import * as React from 'react'
+} from "@react-email/components"
 
 interface ForgotPasswordEmailProps {
   token: string
 }
 
-const baseUrl = 'https://storage.googleapis.com/cms_upload_bucket'
+const baseUrl = "https://storage.googleapis.com/cms_upload_bucket"
 
 export const ForgotPasswordEmail = ({
-  token = '',
+  token = "",
 }: ForgotPasswordEmailProps) => {
   const href = `${process.env.NEXTAUTH_URL}/reset-password?token=${token}`
   return (
@@ -37,9 +37,9 @@ export const ForgotPasswordEmail = ({
             <Section style={{ marginBottom: 20 }}>
               <Img
                 src={`${baseUrl}/lphysis.png`}
-                width='149'
-                height='43'
-                alt='Physis'
+                width="149"
+                height="43"
+                alt="Physis"
               />
             </Section>
             <Section>
@@ -102,57 +102,57 @@ export const ForgotPasswordEmail = ({
 export default ForgotPasswordEmail
 
 const main = {
-  backgroundColor: '#ffffff',
+  backgroundColor: "#ffffff",
   fontFamily:
     '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif',
 }
 
 const container = {
-  margin: '0 auto',
-  padding: '40px 0 48px',
-  width: '580px',
+  margin: "0 auto",
+  padding: "40px 0 48px",
+  width: "580px",
 }
 
 const heading = {
-  fontSize: '32px',
-  lineHeight: '1.3',
-  fontWeight: '700',
-  color: '#484848',
+  fontSize: "32px",
+  lineHeight: "1.3",
+  fontWeight: "700",
+  color: "#484848",
 }
 
 const paragraph = {
   marginTop: 0,
   marginBottom: 40,
-  fontSize: '18px',
-  lineHeight: '1.4',
-  color: '#484848',
+  fontSize: "18px",
+  lineHeight: "1.4",
+  color: "#484848",
 }
 
 const review = {
   ...paragraph,
-  padding: '24px',
-  backgroundColor: '#f2f3f3',
-  borderRadius: '4px',
+  padding: "24px",
+  backgroundColor: "#f2f3f3",
+  borderRadius: "4px",
 }
 
 const button = {
-  backgroundColor: '#64BD6E',
-  borderRadius: '3px',
-  color: '#fff',
-  fontSize: '18px',
-  textDecoration: 'none',
-  textAlign: 'center' as const,
-  display: 'block',
-  width: '100%',
+  backgroundColor: "#64BD6E",
+  borderRadius: "3px",
+  color: "#fff",
+  fontSize: "18px",
+  textDecoration: "none",
+  textAlign: "center" as const,
+  display: "block",
+  width: "100%",
 }
 
 const hr = {
-  borderColor: '#cccccc',
-  margin: '40px 0',
+  borderColor: "#cccccc",
+  margin: "40px 0",
 }
 
 const footer = {
-  color: '#9ca299',
-  fontSize: '14px',
-  marginBottom: '10px',
+  color: "#9ca299",
+  fontSize: "14px",
+  marginBottom: "10px",
 }

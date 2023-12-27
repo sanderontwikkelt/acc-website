@@ -1,15 +1,16 @@
-'use client'
+"use client"
 
-import DragList from '@/components/ui/drag-list'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import htmlBlocks, { BlockType } from '@/lib/html-blocks'
-import { cn } from '@/lib/utils'
-import { Page } from '@prisma/client'
-import { EditIcon, PlusIcon } from 'lucide-react'
-import Image from 'next/image'
-import { ReactNode, useCallback } from 'react'
-import toast from 'react-hot-toast'
-import { v4 as uuidv4 } from 'uuid'
+import { ReactNode, useCallback } from "react"
+import Image from "next/image"
+import { Page } from "@prisma/client"
+import { EditIcon, PlusIcon } from "lucide-react"
+import toast from "react-hot-toast"
+import { v4 as uuidv4 } from "uuid"
+
+import htmlBlocks, { BlockType } from "@/lib/html-blocks"
+import { cn } from "@/lib/utils"
+import DragList from "@/components/ui/drag-list"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 const BlockNavigation = ({
   onClick,
@@ -24,26 +25,26 @@ const BlockNavigation = ({
 }) => (
   <button
     onClick={onClick}
-    className='group relative w-full flex items-center bg-background hover:bg-secondary rounded-lg p-3'
+    className="group relative flex w-full items-center rounded-lg bg-background p-3 hover:bg-secondary"
   >
-    <div className='h-52 w-72 bg-[#FCF9EC] shadow-xl border border-input pointer-events-none absolute top-full left-1/2 -translate-x-1/2 transition-all z-50 duration-300 -translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 rounded-md overflow-hidden scale-90 group-hover:scale-100'>
+    <div className="pointer-events-none absolute left-1/2 top-full z-50 h-52 w-72 -translate-x-1/2 -translate-y-4 scale-90 overflow-hidden rounded-md border border-input bg-[#FCF9EC] opacity-0 shadow-xl transition-all duration-300 group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100">
       <Image
-        src={src + '?234'}
+        src={src + "?234"}
         fill
-        alt='preview'
-        className='object-contain p-4'
+        alt="preview"
+        className="object-contain p-4"
       />
     </div>
-    <div className='flex flex-col items-start mr-3 text-primary'>
-      <div className='font-medium text-sm text-left'>
+    <div className="mr-3 flex flex-col items-start text-primary">
+      <div className="text-left text-sm font-medium">
         {children}
-        <span className='absolute inset-0' />
+        <span className="absolute inset-0" />
       </div>
     </div>
     {add ? (
-      <PlusIcon className='w-4 ml-auto' />
+      <PlusIcon className="ml-auto w-4" />
     ) : (
-      <EditIcon className='w-4 ml-auto' />
+      <EditIcon className="ml-auto w-4" />
     )}
   </button>
 )
@@ -60,14 +61,14 @@ export default function ComponentsMenu({
   page: Page
   open: boolean
   blocks: BlockType[]
-  setEditorOpen: (e: 'blocks' | 'header' | 'footer') => void
+  setEditorOpen: (e: "blocks" | "header" | "footer") => void
   setBlocks: (b: BlockType[]) => void
   setSectionId: (s: string) => void
   onSelect: (block: BlockType) => void
 }) {
   const handleSectionId = useCallback(
     (id: string) => {
-      setEditorOpen('blocks')
+      setEditorOpen("blocks")
       setSectionId(id)
     },
     [setSectionId]
@@ -94,25 +95,25 @@ export default function ComponentsMenu({
   return (
     <aside
       className={cn(
-        'flex h-full flex-col w-[24rem] max-md:fixed max-md:top-10 max-md:w-screen overflow-hidden max-md:z-50 transition-all duration-300 bg-background pb-6 relative',
+        "relative flex h-full w-[24rem] flex-col overflow-hidden bg-background pb-6 transition-all duration-300 max-md:fixed max-md:top-10 max-md:z-50 max-md:w-screen",
         open
-          ? 'min-w-[100vw] md:min-w-[24rem] opacity-100 max-md:right-0'
-          : 'md:w-0 min-w-[0rem] opacity-0 max-md:right-full'
+          ? "min-w-[100vw] opacity-100 max-md:right-0 md:min-w-[24rem]"
+          : "min-w-[0rem] opacity-0 max-md:right-full md:w-0"
       )}
     >
-      <Tabs defaultValue='blocks' className='w-full py-5'>
-        <TabsList className='grid grid-cols-2 ml-5 max-md:mx-5'>
-          <TabsTrigger value='blocks'>Pagina blocks</TabsTrigger>
-          <TabsTrigger value='library'>Blocks library</TabsTrigger>
+      <Tabs defaultValue="blocks" className="w-full py-5">
+        <TabsList className="ml-5 grid grid-cols-2 max-md:mx-5">
+          <TabsTrigger value="blocks">Pagina blocks</TabsTrigger>
+          <TabsTrigger value="library">Blocks library</TabsTrigger>
         </TabsList>
-        <TabsContent value='blocks'>
-          <div className='py-2 min-w-[100vw] md:min-w-[24rem] w-full space-y-4 max-h-[calc(100vh-8.125rem)] h-[calc(100vh-8.125rem)] overflow-auto max-md:px-5 pl-5'>
-            <div className='bg-accent p-1 rounded-md'>
+        <TabsContent value="blocks">
+          <div className="h-[calc(100vh-8.125rem)] max-h-[calc(100vh-8.125rem)] w-full min-w-[100vw] space-y-4 overflow-auto py-2 pl-5 max-md:px-5 md:min-w-[24rem]">
+            <div className="rounded-md bg-accent p-1">
               <BlockNavigation
                 onClick={() => {
-                  setEditorOpen('header')
+                  setEditorOpen("header")
                 }}
-                src='/images/block/header.png'
+                src="/images/block/header.png"
               >
                 Header
               </BlockNavigation>
@@ -125,31 +126,26 @@ export default function ComponentsMenu({
                 onChange={setBlocks}
                 dragItem={dragItem}
               />
-            ) : (
-              <p className='text-sm m-auto text-center'>
-                Nog geen blocks. Selecteer een van de blocks uit de Blocks
-                library.
-              </p>
-            )}
-            <div className='bg-accent p-1 rounded-md'>
+            ) : null}
+            <div className="rounded-md bg-accent p-1">
               <BlockNavigation
                 onClick={() => {
-                  setEditorOpen('footer')
+                  setEditorOpen("footer")
                 }}
-                src='/images/block/footer.png'
+                src="/images/block/footer.png"
               >
                 Footer
               </BlockNavigation>
             </div>
           </div>
         </TabsContent>
-        <TabsContent value='library'>
-          <div className='py-2 w-[24rem] max-h-[calc(100vh-6.625rem)] h-[calc(100vh-6.625rem)] overflow-auto max-md:px-5 pl-5'>
-            <div className='space-y-4'>
+        <TabsContent value="library">
+          <div className="h-[calc(100vh-6.625rem)] max-h-[calc(100vh-6.625rem)] w-[24rem] overflow-auto py-2 pl-5 max-md:px-5">
+            <div className="space-y-4">
               {Object.entries(htmlBlocks)
                 .sort(([a], [b]) => a.localeCompare(b))
                 .map(([name, item]) => (
-                  <div className='bg-accent p-1 rounded-md' key={name}>
+                  <div className="rounded-md bg-accent p-1" key={name}>
                     <BlockNavigation
                       key={name}
                       src={item.previewurl}

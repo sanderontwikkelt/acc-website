@@ -1,7 +1,8 @@
-'use client'
+"use client"
 
-import { CellAction } from './cell-action'
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef } from "@tanstack/react-table"
+
+import { CellAction } from "./cell-action"
 
 export type PageColumn = {
   id: string
@@ -13,23 +14,23 @@ export type PageColumn = {
 
 export const columns: ColumnDef<PageColumn>[] = [
   {
-    accessorKey: 'name',
-    header: 'Naam',
+    accessorKey: "name",
+    header: "Naam",
   },
   {
-    accessorKey: 'pathname',
-    header: 'Padnaam',
+    accessorKey: "pathname",
+    header: "Padnaam",
   },
   {
-    accessorKey: 'concept',
-    header: 'Concept',
+    accessorKey: "concept",
+    header: "Concept",
   },
   {
-    accessorKey: 'createdAt',
-    header: 'Aangemaakt',
+    accessorKey: "createdAt",
+    header: "Aangemaakt",
   },
   {
-    id: 'actions',
+    id: "actions",
     cell: ({ row }) => <CellAction data={row.original} />,
   },
 ]

@@ -1,8 +1,9 @@
-import DragList from './drag-list'
-import { Input } from './input'
-import MediaSelect, { MediaValue } from './media-select'
-import RichText from './rich-text'
-import React, { useCallback } from 'react'
+import React, { useCallback } from "react"
+
+import DragList from "./drag-list"
+import { Input } from "./input"
+import MediaSelect, { MediaValue } from "./media-select"
+import RichText from "./rich-text"
 
 type Item = {
   title: string
@@ -23,7 +24,7 @@ const DynamicList = ({
   const handleChange = useCallback(
     (
       value: Item,
-      field: 'title' | 'description' | 'subtitle' | 'image' | 'href' | 'author',
+      field: "title" | "description" | "subtitle" | "image" | "href" | "author",
       fieldValue: string | MediaValue,
       index: number
     ) => {
@@ -38,12 +39,12 @@ const DynamicList = ({
 
   const dragItem = useCallback(
     ({ value, index }: { value: Item; index: number }) => (
-      <div className='space-y-2 w-full'>
+      <div className="w-full space-y-2">
         {value.title !== undefined && (
           <Input
             value={value.title}
             onChange={(e) =>
-              handleChange(value, 'title', e.target.value, index)
+              handleChange(value, "title", e.target.value, index)
             }
           />
         )}
@@ -51,7 +52,7 @@ const DynamicList = ({
           <Input
             value={value.author}
             onChange={(e) =>
-              handleChange(value, 'author', e.target.value, index)
+              handleChange(value, "author", e.target.value, index)
             }
           />
         )}
@@ -59,26 +60,26 @@ const DynamicList = ({
           <Input
             value={value.subtitle}
             onChange={(e) =>
-              handleChange(value, 'subtitle', e.target.value, index)
+              handleChange(value, "subtitle", e.target.value, index)
             }
           />
         )}
         {value.href !== undefined && (
           <Input
             value={value.href}
-            placeholder='Link'
-            onChange={(e) => handleChange(value, 'href', e.target.value, index)}
+            placeholder="Link"
+            onChange={(e) => handleChange(value, "href", e.target.value, index)}
           />
         )}
         <RichText
-          id={'drag-list' + index}
+          id={"drag-list" + index}
           value={value.description}
-          onChange={(e) => handleChange(value, 'description', e, index)}
+          onChange={(e) => handleChange(value, "description", e, index)}
         />
         {!!value.image && (
           <MediaSelect
             values={[value.image]}
-            onChange={([media]) => handleChange(value, 'image', media, index)}
+            onChange={([media]) => handleChange(value, "image", media, index)}
           />
         )}
       </div>

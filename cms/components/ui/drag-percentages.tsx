@@ -1,8 +1,9 @@
-'use client'
+"use client"
 
-import { cn } from '@/lib/utils'
-import React, { useMemo } from 'react'
-import Draggable from 'react-draggable'
+import React, { useMemo } from "react"
+import Draggable from "react-draggable"
+
+import { cn } from "@/lib/utils"
 
 type Position = { x: number; y: number }
 
@@ -30,7 +31,7 @@ const DragPercentages: React.FC<{
   return (
     <div
       className={cn(
-        'relative border rounded-md border-input bg-background min-w-[2.5rem] hover:bg-accent hover:text-accent-foreground w-[2.5rem] h-[2.5rem]',
+        "relative h-[2.5rem] w-[2.5rem] min-w-[2.5rem] rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground",
         className
       )}
     >
@@ -44,7 +45,7 @@ const DragPercentages: React.FC<{
           bottom: containerSize - childSize,
         }}
       >
-        <div className='absolute top-0 left-0 rounded-full cursor-move bg-primary w-3 h-3 text-center'>
+        <div className="absolute left-0 top-0 h-3 w-3 cursor-move rounded-full bg-primary text-center">
           {/* Draggable content */}
         </div>
       </Draggable>

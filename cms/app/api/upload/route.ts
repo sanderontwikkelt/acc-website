@@ -1,7 +1,7 @@
-import { Storage } from '@google-cloud/storage'
-import imageSize from 'image-size'
-import { NextRequest, NextResponse } from 'next/server'
-import { v4 as uuidv4 } from 'uuid'
+import { NextRequest, NextResponse } from "next/server"
+import { Storage } from "@google-cloud/storage"
+import imageSize from "image-size"
+import { v4 as uuidv4 } from "uuid"
 
 const storage = new Storage({
   projectId: process.env.GOOGLE_STORAGE_PROJECT_ID,
@@ -9,25 +9,25 @@ const storage = new Storage({
     client_email: process.env.GOOGLE_STORAGE_EMAIL,
     private_key: (process.env.GOOGLE_STORAGE_PRIVATE_KEY as string).replace(
       /\\n/g,
-      '\n'
+      "\n"
     ),
   },
 })
 
-const bucketName = 'cms_upload_bucket' // Replace with the name of your bucket
+const bucketName = "cms_upload_bucket" // Replace with the name of your bucket
 
 export async function POST(request: NextRequest) {
   try {
     const data = await request.formData()
-    const file: File | null = data.get('file') as unknown as File
+    const file: File | null = data.get("file") as unknown as File
 
     if (!file) {
-      return new NextResponse('No file uploaded', { status: 400 })
+      return new NextResponse("No file uploaded", { status: 400 })
     }
 
     const blob = storage
       .bucket(bucketName)
-      .file('media/' + uuidv4() + '_' + file.name)
+      .file("media/" + uuidv4() + "_" + file.name)
     const blobStream = blob.createWriteStream({
       metadata: {
         contentType: file.type,
@@ -38,12 +38,12 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(arrayBuffer)
 
     return await new Promise<NextResponse>((resolve, reject) => {
-      blobStream.on('error', (err) => {
+      blobStream.on("error", (err) => {
         console.error(err)
-        resolve(new NextResponse(' Er is iets mis gegaan!', { status: 500 }))
+        resolve(new NextResponse(" Er is iets mis gegaan!", { status: 500 }))
       })
 
-      blobStream.on('finish', async () => {
+      blobStream.on("finish", async () => {
         const url = `https://storage.googleapis.com/${bucketName}/${blob.name}`
 
         // Use image-size to get width and height
@@ -64,6 +64,6 @@ export async function POST(request: NextRequest) {
     })
   } catch (e) {
     console.error(e)
-    return new NextResponse('Internal Server Error', { status: 500 })
+    return new NextResponse("Internal Server Error", { status: 500 })
   }
 }

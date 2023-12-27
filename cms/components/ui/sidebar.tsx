@@ -1,10 +1,11 @@
-'use client'
+"use client"
 
-import { cn } from '../../lib/utils'
-import { buttonVariants } from './button'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import React from 'react'
+import React from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+
+import { cn } from "../../lib/utils"
+import { buttonVariants } from "./button"
 
 export type Playlist = string
 
@@ -12,9 +13,9 @@ const SidebarItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn('pt-2', className)} {...props} />
+  <div ref={ref} className={cn("pt-2", className)} {...props} />
 ))
-SidebarItem.displayName = 'SidebarItem'
+SidebarItem.displayName = "SidebarItem"
 
 export interface SidebarItemLinkProps {
   href: string
@@ -26,8 +27,8 @@ const SidebarItemLink = React.forwardRef<
 >(({ className, href, disabled, ...props }, ref) => {
   const pathName = usePathname()
   const isActive =
-    href === '/'
-      ? pathName === '/' || pathName.includes('/?')
+    href === "/"
+      ? pathName === "/" || pathName.includes("/?")
       : pathName.includes(href)
 
   return (
@@ -35,29 +36,29 @@ const SidebarItemLink = React.forwardRef<
       ref={ref}
       href={href}
       className={cn(
-        buttonVariants({ variant: isActive ? 'secondary' : 'ghost' }),
-        'w-full justify-start transition-all',
+        buttonVariants({ variant: isActive ? "secondary" : "ghost" }),
+        "w-full justify-start transition-all",
         className,
         isActive
-          ? 'px-2 font-semibold opacity-100'
-          : 'font-normal opacity-80 hover:opacity-100 px-1 hover:font-semibold hover:px-2',
-        disabled ? 'pointer-events-none opacity-80' : ''
+          ? "px-2 font-semibold opacity-100"
+          : "px-1 font-normal opacity-80 hover:px-2 hover:font-semibold hover:opacity-100",
+        disabled ? "pointer-events-none opacity-80" : ""
       )}
       {...props}
     />
   )
 })
-SidebarItemLink.displayName = 'SidebarItemLink'
+SidebarItemLink.displayName = "SidebarItemLink"
 
 const SidebarItemContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...props }, ref) => (
-  <div className={cn('space-y-1 pt-2', className)} {...props} ref={ref}>
+  <div className={cn("space-y-1 pt-2", className)} {...props} ref={ref}>
     {children}
   </div>
 ))
-SidebarItemContent.displayName = 'SidebarItemContent'
+SidebarItemContent.displayName = "SidebarItemContent"
 
 const SidebarItemLabel = React.forwardRef<
   HTMLHeadingElement,
@@ -65,11 +66,11 @@ const SidebarItemLabel = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <h2
     ref={ref}
-    className={cn('text-md font-semibold mx-1 tracking-tight', className)}
+    className={cn("text-md mx-1 font-semibold tracking-tight", className)}
     {...props}
   />
 ))
-SidebarItemLabel.displayName = 'SidebarItemLabel'
+SidebarItemLabel.displayName = "SidebarItemLabel"
 
 const Sidebar = React.forwardRef<
   HTMLDivElement,
@@ -77,7 +78,7 @@ const Sidebar = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     className={cn(
-      'flex h-full z-50 w-screen md:w-48 flex-col gap-4 border bg-background px-4 py-4 text-card-foreground shadow',
+      "z-50 flex h-full w-screen flex-col gap-4 border bg-background px-4 py-4 text-card-foreground shadow md:w-48",
       className
     )}
     ref={ref}
@@ -85,7 +86,7 @@ const Sidebar = React.forwardRef<
   />
 ))
 
-Sidebar.displayName = 'Sidebar'
+Sidebar.displayName = "Sidebar"
 
 export {
   Sidebar,

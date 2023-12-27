@@ -1,20 +1,22 @@
-'use client'
+"use client"
 
-import AsideEditor from './aside-editor'
-import ComponentsMenu from './components-menu'
-import FooterAsideEditor from './footer-aside-editor'
-import HeaderAsideEditor from './header-aside-editor'
-import Toolbar from './toolbar'
-import Website from './website'
-import { Loader } from '@/components/ui/loader'
-import htmlBlocks, { BlockType } from '@/lib/html-blocks'
-import { revalidateClientTag } from '@/lib/revalidate-client-tag'
-import { BlockBackup, Footer, Header, Page, SEO } from '@prisma/client'
-import axios from 'axios'
-import { useParams, useRouter } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import toast from 'react-hot-toast'
-import useUndo from 'use-undo'
+import { useCallback, useEffect, useMemo, useState } from "react"
+import { useParams, useRouter } from "next/navigation"
+import { BlockBackup, Footer, Header, Page, SEO } from "@prisma/client"
+import axios from "axios"
+import toast from "react-hot-toast"
+import useUndo from "use-undo"
+
+import htmlBlocks, { BlockType } from "@/lib/html-blocks"
+import { revalidateClientTag } from "@/lib/revalidate-client-tag"
+import { Loader } from "@/components/ui/loader"
+
+import AsideEditor from "./aside-editor"
+import ComponentsMenu from "./components-menu"
+import FooterAsideEditor from "./footer-aside-editor"
+import HeaderAsideEditor from "./header-aside-editor"
+import Toolbar from "./toolbar"
+import Website from "./website"
 
 export type State = {
   blocks: BlockType[]
@@ -40,14 +42,14 @@ const PageEditorClient = ({
   } as State
   const [sectionId, setSectionId] = useState<string | null>(null)
   const [isIframeReady, setIframeReady] = useState<boolean>(false)
-  const [sent, setSend] = useState<boolean>(false)
+  const [sent, setSent] = useState<boolean>(false)
   const [editorOpen, setEditorOpen] = useState<
-    'header' | 'blocks' | 'footer' | null
+    "header" | "blocks" | "footer" | null
   >(null)
   const [showMenu, setShowMenu] = useState<boolean>(true)
   const [loading, setLoading] = useState(false)
-  const [display, setDisplay] = useState<'desktop' | 'tablet' | 'mobile'>(
-    'desktop'
+  const [display, setDisplay] = useState<"desktop" | "tablet" | "mobile">(
+    "desktop"
   )
   const [pageState, { set: setState, reset, ...undoActions }] = useUndo(init)
   const { present: state } = pageState
@@ -64,10 +66,11 @@ const PageEditorClient = ({
   const params = useParams()
 
   useEffect(() => {
+    console.log("rendering")
+    const iframe = document.getElementById(
+      "website-iframe"
+    ) as HTMLIFrameElement
     const postMessageToIframe = () => {
-      const iframe = document.getElementById(
-        'website-iframe'
-      ) as HTMLIFrameElement
       iframe?.contentWindow?.postMessage(
         {
           header: state.header || header,
@@ -99,22 +102,19 @@ const PageEditorClient = ({
         },
         frontendUrl as string
       )
-      setSend(true)
+      setSent(true)
     }
-
+    console.log({ isIframeReady, iframe })
     // If the iframe is already ready, post the message immediately
     if (isIframeReady) {
       setTimeout(
         () => {
           postMessageToIframe()
         },
-        sent ? 0 : 1000
+        sent ? 0 : 2000
       )
     } else {
       // If not, set up a load event listener on the iframe
-      const iframe = document.getElementById(
-        'website-iframe'
-      ) as HTMLIFrameElement
 
       // Handler for load event
       const handleLoad = () => {
@@ -122,30 +122,30 @@ const PageEditorClient = ({
         postMessageToIframe()
       }
       // Add load event listener
-      iframe?.addEventListener('load', handleLoad)
+      iframe?.addEventListener("load", handleLoad)
 
       // Return a cleanup function to remove the event listener
       return () => {
-        iframe?.removeEventListener('load', handleLoad)
+        iframe?.removeEventListener("load", handleLoad)
       }
     }
-    setSend(true)
+    setSent(true)
   }, [state, isIframeReady, frontendUrl])
 
   useEffect(() => {
-    const sidebar = document.getElementById('sidebar')
-    if (sidebar) sidebar.style.display = 'none'
+    const sidebar = document.getElementById("sidebar")
+    if (sidebar) sidebar.style.display = "none"
     return () => {
-      if (sidebar) sidebar.style.display = 'flex'
+      if (sidebar) sidebar.style.display = "flex"
     }
   }, [])
 
   const moveSection = useCallback(
-    (sectionId: string, direction: 'UP' | 'DOWN') => {
+    (sectionId: string, direction: "UP" | "DOWN") => {
       const arr = state.blocks
       const index = state.blocks.findIndex(({ uid }) => sectionId === uid)
-      if (index || direction === 'DOWN') {
-        const swapIndex = index + (direction === 'UP' ? -1 : 1)
+      if (index || direction === "DOWN") {
+        const swapIndex = index + (direction === "UP" ? -1 : 1)
         let temp = arr[index]
         arr[index] = arr[swapIndex]
         arr[swapIndex] = temp
@@ -183,7 +183,7 @@ const PageEditorClient = ({
 
   const handleSectionId = useCallback(
     (id: string | null) => {
-      setEditorOpen('blocks')
+      setEditorOpen("blocks")
       setSectionId(id)
     },
     [setSectionId]
@@ -193,27 +193,27 @@ const PageEditorClient = ({
     try {
       setLoading(true)
       await axios.patch(`/api/pages/${params.pageId}`, { blocks: state.blocks })
-      revalidateClientTag(page.pathname.replaceAll('/', '') || 'index')
+      revalidateClientTag(page.pathname.replaceAll("/", "") || "index")
       if (state.header) {
         await axios.patch(`/api/header`, state.header)
-        revalidateClientTag('header')
+        revalidateClientTag("header")
       }
       if (state.footer) {
         await axios.patch(`/api/footer`, state.footer)
-        revalidateClientTag('footer')
+        revalidateClientTag("footer")
       }
       router.refresh()
-      toast.success('Opgeslagen en gepubliseerd.')
+      toast.success("Opgeslagen en gepubliseerd.")
     } catch (error: any) {
       console.log(error)
-      toast.error('Er is iets mis gegaan.')
+      toast.error("Er is iets mis gegaan.")
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className='h-full w-full flex flex-col'>
+    <div className="flex h-full w-full flex-col">
       <Toolbar
         display={display}
         blocks={state.blocks}
@@ -227,7 +227,7 @@ const PageEditorClient = ({
         {...undoActions}
         reset={() => reset(init)}
       />
-      <div className='h-[calc(100%-2.5rem)] w-full flex'>
+      <div className="flex h-[calc(100%-2.5rem)] w-full">
         {!!page && (
           <ComponentsMenu
             page={page}
@@ -255,13 +255,13 @@ const PageEditorClient = ({
           />
         )}
         {!sent && (
-          <div className='flex h-full bg-background w-full fixed z-50 inset-0 items-center justify-center'>
+          <div className="fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-background">
             <Loader />
           </div>
         )}
 
         <AsideEditor
-          open={showMenu && editorOpen === 'blocks'}
+          open={showMenu && editorOpen === "blocks"}
           setBlock={(newBlock) =>
             setBlocks(
               newBlock
@@ -276,14 +276,14 @@ const PageEditorClient = ({
         />
         <HeaderAsideEditor
           pages={pages}
-          open={showMenu && editorOpen === 'header'}
+          open={showMenu && editorOpen === "header"}
           setOpen={() => setEditorOpen(null)}
           header={state.header || header}
           setHeader={setHeaderState}
         />
         <FooterAsideEditor
           pages={pages}
-          open={showMenu && editorOpen === 'footer'}
+          open={showMenu && editorOpen === "footer"}
           setOpen={() => setEditorOpen(null)}
           footer={state.footer || footer}
           state={state}

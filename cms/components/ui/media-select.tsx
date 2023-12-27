@@ -1,7 +1,8 @@
-import { MediaModal, MediaType } from '../modals/media-modal'
-import DragList from './drag-list'
-import MediaItem from './media-item'
-import { useCallback, useState } from 'react'
+import { useCallback, useState } from "react"
+
+import { MediaModal, MediaType } from "../modals/media-modal"
+import DragList from "./drag-list"
+import MediaItem from "./media-item"
 
 export type MediaValue = {
   src: string
@@ -9,7 +10,7 @@ export type MediaValue = {
   height: number
   id: string
   name: string
-  objectFit?: 'cover' | 'contain'
+  objectFit?: "cover" | "contain"
   objectPosition?: { x: number; y: number }
 }
 
@@ -24,7 +25,7 @@ interface MediaSelectProps {
 const MediaSelect: React.FC<MediaSelectProps> = ({
   onChange,
   values,
-  type = 'image',
+  type = "image",
   multiple = false,
 }) => {
   const dragItem = useCallback(

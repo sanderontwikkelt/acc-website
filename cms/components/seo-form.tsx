@@ -1,9 +1,17 @@
-'use client'
+"use client"
 
-import { Separator } from './ui/separator'
-import SingleImageSelect from './ui/single-image-select'
-import { Textarea } from './ui/textarea'
-import { Button } from '@/components/ui/button'
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { SEO } from "@prisma/client"
+import axios from "axios"
+import { useForm } from "react-hook-form"
+import { toast } from "react-hot-toast"
+import * as z from "zod"
+
+import { revalidateClientTag } from "@/lib/revalidate-client-tag"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -11,18 +19,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { revalidateClientTag } from '@/lib/revalidate-client-tag'
-import { cn } from '@/lib/utils'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { SEO } from '@prisma/client'
-import axios from 'axios'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { toast } from 'react-hot-toast'
-import * as z from 'zod'
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+
+import { Separator } from "./ui/separator"
+import SingleImageSelect from "./ui/single-image-select"
+import { Textarea } from "./ui/textarea"
 
 const formSchema = z.object({
   title: z.string().nullable(),
@@ -61,12 +63,12 @@ export const SEOForm: React.FC<SEOFormProps> = ({
       setLoading(true)
       if (initialData) {
         await axios.patch(`/api/seo/${seoId}`, data)
-        revalidateClientTag('seo' + (pathname.replaceAll('/', '') || 'index'))
+        revalidateClientTag("seo" + (pathname.replaceAll("/", "") || "index"))
         router.refresh()
-        toast.success('SEO updated.')
+        toast.success("SEO updated.")
       }
     } catch (error: any) {
-      toast.error('Er is iets mis gegaan.')
+      toast.error("Er is iets mis gegaan.")
     } finally {
       setLoading(false)
     }
@@ -77,21 +79,21 @@ export const SEOForm: React.FC<SEOFormProps> = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='w-full space-y-8'
+          className="w-full space-y-8"
         >
-          <div className={cn('space-y-4')}>
+          <div className={cn("space-y-4")}>
             <FormField
               control={form.control}
-              name='title'
+              name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Titel</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder='Titel'
+                      placeholder="Titel"
                       {...field}
-                      value={field.value || ''}
+                      value={field.value || ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -100,16 +102,16 @@ export const SEOForm: React.FC<SEOFormProps> = ({
             />
             <FormField
               control={form.control}
-              name='description'
+              name="description"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Beschrijving</FormLabel>
                   <FormControl>
                     <Textarea
                       disabled={loading}
-                      placeholder='Beschrijving'
+                      placeholder="Beschrijving"
                       {...field}
-                      value={field.value || ''}
+                      value={field.value || ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -117,22 +119,22 @@ export const SEOForm: React.FC<SEOFormProps> = ({
               )}
             />
             <Separator />
-            <h2 className='text-sm font-semibold mb-4'>
+            <h2 className="mb-4 text-sm font-semibold">
               Open graph: bepaalt hoe links visueel verschijnen op sociale
               media.
             </h2>
             <FormField
               control={form.control}
-              name='ogTitle'
+              name="ogTitle"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Titel</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder='Titel'
+                      placeholder="Titel"
                       {...field}
-                      value={field.value || ''}
+                      value={field.value || ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -141,16 +143,16 @@ export const SEOForm: React.FC<SEOFormProps> = ({
             />
             <FormField
               control={form.control}
-              name='ogDescription'
+              name="ogDescription"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Beschrijving</FormLabel>
                   <FormControl>
                     <Textarea
                       disabled={loading}
-                      placeholder='Beschrijving'
+                      placeholder="Beschrijving"
                       {...field}
-                      value={field.value || ''}
+                      value={field.value || ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -159,13 +161,13 @@ export const SEOForm: React.FC<SEOFormProps> = ({
             />
             <FormField
               control={form.control}
-              name='mediaId'
+              name="mediaId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Afbeelding</FormLabel>
                   <FormControl>
                     <SingleImageSelect
-                      value={field.value || ''}
+                      value={field.value || ""}
                       onChange={field.onChange}
                     />
                   </FormControl>
@@ -174,7 +176,7 @@ export const SEOForm: React.FC<SEOFormProps> = ({
               )}
             />
           </div>
-          <Button disabled={loading} className='ml-auto' type='submit'>
+          <Button disabled={loading} className="ml-auto" type="submit">
             Opslaan
           </Button>
         </form>

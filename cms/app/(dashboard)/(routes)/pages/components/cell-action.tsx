@@ -1,23 +1,25 @@
-'use client'
+"use client"
 
-import { PageColumn } from './columns'
-import { AlertModal } from '@/components/modals/alert-modal'
-import { Button } from '@/components/ui/button'
+import { useState } from "react"
+import { useParams, useRouter } from "next/navigation"
+import { ActivityLogIcon } from "@radix-ui/react-icons"
+import axios from "axios"
+import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react"
+import { toast } from "react-hot-toast"
+
+import { ActionEnum, EntityEnum } from "@/types/permissions"
+import { useHasPermissions } from "@/lib/utils"
+import { AlertModal } from "@/components/modals/alert-modal"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { useHasPermissions } from '@/lib/utils'
-import { ActionEnum, EntityEnum } from '@/types/permissions'
-import { ActivityLogIcon } from '@radix-ui/react-icons'
-import axios from 'axios'
-import { Copy, Edit, MoreHorizontal, Trash } from 'lucide-react'
-import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { toast } from 'react-hot-toast'
+} from "@/components/ui/dropdown-menu"
+
+import { PageColumn } from "./columns"
 
 interface CellActionProps {
   data: PageColumn
@@ -36,10 +38,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
     try {
       setLoading(true)
       await axios.delete(`/api/pages/${data.id}`)
-      toast.success('Page verwijderd.')
+      toast.success("Page verwijderd.")
       router.refresh()
     } catch (error) {
-      toast.error(' Er is iets mis gegaan')
+      toast.error(" Er is iets mis gegaan")
     } finally {
       setLoading(false)
       setOpen(false)
@@ -48,7 +50,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id)
-    toast.success('Page ID gekopiëerd naar klembord.')
+    toast.success("Page ID gekopiëerd naar klembord.")
   }
 
   return (
@@ -61,31 +63,31 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant='ghost' className='h-8 w-8 p-0'>
-            <span className='sr-only'>Open menu</span>
-            <MoreHorizontal className='h-4 w-4' />
+          <Button variant="ghost" className="h-8 w-8 p-0">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align='end'>
+        <DropdownMenuContent align="end">
           <DropdownMenuLabel>Acties</DropdownMenuLabel>
           <DropdownMenuItem onClick={() => onCopy(data.id)}>
-            <Copy className='mr-2 h-4 w-4' /> Kopiëer ID
+            <Copy className="mr-2 h-4 w-4" /> Kopiëer ID
           </DropdownMenuItem>
           {canUpdate && (
             <DropdownMenuItem onClick={() => router.push(`/pages/${data.id}`)}>
-              <Edit className='mr-2 h-4 w-4' /> Aanpassen
+              <Edit className="mr-2 h-4 w-4" /> Aanpassen
             </DropdownMenuItem>
           )}
           {canUpdate && (
             <DropdownMenuItem
               onClick={() => router.push(`/pages/${data.id}/builder`)}
             >
-              <ActivityLogIcon className='mr-2 h-4 w-4' /> Content Builder
+              <ActivityLogIcon className="mr-2 h-4 w-4" /> Content Builder
             </DropdownMenuItem>
           )}
           {canDelete && (
             <DropdownMenuItem onClick={() => setOpen(true)}>
-              <Trash className='mr-2 h-4 w-4' /> Verwijderenen
+              <Trash className="mr-2 h-4 w-4" /> Verwijderenen
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>

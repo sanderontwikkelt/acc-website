@@ -1,8 +1,9 @@
-'use client'
+"use client"
 
-import { ApiAlert } from '@/components/ui/api-alert'
-import { useOrigin } from '@/hooks/use-origin'
-import { useParams } from 'next/navigation'
+import { useParams } from "next/navigation"
+
+import { useOrigin } from "@/hooks/use-origin"
+import { ApiAlert } from "@/components/ui/api-alert"
 
 interface ApiListProps {
   entityName: string
@@ -21,28 +22,28 @@ export const ApiList: React.FC<ApiListProps> = ({
   return (
     <>
       <ApiAlert
-        title='GET'
-        variant='public'
+        title="GET"
+        variant="public"
         description={`${baseUrl}/${entityName}`}
       />
       <ApiAlert
-        title='GET'
-        variant='public'
+        title="GET"
+        variant="public"
         description={`${baseUrl}/${entityName}/{${entityIdName}}`}
       />
       <ApiAlert
-        title='POST'
-        variant='admin'
+        title="POST"
+        variant="admin"
         description={`${baseUrl}/${entityName}`}
       />
       <ApiAlert
-        title='PATCH'
-        variant='admin'
+        title="PATCH"
+        variant="admin"
         description={`${baseUrl}/${entityName}/{${entityIdName}}`}
       />
       <ApiAlert
-        title='DELETE'
-        variant='admin'
+        title="DELETE"
+        variant="admin"
         description={`${baseUrl}/${entityName}/{${entityIdName}}`}
       />
     </>

@@ -1,7 +1,9 @@
-import { authOptions } from './auth'
-import { ActionEnum, EntityEnum } from '@/types/permissions'
-import { Permission } from '@prisma/client'
-import { getServerSession } from 'next-auth'
+import { Permission } from "@prisma/client"
+import { getServerSession } from "next-auth"
+
+import { ActionEnum, EntityEnum } from "@/types/permissions"
+
+import { authOptions } from "./auth"
 
 export const getUserServer = async () => {
   const session = await getServerSession(authOptions)

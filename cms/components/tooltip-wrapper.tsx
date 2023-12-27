@@ -1,10 +1,11 @@
+import React, { ReactNode } from "react"
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from './ui/tooltip'
-import React, { ReactNode } from 'react'
+} from "./ui/tooltip"
 
 const TooltipWrapper = ({
   children,
@@ -18,7 +19,7 @@ const TooltipWrapper = ({
   return (
     <TooltipProvider disableHoverableContent={disabled}>
       <Tooltip>
-        <TooltipTrigger className='h-full flex items-center'>
+        <TooltipTrigger className="flex h-full items-center">
           {children}
         </TooltipTrigger>
         <TooltipContent>

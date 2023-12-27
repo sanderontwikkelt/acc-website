@@ -1,7 +1,8 @@
-import prismadb from '@/lib/prismadb'
-import { getPermissions, getUserServer } from '@/lib/user'
-import { ActionEnum, EntityEnum } from '@/types/permissions'
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server"
+
+import { ActionEnum, EntityEnum } from "@/types/permissions"
+import prismadb from "@/lib/prismadb"
+import { getPermissions, getUserServer } from "@/lib/user"
 
 export async function GET(
   req: Request,
@@ -10,12 +11,12 @@ export async function GET(
   const [allowed] = await getPermissions([EntityEnum.PAGE, ActionEnum.FIND])
 
   if (!allowed) {
-    return new NextResponse('Unauthenticated', { status: 403 })
+    return new NextResponse("Unauthenticated", { status: 403 })
   }
 
   try {
     if (!params.seoId) {
-      return new NextResponse('Seo id is required', { status: 400 })
+      return new NextResponse("Seo id is required", { status: 400 })
     }
 
     const seo = await prismadb.sEO.findUnique({
@@ -26,8 +27,8 @@ export async function GET(
 
     return NextResponse.json(seo)
   } catch (error) {
-    console.log('[SEO_GET]', error)
-    return new NextResponse('Internal error', { status: 500 })
+    console.log("[SEO_GET]", error)
+    return new NextResponse("Internal error", { status: 500 })
   }
 }
 
@@ -39,13 +40,13 @@ export async function PATCH(
     const [allowed] = await getPermissions([EntityEnum.PAGE, ActionEnum.UPDATE])
 
     if (!allowed) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
 
     const user = await getUserServer()
 
     if (!user) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
 
     const body = await req.json()
@@ -53,11 +54,11 @@ export async function PATCH(
     const { title, description, ogTitle, ogDescription, mediaId } = body
 
     if (!user) {
-      return new NextResponse('Unauthenticated', { status: 403 })
+      return new NextResponse("Unauthenticated", { status: 403 })
     }
 
     if (!params.seoId) {
-      return new NextResponse('Seo id is required', { status: 400 })
+      return new NextResponse("Seo id is required", { status: 400 })
     }
 
     const seo = await prismadb.sEO.update({
@@ -81,7 +82,7 @@ export async function PATCH(
 
     return NextResponse.json(seo)
   } catch (error) {
-    console.log('[SEO_PATCH]', error)
-    return new NextResponse('Internal error', { status: 500 })
+    console.log("[SEO_PATCH]", error)
+    return new NextResponse("Internal error", { status: 500 })
   }
 }

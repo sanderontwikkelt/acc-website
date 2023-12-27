@@ -1,13 +1,15 @@
-import DragList from './drag-list'
-import MediaSelect, { MediaValue } from './media-select'
+import React, { useCallback } from "react"
+
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import React, { useCallback } from 'react'
+} from "@/components/ui/select"
+
+import DragList from "./drag-list"
+import MediaSelect, { MediaValue } from "./media-select"
 
 type Item = { cols: number; image?: MediaValue }
 
@@ -21,7 +23,7 @@ const DynamicImageGridList = ({
   const handleChange = useCallback(
     (
       value: Item,
-      field: 'cols' | 'image',
+      field: "cols" | "image",
       fieldValue: string | MediaValue,
       index: number
     ) => {
@@ -36,13 +38,13 @@ const DynamicImageGridList = ({
 
   const dragItem = useCallback(
     ({ value, index }: { value: Item; index: number }) => (
-      <div className='space-y-2 w-full'>
+      <div className="w-full space-y-2">
         <Select
           value={value.cols.toString()}
-          onValueChange={(cols) => handleChange(value, 'cols', cols, index)}
+          onValueChange={(cols) => handleChange(value, "cols", cols, index)}
         >
           <SelectTrigger>
-            <SelectValue placeholder='Selecteer target' />
+            <SelectValue placeholder="Selecteer target" />
           </SelectTrigger>
           <SelectContent>
             {Array(12)
@@ -57,7 +59,7 @@ const DynamicImageGridList = ({
         {!!value.image && (
           <MediaSelect
             values={[value.image]}
-            onChange={([media]) => handleChange(value, 'image', media, index)}
+            onChange={([media]) => handleChange(value, "image", media, index)}
           />
         )}
       </div>

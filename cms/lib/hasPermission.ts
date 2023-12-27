@@ -1,5 +1,6 @@
-import { ActionEnum, EntityEnum } from '@/types/permissions'
-import { Permission } from '@prisma/client'
+import { Permission } from "@prisma/client"
+
+import { ActionEnum, EntityEnum } from "@/types/permissions"
 
 export const hasPermission = async (
   permissions: Permission[],

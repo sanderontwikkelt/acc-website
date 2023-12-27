@@ -1,12 +1,14 @@
-import DragList from './drag-list'
-import { Input } from './input'
-import RichText from './rich-text'
-import { Textarea } from './textarea'
+import React, { useCallback } from "react"
+
 import {
   ButtonValue,
   CollapsibleButton,
-} from '@/app/(dashboard)/(routes)/pages/[pageId]/builder/components/collapsable-button'
-import React, { useCallback } from 'react'
+} from "@/app/(dashboard)/(routes)/pages/[pageId]/builder/components/collapsable-button"
+
+import DragList from "./drag-list"
+import { Input } from "./input"
+import RichText from "./rich-text"
+import { Textarea } from "./textarea"
 
 type Item = {
   title: string
@@ -25,7 +27,7 @@ const DynamicListWithButton = ({
   const handleChange = useCallback(
     (
       value: Item,
-      field: 'title' | 'description' | 'button',
+      field: "title" | "description" | "button",
       fieldValue: string | ButtonValue,
       index: number
     ) => {
@@ -40,20 +42,20 @@ const DynamicListWithButton = ({
 
   const dragItem = useCallback(
     ({ value, index }: { value: Item; index: number }) => (
-      <div className='space-y-2 w-full'>
+      <div className="w-full space-y-2">
         <Input
           value={value.title}
-          onChange={(e) => handleChange(value, 'title', e.target.value, index)}
+          onChange={(e) => handleChange(value, "title", e.target.value, index)}
         />
         <RichText
-          id={'list-with-button' + index}
+          id={"list-with-button" + index}
           value={value.description}
-          onChange={(e) => handleChange(value, 'description', e, index)}
+          onChange={(e) => handleChange(value, "description", e, index)}
         />
         {!!value.hasButton && !!value.button && (
           <CollapsibleButton
             value={value.button}
-            setValue={(v) => handleChange(value, 'button', v, index)}
+            setValue={(v) => handleChange(value, "button", v, index)}
           >
             {value.button.title}
           </CollapsibleButton>

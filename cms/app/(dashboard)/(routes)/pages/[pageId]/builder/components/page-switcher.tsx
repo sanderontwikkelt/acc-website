@@ -1,7 +1,13 @@
-'use client'
+"use client"
 
-import { PageForm } from '../../components/page-form'
-import { Button } from '@/components/ui/button'
+import * as React from "react"
+import { useParams, useRouter } from "next/navigation"
+import { Page } from "@prisma/client"
+import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons"
+
+import { ActionEnum, EntityEnum } from "@/types/permissions"
+import { cn, useHasPermissions } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import {
   Command,
   CommandEmpty,
@@ -10,7 +16,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@/components/ui/command'
+} from "@/components/ui/command"
 import {
   Dialog,
   DialogContent,
@@ -18,19 +24,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
+} from "@/components/ui/dialog"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
-import { cn, useHasPermissions } from '@/lib/utils'
-import { ActionEnum, EntityEnum } from '@/types/permissions'
-import { Page } from '@prisma/client'
-import { CheckIcon, PlusCircledIcon } from '@radix-ui/react-icons'
-import { useParams } from 'next/navigation'
-import { useRouter } from 'next/navigation'
-import * as React from 'react'
+} from "@/components/ui/popover"
+
+import { PageForm } from "../../components/page-form"
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
@@ -54,31 +55,31 @@ export default function PageSwitcher({
   const [canCreate] = useHasPermissions([EntityEnum.PAGE, ActionEnum.CREATE])
 
   if (!page) {
-    router.push('/pages')
+    router.push("/pages")
     return null
   }
 
-  const frontendUrl = process.env.NEXT_PUBLIC_FRONT_URL || ''
+  const frontendUrl = process.env.NEXT_PUBLIC_FRONT_URL || ""
 
   return (
     <Dialog open={showNewPageDialog} onOpenChange={setShowNewPageDialog}>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
-            variant='secondary'
-            role='combobox'
+            variant="secondary"
+            role="combobox"
             aria-expanded={open}
-            aria-label='Selecteer een pagina'
-            className={cn('justify-between px-2 h-[38px] text-xs', className)}
+            aria-label="Selecteer een pagina"
+            className={cn("h-[38px] justify-between px-2 text-xs", className)}
           >
-            {mobile ? '' : frontendUrl}
-            {page.pathname || 'Selecteer een pagina'}
+            {mobile ? "" : frontendUrl}
+            {page.pathname || "Selecteer een pagina"}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='w-[200px] p-0'>
+        <PopoverContent className="min-w-[200px] p-0">
           <Command>
             <CommandList>
-              <CommandInput placeholder='Pagina zoeken...' />
+              <CommandInput placeholder="Pagina zoeken..." />
               <CommandEmpty>Geen pagina gevonden.</CommandEmpty>
               {pages.map((page) => (
                 <CommandItem
@@ -88,18 +89,18 @@ export default function PageSwitcher({
                     router.refresh()
                     setOpen(false)
                   }}
-                  className='text-sm'
+                  className="text-sm"
                 >
-                  {page.name}{' '}
+                  {page.name}{" "}
                   {page.concept ? (
-                    <span className='ml-2 opacity-50'>(concept)</span>
+                    <span className="ml-2 opacity-50">(concept)</span>
                   ) : (
-                    ''
+                    ""
                   )}
                   <CheckIcon
                     className={cn(
-                      'ml-auto h-4 w-4',
-                      page.id === params.pageId ? 'opacity-100' : 'opacity-0'
+                      "ml-auto h-4 w-4",
+                      page.id === params.pageId ? "opacity-100" : "opacity-0"
                     )}
                   />
                 </CommandItem>
@@ -116,7 +117,7 @@ export default function PageSwitcher({
                         setShowNewPageDialog(true)
                       }}
                     >
-                      <PlusCircledIcon className='mr-2 h-5 w-5' />
+                      <PlusCircledIcon className="mr-2 h-5 w-5" />
                       Pagina aanmaken
                     </CommandItem>
                   </DialogTrigger>

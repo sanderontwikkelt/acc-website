@@ -1,38 +1,25 @@
-import content from '@/components/blocks/content'
-import hero from '@/components/blocks/hero'
-import heading from '@/components/blocks/heading'
-import contentImages from '@/components/blocks/contentImages'
-import testimonials from '@/components/blocks/testimonials'
-import ctaContent from '@/components/blocks/cta-content'
-import textColumns from '@/components/blocks/text-columns'
-import accordion from '@/components/blocks/accordion'
-import card from '@/components/blocks/card'
-import images from '@/components/blocks/images'
-import videoIframe from '@/components/blocks/video-iframe'
-import googleMap from '@/components/blocks/google-map'
+import content from "@/components/blocks/content";
+import hero from "@/components/blocks/hero";
+import heading from "@/components/blocks/heading";
+import contentImages from "@/components/blocks/contentImages";
+import testimonials from "@/components/blocks/testimonials";
+import ctaContent from "@/components/blocks/cta-content";
+import textColumns from "@/components/blocks/text-columns";
+import accordion from "@/components/blocks/accordion";
+import card from "@/components/blocks/card";
+import images from "@/components/blocks/images";
+import videoIframe from "@/components/blocks/video-iframe";
+import googleMap from "@/components/blocks/google-map";
+import productDescription from "@/components/blocks/product-description";
 
 export interface Block {
-  fields: any
-  name:
-    | 'hero'
-    | 'content'
-    | 'banner'
-    | 'accordion'
-    | 'article'
-    | 'steps'
-    | 'heading'
-    | 'slideContent'
-    | 'slider'
-    | 'links'
-    | 'images'
-    | 'service'
-    | 'contact'
-    | 'dashes'
-  style?: any
-  innerStyle?: any
-  id: string
-  uid: string
-  label: string
+  fields: any;
+  name: "hero" | "content";
+  style?: any;
+  innerStyle?: any;
+  id: string;
+  uid: string;
+  label: string;
 }
 
 export const blocks = {
@@ -48,4 +35,5 @@ export const blocks = {
   images,
   videoIframe,
   googleMap,
-}
+  productDescription,
+};

@@ -1,18 +1,18 @@
-import { ImageType } from '@/lib/types'
-import Image, { ImageProps } from 'next/image'
-import React from 'react'
+import { ImageType } from "@/lib/types";
+import Image, { ImageProps } from "next/image";
+import React from "react";
 
 type NextImageProps = {
-  image: ImageType
-  alt: string
-  className?: string
-  priority?: boolean
-  loading?: 'eager'
-}
+  image: ImageType;
+  alt: string;
+  className?: string;
+  priority?: boolean;
+  loading?: "eager";
+};
 
 const NextImage = ({
   image: { objectPosition, ...image },
-  alt = '',
+  alt = "",
   ...props
 }: NextImageProps) => {
   return (
@@ -20,13 +20,13 @@ const NextImage = ({
       {...image}
       {...props}
       alt={alt}
-      {...(!!(objectPosition && props.className?.includes('object-cover')) && {
+      {...(!!(objectPosition && props.className?.includes("object-cover")) && {
         style: {
           objectPosition: `${objectPosition.x}% ${objectPosition.y}%`,
         },
       })}
     />
-  )
-}
+  );
+};
 
-export default NextImage
+export default NextImage;

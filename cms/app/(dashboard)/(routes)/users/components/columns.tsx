@@ -1,7 +1,8 @@
-'use client'
+"use client"
 
-import { CellAction } from './cell-action'
-import { ColumnDef } from '@tanstack/react-table'
+import { ColumnDef } from "@tanstack/react-table"
+
+import { CellAction } from "./cell-action"
 
 export type UserColumn = {
   id: string
@@ -13,23 +14,23 @@ export type UserColumn = {
 
 export const columns: ColumnDef<UserColumn>[] = [
   {
-    accessorKey: 'name',
-    header: 'Naam',
+    accessorKey: "name",
+    header: "Naam",
   },
   {
-    accessorKey: 'email',
-    header: 'E-mail',
+    accessorKey: "email",
+    header: "E-mail",
   },
   {
-    accessorKey: 'roles',
-    header: 'Rollen',
+    accessorKey: "roles",
+    header: "Rollen",
   },
   {
-    accessorKey: 'createdAt',
-    header: 'Aangemaakt',
+    accessorKey: "createdAt",
+    header: "Aangemaakt",
   },
   {
-    id: 'actions',
+    id: "actions",
     cell: ({ row }) => <CellAction data={row.original} />,
   },
 ]

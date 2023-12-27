@@ -1,4 +1,3 @@
-import { UserNav } from './user-nav'
 import {
   Menubar,
   MenubarCheckboxItem,
@@ -11,13 +10,15 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from '@/components/ui/menubar'
+} from "@/components/ui/menubar"
+
+import { UserNav } from "./user-nav"
 
 export function Menu() {
   return (
-    <Menubar className='flex h-16 w-full rounded-none border-b border-gray-300 px-2 py-3 lg:px-8'>
+    <Menubar className="flex h-16 w-full rounded-none border-b border-gray-300 px-2 py-3 lg:px-8">
       <MenubarMenu>
-        <MenubarTrigger className='mr-3 border border-gray-300 bg-gray-50 font-bold'>
+        <MenubarTrigger className="mr-3 border border-gray-300 bg-gray-50 font-bold">
           BOLD NEON
         </MenubarTrigger>
         <MenubarContent>
@@ -40,11 +41,11 @@ export function Menu() {
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger className='relative'>File</MenubarTrigger>
+        <MenubarTrigger className="relative">File</MenubarTrigger>
         <MenubarContent>
           <MenubarSub>
             <MenubarSubTrigger>New</MenubarSubTrigger>
-            <MenubarSubContent className='w-[230px]'>
+            <MenubarSubContent className="w-[230px]">
               <MenubarItem>
                 Playlist <MenubarShortcut>⌘N</MenubarShortcut>
               </MenubarItem>
@@ -88,7 +89,7 @@ export function Menu() {
           <MenubarItem disabled>Burn Playlist to Disc...</MenubarItem>
           <MenubarSeparator />
           <MenubarItem>
-            Show in Finder <MenubarShortcut>⇧⌘R</MenubarShortcut>{' '}
+            Show in Finder <MenubarShortcut>⇧⌘R</MenubarShortcut>{" "}
           </MenubarItem>
           <MenubarItem>Convert</MenubarItem>
           <MenubarSeparator />
@@ -126,38 +127,38 @@ export function Menu() {
           </MenubarItem>
           <MenubarSeparator />
           <MenubarItem>
-            Smart Dictation...{' '}
+            Smart Dictation...{" "}
             <MenubarShortcut>
               <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                stroke='currentColor'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                className='h-4 w-4'
-                viewBox='0 0 24 24'
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                className="h-4 w-4"
+                viewBox="0 0 24 24"
               >
-                <path d='m12 8-9.04 9.06a2.82 2.82 0 1 0 3.98 3.98L16 12' />
-                <circle cx='17' cy='7' r='5' />
+                <path d="m12 8-9.04 9.06a2.82 2.82 0 1 0 3.98 3.98L16 12" />
+                <circle cx="17" cy="7" r="5" />
               </svg>
             </MenubarShortcut>
           </MenubarItem>
           <MenubarItem>
-            Emoji & Symbols{' '}
+            Emoji & Symbols{" "}
             <MenubarShortcut>
               <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                stroke='currentColor'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth='2'
-                className='h-4 w-4'
-                viewBox='0 0 24 24'
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                className="h-4 w-4"
+                viewBox="0 0 24 24"
               >
-                <circle cx='12' cy='12' r='10' />
-                <path d='M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z' />
+                <circle cx="12" cy="12" r="10" />
+                <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
               </svg>
             </MenubarShortcut>
           </MenubarItem>
@@ -179,7 +180,7 @@ export function Menu() {
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
-      <div className='flex flex-grow justify-end'>
+      <div className="flex flex-grow justify-end">
         <UserNav />
       </div>
     </Menubar>

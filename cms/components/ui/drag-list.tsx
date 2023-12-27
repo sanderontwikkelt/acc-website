@@ -1,11 +1,13 @@
-import TooltipWrapper from '../tooltip-wrapper'
-import { cn } from '@/lib/utils'
-import { XMarkIcon } from '@heroicons/react/24/outline'
-import { DragHandleDots2Icon } from '@radix-ui/react-icons'
-import { CopyIcon, PlusIcon } from 'lucide-react'
-import React, { ReactNode } from 'react'
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
-import { v4 as uuidv4 } from 'uuid'
+import React, { ReactNode } from "react"
+import { XMarkIcon } from "@heroicons/react/24/outline"
+import { DragHandleDots2Icon } from "@radix-ui/react-icons"
+import { CopyIcon, PlusIcon } from "lucide-react"
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd"
+import { v4 as uuidv4 } from "uuid"
+
+import { cn } from "@/lib/utils"
+
+import TooltipWrapper from "../tooltip-wrapper"
 
 type Props = {
   onChange: (value: any[]) => void
@@ -32,7 +34,7 @@ const DragList = ({
   onChange,
   dragItem,
   disabled,
-  className = '',
+  className = "",
   root = false,
   small = false,
 }: Props) => {
@@ -45,26 +47,26 @@ const DragList = ({
   }
 
   return (
-    <div className='relative'>
+    <div className="relative">
       {root && (
         <button
           onClick={() => onChange([...values, { ...values[0], id: uuidv4() }])}
-          className='absolute right-0 -top-8 p-1'
+          className="absolute -top-8 right-0 p-1"
         >
-          <TooltipWrapper message='Toevoegen'>
-            <PlusIcon className='h-5 w-5' />
+          <TooltipWrapper message="Toevoegen">
+            <PlusIcon className="h-5 w-5" />
           </TooltipWrapper>
         </button>
       )}
       {values?.length ? (
         values?.length > 1 ? (
           <DragDropContext onDragEnd={handleDrop}>
-            <Droppable droppableId='list-container'>
+            <Droppable droppableId="list-container">
               {(provided) => (
                 <div
                   className={cn(
-                    'list-container space-y-1 mb-4 bg-accent p-1 rounded-md',
-                    disabled ? 'pointer-events-none' : '',
+                    "list-container mb-4 space-y-1 rounded-md bg-accent p-1",
+                    disabled ? "pointer-events-none" : "",
                     className
                   )}
                   {...provided.droppableProps}
@@ -81,23 +83,23 @@ const DragList = ({
                       >
                         {(provided) => (
                           <div
-                            className='item-container'
+                            className="item-container"
                             ref={provided.innerRef}
                             {...provided.draggableProps}
                           >
                             <div
                               className={cn(
-                                'flex flex-col card items-start space-y-3 border w-full rounded-md shadow-sm bg-background p-2 hover:shadow-md'
+                                "card flex w-full flex-col items-start space-y-3 rounded-md border bg-background p-2 shadow-sm hover:shadow-md"
                               )}
                             >
-                              <div className='flex items-center w-full'>
+                              <div className="flex w-full items-center">
                                 <div {...provided.dragHandleProps}>
-                                  <TooltipWrapper message='Verslepen'>
-                                    <DragHandleDots2Icon className='w-auto rotate-90 h-6' />
+                                  <TooltipWrapper message="Verslepen">
+                                    <DragHandleDots2Icon className="h-6 w-auto rotate-90" />
                                   </TooltipWrapper>
                                 </div>
                                 {!!small && (
-                                  <div className='px-1 w-full'>
+                                  <div className="w-full px-1">
                                     {dragItem(
                                       {
                                         key: item.name || item.id,
@@ -115,10 +117,10 @@ const DragList = ({
                                       { ...item, id: uuidv4() },
                                     ])
                                   }
-                                  className='ml-auto'
+                                  className="ml-auto"
                                 >
-                                  <TooltipWrapper message='Dupliceren'>
-                                    <CopyIcon className='h-4 w-4' />
+                                  <TooltipWrapper message="Dupliceren">
+                                    <CopyIcon className="h-4 w-4" />
                                   </TooltipWrapper>
                                 </button>
 
@@ -128,15 +130,15 @@ const DragList = ({
                                       values.filter((_, idx) => idx !== index)
                                     )
                                   }
-                                  className='ml-[0.75rem]'
+                                  className="ml-[0.75rem]"
                                 >
-                                  <TooltipWrapper message='Verwijderen'>
-                                    <XMarkIcon className='h-6 w-6' />
+                                  <TooltipWrapper message="Verwijderen">
+                                    <XMarkIcon className="h-6 w-6" />
                                   </TooltipWrapper>
                                 </button>
                               </div>
                               {!small && (
-                                <div className='w-full flex items-center'>
+                                <div className="flex w-full items-center">
                                   {dragItem(
                                     {
                                       key: item.name || item.id,
@@ -159,10 +161,10 @@ const DragList = ({
             </Droppable>
           </DragDropContext>
         ) : (
-          <div className='mb-2'>
+          <div className="mb-2">
             <div
               className={cn(
-                'flex card items-center border border-input w-full rounded-md shadow-sm bg-background p-2'
+                "card flex w-full items-center rounded-md border border-input bg-background p-2 shadow-sm"
               )}
             >
               {!!values[0] &&

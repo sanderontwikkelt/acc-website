@@ -9,7 +9,7 @@
     --color-description: 127 127 127;
   }
 
-  :root[class~='dark'] {
+  :root[class~="dark"] {
     --color-primary: 230 225 201;
     --color-secondary: 197 206 223;
     --color-main: 15 16 18;
@@ -39,7 +39,7 @@
   }
 
   a {
-    @apply hover:opacity-80
+    @apply hover:opacity-80;
   }
 }
 

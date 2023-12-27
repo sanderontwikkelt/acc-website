@@ -1,16 +1,17 @@
-import { ActionEnum, EntityEnum } from '@/types/permissions'
-import { clsx, type ClassValue } from 'clsx'
-import { useSession } from 'next-auth/react'
-import { useMemo } from 'react'
-import { twMerge } from 'tailwind-merge'
+import { useMemo } from "react"
+import { clsx, type ClassValue } from "clsx"
+import { useSession } from "next-auth/react"
+import { twMerge } from "tailwind-merge"
+
+import { ActionEnum, EntityEnum } from "@/types/permissions"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
+export const formatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
 })
 
 export const useHasPermissions = (
@@ -37,11 +38,11 @@ export const getDateString = (daysToSubtract = 0, date = new Date()) => {
   yourDate.setDate(yourDate.getDate() - daysToSubtract)
   const offset = yourDate.getTimezoneOffset()
   yourDate = new Date(yourDate.getTime() - offset * 60 * 1000)
-  return yourDate.toISOString().split('T')[0]
+  return yourDate.toISOString().split("T")[0]
 }
 
 export const formatDate = (date: Date) => {
-  const twoDigits = (num: number) => (num < 10 ? '0' + num : num)
+  const twoDigits = (num: number) => (num < 10 ? "0" + num : num)
 
   const day = twoDigits(date.getDate())
   const month = twoDigits(date.getMonth() + 1) // Months are 0-indexed

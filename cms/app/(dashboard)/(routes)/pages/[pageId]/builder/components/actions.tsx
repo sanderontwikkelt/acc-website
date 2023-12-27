@@ -1,7 +1,15 @@
-'use client'
+"use client"
 
-import { PageForm } from '../../components/page-form'
-import { SEOForm } from '@/components/seo-form'
+import * as React from "react"
+import { useParams, useRouter } from "next/navigation"
+import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
+import { Page, SEO } from "@prisma/client"
+import { Dialog } from "@radix-ui/react-dialog"
+import axios from "axios"
+import { toast } from "react-hot-toast"
+
+import { BlockType } from "@/lib/html-blocks"
+import { SEOForm } from "@/components/seo-form"
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -10,29 +18,23 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
 import {
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from "@/components/ui/dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { BlockType } from '@/lib/html-blocks'
-import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
-import { Page, SEO } from '@prisma/client'
-import { Dialog } from '@radix-ui/react-dialog'
-import axios from 'axios'
-import { useParams, useRouter } from 'next/navigation'
-import * as React from 'react'
-import { toast } from 'react-hot-toast'
+} from "@/components/ui/dropdown-menu"
+
+import { PageForm } from "../../components/page-form"
 
 export function PresetActions({
   blocks,
@@ -56,7 +58,7 @@ export function PresetActions({
     try {
       setLoading(true)
       await axios.delete(`/api/pages/${params.pageId}`)
-      toast.success('Pagina verwijderd.')
+      toast.success("Pagina verwijderd.")
       setShowDeleteDialog(false)
       setLoading(false)
       router.refresh()
@@ -66,11 +68,11 @@ export function PresetActions({
             ? `/${
                 pageIds[pageIds.indexOf(params.pageId as string) > 0 ? 0 : 1]
               }/builder`
-            : ''
+            : ""
         }`
       )
     } catch (error: any) {
-      toast.error('Er is iets mis gegaan.')
+      toast.error("Er is iets mis gegaan.")
     }
   }
   return (
@@ -78,16 +80,16 @@ export function PresetActions({
       <DropdownMenu>
         <DropdownMenuTrigger
           asChild
-          className='focus-visible:ring-0'
+          className="focus-visible:ring-0"
           disabled={loading}
         >
-          <Button variant='outline' className='py-2 px-0 w-8 h-8 ml-2'>
-            <span className='sr-only'>Acties</span>
-            <EllipsisHorizontalIcon className='h-3 w-3' />
+          <Button variant="outline" className="ml-2 h-8 w-8 px-0 py-2">
+            <span className="sr-only">Acties</span>
+            <EllipsisHorizontalIcon className="h-3 w-3" />
           </Button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent align='end'>
+        <DropdownMenuContent align="end">
           <DropdownMenuItem onSelect={() => setShowSettingsDialog(true)}>
             Pagina instellingen
           </DropdownMenuItem>
@@ -99,7 +101,7 @@ export function PresetActions({
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onSelect={() => setShowDeleteDialog(true)}
-            className='text-red-600'
+            className="text-red-600"
           >
             Pagina verwijderen
           </DropdownMenuItem>
@@ -116,7 +118,7 @@ export function PresetActions({
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <Button
-              variant='destructive'
+              variant="destructive"
               onClick={() => {
                 deletePage()
               }}
@@ -145,7 +147,7 @@ export function PresetActions({
                 zoekmachines.
               </DialogDescription>
             </DialogHeader>
-            <div className='py-6'>
+            <div className="py-6">
               <SEOForm
                 initialData={seo}
                 seoId={seo.id}

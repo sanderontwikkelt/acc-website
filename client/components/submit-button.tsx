@@ -1,26 +1,26 @@
-'use client'
+"use client";
 
-import React from 'react'
-import { Button } from './button'
+import React from "react";
+import { Button } from "./button";
 
 const SubmitButton = ({
   title,
   loading,
 }: {
-  title: string
-  loading?: boolean
+  title: string;
+  loading?: boolean;
 }) => {
   return (
     <Button
-      type='submit'
-      className='w-min'
-      size='lg'
+      type="submit"
+      className="w-min"
+      size="lg"
       aria-label={title}
       disabled={loading}
     >
       {title}
     </Button>
-  )
-}
+  );
+};
 
-export default SubmitButton
+export default SubmitButton;

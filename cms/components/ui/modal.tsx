@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import {
   Dialog,
@@ -6,7 +6,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
+} from "@/components/ui/dialog"
 
 interface ModalProps {
   title: string
@@ -19,7 +19,7 @@ interface ModalProps {
 
 export const Modal: React.FC<ModalProps> = ({
   title,
-  className = '',
+  className = "",
   description,
   isOpen,
   onClose,

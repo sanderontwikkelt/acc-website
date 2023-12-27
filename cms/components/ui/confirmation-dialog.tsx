@@ -1,3 +1,5 @@
+import { ReactNode } from "react"
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -8,9 +10,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { ReactNode } from 'react'
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
 
 export function ConfirmationDialog({
   onAccept,
@@ -22,7 +23,7 @@ export function ConfirmationDialog({
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant='outline'>{children}</Button>
+        <Button variant="outline">{children}</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

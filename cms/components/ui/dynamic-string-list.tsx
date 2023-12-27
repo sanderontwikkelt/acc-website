@@ -1,6 +1,7 @@
-import DragList from './drag-list'
-import { Input } from './input'
-import React, { useCallback } from 'react'
+import React, { useCallback } from "react"
+
+import DragList from "./drag-list"
+import { Input } from "./input"
 
 type Value = { id: string; label: string }
 const DynamicStringList = ({

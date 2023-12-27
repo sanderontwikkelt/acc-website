@@ -1,5 +1,6 @@
-import { UserForm } from './components/user-form'
-import prismadb from '@/lib/prismadb'
+import prismadb from "@/lib/prismadb"
+
+import { UserForm } from "./components/user-form"
 
 const UserPage = async ({ params }: { params: { userId: string } }) => {
   const user = await prismadb.user.findUnique({
@@ -14,8 +15,8 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
   const roles = await prismadb.role.findMany()
 
   return (
-    <div className='flex-col'>
-      <div className='flex-1 space-y-4 p-4 md:p-8 pt-6'>
+    <div className="flex-col">
+      <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
         <UserForm
           initialData={
             user

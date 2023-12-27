@@ -1,33 +1,37 @@
-'use client'
+"use client"
 
-import { CollapsibleButton } from './collapsable-button'
-import InfoTooltip from '@/components/info-tooltip'
-import Slider from '@/components/slider'
-import { Checkbox } from '@/components/ui/checkbox'
-import DynamicImageGridList from '@/components/ui/dynamic-image-grid-list'
-import DynamicLinkImages from '@/components/ui/dynamic-link-images'
-import DynamicLinks from '@/components/ui/dynamic-links'
-import DynamicList from '@/components/ui/dynamic-list'
-import DynamicListWithButton from '@/components/ui/dynamic-list-with-button'
-import DynamicStringList from '@/components/ui/dynamic-string-list'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import MediaSelect from '@/components/ui/media-select'
-import RichInput from '@/components/ui/rich-input'
-import RichText from '@/components/ui/rich-text'
+import { useCallback } from "react"
+import { v4 as uuidv4 } from "uuid"
+
+import { BlockType } from "@/lib/html-blocks"
+import InfoTooltip from "@/components/info-tooltip"
+import Slider from "@/components/slider"
+import { Checkbox } from "@/components/ui/checkbox"
+import DynamicButtonList from "@/components/ui/dynamic-button-list"
+import DynamicImageGridList from "@/components/ui/dynamic-image-grid-list"
+import DynamicLinkImages from "@/components/ui/dynamic-link-images"
+import DynamicLinks from "@/components/ui/dynamic-links"
+import DynamicList from "@/components/ui/dynamic-list"
+import DynamicListWithButton from "@/components/ui/dynamic-list-with-button"
+import DynamicStringList from "@/components/ui/dynamic-string-list"
+import DynamicTeachers from "@/components/ui/dynamic-teachers"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import MediaSelect from "@/components/ui/media-select"
+import RichInput from "@/components/ui/rich-input"
+import RichText from "@/components/ui/rich-text"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import SizePicker from '@/components/ui/size-picker'
-import StyleForm from '@/components/ui/style-form'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { BlockType } from '@/lib/html-blocks'
-import { useCallback } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+} from "@/components/ui/select"
+import SizePicker from "@/components/ui/size-picker"
+import StyleForm from "@/components/ui/style-form"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+import { CollapsibleButton } from "./collapsable-button"
 
 const AsideEditor = ({
   open,
@@ -64,20 +68,20 @@ const AsideEditor = ({
 
   return (
     <Slider
-      title={block?.label || ''}
+      title={block?.label || ""}
       open={open}
       setOpen={setOpen}
       onDelete={() => setBlock(null)}
     >
-      <div className='flex flex-1 flex-col justify-between'>
-        <div className='divide-y divide-gray-700'>
-          <Tabs defaultValue='fields' className='w-full py-5'>
-            <TabsList className='grid grid-cols-2 max-md:mx-5 mr-5'>
-              <TabsTrigger value='fields'>Block velden</TabsTrigger>
-              <TabsTrigger value='general'>Algemeen</TabsTrigger>
+      <div className="flex flex-1 flex-col justify-between">
+        <div className="divide-y divide-gray-700">
+          <Tabs defaultValue="fields" className="w-full py-5">
+            <TabsList className="mr-5 grid grid-cols-2 max-md:mx-5">
+              <TabsTrigger value="fields">Block velden</TabsTrigger>
+              <TabsTrigger value="general">Algemeen</TabsTrigger>
             </TabsList>
-            <TabsContent value='fields'>
-              <div className='space-y-8 py-2 max-h-[calc(100vh-9.9rem)] overflow-auto max-md:px-5 pl-1 pr-5'>
+            <TabsContent value="fields">
+              <div className="max-h-[calc(100vh-9.9rem)] space-y-8 overflow-auto py-2 pl-1 pr-5 max-md:px-5">
                 {fields && Object.entries(fields).length ? (
                   Object.entries(fields)
                     .sort(([a], [b]) => b.localeCompare(a))
@@ -92,20 +96,20 @@ const AsideEditor = ({
                         if (
                           showOnVariants &&
                           !showOnVariants.includes(
-                            block?.fields.variant?.value || 'default'
+                            block?.fields.variant?.value || "default"
                           )
                         )
                           return null
                         const uuid = block?.id + fieldName + i
                         return (
-                          <div className='space-y-2' key={fieldName}>
-                            {!['button'].includes(type) && (
+                          <div className="space-y-2" key={fieldName}>
+                            {!["button"].includes(type) && (
                               <Label htmlFor={uuid}>{label}</Label>
                             )}
                             {{
                               boolean: (
                                 <Checkbox
-                                  className='block'
+                                  className="block"
                                   checked={value}
                                   id={uuid}
                                   onCheckedChange={(checked) =>
@@ -163,7 +167,7 @@ const AsideEditor = ({
                                   }
                                 >
                                   <SelectTrigger>
-                                    <SelectValue placeholder='Selecteer een variant' />
+                                    <SelectValue placeholder="Selecteer een variant" />
                                   </SelectTrigger>
                                   <SelectContent>
                                     {options?.map(
@@ -222,6 +226,14 @@ const AsideEditor = ({
                                   }
                                 />
                               ),
+                              teachers: (
+                                <DynamicTeachers
+                                  values={value?.length ? value : []}
+                                  onChange={(list) =>
+                                    handleFields(fieldName, list)
+                                  }
+                                />
+                              ),
                               imageGrid: (
                                 <DynamicImageGridList
                                   values={value?.length ? value : []}
@@ -232,6 +244,14 @@ const AsideEditor = ({
                               ),
                               listWithButton: (
                                 <DynamicListWithButton
+                                  values={value?.length ? value : []}
+                                  onChange={(list) =>
+                                    handleFields(fieldName, list)
+                                  }
+                                />
+                              ),
+                              buttons: (
+                                <DynamicButtonList
                                   values={value?.length ? value : []}
                                   onChange={(list) =>
                                     handleFields(fieldName, list)
@@ -249,7 +269,7 @@ const AsideEditor = ({
                               ),
                               video: (
                                 <MediaSelect
-                                  type='video'
+                                  type="video"
                                   values={value ? [value] : null}
                                   onChange={([media]) =>
                                     handleFields(fieldName, media)
@@ -266,22 +286,22 @@ const AsideEditor = ({
                                   <Label>{label}</Label>
                                 </CollapsibleButton>
                               ),
-                            }[type as 'string' | 'text' | 'image' | 'enum'] ||
+                            }[type as "string" | "text" | "image" | "enum"] ||
                               null}
                           </div>
                         )
                       }
                     )
                 ) : (
-                  <p className='text-sm max-w-[20rem] text-center mx-auto'>
+                  <p className="mx-auto max-w-[20rem] text-center text-sm">
                     Geen velden beschikbaar voor dit Block
                   </p>
                 )}
               </div>
             </TabsContent>
-            <TabsContent value='general'>
-              <div className='space-y-8 py-2 max-h-[calc(100vh-9.9rem)] overflow-auto max-md:px-5 pl-1 pr-5'>
-                <div className='space-y-2'>
+            <TabsContent value="general">
+              <div className="max-h-[calc(100vh-9.9rem)] space-y-8 overflow-auto py-2 pl-1 pr-5 max-md:px-5">
+                <div className="space-y-2">
                   <Label>
                     ID
                     <InfoTooltip>
@@ -292,25 +312,25 @@ const AsideEditor = ({
                   <Input
                     value={block?.id}
                     id={uuidv4()}
-                    onChange={(e) => handleBlock('id', e.target.value)}
+                    onChange={(e) => handleBlock("id", e.target.value)}
                   />
                 </div>
-                <div className='space-y-2'>
+                <div className="space-y-2">
                   <Label>Maximale breedte</Label>
                   <SizePicker
-                    value={block?.maxWidth || ''}
-                    onChange={(e) => handleBlock('maxWidth', e)}
+                    value={block?.maxWidth || ""}
+                    onChange={(e) => handleBlock("maxWidth", e)}
                   />
                 </div>
                 <StyleForm
                   value={block?.style}
-                  onChange={(style) => handleBlock('style', style)}
-                  append='Buiten'
+                  onChange={(style) => handleBlock("style", style)}
+                  append="Buiten"
                 />
                 <StyleForm
                   value={block?.innerStyle}
-                  onChange={(style) => handleBlock('innerStyle', style)}
-                  append='Binnen'
+                  onChange={(style) => handleBlock("innerStyle", style)}
+                  append="Binnen"
                 />
               </div>
             </TabsContent>

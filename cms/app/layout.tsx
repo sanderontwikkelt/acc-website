@@ -1,16 +1,18 @@
-import { Providers } from '@/components/provider'
-import { ModalProvider } from '@/providers/modal-provider'
-import { ThemeProvider } from '@/providers/theme-provider'
-import { ToastProvider } from '@/providers/toast-provider'
-import { Inter } from 'next/font/google'
-import '../app/globals.css'
-import { cn } from '@/lib/utils'
+import { Inter } from "next/font/google"
+import { ModalProvider } from "@/providers/modal-provider"
+import { ThemeProvider } from "@/providers/theme-provider"
+import { ToastProvider } from "@/providers/toast-provider"
 
-const inter = Inter({ subsets: ['latin'] })
+import { Providers } from "@/components/provider"
+
+import "../app/globals.css"
+import { cn } from "@/lib/utils"
+
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: 'Physis Admin',
-  description: 'Physis Admin',
+  title: "Physis Admin",
+  description: "Physis Admin",
 }
 
 export default async function RootLayout({
@@ -20,13 +22,13 @@ export default async function RootLayout({
 }) {
   return (
     <html
-      lang='nl'
+      lang="nl"
       suppressHydrationWarning
-      className='relative overflow-hidden scroll-smooth'
+      className="relative overflow-hidden scroll-smooth"
     >
-      <body className={cn('relative overflow-hidden', inter.className)}>
+      <body className={cn("relative overflow-hidden", inter.className)}>
         <Providers>
-          <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <ToastProvider />
             <ModalProvider />
             {children}

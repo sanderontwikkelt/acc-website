@@ -1,15 +1,17 @@
-'use client'
+"use client"
 
-import { AlertModal } from '../modals/alert-modal'
-import { MediaValue } from './media-select'
-import { Video } from './video'
-import { formatBytes } from '@/lib/formatBytes'
-import { cn } from '@/lib/utils'
-import { Media } from '@prisma/client'
-import axios from 'axios'
-import Image from 'next/image'
-import { useState } from 'react'
-import toast from 'react-hot-toast'
+import { useState } from "react"
+import Image from "next/image"
+import { Media } from "@prisma/client"
+import axios from "axios"
+import toast from "react-hot-toast"
+
+import { formatBytes } from "@/lib/formatBytes"
+import { cn } from "@/lib/utils"
+
+import { AlertModal } from "../modals/alert-modal"
+import { MediaValue } from "./media-select"
+import { Video } from "./video"
 
 export const MediaGrid = ({
   media,
@@ -33,7 +35,7 @@ export const MediaGrid = ({
         setLoading(true)
         await axios.delete(`/api/media/${showDeleteDialog}`)
         refetch()
-        toast.success('Dit bestand is verwijderd.')
+        toast.success("Dit bestand is verwijderd.")
       } catch (e) {
         console.log(e)
       } finally {
@@ -43,7 +45,7 @@ export const MediaGrid = ({
     }
   }
   return (
-    <div className='mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4'>
+    <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
       {media.map((mediaItem) => (
         <button
           key={mediaItem.url}
@@ -63,19 +65,19 @@ export const MediaGrid = ({
                 : [newItem]
             )
           }}
-          type='button'
+          type="button"
           className={cn(
-            'relative bg-card shadow-md hover:shadow-xl border transition-all rounded-md',
+            "relative rounded-md border bg-card shadow-md transition-all hover:shadow-xl",
             selected?.some(({ src }) => src === mediaItem.url)
-              ? 'ring-2 ring-primary ring-offset-1'
-              : 'opacity-80'
+              ? "ring-2 ring-primary ring-offset-1"
+              : "opacity-80"
           )}
         >
-          <div className='w-full h-36 overflow-hidden rounded-t-md bg-gray-200 dark:bg-gray-800 relative'>
-            {mediaItem.mimetype.startsWith('image') ? (
+          <div className="relative h-36 w-full overflow-hidden rounded-t-md bg-gray-200 dark:bg-gray-800">
+            {mediaItem.mimetype.startsWith("image") ? (
               <Image
                 fill
-                className='object-contain'
+                className="object-contain"
                 alt={mediaItem.filename}
                 src={mediaItem.url}
               />
@@ -83,12 +85,12 @@ export const MediaGrid = ({
               <Video src={mediaItem.url} />
             )}
           </div>
-          <div className='w-full p-3 justify-between relative flex border-t text-left'>
-            <div className='w-full'>
-              <h2 className='text-sm mb-1 font-medium truncate max-w-full'>
+          <div className="relative flex w-full justify-between border-t p-3 text-left">
+            <div className="w-full">
+              <h2 className="mb-1 max-w-full truncate text-sm font-medium">
                 {mediaItem.filename}
               </h2>
-              <p className='text-xs'>{formatBytes(mediaItem.size)}</p>
+              <p className="text-xs">{formatBytes(mediaItem.size)}</p>
             </div>
           </div>
         </button>

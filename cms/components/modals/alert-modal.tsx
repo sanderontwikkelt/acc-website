@@ -1,8 +1,9 @@
-'use client'
+"use client"
 
-import { Button } from '@/components/ui/button'
-import { Modal } from '@/components/ui/modal'
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react"
+
+import { Button } from "@/components/ui/button"
+import { Modal } from "@/components/ui/modal"
 
 interface AlertModalProps {
   isOpen: boolean
@@ -29,16 +30,16 @@ export const AlertModal: React.FC<AlertModalProps> = ({
 
   return (
     <Modal
-      title='Weet je het zeker?'
-      description='Dit kan niet ongedaan gemaakt worden.'
+      title="Weet je het zeker?"
+      description="Dit kan niet ongedaan gemaakt worden."
       isOpen={isOpen}
       onClose={onClose}
     >
-      <div className='flex w-full items-center justify-end space-x-2 pt-6'>
-        <Button disabled={loading} variant='outline' onClick={onClose}>
+      <div className="flex w-full items-center justify-end space-x-2 pt-6">
+        <Button disabled={loading} variant="outline" onClick={onClose}>
           Annuleren
         </Button>
-        <Button disabled={loading} variant='destructive' onClick={onConfirm}>
+        <Button disabled={loading} variant="destructive" onClick={onConfirm}>
           Verder
         </Button>
       </div>

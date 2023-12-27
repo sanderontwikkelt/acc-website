@@ -1,17 +1,18 @@
-'use client'
+"use client"
 
-import { MediaModal, MediaType } from '../modals/media-modal'
-import TooltipWrapper from '../tooltip-wrapper'
-import { Button } from './button'
-import DragPercentages from './drag-percentages'
-import { MediaValue } from './media-select'
-import { Video } from './video'
-import { ImagePlus } from 'lucide-react'
-import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useState } from "react"
+import Image from "next/image"
+import { ImagePlus } from "lucide-react"
+
+import { MediaModal, MediaType } from "../modals/media-modal"
+import TooltipWrapper from "../tooltip-wrapper"
+import { Button } from "./button"
+import DragPercentages from "./drag-percentages"
+import { MediaValue } from "./media-select"
+import { Video } from "./video"
 
 const MediaItem = ({
-  type = 'image',
+  type = "image",
   value: { objectPosition, ...value },
   onChange,
 }: {
@@ -31,36 +32,36 @@ const MediaItem = ({
         type={type}
         multiple={false}
       />
-      <div className='w-12 h-12 min-w-[3rem] relative bg-gray-200 dark:bg-gray-900 rounded-md overflow-hidden'>
-        {type === 'image' ? (
+      <div className="relative h-12 w-12 min-w-[3rem] overflow-hidden rounded-md bg-gray-200 dark:bg-gray-900">
+        {type === "image" ? (
           <Image
             {...value}
-            className='object-contain w-full h-full'
-            alt='media select'
+            className="h-full w-full object-contain"
+            alt="media select"
           />
         ) : (
           <Video src={value.src} />
         )}
       </div>
-      <span className='ml-3 text-sm mr-auto font-medium whitespace-nowrap max-w-full truncate'>
+      <span className="ml-3 mr-auto max-w-full truncate whitespace-nowrap text-sm font-medium">
         {value.name}
       </span>
       {!!onChange && (
         <DragPercentages
-          className='mr-2'
+          className="mr-2"
           position={objectPosition || { x: 50, y: 50 }}
           setPosition={(o) => onChange({ ...value, objectPosition: o })}
         />
       )}
       <Button
-        type='button'
-        variant='outline'
-        className='min-w-[2.5rem]'
-        size='icon'
+        type="button"
+        variant="outline"
+        className="min-w-[2.5rem]"
+        size="icon"
         onClick={() => setIsOpen(true)}
       >
-        <TooltipWrapper message='Verander'>
-          <ImagePlus className='h-4 w-4' />
+        <TooltipWrapper message="Verander">
+          <ImagePlus className="h-4 w-4" />
         </TooltipWrapper>
       </Button>
     </>

@@ -1,7 +1,20 @@
-'use client'
+"use client"
 
-import { AlertModal } from '@/components/modals/alert-modal'
-import { Button } from '@/components/ui/button'
+import { useState } from "react"
+import { useParams, useRouter } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Settings } from "@prisma/client"
+import axios from "axios"
+import { Trash } from "lucide-react"
+import { useForm } from "react-hook-form"
+import { toast } from "react-hot-toast"
+import * as z from "zod"
+
+import { ActionEnum, EntityEnum } from "@/types/permissions"
+import { useHasPermissions } from "@/lib/utils"
+import { useOrigin } from "@/hooks/use-origin"
+import { AlertModal } from "@/components/modals/alert-modal"
+import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
@@ -9,22 +22,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Heading } from '@/components/ui/heading'
-import { Input } from '@/components/ui/input'
-import { Separator } from '@/components/ui/separator'
-import { useOrigin } from '@/hooks/use-origin'
-import { useHasPermissions } from '@/lib/utils'
-import { ActionEnum, EntityEnum } from '@/types/permissions'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Settings } from '@prisma/client'
-import axios from 'axios'
-import { Trash } from 'lucide-react'
-import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { toast } from 'react-hot-toast'
-import * as z from 'zod'
+} from "@/components/ui/form"
+import { Heading } from "@/components/ui/heading"
+import { Input } from "@/components/ui/input"
+import { Separator } from "@/components/ui/separator"
 
 const formSchema = z.object({
   name: z.string().min(2),
@@ -53,9 +54,9 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       setLoading(true)
       await axios.patch(`/api/settings`, data)
       router.refresh()
-      toast.success('Instellingen bewerkt.')
+      toast.success("Instellingen bewerkt.")
     } catch (error: any) {
-      toast.error('Er is iets mis gegaan.')
+      toast.error("Er is iets mis gegaan.")
     } finally {
       setLoading(false)
     }
@@ -66,10 +67,10 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
       setLoading(true)
       await axios.delete(`/api/settings`)
       router.refresh()
-      router.push('/')
-      toast.success('Store verwijderd.')
+      router.push("/")
+      toast.success("Store verwijderd.")
     } catch (error: any) {
-      toast.error('Er is iets mis gegaan.')
+      toast.error("Er is iets mis gegaan.")
     } finally {
       setLoading(false)
       setOpen(false)
@@ -84,26 +85,26 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
         onConfirm={onDelete}
         loading={loading}
       />
-      <div className='flex items-center justify-between'>
-        <Heading title='Settings' description='Beheer website Settings' />
+      <div className="flex items-center justify-between">
+        <Heading title="Settings" description="Beheer website Settings" />
       </div>
       <Separator />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='w-full space-y-8'
+          className="w-full space-y-8"
         >
-          <div className='grid grid-cols-3 gap-8'>
+          <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
-              name='name'
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Naam</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder='App naam'
+                      placeholder="App naam"
                       {...field}
                     />
                   </FormControl>
@@ -113,19 +114,19 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
             />
             <FormField
               control={form.control}
-              name='email'
+              name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Support e-mail</FormLabel>
                   <FormControl>
-                    <Input disabled={loading} placeholder='E-mail' {...field} />
+                    <Input disabled={loading} placeholder="E-mail" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-          <Button disabled={loading} className='ml-auto' type='submit'>
+          <Button disabled={loading} className="ml-auto" type="submit">
             Opslaan
           </Button>
         </form>

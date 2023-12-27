@@ -1,15 +1,17 @@
-'use client'
+"use client"
 
-import { PageColumn, columns } from './columns'
-import { ApiList } from '@/components/ui/api-list'
-import { Button } from '@/components/ui/button'
-import { DataTable } from '@/components/ui/data-table'
-import { Heading } from '@/components/ui/heading'
-import { Separator } from '@/components/ui/separator'
-import { useHasPermissions } from '@/lib/utils'
-import { ActionEnum, EntityEnum } from '@/types/permissions'
-import { Plus } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation"
+import { Plus } from "lucide-react"
+
+import { ActionEnum, EntityEnum } from "@/types/permissions"
+import { useHasPermissions } from "@/lib/utils"
+import { ApiList } from "@/components/ui/api-list"
+import { Button } from "@/components/ui/button"
+import { DataTable } from "@/components/ui/data-table"
+import { Heading } from "@/components/ui/heading"
+import { Separator } from "@/components/ui/separator"
+
+import { PageColumn, columns } from "./columns"
 
 interface PagesClientProps {
   data: PageColumn[]
@@ -21,20 +23,20 @@ export const PagesClient: React.FC<PagesClientProps> = ({ data }) => {
 
   return (
     <>
-      <div className='flex items-center justify-between'>
+      <div className="flex items-center justify-between">
         <Heading
           title={`Pagina's (${data.length})`}
           description="Beheer pagina's"
         >
           {canCreate && (
             <Button onClick={() => router.push(`/pages/new`)}>
-              <Plus className='mr-2 h-4 w-4' /> Toevoegen
+              <Plus className="mr-2 h-4 w-4" /> Toevoegen
             </Button>
           )}
         </Heading>
       </div>
       <Separator />
-      <DataTable searchKey='name' columns={columns} data={data} />
+      <DataTable searchKey="name" columns={columns} data={data} />
     </>
   )
 }

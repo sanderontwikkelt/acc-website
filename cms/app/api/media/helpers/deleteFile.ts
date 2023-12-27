@@ -1,5 +1,6 @@
-import { bucketName, storage } from './storage'
-import { NextResponse } from 'next/server'
+import { NextResponse } from "next/server"
+
+import { bucketName, storage } from "./storage"
 
 export const config = {
   api: {
@@ -15,17 +16,17 @@ export const deleteFile = async (filePath: string) => {
     const [exists] = await file.exists()
 
     if (!exists) {
-      console.error('File not found')
-      return new NextResponse('File not found', { status: 404 })
+      console.error("File not found")
+      return new NextResponse("File not found", { status: 404 })
     }
 
     // Verwijderen the file
     await file.delete()
 
-    console.log('File deleted successfully')
-    return new NextResponse('File deleted successfully', { status: 200 })
+    console.log("File deleted successfully")
+    return new NextResponse("File deleted successfully", { status: 200 })
   } catch (e) {
-    console.error('Error deleting file:', e)
-    return new NextResponse('Internal Server Error', { status: 500 })
+    console.error("Error deleting file:", e)
+    return new NextResponse("Internal Server Error", { status: 500 })
   }
 }

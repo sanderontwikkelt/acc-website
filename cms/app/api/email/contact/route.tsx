@@ -1,31 +1,33 @@
-import { uploadFile } from '../../media/helpers/uploadFile'
-import Contact from '@/emails/contact'
-import prismadb from '@/lib/prismadb'
-import { render } from '@react-email/render'
-import { type NextRequest, NextResponse } from 'next/server'
-import nodemailer from 'nodemailer'
-import Mail from 'nodemailer/lib/mailer'
+import { NextResponse, type NextRequest } from "next/server"
+import Contact from "@/emails/contact"
+import { render } from "@react-email/render"
+import nodemailer from "nodemailer"
+import Mail from "nodemailer/lib/mailer"
 
-const stripHtml = (html: string) => html.replace(/<\/?[^>]+>/gi, '')
+import prismadb from "@/lib/prismadb"
+
+import { uploadFile } from "../../media/helpers/uploadFile"
+
+const stripHtml = (html: string) => html.replace(/<\/?[^>]+>/gi, "")
 
 export async function POST(request: NextRequest) {
   const data = await request.formData()
-  const token: string | null = data.get('token') as unknown as string
+  const token: string | null = data.get("token") as unknown as string
 
   if (token !== process.env.API_TOKEN) {
-    return NextResponse.json({ error: 'INVALID TOKEN' }, { status: 500 })
+    return NextResponse.json({ error: "INVALID TOKEN" }, { status: 500 })
   }
 
-  const upload: File | null = data.get('upload') as unknown as File
+  const upload: File | null = data.get("upload") as unknown as File
   const hasUpload = !!upload.size
 
-  const firstName: string | null = data.get('firstName') as unknown as string
-  const lastName: string | null = data.get('lastName') as unknown as string
+  const firstName: string | null = data.get("firstName") as unknown as string
+  const lastName: string | null = data.get("lastName") as unknown as string
   const phoneNumber: string | null = data.get(
-    'phoneNumber'
+    "phoneNumber"
   ) as unknown as string
-  const email: string | null = data.get('email') as unknown as string
-  const message: string | null = data.get('message') as unknown as string
+  const email: string | null = data.get("email") as unknown as string
+  const message: string | null = data.get("message") as unknown as string
 
   const body = { name: `${firstName} ${lastName}`, phoneNumber, email, message }
 
@@ -33,7 +35,7 @@ export async function POST(request: NextRequest) {
   const buffer = Buffer.from(bytes)
 
   const transport = nodemailer.createTransport({
-    service: 'gmail',
+    service: "gmail",
     auth: {
       user: process.env.SMTP_EMAIL,
       pass: process.env.SMTP_PASSWORD,
@@ -64,7 +66,7 @@ export async function POST(request: NextRequest) {
     new Promise<string>((resolve, reject) => {
       transport.sendMail(mailOptions, function (err) {
         if (!err) {
-          resolve('Email sent')
+          resolve("Email sent")
         } else {
           reject(err.message)
         }
@@ -78,7 +80,7 @@ export async function POST(request: NextRequest) {
 
       if (!uploadData) {
         return new NextResponse(
-          'Er is iets mis gegaan with the uploaded file',
+          "Er is iets mis gegaan with the uploaded file",
           {
             status: 400,
           }
@@ -107,7 +109,7 @@ export async function POST(request: NextRequest) {
     await sendMailPromise()
     await store()
 
-    return NextResponse.json({ message: 'Email sent' })
+    return NextResponse.json({ message: "Email sent" })
   } catch (err) {
     console.log({ err })
     return NextResponse.json({ error: err }, { status: 500 })

@@ -1,4 +1,4 @@
-import { AdminSideBar } from '@/components/sidebar'
+import { AdminSideBar } from "@/components/sidebar"
 
 export default async function DashboardLayout({
   children,
@@ -6,9 +6,9 @@ export default async function DashboardLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className='flex h-full w-screen'>
+    <div className="flex h-full w-screen">
       <AdminSideBar />
-      <div className='max-h-full flex-grow overflow-auto bg-gray-100 dark:bg-opacity-[0.02]'>
+      <div className="max-h-full flex-grow overflow-auto bg-gray-100 dark:bg-opacity-[0.02]">
         {children}
       </div>
     </div>

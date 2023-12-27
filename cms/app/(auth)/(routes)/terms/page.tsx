@@ -1,28 +1,28 @@
-import { ReactNode } from 'react'
+import { ReactNode } from "react"
 
 const Heading = ({ children }: { children: ReactNode }) => (
-  <h2 className='text-2xl font-semibold mb-3'>{children}</h2>
+  <h2 className="mb-3 text-2xl font-semibold">{children}</h2>
 )
 
 const Paragraph = ({ children }: { children: ReactNode }) => (
-  <h2 className='text-lg mb-10 opacity-80'>{children}</h2>
+  <h2 className="mb-10 text-lg opacity-80">{children}</h2>
 )
 
 const page = () => {
   return (
-    <div className='h-screen overflow-auto w-screen'>
-      <div className='px-4 sm:px-6 lg:px-8'>
-        <div className='relative mx-auto max-w-[37.5rem] pt-20 text-center pb-24'>
-          <h1 className='text-4xl font-extrabold tracking-tight sm:text-5xl'>
+    <div className="h-screen w-screen overflow-auto">
+      <div className="px-4 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-[37.5rem] pb-24 pt-20 text-center">
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
             Terms and conditions
           </h1>
-          <p className='mt-4 text-base leading-7 opacity-70'>
+          <p className="mt-4 text-base leading-7 opacity-70">
             Last updated on November 2, 2021
           </p>
         </div>
       </div>
-      <div className='relative px-4 sm:px-6 lg:px-8'>
-        <div className='mx-auto max-w-[40rem] prose-sm prose prose-slate prose-a:font-semibold'>
+      <div className="relative px-4 sm:px-6 lg:px-8">
+        <div className="prose-sm prose prose-slate prose-a:font-semibold mx-auto max-w-[40rem]">
           <Paragraph>
             These terms and conditions (&quot;Policy&quot;) describes how
             Sanderontwikkelt collects, protects and uses the personally
@@ -59,11 +59,11 @@ const page = () => {
           <Paragraph>
             All purchases made through the Website are processed by a third
             party payment processor, Paddle (
-            <a href='https://paddle.com'>paddle.com</a>). Paddle may ask you for
+            <a href="https://paddle.com">paddle.com</a>). Paddle may ask you for
             personal and/or non-personal information, such as your name,
             address, email address, credit card information, or other Personal
             Information. Paddle has a privacy policy (
-            <a href='https://paddle.com/legal-buyers/'>
+            <a href="https://paddle.com/legal-buyers/">
               paddle.com/legal-buyers/
             </a>
             ) that describes their collection and use of personal information.
@@ -196,8 +196,8 @@ const page = () => {
           <Heading>How to exercise these rights</Heading>
           <Paragraph>
             Any requests to exercise User rights can be directed to the Owner by
-            email at{' '}
-            <a href='mailto:support@Sanderontwikkelt.com'>
+            email at{" "}
+            <a href="mailto:support@Sanderontwikkelt.com">
               support@Sanderontwikkelt.com
             </a>
             . These requests can be exercised free of charge and will be
@@ -260,7 +260,7 @@ const page = () => {
             Personal Information or non-personal information collected by
             Paddle, are under the control of Paddle. We encourage purchasers to
             read Paddle’s Privacy Policy (
-            <a href='https://paddle.com/legal-buyers/'>
+            <a href="https://paddle.com/legal-buyers/">
               paddle.com/legal-buyers/
             </a>
             ).
@@ -326,8 +326,8 @@ const page = () => {
           <Heading>Contacting us</Heading>
           <Paragraph>
             If you have any questions about this Policy, please contact us by
-            email at{' '}
-            <a href='mailto:support@sanderontwikkelt.com'>
+            email at{" "}
+            <a href="mailto:support@sanderontwikkelt.com">
               support@Sanderontwikkelt.com
             </a>
             .

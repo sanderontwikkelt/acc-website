@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 
-import styles from './animated-check.module.css'
+import styles from "./animated-check.module.css";
 
 const AnimatedCheck = () => {
   return (
@@ -10,7 +10,7 @@ const AnimatedCheck = () => {
         <div className={styles.successIconLong} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AnimatedCheck
+export default AnimatedCheck;

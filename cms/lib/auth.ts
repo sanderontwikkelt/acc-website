@@ -1,7 +1,8 @@
-import prismadb from './prismadb'
-import { compare } from 'bcrypt'
-import NextAuth, { type NextAuthOptions } from 'next-auth'
-import CredentialsProvider from 'next-auth/providers/credentials'
+import { compare } from "bcrypt"
+import NextAuth, { type NextAuthOptions } from "next-auth"
+import CredentialsProvider from "next-auth/providers/credentials"
+
+import prismadb from "./prismadb"
 
 const SEVEN_DAYS_IN_SECONDS = 7 * 24 * 60 * 60 // Two days in seconds.
 
@@ -40,10 +41,10 @@ const getUserWithPermissions = async (email: string) => {
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
-        email: { label: 'Email', type: 'text' },
-        password: { label: 'Password', type: 'password' },
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       authorize: async (credentials) => {
         if (!credentials) return Promise.resolve(null)
@@ -70,7 +71,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
     maxAge: SEVEN_DAYS_IN_SECONDS,
   },
   jwt: {
@@ -119,6 +120,6 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: '/sign-in',
+    signIn: "/sign-in",
   },
 }
