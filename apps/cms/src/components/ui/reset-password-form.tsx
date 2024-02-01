@@ -6,8 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import { type z } from "zod";
+import { toast } from "@acme/ui/toast";
+import type {z} from "zod";
 
 import { cn } from "~/lib/utils";
 import { resetPasswordSchema } from "~/lib/validation/resetPasswordSchema";

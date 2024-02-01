@@ -1,6 +1,5 @@
 import {
   BoldIcon,
-  EraserIcon,
   ItalicIcon,
   LinkIcon,
   ListIcon,
@@ -44,7 +43,7 @@ export const BtnStrikeThrough = createButton(
 export const BtnLink = createButton(
   "Link",
   <LinkIcon style={{ margin: "auto" }} width={16} height={16} />,
-  ({ $selection }) => {
+  ({ $selection }: any) => {
     if ($selection?.nodeName === "A") {
       document.execCommand("unlink");
     } else {

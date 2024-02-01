@@ -18,10 +18,10 @@ export const env = createEnv({
    * This way you can ensure the app isn't built with invalid env vars.
    */
   server: {
-    DB_HOST: z.string(),
-    DB_NAME: z.string(),
-    DB_PASSWORD: z.string(),
-    DB_USERNAME: z.string(),
+    DATABASE_HOST: z.string(),
+    DATABASE_USERNAME: z.string(),
+    DATABASE_PASSWORD: z.string(),
+    DATABASE_USERNAME: z.string(),
     STRIPE_PK: z.string(),
     STRIPE_SK: z.string(),
     STRIPE_WEBHOOK_SECRET: z.string(),
@@ -37,10 +37,10 @@ export const env = createEnv({
    * Destructure all variables from `process.env` to make sure they aren't tree-shaken away.
    */
   runtimeEnv: {
-    DB_HOST: process.env.DB_HOST,
-    DB_NAME: process.env.DB_NAME,
-    DB_PASSWORD: process.env.DB_PASSWORD,
-    DB_USERNAME: process.env.DB_USERNAME,
+    DATABASE_HOST: process.env.DATABASE_HOST,
+    DATABASE_USERNAME: process.env.DATABASE_USERNAME,
+    DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
+    DATABASE_USERNAME: process.env.DATABASE_USERNAME,
     PORT: process.env.PORT,
     VERCEL_URL: process.env.VERCEL_URL,
     STRIPE_PK: process.env.STRIPE_PK,
