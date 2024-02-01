@@ -1,12 +1,9 @@
 import { relations } from "drizzle-orm";
-import {
-  index,
-  mysqlEnum,
-} from "drizzle-orm/mysql-core";
+import { index, mysqlEnum } from "drizzle-orm/mysql-core";
 
+import { createdAt, id, nnDec, nnInt, updatedAt, varChar } from "../utils";
 import { mySqlTable } from "./_table";
 import { user } from "./auth";
-import { id, varChar, createdAt, updatedAt, nnInt, nnDec } from "../utils";
 
 export const order = mySqlTable(
   "order",

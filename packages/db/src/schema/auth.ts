@@ -7,11 +7,11 @@ import {
   timestamp,
 } from "drizzle-orm/mysql-core";
 
+import { createdAt, nnTSDate, nnVarChar, updatedAt, varChar } from "../utils";
 import { mySqlTable } from "./_table";
 import { shoppingCart } from "./cart";
 import { order } from "./order";
 import { role } from "./role";
-import { nnTSDate, nnVarChar, varChar, createdAt, updatedAt } from "../utils";
 
 export const user = mySqlTable("user", {
   id: varChar("id").primaryKey(),
@@ -39,8 +39,7 @@ export const account = mySqlTable(
   "account",
   {
     userId: nnVarChar("userId"),
-    type: nnVarChar("type")
-      .$type<"oauth" | "oidc" | "email">(),
+    type: nnVarChar("type").$type<"oauth" | "oidc" | "email">(),
     provider: nnVarChar("provider"),
     providerAccountId: nnVarChar("providerAccountId"),
     refresh_token: varChar("refresh_token"),
@@ -64,8 +63,7 @@ export const accountsRelations = relations(account, ({ one }) => ({
 export const sessions = mySqlTable(
   "session",
   {
-    sessionToken: nnVarChar("sessionToken")
-      .primaryKey(),
+    sessionToken: nnVarChar("sessionToken").primaryKey(),
     userId: nnVarChar("userId"),
     expires: nnTSDate("expires"),
   },

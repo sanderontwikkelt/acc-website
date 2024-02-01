@@ -1,15 +1,9 @@
 import { relations } from "drizzle-orm";
-import {
-  int,
-  serial,
-  timestamp,
-  unique,
-  varchar,
-} from "drizzle-orm/mysql-core";
+import { int, serial, unique, varchar } from "drizzle-orm/mysql-core";
 
+import { createdAt, id, updatedAt, varChar } from "../utils";
 import { mySqlTable } from "./_table";
 import { user } from "./auth";
-import { id, varChar } from "../utils";
 
 export const permission = mySqlTable(
   "permission",
@@ -34,8 +28,8 @@ export const role = mySqlTable("role", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 256 }),
   description: varchar("description", { length: 256 }),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
+  createdAt,
+  updatedAt,
 });
 
 export const roleRelations = relations(role, ({ many }) => ({

@@ -1,13 +1,10 @@
 import { relations } from "drizzle-orm";
-import {
-  index,
-  unique,
-} from "drizzle-orm/mysql-core";
+import { index, unique } from "drizzle-orm/mysql-core";
 
+import { createdAt, id, nnInt, updatedAt, varChar } from "../utils";
 import { mySqlTable } from "./_table";
 import { user } from "./auth";
 import { product } from "./product";
-import { id, nnInt, createdAt, updatedAt, varChar } from "../utils";
 
 export const cartItem = mySqlTable(
   "cartItem",

@@ -1,18 +1,13 @@
 import { relations } from "drizzle-orm";
-import {
-  index,
-  int,
-  json,
-  text,
-} from "drizzle-orm/mysql-core";
+import { index, int, json, text } from "drizzle-orm/mysql-core";
 
+import { createdAt, id, nnInt, updatedAt, varChar } from "../utils";
 import { mySqlTable } from "./_table";
 import { media } from "./media";
 import { seo } from "./seo";
-import { id, nnInt, createdAt, updatedAt, varChar } from "../utils";
 
 export const header = mySqlTable(
-  "Header",
+  "header",
   {
     id,
     createdAt,
@@ -33,7 +28,7 @@ export const headerRelations = relations(header, ({ one }) => ({
 }));
 
 export const footer = mySqlTable(
-  "Footer",
+  "footer",
   {
     id,
     title: text("title"),
@@ -56,20 +51,17 @@ export const footerRelations = relations(footer, ({ one }) => ({
   media: one(media, { fields: [footer.mediaId], references: [media.id] }),
 }));
 
-export const page = mySqlTable(
-  "Page",
-  {
-    id,
-    pathname: varChar("pathname"),
-    name: varChar("name"),
-    concept: int("concept").default(1),
-    blocks: json("blocks"),
-    createdBy: varChar("createdBy"),
-    updatedBy: varChar("updatedBy"),
-    createdAt,
-    updatedAt,
-  },
-);
+export const page = mySqlTable("page", {
+  id,
+  pathname: varChar("pathname"),
+  name: varChar("name"),
+  concept: int("concept").default(1),
+  blocks: json("blocks"),
+  createdBy: varChar("createdBy"),
+  updatedBy: varChar("updatedBy"),
+  createdAt,
+  updatedAt,
+});
 
 export const pageRelations = relations(page, ({ one, many }) => ({
   seo: one(seo),
@@ -77,7 +69,7 @@ export const pageRelations = relations(page, ({ one, many }) => ({
 }));
 
 export const block_backup = mySqlTable(
-  "BlockBackup",
+  "blockBackup",
   {
     id,
     blocks: json("blocks"),
@@ -90,9 +82,6 @@ export const block_backup = mySqlTable(
     };
   },
 );
-export const block_backupRelations = relations(
-  block_backup,
-  ({ one }) => ({
-    page: one(page, { fields: [block_backup.pageId], references: [page.id] }),
-  }),
-);
+export const block_backupRelations = relations(block_backup, ({ one }) => ({
+  page: one(page, { fields: [block_backup.pageId], references: [page.id] }),
+}));
