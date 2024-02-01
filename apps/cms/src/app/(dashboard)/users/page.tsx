@@ -9,10 +9,10 @@ import { ActionEnum, EntityEnum } from "types/permissions";
 
 import type { Role, User } from "@acme/db";
 import { Button } from "@acme/ui/button";
-import { Separator } from "@acme/ui/separator";
 
 import type { DataTableFilterableColumn } from "~/components/ui/data-table/data-table-types";
 import { DataTable } from "~/components/ui/data-table/data-table";
+import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
 import { Heading } from "~/components/ui/heading";
 import { useDataTable } from "~/hooks/use-data-table";
 import { useHasPermissions } from "~/lib/utils";
@@ -21,7 +21,6 @@ import {
   deleteSelectedRows,
   UsersTableFloatingBarContent,
 } from "./_components/table-actions";
-import { fetchUsersTableColumnDefs } from "./_components/table-column-def";
 
 const title = "Gebruikers";
 
@@ -29,8 +28,12 @@ const UsersPage = () => {
   const searchParams = useSearchParams();
   const page = +(searchParams.get("page") || 10);
   const perPage = +(searchParams.get("per_page") || 10);
-  const sort = +(searchParams.get("sort") || 10);
-  const [users] = api.user.all.useSuspenseQuery({ page, sort, perPage });
+  const sort = searchParams.get("sort");
+  const [users] = api.user.all.useSuspenseQuery<{ user: User; role: Role }[]>({
+    page,
+    sort: String(sort),
+    perPage,
+  });
   const [totalUsers] = api.user.count.useSuspenseQuery();
   const [roles] = api.role.all.useSuspenseQuery();
 
@@ -44,10 +47,11 @@ const UsersPage = () => {
     createdAt: string;
     name: string;
     email: string;
+    roleId: number;
     role: Role;
   }
 
-  const filterableColumns: DataTableFilterableColumn<User>[] = React.useMemo(
+  const filterableColumns: DataTableFilterableColumn<Column>[] = React.useMemo(
     () => [
       {
         id: "roleId",
@@ -69,22 +73,54 @@ const UsersPage = () => {
         name: user.name ?? "",
         email: user.email,
         role,
-        createdAt: format(new Date(user.createdAt), "dd-LL-yyyy, hh:mm"),
-      })),
+        createdAt: user.createdAt
+          ? format(new Date(user.createdAt as Date), "dd-LL-yyyy, hh:mm")
+          : "",
+      })) as Column[],
     [users],
   );
 
-  const columns = React.useMemo<ColumnDef<Column[], unknown>[]>(
-    () => fetchUsersTableColumnDefs(),
+  const columns = React.useMemo<ColumnDef<Column, unknown>[]>(
+    () => [
+      {
+        accessorKey: "name",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title="Naam" />
+        ),
+      },
+      {
+        accessorKey: "email",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title="E-mail" />
+        ),
+      },
+      {
+        accessorKey: "roleId",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title="Rol" />
+        ),
+        cell: ({ row }) => row.original.role?.name || "",
+      },
+      {
+        accessorKey: "createdAt",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title="Aangemaakt" />
+        ),
+      },
+    ],
     [],
   );
-  console.log(totalUsers, perPage);
+
   const { dataTable } = useDataTable({
     data,
     columns,
-    pageCount: Math.ceil(+totalUsers[0].count / perPage),
+    pageCount: totalUsers[0] ? Math.ceil(+totalUsers[0]?.count / perPage) : 1,
     filterableColumns,
   });
+
+  const deleteUser = async (id: string) => {
+    await api.user.delete.useMutation().mutateAsync(id);
+  };
 
   return (
     <>
@@ -104,9 +140,9 @@ const UsersPage = () => {
         dataTable={dataTable}
         columns={columns}
         filterableColumns={filterableColumns}
-        floatingBarContent={UsersTableFloatingBarContent(dataTable)}
+        floatingBarContent={UsersTableFloatingBarContent(dataTable, deleteUser)}
         deleteRowsAction={async (event) => {
-          deleteSelectedRows(dataTable, event);
+          deleteSelectedRows(dataTable, deleteUser, event);
           router.refresh();
         }}
       />

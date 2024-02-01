@@ -6,37 +6,38 @@ import { toast } from "sonner";
 
 import { Button } from "@acme/ui/button";
 
-export function deleteSelectedRows<Schema>(
-  table: Table<Schema>,
+type Action = (id: string) => Promise<void>;
+
+export function deleteSelectedRows<Column>(
+  table: Table<Column & { id: string }>,
+  onDelete: Action,
   event?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
 ) {
   event?.preventDefault();
   const selectedRows = table.getFilteredSelectedRowModel().rows as {
-    original: Schema;
+    original: { id: string };
   }[];
 
   noStore();
   return toast.promise(
-    Promise.all(
-      selectedRows.map(async (row) =>
-        deleteUser({
-          id: row.original.id,
-        }),
-      ),
-    ),
+    Promise.all(selectedRows.map(async (row) => onDelete(row.original.id))),
     {
       loading: "Verwijderen..",
       success: () => {
-        return "Succesvol verwijdered";
+        return "Succesvol verwijderd";
       },
       error: (err: unknown) => {
-        return catchError(err);
+        console.error(err);
+        return "Verwijdered is mislukt.";
       },
     },
   );
 }
 
-export function UsersTableFloatingBarContent<Schema>(table: Table<Schema>) {
+export function UsersTableFloatingBarContent<Schema>(
+  table: Table<Schema & { id: string }>,
+  onDelete: Action,
+) {
   return (
     <div className="justify-between gap-2 align-middle">
       <Button
@@ -47,7 +48,7 @@ export function UsersTableFloatingBarContent<Schema>(table: Table<Schema>) {
         data-pw="selected-rows-delete"
         onClick={(event) => {
           table.toggleAllPageRowsSelected(false);
-          deleteSelectedRows?.(table, event);
+          deleteSelectedRows<Schema>(table, onDelete, event);
         }}
       >
         <TrashIcon className="h-4 w-4" aria-hidden="true" />
