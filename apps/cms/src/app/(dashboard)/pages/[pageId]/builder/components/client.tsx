@@ -1,28 +1,27 @@
-"use client"
+"use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { useParams, useRouter } from "next/navigation"
-import { BlockBackup, Footer, Header, Page, SEO } from "@prisma/client"
-import axios from "axios"
-import toast from "react-hot-toast"
-import useUndo from "use-undo"
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { Loader } from "@/components/ui/loader";
+import htmlBlocks, { BlockType } from "@/lib/html-blocks";
+import { revalidateClientTag } from "@/lib/revalidate-client-tag";
+import { BlockBackup, Footer, Header, Page, SEO } from "@prisma/client";
+import axios from "axios";
+import toast from "react-hot-toast";
+import useUndo from "use-undo";
 
-import htmlBlocks, { BlockType } from "@/lib/html-blocks"
-import { revalidateClientTag } from "@/lib/revalidate-client-tag"
-import { Loader } from "@/components/ui/loader"
-
-import AsideEditor from "./aside-editor"
-import ComponentsMenu from "./components-menu"
-import FooterAsideEditor from "./footer-aside-editor"
-import HeaderAsideEditor from "./header-aside-editor"
-import Toolbar from "./toolbar"
-import Website from "./website"
+import AsideEditor from "./aside-editor";
+import ComponentsMenu from "./components-menu";
+import FooterAsideEditor from "./footer-aside-editor";
+import HeaderAsideEditor from "./header-aside-editor";
+import Toolbar from "./toolbar";
+import Website from "./website";
 
 export type State = {
-  blocks: BlockType[]
-  header: Header | null
-  footer: Footer | null
-}
+  blocks: BlockType[];
+  header: Header | null;
+  footer: Footer | null;
+};
 
 const PageEditorClient = ({
   pages,
@@ -31,45 +30,45 @@ const PageEditorClient = ({
   header,
   footer,
 }: {
-  pages: Page[]
-  page: Page
-  seo: SEO
-  header: Header
-  footer: Footer
+  pages: Page[];
+  page: Page;
+  seo: SEO;
+  header: Header;
+  footer: Footer;
 }) => {
   const init = {
     blocks: Array.isArray(page?.blocks) ? (page?.blocks as any) : [],
-  } as State
-  const [sectionId, setSectionId] = useState<string | null>(null)
-  const [isIframeReady, setIframeReady] = useState<boolean>(false)
-  const [sent, setSent] = useState<boolean>(false)
+  } as State;
+  const [sectionId, setSectionId] = useState<string | null>(null);
+  const [isIframeReady, setIframeReady] = useState<boolean>(false);
+  const [sent, setSent] = useState<boolean>(false);
   const [editorOpen, setEditorOpen] = useState<
     "header" | "blocks" | "footer" | null
-  >(null)
-  const [showMenu, setShowMenu] = useState<boolean>(true)
-  const [loading, setLoading] = useState(false)
+  >(null);
+  const [showMenu, setShowMenu] = useState<boolean>(true);
+  const [loading, setLoading] = useState(false);
   const [display, setDisplay] = useState<"desktop" | "tablet" | "mobile">(
-    "desktop"
-  )
-  const [pageState, { set: setState, reset, ...undoActions }] = useUndo(init)
-  const { present: state } = pageState
+    "desktop",
+  );
+  const [pageState, { set: setState, reset, ...undoActions }] = useUndo(init);
+  const { present: state } = pageState;
   const setBlocks = (blocks: BlockType[]) => {
-    setState({ ...state, blocks })
-  }
+    setState({ ...state, blocks });
+  };
 
   const setHeaderState = (header: Header) => {
-    setState({ ...state, header })
-  }
+    setState({ ...state, header });
+  };
 
-  const frontendUrl = process.env.NEXT_PUBLIC_FRONT_URL
-  const router = useRouter()
-  const params = useParams()
+  const frontendUrl = process.env.NEXT_PUBLIC_FRONT_URL;
+  const router = useRouter();
+  const params = useParams();
 
   useEffect(() => {
-    console.log("rendering")
+    console.log("rendering");
     const iframe = document.getElementById(
-      "website-iframe"
-    ) as HTMLIFrameElement
+      "website-iframe",
+    ) as HTMLIFrameElement;
     const postMessageToIframe = () => {
       iframe?.contentWindow?.postMessage(
         {
@@ -93,76 +92,76 @@ const PageEditorClient = ({
               maxWidth,
               fields: Object.entries(fields).reduce(
                 (acc, [key, { value }]) => ({ ...acc, [key]: value }),
-                {} as any
+                {} as any,
               ),
               name,
               style,
-            })
+            }),
           ),
         },
-        frontendUrl as string
-      )
-      setSent(true)
-    }
-    console.log({ isIframeReady, iframe })
+        frontendUrl as string,
+      );
+      setSent(true);
+    };
+    console.log({ isIframeReady, iframe });
     // If the iframe is already ready, post the message immediately
     if (isIframeReady) {
       setTimeout(
         () => {
-          postMessageToIframe()
+          postMessageToIframe();
         },
-        sent ? 0 : 2000
-      )
+        sent ? 0 : 2000,
+      );
     } else {
       // If not, set up a load event listener on the iframe
 
       // Handler for load event
       const handleLoad = () => {
-        setIframeReady(true)
-        postMessageToIframe()
-      }
+        setIframeReady(true);
+        postMessageToIframe();
+      };
       // Add load event listener
-      iframe?.addEventListener("load", handleLoad)
+      iframe?.addEventListener("load", handleLoad);
 
       // Return a cleanup function to remove the event listener
       return () => {
-        iframe?.removeEventListener("load", handleLoad)
-      }
+        iframe?.removeEventListener("load", handleLoad);
+      };
     }
-    setSent(true)
-  }, [state, isIframeReady, frontendUrl])
+    setSent(true);
+  }, [state, isIframeReady, frontendUrl]);
 
   useEffect(() => {
-    const sidebar = document.getElementById("sidebar")
-    if (sidebar) sidebar.style.display = "none"
+    const sidebar = document.getElementById("sidebar");
+    if (sidebar) sidebar.style.display = "none";
     return () => {
-      if (sidebar) sidebar.style.display = "flex"
-    }
-  }, [])
+      if (sidebar) sidebar.style.display = "flex";
+    };
+  }, []);
 
   const moveSection = useCallback(
     (sectionId: string, direction: "UP" | "DOWN") => {
-      const arr = state.blocks
-      const index = state.blocks.findIndex(({ uid }) => sectionId === uid)
+      const arr = state.blocks;
+      const index = state.blocks.findIndex(({ uid }) => sectionId === uid);
       if (index || direction === "DOWN") {
-        const swapIndex = index + (direction === "UP" ? -1 : 1)
-        let temp = arr[index]
-        arr[index] = arr[swapIndex]
-        arr[swapIndex] = temp
+        const swapIndex = index + (direction === "UP" ? -1 : 1);
+        let temp = arr[index];
+        arr[index] = arr[swapIndex];
+        arr[swapIndex] = temp;
       }
-      setState({ ...state, blocks: [...arr] })
+      setState({ ...state, blocks: [...arr] });
     },
-    [state, setState]
-  )
+    [state, setState],
+  );
 
   const block = useMemo(() => {
-    if (!sectionId) return null
+    if (!sectionId) return null;
     const stateBlock = state.blocks.find(({ uid, id }) =>
-      [uid, id].includes(sectionId as string)
-    )
-    if (!stateBlock) return null
-    const htmlBlock = htmlBlocks[stateBlock.name]
-    if (!htmlBlock) return null
+      [uid, id].includes(sectionId as string),
+    );
+    if (!stateBlock) return null;
+    const htmlBlock = htmlBlocks[stateBlock.name];
+    if (!htmlBlock) return null;
     return {
       ...stateBlock,
       fields: Object.entries(htmlBlock.fields).reduce(
@@ -176,41 +175,43 @@ const PageEditorClient = ({
                 : (stateBlock.fields as any)?.[key]?.value,
           },
         }),
-        {}
+        {},
       ),
-    }
-  }, [state.blocks, sectionId])
+    };
+  }, [state.blocks, sectionId]);
 
   const handleSectionId = useCallback(
     (id: string | null) => {
-      setEditorOpen("blocks")
-      setSectionId(id)
+      setEditorOpen("blocks");
+      setSectionId(id);
     },
-    [setSectionId]
-  )
+    [setSectionId],
+  );
 
   const publish = async () => {
     try {
-      setLoading(true)
-      await axios.patch(`/api/pages/${params.pageId}`, { blocks: state.blocks })
-      revalidateClientTag(page.pathname.replaceAll("/", "") || "index")
+      setLoading(true);
+      await axios.patch(`/api/pages/${params.pageId}`, {
+        blocks: state.blocks,
+      });
+      revalidateClientTag(page.pathname.replaceAll("/", "") || "index");
       if (state.header) {
-        await axios.patch(`/api/header`, state.header)
-        revalidateClientTag("header")
+        await axios.patch(`/api/header`, state.header);
+        revalidateClientTag("header");
       }
       if (state.footer) {
-        await axios.patch(`/api/footer`, state.footer)
-        revalidateClientTag("footer")
+        await axios.patch(`/api/footer`, state.footer);
+        revalidateClientTag("footer");
       }
-      router.refresh()
-      toast.success("Opgeslagen en gepubliseerd.")
+      router.refresh();
+      toast.success("Opgeslagen en gepubliseerd.");
     } catch (error: any) {
-      console.log(error)
-      toast.error("Er is iets mis gegaan.")
+      console.log(error);
+      toast.error("Er is iets mis gegaan.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -249,8 +250,9 @@ const PageEditorClient = ({
             moveSection={moveSection}
             setSectionId={handleSectionId}
             onNavigate={(pathname: string) => {
-              const selectedPage = pages.find((p) => p.pathname === pathname)
-              if (selectedPage) router.push(`/pages/${selectedPage.id}/builder`)
+              const selectedPage = pages.find((p) => p.pathname === pathname);
+              if (selectedPage)
+                router.push(`/pages/${selectedPage.id}/builder`);
             }}
           />
         )}
@@ -266,9 +268,9 @@ const PageEditorClient = ({
             setBlocks(
               newBlock
                 ? state.blocks.map((oldBlock) =>
-                    sectionId === oldBlock.uid ? newBlock : oldBlock
+                    sectionId === oldBlock.uid ? newBlock : oldBlock,
                   )
-                : state.blocks.filter((b) => b.uid !== sectionId)
+                : state.blocks.filter((b) => b.uid !== sectionId),
             )
           }
           setOpen={() => setEditorOpen(null)}
@@ -291,7 +293,7 @@ const PageEditorClient = ({
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PageEditorClient
+export default PageEditorClient;

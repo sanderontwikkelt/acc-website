@@ -1,8 +1,12 @@
-"use client"
+"use client";
 
-import React from "react"
-import Link from "next/link"
-import { Page, SEO } from "@prisma/client"
+import React from "react";
+import Link from "next/link";
+import TooltipWrapper from "@/components/tooltip-wrapper";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { BlockType } from "@/lib/html-blocks";
+import { cn } from "@/lib/utils";
+import { Page, SEO } from "@prisma/client";
 import {
   ChevronLeft,
   Command,
@@ -17,17 +21,12 @@ import {
   TabletIcon,
   TimerReset,
   Undo,
-} from "lucide-react"
+} from "lucide-react";
 
-import { BlockType } from "@/lib/html-blocks"
-import { cn } from "@/lib/utils"
-import TooltipWrapper from "@/components/tooltip-wrapper"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { PresetActions } from "./actions";
+import PageSwitcher from "./page-switcher";
 
-import { PresetActions } from "./actions"
-import PageSwitcher from "./page-switcher"
-
-type Display = "desktop" | "tablet" | "mobile"
+type Display = "desktop" | "tablet" | "mobile";
 
 const IconButton = ({
   className,
@@ -38,13 +37,13 @@ const IconButton = ({
   children,
   Icon,
 }: {
-  className?: string
-  Icon: LucideIcon
-  disabled?: boolean
-  active?: boolean
-  onClick: () => void
-  message: string
-  children: React.ReactNode
+  className?: string;
+  Icon: LucideIcon;
+  disabled?: boolean;
+  active?: boolean;
+  onClick: () => void;
+  message: string;
+  children: React.ReactNode;
 }) => (
   <button
     disabled={disabled}
@@ -52,7 +51,7 @@ const IconButton = ({
       "w-6 rounded-md px-1 max-md:hidden",
       active ? "bg-background" : "",
       className,
-      disabled ? "pointer-events-none opacity-60" : ""
+      disabled ? "pointer-events-none opacity-60" : "",
     )}
     onClick={onClick}
   >
@@ -70,7 +69,7 @@ const IconButton = ({
       <Icon className="w-4" />
     </TooltipWrapper>
   </button>
-)
+);
 
 const Toolbar = ({
   page,
@@ -88,51 +87,51 @@ const Toolbar = ({
   setShowMenu,
   publish,
 }: {
-  page: Page
-  pages: Page[]
-  display: Display
-  reset: () => void
-  undo: () => void
-  redo: () => void
-  canUndo: boolean
-  canRedo: boolean
-  setDisplay: (d: Display) => void
-  blocks: BlockType[]
-  seo: SEO
-  loading: boolean
-  publish: () => void
-  setShowMenu: (m: (m: boolean) => boolean) => void
+  page: Page;
+  pages: Page[];
+  display: Display;
+  reset: () => void;
+  undo: () => void;
+  redo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  setDisplay: (d: Display) => void;
+  blocks: BlockType[];
+  seo: SEO;
+  loading: boolean;
+  publish: () => void;
+  setShowMenu: (m: (m: boolean) => boolean) => void;
 }) => {
   const handleKeyPress = (e: KeyboardEvent) => {
     if (e.ctrlKey || e.metaKey) {
       if (e.shiftKey && e.key === "r") {
-        e.preventDefault()
-        reset()
+        e.preventDefault();
+        reset();
       } else if (e.key === "s") {
-        e.preventDefault()
-        publish()
+        e.preventDefault();
+        publish();
       } else if (e.key === "z") {
         if (e.shiftKey) {
-          redo()
+          redo();
         } else {
-          undo()
+          undo();
         }
       }
     } else if (e.altKey) {
       if (e.key === "m") {
-        setDisplay("mobile")
+        setDisplay("mobile");
       } else if (e.key === "d") {
-        setDisplay("desktop")
+        setDisplay("desktop");
       } else if (e.key === "t") {
-        setDisplay("tablet")
+        setDisplay("tablet");
       }
     }
-  }
+  };
 
   React.useEffect(() => {
-    window.addEventListener("keydown", handleKeyPress)
-    return () => window.removeEventListener("keydown", handleKeyPress)
-  }, [redo, undo, reset, setDisplay])
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [redo, undo, reset, setDisplay]);
 
   return (
     <div className="flex h-[39px] min-h-[39px] w-full items-center border-b border-input bg-secondary px-5">
@@ -146,7 +145,7 @@ const Toolbar = ({
         href={`/pages`}
         className={cn(
           buttonVariants({ variant: "ghost" }),
-          "mr-auto justify-start rounded-none px-0 text-xs"
+          "mr-auto justify-start rounded-none px-0 text-xs",
         )}
       >
         <ChevronLeft className="inline h-4 w-4" />
@@ -222,7 +221,7 @@ const Toolbar = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Toolbar
+export default Toolbar;

@@ -1,25 +1,26 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { BlockBackup } from "@prisma/client"
-import { ClockIcon } from "lucide-react"
-
-import { BlockType } from "@/lib/html-blocks"
-import { cn, formatDate } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Command, CommandItem, CommandList } from "@/components/ui/command"
-import { Dialog } from "@/components/ui/dialog"
+import * as React from "react";
+import { Button } from "@/components/ui/button";
+import { Command, CommandItem, CommandList } from "@/components/ui/command";
+import { Dialog } from "@/components/ui/dialog";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
+import { BlockType } from "@/lib/html-blocks";
+import { cn, formatDate } from "@/lib/utils";
+import { BlockBackup } from "@prisma/client";
+import { ClockIcon } from "lucide-react";
 
-type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
+type PopoverTriggerProps = React.ComponentPropsWithoutRef<
+  typeof PopoverTrigger
+>;
 
 interface BlockBackupSwitcherProps extends PopoverTriggerProps {
-  backups: BlockBackup[]
-  setBlocks: (b: BlockType[]) => void
+  backups: BlockBackup[];
+  setBlocks: (b: BlockType[]) => void;
 }
 
 export default function BlockBackupSwitcher({
@@ -27,14 +28,14 @@ export default function BlockBackupSwitcher({
   backups,
   setBlocks,
 }: BlockBackupSwitcherProps) {
-  const [open, setOpen] = React.useState(false)
-  const [mounted, setMounted] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
+  const [mounted, setMounted] = React.useState(false);
   const [showNewBlockBackupDialog, setShowNewBlockBackupDialog] =
-    React.useState(false)
+    React.useState(false);
 
   React.useEffect(() => {
-    setMounted(true)
-  }, [])
+    setMounted(true);
+  }, []);
   return (
     <Dialog
       open={showNewBlockBackupDialog}
@@ -73,9 +74,9 @@ export default function BlockBackupSwitcher({
                       setBlocks(
                         Array.isArray(blockBackup.blocks)
                           ? (blockBackup.blocks as any)
-                          : []
-                      )
-                      setOpen(false)
+                          : [],
+                      );
+                      setOpen(false);
                     }}
                     className="flex w-full items-center justify-between text-sm"
                   >
@@ -91,5 +92,5 @@ export default function BlockBackupSwitcher({
         )}
       </Popover>
     </Dialog>
-  )
+  );
 }

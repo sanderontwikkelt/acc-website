@@ -1,13 +1,14 @@
 "use client";
 
+import type { z } from "zod";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
+
 import { toast } from "@acme/ui/toast";
-import type {z} from "zod";
 
 import { cn } from "~/lib/utils";
 import { resetPasswordSchema } from "~/lib/validation/resetPasswordSchema";

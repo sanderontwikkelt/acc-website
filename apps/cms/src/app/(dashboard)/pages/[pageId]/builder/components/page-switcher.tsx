@@ -1,13 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useParams, useRouter } from "next/navigation"
-import { Page } from "@prisma/client"
-import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons"
-
-import { ActionEnum, EntityEnum } from "@/types/permissions"
-import { cn, useHasPermissions } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { useParams, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -16,7 +11,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Dialog,
   DialogContent,
@@ -24,21 +19,27 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from "@/components/ui/popover";
+import { cn, useHasPermissions } from "@/lib/utils";
+import { ActionEnum, EntityEnum } from "@/types/permissions";
+import { Page } from "@prisma/client";
+import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 
-import { PageForm } from "../../components/page-form"
+import { PageForm } from "../../components/page-form";
 
-type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
+type PopoverTriggerProps = React.ComponentPropsWithoutRef<
+  typeof PopoverTrigger
+>;
 
 interface PageSwitcherProps extends PopoverTriggerProps {
-  pages: Page[]
-  page: Page
-  mobile: boolean
+  pages: Page[];
+  page: Page;
+  mobile: boolean;
 }
 
 export default function PageSwitcher({
@@ -47,19 +48,19 @@ export default function PageSwitcher({
   page,
   mobile,
 }: PageSwitcherProps) {
-  const [open, setOpen] = React.useState(false)
-  const router = useRouter()
-  const [showNewPageDialog, setShowNewPageDialog] = React.useState(false)
-  const params = useParams()
+  const [open, setOpen] = React.useState(false);
+  const router = useRouter();
+  const [showNewPageDialog, setShowNewPageDialog] = React.useState(false);
+  const params = useParams();
 
-  const [canCreate] = useHasPermissions([EntityEnum.PAGE, ActionEnum.CREATE])
+  const [canCreate] = useHasPermissions([EntityEnum.PAGE, ActionEnum.CREATE]);
 
   if (!page) {
-    router.push("/pages")
-    return null
+    router.push("/pages");
+    return null;
   }
 
-  const frontendUrl = process.env.NEXT_PUBLIC_FRONT_URL || ""
+  const frontendUrl = process.env.NEXT_PUBLIC_FRONT_URL || "";
 
   return (
     <Dialog open={showNewPageDialog} onOpenChange={setShowNewPageDialog}>
@@ -85,9 +86,9 @@ export default function PageSwitcher({
                 <CommandItem
                   key={page.id}
                   onSelect={() => {
-                    router.push(`/pages/${page.id}/builder`)
-                    router.refresh()
-                    setOpen(false)
+                    router.push(`/pages/${page.id}/builder`);
+                    router.refresh();
+                    setOpen(false);
                   }}
                   className="text-sm"
                 >
@@ -100,7 +101,7 @@ export default function PageSwitcher({
                   <CheckIcon
                     className={cn(
                       "ml-auto h-4 w-4",
-                      page.id === params.pageId ? "opacity-100" : "opacity-0"
+                      page.id === params.pageId ? "opacity-100" : "opacity-0",
                     )}
                   />
                 </CommandItem>
@@ -113,8 +114,8 @@ export default function PageSwitcher({
                   <DialogTrigger asChild>
                     <CommandItem
                       onSelect={() => {
-                        setOpen(false)
-                        setShowNewPageDialog(true)
+                        setOpen(false);
+                        setShowNewPageDialog(true);
                       }}
                     >
                       <PlusCircledIcon className="mr-2 h-5 w-5" />
@@ -135,5 +136,5 @@ export default function PageSwitcher({
         <PageForm initialData={null} />
       </DialogContent>
     </Dialog>
-  )
+  );
 }

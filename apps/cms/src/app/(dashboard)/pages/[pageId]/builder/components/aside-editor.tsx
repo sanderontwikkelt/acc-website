@@ -1,37 +1,36 @@
-"use client"
+"use client";
 
-import { useCallback } from "react"
-import { v4 as uuidv4 } from "uuid"
-
-import { BlockType } from "@/lib/html-blocks"
-import InfoTooltip from "@/components/info-tooltip"
-import Slider from "@/components/slider"
-import { Checkbox } from "@/components/ui/checkbox"
-import DynamicButtonList from "@/components/ui/dynamic-button-list"
-import DynamicImageGridList from "@/components/ui/dynamic-image-grid-list"
-import DynamicLinkImages from "@/components/ui/dynamic-link-images"
-import DynamicLinks from "@/components/ui/dynamic-links"
-import DynamicList from "@/components/ui/dynamic-list"
-import DynamicListWithButton from "@/components/ui/dynamic-list-with-button"
-import DynamicStringList from "@/components/ui/dynamic-string-list"
-import DynamicTeachers from "@/components/ui/dynamic-teachers"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import MediaSelect from "@/components/ui/media-select"
-import RichInput from "@/components/ui/rich-input"
-import RichText from "@/components/ui/rich-text"
+import { useCallback } from "react";
+import InfoTooltip from "@/components/info-tooltip";
+import Slider from "@/components/slider";
+import { Checkbox } from "@/components/ui/checkbox";
+import DynamicButtonList from "@/components/ui/dynamic-button-list";
+import DynamicImageGridList from "@/components/ui/dynamic-image-grid-list";
+import DynamicLinkImages from "@/components/ui/dynamic-link-images";
+import DynamicLinks from "@/components/ui/dynamic-links";
+import DynamicList from "@/components/ui/dynamic-list";
+import DynamicListWithButton from "@/components/ui/dynamic-list-with-button";
+import DynamicStringList from "@/components/ui/dynamic-string-list";
+import DynamicTeachers from "@/components/ui/dynamic-teachers";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import MediaSelect from "@/components/ui/media-select";
+import RichInput from "@/components/ui/rich-input";
+import RichText from "@/components/ui/rich-text";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import SizePicker from "@/components/ui/size-picker"
-import StyleForm from "@/components/ui/style-form"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+} from "@/components/ui/select";
+import SizePicker from "@/components/ui/size-picker";
+import StyleForm from "@/components/ui/style-form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { BlockType } from "@/lib/html-blocks";
+import { v4 as uuidv4 } from "uuid";
 
-import { CollapsibleButton } from "./collapsable-button"
+import { CollapsibleButton } from "./collapsable-button";
 
 const AsideEditor = ({
   open,
@@ -39,12 +38,12 @@ const AsideEditor = ({
   block,
   setBlock,
 }: {
-  open: boolean
-  setOpen: (b: boolean) => void
-  block: BlockType | null
-  setBlock: (b: BlockType | null) => void
+  open: boolean;
+  setOpen: (b: boolean) => void;
+  block: BlockType | null;
+  setBlock: (b: BlockType | null) => void;
 }) => {
-  const fields = block ? block.fields : null
+  const fields = block ? block.fields : null;
   const handleFields = (field: string, value: any) => {
     block &&
       setBlock({
@@ -56,15 +55,15 @@ const AsideEditor = ({
             value,
           },
         },
-      } as BlockType)
-  }
+      } as BlockType);
+  };
 
   const handleBlock = useCallback(
     (field: string, value: any) => {
-      block && setBlock({ ...block, [field]: value })
+      block && setBlock({ ...block, [field]: value });
     },
-    [block]
-  )
+    [block],
+  );
 
   return (
     <Slider
@@ -91,16 +90,16 @@ const AsideEditor = ({
                           fieldName,
                           { label, type, options, value, showOnVariants },
                         ]: any,
-                        i: number
+                        i: number,
                       ) => {
                         if (
                           showOnVariants &&
                           !showOnVariants.includes(
-                            block?.fields.variant?.value || "default"
+                            block?.fields.variant?.value || "default",
                           )
                         )
-                          return null
-                        const uuid = block?.id + fieldName + i
+                          return null;
+                        const uuid = block?.id + fieldName + i;
                         return (
                           <div className="space-y-2" key={fieldName}>
                             {!["button"].includes(type) && (
@@ -175,13 +174,13 @@ const AsideEditor = ({
                                         key,
                                         label,
                                       }: {
-                                        key: string
-                                        label: string
+                                        key: string;
+                                        label: string;
                                       }) => (
                                         <SelectItem key={key} value={key}>
                                           {label}
                                         </SelectItem>
-                                      )
+                                      ),
                                     )}
                                   </SelectContent>
                                 </Select>
@@ -289,8 +288,8 @@ const AsideEditor = ({
                             }[type as "string" | "text" | "image" | "enum"] ||
                               null}
                           </div>
-                        )
-                      }
+                        );
+                      },
                     )
                 ) : (
                   <p className="mx-auto max-w-[20rem] text-center text-sm">
@@ -338,7 +337,7 @@ const AsideEditor = ({
         </div>
       </div>
     </Slider>
-  )
-}
+  );
+};
 
-export default AsideEditor
+export default AsideEditor;

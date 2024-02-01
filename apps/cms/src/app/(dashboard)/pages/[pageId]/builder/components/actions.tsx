@@ -1,15 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useParams, useRouter } from "next/navigation"
-import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid"
-import { Page, SEO } from "@prisma/client"
-import { Dialog } from "@radix-ui/react-dialog"
-import axios from "axios"
-import { toast } from "react-hot-toast"
-
-import { BlockType } from "@/lib/html-blocks"
-import { SEOForm } from "@/components/seo-form"
+import * as React from "react";
+import { useParams, useRouter } from "next/navigation";
+import { SEOForm } from "@/components/seo-form";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -18,23 +11,29 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import {
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
+import { BlockType } from "@/lib/html-blocks";
+import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
+import { Page, SEO } from "@prisma/client";
+import { Dialog } from "@radix-ui/react-dialog";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
-import { PageForm } from "../../components/page-form"
+import { PageForm } from "../../components/page-form";
 
 export function PresetActions({
   blocks,
@@ -42,26 +41,26 @@ export function PresetActions({
   seo,
   page,
 }: {
-  blocks: BlockType[]
-  page: Page
-  seo: SEO
-  pageIds: string[]
+  blocks: BlockType[];
+  page: Page;
+  seo: SEO;
+  pageIds: string[];
 }) {
-  const [loading, setLoading] = React.useState(false)
-  const [showDeleteDialog, setShowDeleteDialog] = React.useState(false)
-  const [showSettingsDialog, setShowSettingsDialog] = React.useState(false)
-  const [showSEODialog, setShowSEODialog] = React.useState(false)
-  const params = useParams()
-  const router = useRouter()
+  const [loading, setLoading] = React.useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
+  const [showSettingsDialog, setShowSettingsDialog] = React.useState(false);
+  const [showSEODialog, setShowSEODialog] = React.useState(false);
+  const params = useParams();
+  const router = useRouter();
 
   const deletePage = async () => {
     try {
-      setLoading(true)
-      await axios.delete(`/api/pages/${params.pageId}`)
-      toast.success("Pagina verwijderd.")
-      setShowDeleteDialog(false)
-      setLoading(false)
-      router.refresh()
+      setLoading(true);
+      await axios.delete(`/api/pages/${params.pageId}`);
+      toast.success("Pagina verwijderd.");
+      setShowDeleteDialog(false);
+      setLoading(false);
+      router.refresh();
       router.push(
         `/pages/${
           pageIds.length > 1
@@ -69,12 +68,12 @@ export function PresetActions({
                 pageIds[pageIds.indexOf(params.pageId as string) > 0 ? 0 : 1]
               }/builder`
             : ""
-        }`
-      )
+        }`,
+      );
     } catch (error: any) {
-      toast.error("Er is iets mis gegaan.")
+      toast.error("Er is iets mis gegaan.");
     }
-  }
+  };
   return (
     <>
       <DropdownMenu>
@@ -120,7 +119,7 @@ export function PresetActions({
             <Button
               variant="destructive"
               onClick={() => {
-                deletePage()
+                deletePage();
               }}
             >
               Verwijderen
@@ -158,5 +157,5 @@ export function PresetActions({
         </Dialog>
       )}
     </>
-  )
+  );
 }

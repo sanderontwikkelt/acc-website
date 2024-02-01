@@ -11,6 +11,13 @@ export const userFormSchema = z.object({
   email: z.string().min(1).email(),
 });
 
+export const teacherFormSchema = z.object({
+  title: z.string().min(1),
+  name: z.string().min(1),
+  description: z.string().min(1),
+  mediaId: z.number(),
+});
+
 export const CreateRoleSchema = z.object({
   name: z.string().min(2),
   description: z.string().min(2).nullable(),

@@ -1,19 +1,18 @@
-import React from "react"
-import { PlusCircle } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { PlusCircle } from "lucide-react";
 
 interface Item {
-  title?: string
-  description?: string
+  title?: string;
+  description?: string;
 }
 interface List {
-  list: Item[]
-  setList: (l: Item[]) => void
-  title?: boolean
-  description?: boolean
+  list: Item[];
+  setList: (l: Item[]) => void;
+  title?: boolean;
+  description?: boolean;
 }
 
 const DynamicList = ({
@@ -39,8 +38,8 @@ const DynamicList = ({
                       list.map((listItem, idx) =>
                         idx === i
                           ? { ...listItem, title: e.target.value }
-                          : listItem
-                      )
+                          : listItem,
+                      ),
                     )
                   }
                 />
@@ -53,8 +52,8 @@ const DynamicList = ({
                       list.map((listItem, idx) =>
                         idx === i
                           ? { ...listItem, description: e.target.value }
-                          : listItem
-                      )
+                          : listItem,
+                      ),
                     )
                   }
                 />
@@ -78,7 +77,7 @@ const DynamicList = ({
         Add more <PlusCircle className="ml-1 h-4 w-4" />
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default DynamicList
+export default DynamicList;

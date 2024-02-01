@@ -1,16 +1,15 @@
-import { format } from "date-fns"
+import prismadb from "@/lib/prismadb";
+import { format } from "date-fns";
 
-import prismadb from "@/lib/prismadb"
-
-import { PagesClient } from "./components/client"
-import { PageColumn } from "./components/columns"
+import { PagesClient } from "./components/client";
+import { PageColumn } from "./components/columns";
 
 const PagesPage = async () => {
   const pages = await prismadb.page.findMany({
     orderBy: {
       createdAt: "desc",
     },
-  })
+  });
 
   const formattedPages: PageColumn[] = pages.map((item) => ({
     id: item.id,
@@ -18,7 +17,7 @@ const PagesPage = async () => {
     pathname: item.pathname,
     concept: item.concept ? "Ja" : "Nee",
     createdAt: format(item.createdAt, "MMMM do, yyyy"),
-  }))
+  }));
 
   return (
     <div className="flex-col">
@@ -26,7 +25,7 @@ const PagesPage = async () => {
         <PagesClient data={formattedPages} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PagesPage
+export default PagesPage;

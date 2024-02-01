@@ -40,7 +40,7 @@ export const env = createEnv({
     DATABASE_HOST: process.env.DATABASE_HOST,
     DATABASE_USERNAME: process.env.DATABASE_USERNAME,
     DATABASE_PASSWORD: process.env.DATABASE_PASSWORD,
-    DATABASE_USERNAME: process.env.DATABASE_USERNAME,
+    DATABASE_NAME: process.env.DATABASE_NAME,
     PORT: process.env.PORT,
     VERCEL_URL: process.env.VERCEL_URL,
     GOOGLE_ANALITCS_CREDENTIALS_BASE64:

@@ -1,25 +1,24 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { Plus } from "lucide-react"
+import { useRouter } from "next/navigation";
+import { ApiList } from "@/components/ui/api-list";
+import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/ui/data-table";
+import { Heading } from "@/components/ui/heading";
+import { Separator } from "@/components/ui/separator";
+import { useHasPermissions } from "@/lib/utils";
+import { ActionEnum, EntityEnum } from "@/types/permissions";
+import { Plus } from "lucide-react";
 
-import { ActionEnum, EntityEnum } from "@/types/permissions"
-import { useHasPermissions } from "@/lib/utils"
-import { ApiList } from "@/components/ui/api-list"
-import { Button } from "@/components/ui/button"
-import { DataTable } from "@/components/ui/data-table"
-import { Heading } from "@/components/ui/heading"
-import { Separator } from "@/components/ui/separator"
-
-import { PageColumn, columns } from "./columns"
+import { columns, PageColumn } from "./columns";
 
 interface PagesClientProps {
-  data: PageColumn[]
+  data: PageColumn[];
 }
 
 export const PagesClient: React.FC<PagesClientProps> = ({ data }) => {
-  const router = useRouter()
-  const [canCreate] = useHasPermissions([EntityEnum.PAGE, ActionEnum.CREATE])
+  const router = useRouter();
+  const [canCreate] = useHasPermissions([EntityEnum.PAGE, ActionEnum.CREATE]);
 
   return (
     <>
@@ -38,5 +37,5 @@ export const PagesClient: React.FC<PagesClientProps> = ({ data }) => {
       <Separator />
       <DataTable searchKey="name" columns={columns} data={data} />
     </>
-  )
-}
+  );
+};

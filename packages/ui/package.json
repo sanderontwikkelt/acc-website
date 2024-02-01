@@ -14,10 +14,12 @@
     "./dialog": "./src/dialog.tsx",
     "./select": "./src/select.tsx",
     "./textarea": "./src/textarea.tsx",
+    "./popover": "./src/popover.tsx",
     "./separator": "./src/separator.tsx",
     "./sign-in-form": "./src/sign-in-form.tsx",
     "./sign-up-form": "./src/sign-up-form.tsx",
-    "./auth-showcase": "./src/auth-showcase.tsx"
+    "./auth-showcase": "./src/auth-showcase.tsx",
+    "./dropdown": "./src/dropdown-menu.tsx"
   },
   "license": "MIT",
   "scripts": {
@@ -31,6 +33,7 @@
     "@acme/api": "workspace:^0.1.0",
     "@acme/auth": "workspace:^0.1.0",
     "@hookform/resolvers": "^3.3.3",
+    "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-icons": "^1.3.0",
@@ -38,6 +41,7 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-slot": "^1.0.2",
     "class-variance-authority": "^0.7.0",
+    "cmdk": "^0.2.1",
     "next-themes": "^0.2.1",
     "react-hook-form": "^7.49.2",
     "sonner": "^1.3.1",

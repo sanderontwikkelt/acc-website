@@ -8,7 +8,7 @@ import { Modal } from "~/components/ui/modal";
 interface AlertModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: React.MouseEventHandler<HTMLButtonElement>;
   loading: boolean;
 }
 
@@ -27,7 +27,6 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   if (!isMounted) {
     return null;
   }
-  console.log({ isOpen });
 
   return (
     <Modal

@@ -7,11 +7,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { Copy, Edit, MoreHorizontal, Plus, Trash } from "lucide-react";
 import { ActionEnum } from "types/permissions";
 
+import { Checkbox } from "@acme/ui/checkbox";
 import { toast } from "@acme/ui/toast";
 
 import { AlertModal } from "~/components/modals/alert-modal";
 import { Button } from "~/components/ui/button";
-import { DataTable } from "~/components/ui/data-table";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +23,7 @@ import { Heading } from "~/components/ui/heading";
 import { Separator } from "~/components/ui/separator";
 import { useMutation } from "~/hooks/use-mutation";
 import { useHasPermissions } from "~/lib/utils";
+import { DataTable } from "./ui/data-table/data-table";
 
 interface CellActionProps<T> {
   data: T;
@@ -138,6 +139,32 @@ export const ListOverview = <T extends { id: string | number }>({
       <DataTable
         searchKey="name"
         columns={[
+          {
+            id: "select",
+            header: ({ table }) => (
+              <Checkbox
+                checked={table.getIsAllPageRowsSelected()}
+                onCheckedChange={(value) => {
+                  table.toggleAllPageRowsSelected(!!value);
+                }}
+                aria-label="Select all"
+                className="translate-y-[2px]"
+              />
+            ),
+            cell: ({ row }) => (
+              <Checkbox
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => {
+                  row.toggleSelected(!!value);
+                }}
+                aria-label="Select row"
+                data-pw="row-checkbox"
+                className="translate-y-[2px]"
+              />
+            ),
+            enableSorting: false,
+            enableHiding: false,
+          },
           ...columns,
           {
             id: "actions",

@@ -16,6 +16,7 @@ import * as settings from "./schema/settings";
 import * as teacher from "./schema/teacher";
 
 export * from "drizzle-orm";
+export * from "./types";
 
 export const schema = {
   ...auth,

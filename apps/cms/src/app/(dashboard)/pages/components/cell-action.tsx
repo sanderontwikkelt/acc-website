@@ -1,57 +1,56 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useParams, useRouter } from "next/navigation"
-import { ActivityLogIcon } from "@radix-ui/react-icons"
-import axios from "axios"
-import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react"
-import { toast } from "react-hot-toast"
-
-import { ActionEnum, EntityEnum } from "@/types/permissions"
-import { useHasPermissions } from "@/lib/utils"
-import { AlertModal } from "@/components/modals/alert-modal"
-import { Button } from "@/components/ui/button"
+import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { AlertModal } from "@/components/modals/alert-modal";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
+import { useHasPermissions } from "@/lib/utils";
+import { ActionEnum, EntityEnum } from "@/types/permissions";
+import { ActivityLogIcon } from "@radix-ui/react-icons";
+import axios from "axios";
+import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
+import { toast } from "react-hot-toast";
 
-import { PageColumn } from "./columns"
+import { PageColumn } from "./columns";
 
 interface CellActionProps {
-  data: PageColumn
+  data: PageColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
-  const [loading, setLoading] = useState(false)
-  const [open, setOpen] = useState(false)
-  const router = useRouter()
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
   const [canUpdate, canDelete] = useHasPermissions(
     [EntityEnum.PAGE, ActionEnum.UPDATE],
-    [EntityEnum.PAGE, ActionEnum.DELETE]
-  )
+    [EntityEnum.PAGE, ActionEnum.DELETE],
+  );
 
   const onConfirm = async () => {
     try {
-      setLoading(true)
-      await axios.delete(`/api/pages/${data.id}`)
-      toast.success("Page verwijderd.")
-      router.refresh()
+      setLoading(true);
+      await axios.delete(`/api/pages/${data.id}`);
+      toast.success("Page verwijderd.");
+      router.refresh();
     } catch (error) {
-      toast.error(" Er is iets mis gegaan")
+      toast.error(" Er is iets mis gegaan");
     } finally {
-      setLoading(false)
-      setOpen(false)
+      setLoading(false);
+      setOpen(false);
     }
-  }
+  };
 
   const onCopy = (id: string) => {
-    navigator.clipboard.writeText(id)
-    toast.success("Page ID gekopiëerd naar klembord.")
-  }
+    navigator.clipboard.writeText(id);
+    toast.success("Page ID gekopiëerd naar klembord.");
+  };
 
   return (
     <>
@@ -93,5 +92,5 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuContent>
       </DropdownMenu>
     </>
-  )
-}
+  );
+};

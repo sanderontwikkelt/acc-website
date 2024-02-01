@@ -1,5 +1,7 @@
 import { ReactNode } from "react";
 
+import { Card } from "./card";
+
 interface HeadingProps {
   title: string;
   description: string;
@@ -12,12 +14,12 @@ export const Heading: React.FC<HeadingProps> = ({
   children,
 }) => {
   return (
-    <div className="flex w-full max-md:flex-col max-md:space-y-4 md:items-center md:justify-between md:space-x-4">
+    <Card className="flex w-full px-6 py-4 max-md:flex-col max-md:space-y-4 md:items-center md:justify-between md:space-x-4">
       <div>
-        <h2 className="text-3xl font-bold tracking-tight">{title}</h2>
+        <h2 className="mb-1 text-2xl font-semibold tracking-tight">{title}</h2>
         <p className="text-sm text-muted-foreground">{description}</p>
       </div>
       {children}
-    </div>
+    </Card>
   );
 };

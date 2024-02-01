@@ -50,7 +50,7 @@ export default function RootLayout({
       <body
         className={cn(
           inter.className,
-          "text-main h-screen w-screen overflow-hidden",
+          "text-main h-screen w-screen overflow-hidden bg-gray-100 dark:bg-opacity-[0.02]",
         )}
       >
         <SessionProvider>

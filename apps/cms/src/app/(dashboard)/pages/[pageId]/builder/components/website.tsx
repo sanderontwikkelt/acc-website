@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import React, { useEffect } from "react"
-import { Page } from "@prisma/client"
+import React, { useEffect } from "react";
+import { Page } from "@prisma/client";
 
 const Website = ({
   page,
@@ -10,32 +10,32 @@ const Website = ({
   moveSection,
   onNavigate,
 }: {
-  page: Page
-  display: "desktop" | "tablet" | "mobile"
-  moveSection: (sectionId: string, direction: "UP" | "DOWN") => void
-  setSectionId: (s: string | null) => void
-  onNavigate: (s: string) => void
+  page: Page;
+  display: "desktop" | "tablet" | "mobile";
+  moveSection: (sectionId: string, direction: "UP" | "DOWN") => void;
+  setSectionId: (s: string | null) => void;
+  onNavigate: (s: string) => void;
 }) => {
-  const frontendUrl = process.env.NEXT_PUBLIC_FRONT_URL
+  const frontendUrl = process.env.NEXT_PUBLIC_FRONT_URL;
 
   const getMessage = (event: any) => {
     if (event.origin === frontendUrl) {
       if (event.data.action === "EDIT") {
-        setSectionId(event.data.id)
+        setSectionId(event.data.id);
       } else if (event.data.action === "PATH") {
-        onNavigate(event.data.pathname)
+        onNavigate(event.data.pathname);
       } else {
-        moveSection(event.data.id, event.data.action)
+        moveSection(event.data.id, event.data.action);
       }
     }
-  }
+  };
   useEffect(() => {
-    window.addEventListener("message", getMessage)
+    window.addEventListener("message", getMessage);
 
     return () => {
-      window.removeEventListener("message", getMessage)
-    }
-  }, [])
+      window.removeEventListener("message", getMessage);
+    };
+  }, []);
 
   const { width, height, maxHeight, borderRadius } = {
     desktop: {
@@ -56,7 +56,7 @@ const Website = ({
       maxHeight: "100%",
       borderRadius: "4px",
     },
-  }[display]
+  }[display];
 
   return (
     <div className="relative flex h-full flex-grow items-center justify-center bg-background px-4 py-5">
@@ -72,7 +72,7 @@ const Website = ({
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Website
+export default Website;

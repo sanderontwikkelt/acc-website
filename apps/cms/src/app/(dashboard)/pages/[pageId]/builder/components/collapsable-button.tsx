@@ -1,47 +1,46 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { ChevronsUpDown } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import * as React from "react";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/collapsible";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
+import { ChevronsUpDown } from "lucide-react";
 
 export type ButtonValue = {
-  title: string
-  children: React.ReactNode
-  href: string
-  target: "_blank" | "_self"
-  variant: "default" | "accent" | "main" | "outline" | "link"
-  rounded: "default" | "sm" | "md"
-  size: "default" | "lg"
-  withArrow: boolean
-}
+  title: string;
+  children: React.ReactNode;
+  href: string;
+  target: "_blank" | "_self";
+  variant: "default" | "accent" | "main" | "outline" | "link";
+  rounded: "default" | "sm" | "md";
+  size: "default" | "lg";
+  withArrow: boolean;
+};
 
 type Props = {
-  children: React.ReactNode
-  value: ButtonValue
-  setValue: (v: ButtonValue) => void
-}
+  children: React.ReactNode;
+  value: ButtonValue;
+  setValue: (v: ButtonValue) => void;
+};
 
 export function CollapsibleButton({ children, value, setValue }: Props) {
-  const { title, href, target, withArrow, variant, rounded, size } = value
-  const [isOpen, setIsOpen] = React.useState(false)
+  const { title, href, target, withArrow, variant, rounded, size } = value;
+  const [isOpen, setIsOpen] = React.useState(false);
 
-  const onChange = (f: string, v: string) => setValue({ ...value, [f]: v })
+  const onChange = (f: string, v: string) => setValue({ ...value, [f]: v });
 
   return (
     <Collapsible
@@ -147,5 +146,5 @@ export function CollapsibleButton({ children, value, setValue }: Props) {
         </CollapsibleContent>
       </div>
     </Collapsible>
-  )
+  );
 }

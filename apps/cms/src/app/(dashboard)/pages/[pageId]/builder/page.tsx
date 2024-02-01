@@ -1,10 +1,9 @@
-import { BlockBackup, Page, SEO } from "@prisma/client"
+import prismadb from "@/lib/prismadb";
+import { BlockBackup, Page, SEO } from "@prisma/client";
 
-import prismadb from "@/lib/prismadb"
+import PageEditorClient from "./components/client";
 
-import PageEditorClient from "./components/client"
-
-type PageType = Page & { seo: SEO; backups: BlockBackup[] }
+type PageType = Page & { seo: SEO; backups: BlockBackup[] };
 
 const PageEditorPage = async ({ params }: { params: { pageId: string } }) => {
   const pages = await prismadb.page.findMany({
@@ -14,7 +13,7 @@ const PageEditorPage = async ({ params }: { params: { pageId: string } }) => {
     include: {
       seo: true,
     },
-  })
+  });
 
   const page = await prismadb.page.findFirst({
     where: {
@@ -27,11 +26,11 @@ const PageEditorPage = async ({ params }: { params: { pageId: string } }) => {
       seo: true,
       backups: true,
     },
-  })
+  });
 
-  const header = await prismadb.header.findFirst()
+  const header = await prismadb.header.findFirst();
 
-  const footer = await prismadb.footer.findFirst()
+  const footer = await prismadb.footer.findFirst();
 
   return page?.seo && header && footer ? (
     <PageEditorClient
@@ -41,7 +40,7 @@ const PageEditorPage = async ({ params }: { params: { pageId: string } }) => {
       footer={footer}
       page={pages.find(({ id }) => id === params.pageId) as Page}
     />
-  ) : null
-}
+  ) : null;
+};
 
-export default PageEditorPage
+export default PageEditorPage;

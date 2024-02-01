@@ -1,16 +1,15 @@
-"use client"
+"use client";
 
-import { Header, Page } from "@prisma/client"
+import Slider from "@/components/slider";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import DynamicNavs from "@/components/ui/dynamic-navs";
+import { Label } from "@/components/ui/label";
+import SingleImageSelect from "@/components/ui/single-image-select";
+import { getArray } from "@/lib/getArray";
+import { Header, Page } from "@prisma/client";
 
-import { getArray } from "@/lib/getArray"
-import Slider from "@/components/slider"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Badge } from "@/components/ui/badge"
-import DynamicNavs from "@/components/ui/dynamic-navs"
-import { Label } from "@/components/ui/label"
-import SingleImageSelect from "@/components/ui/single-image-select"
-
-type Item = { pathname: string; name: string; values: Item[] }
+type Item = { pathname: string; name: string; values: Item[] };
 
 const HeaderAsideEditor = ({
   open,
@@ -19,14 +18,14 @@ const HeaderAsideEditor = ({
   setHeader,
   pages,
 }: {
-  pages: Page[]
-  open: boolean
-  setOpen: (b: boolean) => void
-  header: Header
-  setHeader: (b: Header) => void
+  pages: Page[];
+  open: boolean;
+  setOpen: (b: boolean) => void;
+  header: Header;
+  setHeader: (b: Header) => void;
 }) => {
-  const navigation = getArray(header.navigation) as Item[]
-  const links = getArray(header.links) as Item[]
+  const navigation = getArray(header.navigation) as Item[];
+  const links = getArray(header.links) as Item[];
   return (
     <Slider title="Header" open={open} setOpen={setOpen}>
       <div className="max-h-[calc(100vh-5rem)] space-y-8 overflow-auto py-4 pl-1 pr-5 max-md:px-5">
@@ -67,7 +66,7 @@ const HeaderAsideEditor = ({
         </div>
       </div>
     </Slider>
-  )
-}
+  );
+};
 
-export default HeaderAsideEditor
+export default HeaderAsideEditor;

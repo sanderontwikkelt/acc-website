@@ -1,13 +1,12 @@
-import Image from "next/image"
-import { Plus } from "lucide-react"
-import { v4 as uuidv4 } from "uuid"
-
-import { Block, blocks } from "@/lib/blocks"
+import Image from "next/image";
+import { Block, blocks } from "@/lib/blocks";
+import { Plus } from "lucide-react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function NoBlocksList({
   onSelect,
 }: {
-  onSelect: (block: Block) => void
+  onSelect: (block: Block) => void;
 }) {
   return (
     <div className="bg-white">
@@ -66,5 +65,5 @@ export default function NoBlocksList({
         </div>
       </div>
     </div>
-  )
+  );
 }

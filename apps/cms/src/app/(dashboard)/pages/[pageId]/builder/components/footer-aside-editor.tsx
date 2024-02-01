@@ -1,17 +1,16 @@
-"use client"
+"use client";
 
-import { Footer, Page } from "@prisma/client"
+import Slider from "@/components/slider";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Badge } from "@/components/ui/badge";
+import DynamicLinks from "@/components/ui/dynamic-links";
+import DynamicNavs from "@/components/ui/dynamic-navs";
+import { Label } from "@/components/ui/label";
+import RichInput from "@/components/ui/rich-input";
+import { getArray } from "@/lib/getArray";
+import { Footer, Page } from "@prisma/client";
 
-import { getArray } from "@/lib/getArray"
-import Slider from "@/components/slider"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { Badge } from "@/components/ui/badge"
-import DynamicLinks from "@/components/ui/dynamic-links"
-import DynamicNavs from "@/components/ui/dynamic-navs"
-import { Label } from "@/components/ui/label"
-import RichInput from "@/components/ui/rich-input"
-
-import { State } from "./client"
+import { State } from "./client";
 
 const FooterAsideEditor = ({
   open,
@@ -21,29 +20,29 @@ const FooterAsideEditor = ({
   pages,
   state,
 }: {
-  pages: Page[]
-  open: boolean
-  setOpen: (b: boolean) => void
-  footer: Footer
-  state: State
-  setState: (b: State) => void
+  pages: Page[];
+  open: boolean;
+  setOpen: (b: boolean) => void;
+  footer: Footer;
+  state: State;
+  setState: (b: State) => void;
 }) => {
   const navigation = getArray(footer.navigation) as {
-    pathname: string
-    name: string
-  }[]
+    pathname: string;
+    name: string;
+  }[];
   const links = getArray(footer.links) as {
-    pathname: string
-    name: string
-  }[]
+    pathname: string;
+    name: string;
+  }[];
   const informationLinks = getArray(footer.informationLinks) as {
-    pathname: string
-    name: string
-  }[]
+    pathname: string;
+    name: string;
+  }[];
   const socials = getArray(footer.socials) as {
-    title: string
-    href: string
-  }[]
+    title: string;
+    href: string;
+  }[];
   return (
     <Slider title="Footer" open={open} setOpen={setOpen}>
       <div className="max-h-[calc(100vh-6.375rem)] space-y-8 overflow-auto py-4 pl-1 pr-5 max-md:px-5">
@@ -118,13 +117,13 @@ const FooterAsideEditor = ({
               setState({
                 ...state,
                 footer: { ...(state.footer || footer), socials: v },
-              })
+              });
             }}
           />
         </div>
       </div>
     </Slider>
-  )
-}
+  );
+};
 
-export default FooterAsideEditor
+export default FooterAsideEditor;

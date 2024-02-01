@@ -1,22 +1,31 @@
 import { v4 } from "uuid";
 import { z } from "zod";
 
-import { desc, eq, schema } from "@acme/db";
+import { desc, eq, schema, sql } from "@acme/db";
 import { userFormSchema } from "@acme/validators";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const userRouter = createTRPCRouter({
-  all: publicProcedure.query(({ ctx }) => {
-    // return ctx.db.select().from(schema.user).orderBy(desc(schema.user.id));
-    return ctx.db.query.user.findMany({
-      orderBy: desc(schema.user.id),
-      limit: 10,
-      with: {
-        role: true,
-      },
-    });
+  count: publicProcedure.query(({ ctx }) => {
+    return ctx.db.select({ count: sql<number>`count(*)` }).from(schema.user);
   }),
+  all: publicProcedure
+    .input(
+      z.object({
+        perPage: z.number().optional(),
+        page: z.number().optional(),
+      }),
+    )
+    .query(({ ctx, input }) => {
+      return ctx.db
+        .select()
+        .from(schema.user)
+        .orderBy(desc(schema.user.id))
+        .limit(input.perPage || 10)
+        .offset(input.page ? input.page - 1 : 0)
+        .leftJoin(schema.role, eq(schema.user.roleId, schema.role.id));
+    }),
 
   byId: publicProcedure
     .input(z.object({ id: z.string() }))

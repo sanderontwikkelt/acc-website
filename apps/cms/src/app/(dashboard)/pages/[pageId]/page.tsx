@@ -1,7 +1,7 @@
-import prismadb from "@/lib/prismadb"
+import prismadb from "@/lib/prismadb";
 
-import { PageForm } from "./components/page-form"
-import PageHeader from "./components/page-header"
+import { PageForm } from "./components/page-form";
+import PageHeader from "./components/page-header";
 
 const PagePage = async ({ params }: { params: { pageId: string } }) => {
   const page = await prismadb.page.findUnique({
@@ -11,7 +11,7 @@ const PagePage = async ({ params }: { params: { pageId: string } }) => {
     include: {
       seo: true,
     },
-  })
+  });
 
   return (
     <div className="flex-col">
@@ -25,7 +25,7 @@ const PagePage = async ({ params }: { params: { pageId: string } }) => {
         <PageForm initialData={page} withRedirect />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PagePage
+export default PagePage;

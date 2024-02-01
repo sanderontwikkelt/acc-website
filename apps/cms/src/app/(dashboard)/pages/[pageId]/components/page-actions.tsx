@@ -1,41 +1,40 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { useParams, useRouter } from "next/navigation"
-import { SEO } from "@prisma/client"
-import { Dialog } from "@radix-ui/react-dialog"
-import { ActivityLogIcon, DotsHorizontalIcon } from "@radix-ui/react-icons"
-import { SearchIcon } from "lucide-react"
-
-import { ActionEnum, EntityEnum } from "@/types/permissions"
-import { useHasPermissions } from "@/lib/utils"
-import { SEOForm } from "@/components/seo-form"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { useParams, useRouter } from "next/navigation";
+import { SEOForm } from "@/components/seo-form";
+import { Button } from "@/components/ui/button";
 import {
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
+import { useHasPermissions } from "@/lib/utils";
+import { ActionEnum, EntityEnum } from "@/types/permissions";
+import { SEO } from "@prisma/client";
+import { Dialog } from "@radix-ui/react-dialog";
+import { ActivityLogIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { SearchIcon } from "lucide-react";
 
 export function PageActions({
   seo,
   pathname,
 }: {
-  seo?: SEO
-  pathname: string
+  seo?: SEO;
+  pathname: string;
 }) {
-  const [open, setIsOpen] = React.useState(false)
-  const router = useRouter()
-  const params = useParams()
+  const [open, setIsOpen] = React.useState(false);
+  const router = useRouter();
+  const params = useParams();
 
-  const [canUpdate] = useHasPermissions([EntityEnum.PAGE, ActionEnum.UPDATE])
+  const [canUpdate] = useHasPermissions([EntityEnum.PAGE, ActionEnum.UPDATE]);
 
   return (
     <>
@@ -78,5 +77,5 @@ export function PageActions({
         </Dialog>
       )}
     </>
-  )
+  );
 }

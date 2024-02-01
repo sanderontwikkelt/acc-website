@@ -1,22 +1,21 @@
-"use client"
+"use client";
 
-import { Fragment } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { useParams } from "next/navigation"
-import { Popover, Transition } from "@headlessui/react"
-import { BlockBackup, Page, SEO } from "@prisma/client"
-import { ChevronLeft, Plus } from "lucide-react"
-import toast from "react-hot-toast"
-import { v4 as uuidv4 } from "uuid"
+import { Fragment } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { buttonVariants } from "@/components/ui/button";
+import htmlBlocks, { BlockType } from "@/lib/html-blocks";
+import { cn } from "@/lib/utils";
+import { Popover, Transition } from "@headlessui/react";
+import { BlockBackup, Page, SEO } from "@prisma/client";
+import { ChevronLeft, Plus } from "lucide-react";
+import toast from "react-hot-toast";
+import { v4 as uuidv4 } from "uuid";
 
-import htmlBlocks, { BlockType } from "@/lib/html-blocks"
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
-
-import { PresetActions } from "./actions"
-import BlockBackupSwitcher from "./block-backup-switcher"
-import PageSwitcher from "./page-switcher"
+import { PresetActions } from "./actions";
+import BlockBackupSwitcher from "./block-backup-switcher";
+import PageSwitcher from "./page-switcher";
 
 export default function Header({
   pages,
@@ -27,22 +26,22 @@ export default function Header({
   blocks: blocksState,
   setBlocks,
 }: {
-  pages: Page[]
-  page: Page
-  seo: SEO
-  backups: BlockBackup[]
-  blocks: BlockType[]
-  setBlocks: (blocks: BlockType[]) => void
-  onSelect: (block: BlockType) => void
+  pages: Page[];
+  page: Page;
+  seo: SEO;
+  backups: BlockBackup[];
+  blocks: BlockType[];
+  setBlocks: (blocks: BlockType[]) => void;
+  onSelect: (block: BlockType) => void;
 }) {
-  const params = useParams()
+  const params = useParams();
   return (
     <header className="fixed bottom-5 left-1/2 z-[9999999] flex -translate-x-1/2 items-center justify-between rounded-full border border-gray-400 bg-black text-white">
       <Link
         href={`/pages/${params.pageId}`}
         className={cn(
           buttonVariants({ variant: "ghostDark" }),
-          "rounded-l-full pl-3 pr-2"
+          "rounded-l-full pl-3 pr-2",
         )}
       >
         <ChevronLeft className="h-4 w-4" />
@@ -54,7 +53,7 @@ export default function Header({
         <Popover.Button
           className={cn(
             buttonVariants({ variant: "ghostDark" }),
-            "px-2 text-xs font-medium"
+            "px-2 text-xs font-medium",
           )}
           style={{ boxShadow: "none" }}
         >
@@ -77,11 +76,13 @@ export default function Header({
                   <button
                     key={name}
                     onClick={() => {
-                      toast.success(`${item.label} toegevoegd aan ${page.name}`)
+                      toast.success(
+                        `${item.label} toegevoegd aan ${page.name}`,
+                      );
                       onSelect({
                         ...item,
                         uid: uuidv4(),
-                      } as any)
+                      } as any);
                     }}
                     className="group relative flex items-center gap-x-6 rounded-lg p-4 hover:bg-gray-50"
                   >
@@ -117,5 +118,5 @@ export default function Header({
         pageIds={pages.map(({ id }) => id)}
       />
     </header>
-  )
+  );
 }

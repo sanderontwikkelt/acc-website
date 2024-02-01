@@ -80,7 +80,7 @@ const Sidebar = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     className={cn(
-      "z-50 flex h-full w-screen flex-col gap-4 border bg-background px-4 py-4 text-card-foreground shadow md:w-60 md:min-w-[15rem]",
+      "z-50 m-4 mr-0 flex h-full max-h-[calc(100vh-2rem)] w-screen flex-col gap-4 rounded-lg border border-border bg-background p-4 text-card-foreground md:w-60 md:min-w-[15rem]",
       className,
     )}
     ref={ref}

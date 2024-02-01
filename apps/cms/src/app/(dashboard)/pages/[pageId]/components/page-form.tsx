@@ -1,17 +1,9 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useParams, useRouter } from "next/navigation"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { Page } from "@prisma/client"
-import axios from "axios"
-import { useForm } from "react-hook-form"
-import { toast } from "react-hot-toast"
-import * as z from "zod"
-
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -20,33 +12,42 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Page } from "@prisma/client";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
+import * as z from "zod";
 
 const formSchema = z.object({
   name: z.string().min(1),
   pathname: z.string().min(1),
   concept: z.boolean().default(true).optional(),
-})
+});
 
-type PageFormValues = z.infer<typeof formSchema>
+type PageFormValues = z.infer<typeof formSchema>;
 
 interface PageFormProps {
-  initialData: Page | null
-  withRedirect?: boolean
+  initialData: Page | null;
+  withRedirect?: boolean;
 }
 
 export const PageForm: React.FC<PageFormProps> = ({
   initialData,
   withRedirect,
 }) => {
-  const params = useParams()
-  const router = useRouter()
+  const params = useParams();
+  const router = useRouter();
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
-  const toastMessage = initialData ? "Pagina opgeslagen." : "Pagina toegevoegd."
-  const action = initialData ? "Opslaan" : "Toevoegen"
+  const toastMessage = initialData
+    ? "Pagina opgeslagen."
+    : "Pagina toegevoegd.";
+  const action = initialData ? "Opslaan" : "Toevoegen";
 
   const defaultValues = initialData
     ? {
@@ -56,36 +57,36 @@ export const PageForm: React.FC<PageFormProps> = ({
         name: "",
         pathname: "",
         concept: true,
-      }
+      };
 
   const form = useForm<PageFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues,
-  })
+  });
 
   const onSubmit = async (data: PageFormValues) => {
     try {
-      setLoading(true)
+      setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/pages/${params.pageId}`, data)
+        await axios.patch(`/api/pages/${params.pageId}`, data);
       } else {
-        const page = await axios.post(`/api/pages`, data)
+        const page = await axios.post(`/api/pages`, data);
         if (!withRedirect) {
-          router.refresh()
-          router.push(`/pages/${page.data.id}/builder`)
+          router.refresh();
+          router.push(`/pages/${page.data.id}/builder`);
         }
       }
-      router.refresh()
+      router.refresh();
       if (withRedirect) {
-        router.push(`/pages`)
+        router.push(`/pages`);
       }
-      toast.success(toastMessage)
+      toast.success(toastMessage);
     } catch (error: any) {
-      toast.error("Er is iets mis gegaan.")
+      toast.error("Er is iets mis gegaan.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <>
@@ -98,7 +99,7 @@ export const PageForm: React.FC<PageFormProps> = ({
             className={cn(
               withRedirect
                 ? "grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8"
-                : "space-y-4"
+                : "space-y-4",
             )}
           >
             <FormField
@@ -164,5 +165,5 @@ export const PageForm: React.FC<PageFormProps> = ({
         </form>
       </Form>
     </>
-  )
-}
+  );
+};

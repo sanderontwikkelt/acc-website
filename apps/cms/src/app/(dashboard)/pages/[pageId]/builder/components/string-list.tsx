@@ -1,13 +1,12 @@
-import React from "react"
-import { PlusCircle } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { PlusCircle } from "lucide-react";
 
 interface List {
-  list: string[]
-  setList: (l: string[]) => void
+  list: string[];
+  setList: (l: string[]) => void;
 }
 
 const StringList = ({ list, setList }: List) => {
@@ -25,8 +24,8 @@ const StringList = ({ list, setList }: List) => {
                 onChange={(e) =>
                   setList(
                     list.map((listItem, idx) =>
-                      idx === i ? e.target.value : listItem
-                    )
+                      idx === i ? e.target.value : listItem,
+                    ),
                   )
                 }
               />
@@ -39,7 +38,7 @@ const StringList = ({ list, setList }: List) => {
         <PlusCircle className="ml-1 h-4 w-4" />
       </Button>
     </div>
-  )
-}
+  );
+};
 
-export default StringList
+export default StringList;

@@ -1,16 +1,15 @@
-"use client"
+"use client";
 
-import { ReactNode, useCallback } from "react"
-import Image from "next/image"
-import { Page } from "@prisma/client"
-import { EditIcon, PlusIcon } from "lucide-react"
-import toast from "react-hot-toast"
-import { v4 as uuidv4 } from "uuid"
-
-import htmlBlocks, { BlockType } from "@/lib/html-blocks"
-import { cn } from "@/lib/utils"
-import DragList from "@/components/ui/drag-list"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { ReactNode, useCallback } from "react";
+import Image from "next/image";
+import DragList from "@/components/ui/drag-list";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import htmlBlocks, { BlockType } from "@/lib/html-blocks";
+import { cn } from "@/lib/utils";
+import { Page } from "@prisma/client";
+import { EditIcon, PlusIcon } from "lucide-react";
+import toast from "react-hot-toast";
+import { v4 as uuidv4 } from "uuid";
 
 const BlockNavigation = ({
   onClick,
@@ -18,10 +17,10 @@ const BlockNavigation = ({
   children,
   add,
 }: {
-  add?: boolean
-  onClick: () => void
-  src: string
-  children: ReactNode
+  add?: boolean;
+  onClick: () => void;
+  src: string;
+  children: ReactNode;
 }) => (
   <button
     onClick={onClick}
@@ -47,7 +46,7 @@ const BlockNavigation = ({
       <EditIcon className="ml-auto w-4" />
     )}
   </button>
-)
+);
 
 export default function ComponentsMenu({
   onSelect,
@@ -58,39 +57,39 @@ export default function ComponentsMenu({
   setEditorOpen,
   setBlocks,
 }: {
-  page: Page
-  open: boolean
-  blocks: BlockType[]
-  setEditorOpen: (e: "blocks" | "header" | "footer") => void
-  setBlocks: (b: BlockType[]) => void
-  setSectionId: (s: string) => void
-  onSelect: (block: BlockType) => void
+  page: Page;
+  open: boolean;
+  blocks: BlockType[];
+  setEditorOpen: (e: "blocks" | "header" | "footer") => void;
+  setBlocks: (b: BlockType[]) => void;
+  setSectionId: (s: string) => void;
+  onSelect: (block: BlockType) => void;
 }) {
   const handleSectionId = useCallback(
     (id: string) => {
-      setEditorOpen("blocks")
-      setSectionId(id)
+      setEditorOpen("blocks");
+      setSectionId(id);
     },
-    [setSectionId]
-  )
+    [setSectionId],
+  );
 
   const dragItem = useCallback(
     ({ value }: { value: BlockType; index: number }) => {
-      const item = htmlBlocks[value.name]
+      const item = htmlBlocks[value.name];
       return (
         <BlockNavigation
           key={value.name}
           src={item.previewurl}
           onClick={() => {
-            handleSectionId(value.uid)
+            handleSectionId(value.uid);
           }}
         >
           {item.label}
         </BlockNavigation>
-      )
+      );
     },
-    [blocksState]
-  )
+    [blocksState],
+  );
 
   return (
     <aside
@@ -98,7 +97,7 @@ export default function ComponentsMenu({
         "relative flex h-full w-[24rem] flex-col overflow-hidden bg-background pb-6 transition-all duration-300 max-md:fixed max-md:top-10 max-md:z-50 max-md:w-screen",
         open
           ? "min-w-[100vw] opacity-100 max-md:right-0 md:min-w-[24rem]"
-          : "min-w-[0rem] opacity-0 max-md:right-full md:w-0"
+          : "min-w-[0rem] opacity-0 max-md:right-full md:w-0",
       )}
     >
       <Tabs defaultValue="blocks" className="w-full py-5">
@@ -111,7 +110,7 @@ export default function ComponentsMenu({
             <div className="rounded-md bg-accent p-1">
               <BlockNavigation
                 onClick={() => {
-                  setEditorOpen("header")
+                  setEditorOpen("header");
                 }}
                 src="/images/block/header.png"
               >
@@ -130,7 +129,7 @@ export default function ComponentsMenu({
             <div className="rounded-md bg-accent p-1">
               <BlockNavigation
                 onClick={() => {
-                  setEditorOpen("footer")
+                  setEditorOpen("footer");
                 }}
                 src="/images/block/footer.png"
               >
@@ -152,12 +151,12 @@ export default function ComponentsMenu({
                       add
                       onClick={() => {
                         toast.success(
-                          `${item.label} toegevoegd aan ${page.name}`
-                        )
+                          `${item.label} toegevoegd aan ${page.name}`,
+                        );
                         onSelect({
                           ...item,
                           uid: uuidv4(),
-                        } as any)
+                        } as any);
                       }}
                     >
                       {item.label}
@@ -169,5 +168,5 @@ export default function ComponentsMenu({
         </TabsContent>
       </Tabs>
     </aside>
-  )
+  );
 }
