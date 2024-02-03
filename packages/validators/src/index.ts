@@ -1,14 +1,16 @@
 import { z } from "zod";
 
+import { notEmpty } from "./utils";
+
 export const CreatePostSchema = z.object({
   title: z.string().min(1),
   content: z.string().min(1),
 });
 
 export const userFormSchema = z.object({
-  name: z.string().min(1),
-  roleId: z.number(),
-  email: z.string().min(1).email(),
+  name: notEmpty,
+  roleId: z.number().min(1),
+  email: z.string().email({ message: "Vul een geldig e-mail in." }),
 });
 
 export const teacherFormSchema = z.object({

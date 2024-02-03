@@ -10,7 +10,7 @@ const PageWrapper = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "h-full flex-1 space-y-4 overflow-auto p-4 md:p-4",
+        "flex h-full flex-1 flex-col space-y-4 overflow-auto p-4 md:p-4",
         className,
       )}
       {...props}

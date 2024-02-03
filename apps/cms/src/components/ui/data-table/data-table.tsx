@@ -89,9 +89,9 @@ export function DataTable<TData, TValue>({
   deleteRowsAction,
 }: DataTableProps<TData, TValue>) {
   return (
-    <div className="w-full space-y-2.5 pb-8">
+    <div className="flex h-full w-full flex-grow flex-col">
       {!hideToolbar && (
-        <div className="flex w-full items-center">
+        <div className="mb-3 flex w-full items-center">
           {advancedFilter ? (
             <DataTableAdvancedToolbar
               dataTable={dataTable}
@@ -108,7 +108,7 @@ export function DataTable<TData, TValue>({
           )}
         </div>
       )}
-      <div className="rounded-md border bg-background">
+      <div className="mb-3 rounded-md border bg-background">
         <Table>
           <TableHeader>
             {dataTable.getHeaderGroups().map((headerGroup) => (
@@ -134,7 +134,6 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-pw="data-table-row"
-                  className="h-[70px]"
                   onClick={() => onClickRow?.(row.original)}
                   data-state={row.getIsSelected() && "selected"}
                 >
@@ -161,7 +160,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="space-y-2.5">
+      <div className="mt-auto space-y-2.5">
         <DataTablePagination table={dataTable} />
         {floatingBarContent ? (
           <DataTableFloatingBar table={dataTable}>

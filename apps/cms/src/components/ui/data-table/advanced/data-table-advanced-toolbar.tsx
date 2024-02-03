@@ -58,7 +58,7 @@ export function DataTableAdvancedToolbar<TData>({
   }, [filterableColumns, searchableColumns]);
 
   return (
-    <div className="w-full space-y-2.5 overflow-x-auto p-1">
+    <div className="w-full space-y-2.5 overflow-x-auto">
       <div className="flex items-center justify-between space-x-2">
         <div className="flex flex-1 items-center space-x-2">
           {searchableColumns.length > 0 &&
