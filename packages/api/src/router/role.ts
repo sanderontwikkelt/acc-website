@@ -49,24 +49,31 @@ export const roleRouter = createTRPCRouter({
 
       return ctx.db.query.role.findFirst({
         where: eq(schema.role.id, input.id),
+        with: {
+          permissions: true
+        },
       });
     }),
 
   create: protectedProcedure
     .input(roleFormSchema)
     .mutation(({ ctx, input }) => {
-      return ctx.db.insert(schema.role).values(input);
+      return ctx.db.transaction(async (tx) => {
+        const role = await tx.insert(schema.role).values(input);
+        await tx.insert(schema.rolesToPermissions).values(input.permissionIds.filter((id, idx, ids) => ids.indexOf(id) === idx).map((id) => ({ roleId: +role.insertId, permissionId: +id })));
+      });
     }),
-
   update: protectedProcedure
-    .input(roleFormSchema.extend({ id: z.number().min(1) }))
-    .mutation(({ ctx, input: { id, ...input } }) => {
-      return ctx.db
-        .update(schema.role)
+  .input(roleFormSchema.extend({ id: z.number().min(1) }))
+  .mutation(async ({ ctx, input: { id, permissionIds, ...input} }) => {
+    return ctx.db.transaction(async (tx) => {
+        await tx.delete(schema.rolesToPermissions).where(eq(schema.rolesToPermissions.roleId, +id));
+        await tx.insert(schema.rolesToPermissions).values(permissionIds.filter((_id, idx, ids) => ids.indexOf(_id) === idx).map((pId) => ({ roleId: +id, permissionId: +pId })));
+        return tx.update(schema.role)
         .set(input)
-        .where(eq(schema.role.id, id));
+        .where(eq(schema.role.id, +id));
+    });
     }),
-
   delete: protectedProcedure.input(z.number()).mutation(({ ctx, input }) => {
     return ctx.db.delete(schema.role).where(eq(schema.role.id, input));
   }),

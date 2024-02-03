@@ -29,7 +29,7 @@ export const CreateRoleSchema = z.object({
 export const roleFormSchema = z.object({
   name: z.string().min(2),
   description: z.string().min(2).nullable(),
-  permissionIds: z.array(z.string()),
+  permissionIds: z.array(z.number()),
 });
 
 export const productFormSchema = z.object({

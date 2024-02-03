@@ -36,14 +36,16 @@ export function DataTableColumnDefs<Schema = { id: string }>({
   canEdit?: (row: RowData) => boolean;
   onEdit: (id: string | number) => void;
 }): ColumnDef<Schema, unknown>[] {
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState<number | string | null>(null);
 
   const onDelete = useMutation(entity, "delete");
 
   const handleDelete = async (row: Row<Schema & { id: string }>) => {
-    row.toggleSelected(false);
-    setIsDeleting(false);
-    await onDelete(row.original.id);
+    if (row.original.id === isDeleting) {
+      row.toggleSelected(false);
+      setIsDeleting(null);
+      await onDelete(row.original.id);
+    }
   };
   return [
     {
@@ -81,7 +83,10 @@ export function DataTableColumnDefs<Schema = { id: string }>({
     })),
     {
       id: "actions",
-      cell: ({ row }) => (
+      cell: ({ row }) => {
+        
+        const id = (row.original as { id: string }).id
+        return (
         <>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -96,14 +101,14 @@ export function DataTableColumnDefs<Schema = { id: string }>({
             <DropdownMenuContent align="end">
               {(!canEdit || canEdit(row)) && (
                 <DropdownMenuItem
-                  onClick={() => onEdit((row.original as { id: string }).id)}
+                  onClick={() => onEdit(id)}
                 >
                   Aanpassen
                 </DropdownMenuItem>
               )}
               {(!canDelete || canDelete(row)) && (
                 <>
-                  <DropdownMenuItem onClick={() => setIsDeleting(true)}>
+                  <DropdownMenuItem onClick={() => setIsDeleting(id)}>
                     Verwijderen
                   </DropdownMenuItem>
                 </>
@@ -111,13 +116,13 @@ export function DataTableColumnDefs<Schema = { id: string }>({
             </DropdownMenuContent>
           </DropdownMenu>
           <AlertModal
-            isOpen={isDeleting}
-            onClose={() => setIsDeleting(false)}
+            isOpen={isDeleting === id}
+            onClose={() => setIsDeleting(null)}
             onConfirm={() => handleDelete(row as Row<Schema & { id: string }>)}
             loading={false}
           />
         </>
-      ),
+      )}
     },
   ];
 }

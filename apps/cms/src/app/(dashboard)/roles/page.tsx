@@ -59,9 +59,11 @@ const RolesPage = () => {
   const deleteRole = api.role.delete.useMutation();
 
   const router = useRouter();
-  const { data: role, isLoading } = api.role.byId.useQuery({
+  const { data: roleData, isLoading } = api.role.byId.useQuery({
     id: id && id !== 'new' ? +id : 0,
   });
+
+const role = useMemo(() => roleData ? ({ ...roleData, permissionIds: roleData.permissions.map((p) => p.permissionId)}) : undefined, [roleData])
 
   const permissionOptions = useMemo(
     () =>
@@ -147,8 +149,7 @@ const RolesPage = () => {
       </Card>
       <RoleDetailDrawer
         onClose={() => setId(null)}
-        id={id}
-        {...{ role, isLoading, permissionOptions }}
+        {...{ id, role, isLoading, permissionOptions }}
       />
     </>
   );
@@ -174,7 +175,7 @@ const RoleDetailDrawer = ({
   const formFields = useMemo(
     () => [
       { name: "name", label: "Naam", type: TypeEnum.INPUT },
-      { name: "description", label: "Beschrijving", type: TypeEnum.EMAIL },
+      { name: "description", label: "Beschrijving", type: TypeEnum.TEXT },
       {
         name: "permissionIds",
         label: "Rechten",

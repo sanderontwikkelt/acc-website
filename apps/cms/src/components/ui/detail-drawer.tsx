@@ -17,6 +17,11 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
 } from "@acme/ui";
 import {
   Select,
@@ -42,6 +47,7 @@ import { AlertModal } from "../modals/alert-modal";
 import { Loader } from "./loader";
 import { Textarea } from "./textarea";
 import MultiSelect from "./multi-select";
+import useMediaQuery from "~/hooks/use-media-query";
 
 export enum TypeEnum {
   INPUT = "input",
@@ -89,6 +95,8 @@ function DetailDrawer({
   const [isLoading, startTransition] = useTransition();
   const [deleteOpen, setDeleteOpen] = useState(false);
 
+  const isDesktop = useMediaQuery('(min-width: 960px)');
+
   const [canDelete, canCreate, canUpdate] = useHasPermissions(
     [entity, ActionEnum.DELETE],
     [entity, ActionEnum.CREATE],
@@ -128,6 +136,12 @@ function DetailDrawer({
     });
   };
 
+  const Wrapper = isDesktop ? Dialog : Drawer
+  const Content = isDesktop ? DialogContent : DrawerContent
+  const Header = isDesktop ? DialogHeader : DrawerHeader
+  const Title = isDesktop ? DialogTitle : DrawerTitle
+  const Description = isDesktop ? DialogDescription : DrawerDescription
+
   return (
     <>
       <AlertModal
@@ -136,21 +150,21 @@ function DetailDrawer({
         onConfirm={onDelete}
         loading={isLoading}
       />
-      <Drawer
+      <Wrapper
         open={!!id}
         onClose={onClose}
         onOpenChange={(b: boolean) => !b && onClose()}
       >
-        <DrawerContent className="space-y-3">
+        <Content className="space-y-3">
           {loading && (
             <div className="absolute inset-0 z-50 flex items-center justify-center bg-background/50">
               <Loader />
             </div>
           )}
-          <DrawerHeader className="flex justify-between">
+          <Header className="flex justify-between max-md:flex-col">
             <div>
-              <DrawerTitle>{title}</DrawerTitle>
-              <DrawerDescription>{description}</DrawerDescription>
+              <Title className="mb-1">{title}</Title>
+              <Description>{description}</Description>
             </div>
             {hasInitialData && canDelete && (
               <Button
@@ -162,14 +176,14 @@ function DetailDrawer({
                 <Trash className="h-4 w-4" />
               </Button>
             )}
-          </DrawerHeader>
+          </Header>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <fieldset
-                className="w-full space-y-8 px-5"
+                className="w-full space-y-8"
                 disabled={hasInitialData ? !canUpdate : !canCreate}
               >
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
+                <div className="grid grid-cols-1 gap-4 max-md:px-4">
                   {formFields.map(
                     ({ name, label, placeholder, type, options }) => (
                       <FormField
@@ -268,7 +282,7 @@ function DetailDrawer({
                     ),
                   )}
                 </div>
-                <DrawerFooter className="flex flex-row justify-end px-0">
+                <DrawerFooter className="flex flex-row justify-end pt-0 md:p-0">
                   <DrawerClose asChild>
                     <Button variant="outline">Sluiten</Button>
                   </DrawerClose>
@@ -277,8 +291,8 @@ function DetailDrawer({
               </fieldset>
             </form>
           </Form>
-        </DrawerContent>
-      </Drawer>
+        </Content>
+      </Wrapper>
     </>
   );
 }

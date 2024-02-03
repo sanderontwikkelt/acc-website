@@ -160,7 +160,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="mt-auto space-y-2.5">
+      <div className="space-y-2.5">
         <DataTablePagination table={dataTable} />
         {floatingBarContent ? (
           <DataTableFloatingBar table={dataTable}>
