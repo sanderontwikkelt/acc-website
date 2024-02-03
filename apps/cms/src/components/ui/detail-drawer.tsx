@@ -1,11 +1,12 @@
 "use client";
 
+import type { EntityEnum } from "types/permissions";
+import type { ZodType } from "zod";
 import { useEffect, useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { ActionEnum, EntityEnum } from "types/permissions";
-import { ZodType } from "zod";
+import { ActionEnum } from "types/permissions";
 
 import {
   Button,
@@ -36,7 +37,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { useMutation } from "~/hooks/use-mutation";
-import { useHasPermissions } from "~/lib/utils";
+import { allowed, useHasPermissions } from "~/lib/utils";
 import { AlertModal } from "../modals/alert-modal";
 import { Loader } from "./loader";
 
@@ -55,7 +56,10 @@ interface FormField {
   options?: { label: string; value: string }[];
 }
 
-function DetailDrawer<FormData>({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type FormData = Record<string, any>;
+
+function DetailDrawer({
   id,
   entity,
   onClose,
@@ -73,7 +77,7 @@ function DetailDrawer<FormData>({
   entity: EntityEnum;
   onClose: () => void;
   transformData?: (d: FormData) => FormData;
-  initialData: FormData;
+  initialData: FormData & { id?: string };
   formFields: FormField[];
   formSchema: ZodType;
   loading: boolean;
@@ -81,20 +85,22 @@ function DetailDrawer<FormData>({
   const [isLoading, startTransition] = useTransition();
   const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const [canDelete, canCreate, canUpdate] = useHasPermissions([
-    entity,
-    ActionEnum.DELETE,
-  ]);
+  const [canDelete, canCreate, canUpdate] = useHasPermissions(
+    [entity, ActionEnum.DELETE],
+    [entity, ActionEnum.CREATE],
+    [entity, ActionEnum.UPDATE],
+  );
 
   const { mutate: onDelete } = useMutation(entity, "delete");
   const { mutate: onCreate } = useMutation(entity, "create");
   const { mutate: onUpdate } = useMutation(entity, "update");
 
-  const hasInitialData = !!initialData;
+  const hasInitialData = !!initialData?.id;
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
   });
+
   useEffect(() => {
     if (initialData) form.reset(initialData);
   }, [initialData, form]);
@@ -104,11 +110,15 @@ function DetailDrawer<FormData>({
       if (transformData) data = transformData(data);
       try {
         if (hasInitialData) {
+          allowed(canUpdate);
           onUpdate({ ...data, id });
         } else {
+          allowed(canCreate);
           onCreate(data);
         }
+        onClose();
       } catch (error) {
+        console.log({ error });
         toast.error("Er is iets mis gegaan.");
       }
     });
@@ -150,97 +160,99 @@ function DetailDrawer<FormData>({
             )}
           </DrawerHeader>
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="w-full space-y-8 px-5"
-            >
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
-                {formFields.map(
-                  ({ name, label, placeholder, type, options }) => (
-                    <FormField
-                      control={form.control}
-                      key={name}
-                      name={name}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>{label}</FormLabel>
-                          <FormControl>
-                            {
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <fieldset
+                className="w-full space-y-8 px-5"
+                disabled={hasInitialData ? !canUpdate : !canCreate}
+              >
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
+                  {formFields.map(
+                    ({ name, label, placeholder, type, options }) => (
+                      <FormField
+                        control={form.control}
+                        key={name}
+                        name={name}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>{label}</FormLabel>
+                            <FormControl>
                               {
-                                input: (
-                                  <Input
-                                    disabled={loading}
-                                    placeholder={
-                                      placeholder ||
-                                      `Typ een ${label.toLowerCase()}`
-                                    }
-                                    {...field}
-                                  />
-                                ),
-                                email: (
-                                  <Input
-                                    disabled={loading}
-                                    placeholder={
-                                      placeholder ||
-                                      `Typ een ${label.toLowerCase()}`
-                                    }
-                                    type="email"
-                                    {...field}
-                                  />
-                                ),
-                                password: (
-                                  <Input
-                                    disabled={loading}
-                                    placeholder={
-                                      placeholder ||
-                                      `Typ een ${label.toLowerCase()}`
-                                    }
-                                    type="password"
-                                    {...field}
-                                  />
-                                ),
-                                select: (
-                                  <Select
-                                    onValueChange={(v) => field.onChange(+v)}
-                                    defaultValue={
-                                      field.value
-                                        ? field.value.toString()
-                                        : undefined
-                                    }
-                                  >
-                                    <SelectTrigger>
-                                      <SelectValue
-                                        placeholder={
-                                          placeholder ||
-                                          `Selecteer een ${label.toLowerCase()}`
-                                        }
-                                      />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      {options?.map(({ value, label }) => (
-                                        <SelectItem key={value} value={value}>
-                                          {label}
-                                        </SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                ),
-                              }[type]
-                            }
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  ),
-                )}
-              </div>
-              <DrawerFooter className="flex flex-row justify-end px-0">
-                <DrawerClose asChild>
-                  <Button variant="outline">Sluiten</Button>
-                </DrawerClose>
-                <Button>Opslaan</Button>
-              </DrawerFooter>
+                                {
+                                  input: (
+                                    <Input
+                                      disabled={loading}
+                                      placeholder={
+                                        placeholder ||
+                                        `Typ een ${label.toLowerCase()}`
+                                      }
+                                      {...field}
+                                    />
+                                  ),
+                                  email: (
+                                    <Input
+                                      disabled={loading}
+                                      placeholder={
+                                        placeholder ||
+                                        `Typ een ${label.toLowerCase()}`
+                                      }
+                                      type="email"
+                                      {...field}
+                                    />
+                                  ),
+                                  password: (
+                                    <Input
+                                      disabled={loading}
+                                      placeholder={
+                                        placeholder ||
+                                        `Typ een ${label.toLowerCase()}`
+                                      }
+                                      type="password"
+                                      {...field}
+                                    />
+                                  ),
+                                  select: (
+                                    <Select
+                                      onValueChange={(v) => field.onChange(+v)}
+                                      defaultValue={
+                                        field.value
+                                          ? field.value.toString()
+                                          : undefined
+                                      }
+                                    >
+                                      <SelectTrigger>
+                                        <SelectValue
+                                          placeholder={
+                                            placeholder ||
+                                            `Selecteer een ${label.toLowerCase()}`
+                                          }
+                                        />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        {options?.map(({ value, label }) => (
+                                          <SelectItem key={value} value={value}>
+                                            {label}
+                                          </SelectItem>
+                                        ))}
+                                      </SelectContent>
+                                    </Select>
+                                  ),
+                                }[type]
+                              }
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    ),
+                  )}
+                </div>
+                <DrawerFooter className="flex flex-row justify-end px-0">
+                  <DrawerClose asChild>
+                    <Button variant="outline">Sluiten</Button>
+                  </DrawerClose>
+                  <Button>Opslaan</Button>
+                </DrawerFooter>
+              </fieldset>
             </form>
           </Form>
         </DrawerContent>

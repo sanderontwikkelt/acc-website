@@ -8,7 +8,7 @@ const Contact = () => {
   return (
     <section className="bg-gray-2 dark:bg-dark pt-20 lg:pt-[120px]">
       <div className="container mx-auto">
-        <h2 className="text-dark mb-10 flex items-end text-2xl font-semibold sm:text-3xl md:text-4xl dark:text-white">
+        <h2 className="text-dark mb-10 flex items-end text-2xl font-semibold dark:text-white sm:text-3xl md:text-4xl">
           <span>Neem contact op</span>
           <span className="text-body-color dark:text-dark-6 pl-5 text-lg font-medium">
             {" "}
@@ -22,7 +22,7 @@ const Contact = () => {
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4 md:w-1/3">
               <div className="mb-10 text-center">
-                <div className="mx-auto mb-5 flex h-[100px] w-[100px] items-center justify-center rounded-full bg-white text-primary sm:h-[130px] sm:w-[130px] dark:bg-white/5">
+                <div className="mx-auto mb-5 flex h-[100px] w-[100px] items-center justify-center rounded-full bg-white text-primary dark:bg-white/5 sm:h-[130px] sm:w-[130px]">
                   <svg
                     width="43"
                     height="42"
@@ -51,7 +51,7 @@ const Contact = () => {
             </div>
             <div className="w-full px-4 md:w-1/3">
               <div className="mb-10 text-center">
-                <div className="mx-auto mb-5 flex h-[100px] w-[100px] items-center justify-center rounded-full bg-white text-primary sm:h-[130px] sm:w-[130px] dark:bg-white/5">
+                <div className="mx-auto mb-5 flex h-[100px] w-[100px] items-center justify-center rounded-full bg-white text-primary dark:bg-white/5 sm:h-[130px] sm:w-[130px]">
                   <svg
                     width="42"
                     height="42"
@@ -88,7 +88,7 @@ const Contact = () => {
             </div>
             <div className="w-full px-4 md:w-1/3">
               <div className="mb-10 text-center">
-                <div className="mx-auto mb-5 flex h-[100px] w-[100px] items-center justify-center rounded-full bg-white text-primary sm:h-[130px] sm:w-[130px] dark:bg-white/5">
+                <div className="mx-auto mb-5 flex h-[100px] w-[100px] items-center justify-center rounded-full bg-white text-primary dark:bg-white/5 sm:h-[130px] sm:w-[130px]">
                   <svg
                     width="42"
                     height="42"

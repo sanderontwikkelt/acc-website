@@ -5,7 +5,7 @@ const ShoppingCart3 = () => {
   return (
     <section className="bg-gray-2 dark:bg-dark py-20 lg:py-[120px]">
       <div className="container mx-auto">
-        <h2 className="text-dark mb-10 flex items-end text-2xl font-semibold sm:text-3xl md:text-4xl dark:text-white">
+        <h2 className="text-dark mb-10 flex items-end text-2xl font-semibold dark:text-white sm:text-3xl md:text-4xl">
           <span>Shopping cart</span>
           <span className="text-body-color dark:text-dark-6 pl-5 text-lg font-medium">
             {" "}
@@ -18,7 +18,7 @@ const ShoppingCart3 = () => {
               <table className="w-full table-auto">
                 <thead>
                   <tr className="text-left">
-                    <th className="text-dark min-w-[300px] px-4 py-[18px] text-base font-semibold xl:pl-9 dark:text-white">
+                    <th className="text-dark min-w-[300px] px-4 py-[18px] text-base font-semibold dark:text-white xl:pl-9">
                       Product
                     </th>
                     <th className="text-dark min-w-[90px] px-4 py-[18px] text-base font-semibold dark:text-white">
@@ -27,7 +27,7 @@ const ShoppingCart3 = () => {
                     <th className="text-dark min-w-[150px] px-4 py-[18px] text-base font-semibold dark:text-white">
                       Quantity
                     </th>
-                    <th className="text-dark min-w-[115px] px-4 py-[18px] text-center text-base font-semibold xl:pr-9 dark:text-white">
+                    <th className="text-dark min-w-[115px] px-4 py-[18px] text-center text-base font-semibold dark:text-white xl:pr-9">
                       Remove
                     </th>
                   </tr>
@@ -70,7 +70,7 @@ const ShoppingCart3 = () => {
           <div className="w-full px-4 lg:w-1/2 xl:w-4/12">
             <div className="dark:border-dark-3 dark:bg-dark-2 xs:px-8 mb-8 overflow-hidden rounded-[10px] border border-border bg-white px-6 pb-5 pt-8">
               <div className="mb-5">
-                <h3 className="text-dark mb-2 text-lg font-semibold sm:text-xl dark:text-white">
+                <h3 className="text-dark mb-2 text-lg font-semibold dark:text-white sm:text-xl">
                   Apply Coupon
                 </h3>
                 <p className="text-body-color dark:text-dark-6 text-base">
@@ -92,7 +92,7 @@ const ShoppingCart3 = () => {
 
             <div className="dark:border-dark-3 dark:bg-dark-2 xs:px-8 mb-8 overflow-hidden rounded-[10px] border border-border bg-white px-6 py-8">
               <div className="dark:border-dark-3 border-b border-border pb-5">
-                <h3 className="text-dark text-lg font-semibold sm:text-xl dark:text-white">
+                <h3 className="text-dark text-lg font-semibold dark:text-white sm:text-xl">
                   Total
                 </h3>
               </div>

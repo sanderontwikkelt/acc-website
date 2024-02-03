@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { notEmpty } from "./utils";
+import { notEmptyNumber, notEmptyString } from "./utils";
 
 export const CreatePostSchema = z.object({
   title: z.string().min(1),
@@ -8,8 +8,8 @@ export const CreatePostSchema = z.object({
 });
 
 export const userFormSchema = z.object({
-  name: notEmpty,
-  roleId: z.number().min(1),
+  name: notEmptyString,
+  roleId: notEmptyNumber,
   email: z.string().email({ message: "Vul een geldig e-mail in." }),
 });
 

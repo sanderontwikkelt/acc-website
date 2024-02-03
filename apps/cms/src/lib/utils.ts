@@ -9,9 +9,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const formatter = new Intl.NumberFormat("en-US", {
+export const formatter = new Intl.NumberFormat("nl-NL", {
   style: "currency",
-  currency: "USD",
+  currency: "EUR",
 });
 
 export const useHasPermissions = (
@@ -33,6 +33,10 @@ export const useHasPermissions = (
   }, [session.data, permissions]);
 
   return permissionChecks;
+};
+
+export const allowed = (b?: boolean) => {
+  if (!b) throw new Error("Geen toegang.");
 };
 
 export const getDateString = (daysToSubtract = 0, date = new Date()) => {

@@ -27,6 +27,15 @@ import { api } from "~/trpc/react";
 
 const title = "Gebruikers";
 
+interface Column {
+  id: string;
+  createdAt: string;
+  name: string;
+  email: string;
+  roleId: number;
+  role: Role;
+}
+
 const UsersPage = () => {
   const searchParams = useSearchParams();
   const [showUser, setShowUser] = useState<string | null>(null);
@@ -44,7 +53,7 @@ const UsersPage = () => {
   const [roles] = api.role.all.useSuspenseQuery();
 
   const router = useRouter();
-  const { data: user, loading } = api.user.byId.useQuery({
+  const { data: user, isLoading } = api.user.byId.useQuery({
     id: showUser || "",
   });
 
@@ -58,15 +67,6 @@ const UsersPage = () => {
   );
 
   const [canCreate] = useHasPermissions([EntityEnum.USER, ActionEnum.CREATE]);
-
-  interface Column {
-    id: string;
-    createdAt: string;
-    name: string;
-    email: string;
-    roleId: number;
-    role: Role;
-  }
 
   const filterableColumns: DataTableFilterableColumn<Column>[] = React.useMemo(
     () => [
@@ -88,7 +88,7 @@ const UsersPage = () => {
         roleId: user.roleId,
         role,
         createdAt: user.createdAt
-          ? format(new Date(user.createdAt as Date), "dd-LL-yyyy, hh:mm")
+          ? format(new Date(user.createdAt), "dd-LL-yyyy, hh:mm")
           : "",
       })) as Column[],
     [users],
@@ -160,7 +160,7 @@ const UsersPage = () => {
           }}
         />
       </Card>
-      <DetailDrawer<User>
+      <DetailDrawer
         title={isDetails ? "Gebruiker aanpassen" : "Gebruiker toevoegen"}
         description={
           isDetails
@@ -172,7 +172,7 @@ const UsersPage = () => {
         entity={EntityEnum.USER}
         initialData={user || { name: "", email: "", roleId: 0 }}
         formFields={formFields}
-        loading={loading}
+        loading={isLoading}
         formSchema={userFormSchema}
         transformData={(data) => {
           if (data.roleId) data.roleId = +data.roleId;

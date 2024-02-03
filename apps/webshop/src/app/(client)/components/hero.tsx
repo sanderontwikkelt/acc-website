@@ -8,10 +8,10 @@ const Hero = () => {
           <div className="-mx-4 flex flex-wrap items-center">
             <div className="w-full px-4 lg:w-1/2">
               <div className="mt-20 max-w-[570px] px-8 md:pl-12 md:pr-0 lg:mt-0 xl:pl-16">
-                <h1 className="text-dark mb-5 text-3xl font-bold !leading-[1.2] sm:text-4xl xl:text-[40px] dark:text-white">
+                <h1 className="text-dark mb-5 text-3xl font-bold !leading-[1.2] dark:text-white sm:text-4xl xl:text-[40px]">
                   Our Newest & Trendy Shoes Collection
                 </h1>
-                <h2 className="text-dark mb-4 text-lg font-semibold sm:text-xl xl:text-2xl dark:text-white">
+                <h2 className="text-dark mb-4 text-lg font-semibold dark:text-white sm:text-xl xl:text-2xl">
                   Discover Your Own Shoes
                 </h2>
                 <p className="text-body-color dark:text-dark-6 mb-10 text-base">

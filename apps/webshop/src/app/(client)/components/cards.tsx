@@ -29,7 +29,7 @@ const ProductCard = ({ subtitle, title, details, link, button }: any) => {
             <span className="mb-4 block text-lg font-semibold text-primary md:text-2xl">
               {subtitle}
             </span>
-            <h2 className="text-dark mb-5 text-2xl font-semibold !leading-tight xl:text-4xl dark:text-white">
+            <h2 className="text-dark mb-5 text-2xl font-semibold !leading-tight dark:text-white xl:text-4xl">
               {title}
             </h2>
             <p className="text-body-color dark:text-dark-6 mb-9 text-base">

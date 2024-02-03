@@ -9,7 +9,7 @@ const Checkout = () => {
       <section className="dark:bg-dark pb-10 pt-20 lg:pb-20 lg:pt-[120px]">
         <div className="container mx-auto">
           <div className="mb-12">
-            <h2 className="text-dark mb-3 text-4xl font-bold leading-[1.2] sm:text-[40px] dark:text-white">
+            <h2 className="text-dark mb-3 text-4xl font-bold leading-[1.2] dark:text-white sm:text-[40px]">
               Checkout
             </h2>
             <p className="text-body-color dark:text-dark-6 text-base">

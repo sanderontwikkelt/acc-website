@@ -10,11 +10,10 @@ export const getUserServer = async () => {
 export const getPermissionsServer = async (...permissions: Permission[]) => {
   const session = await auth();
 
-  return permissions.map(
-    ({ entity, action }) =>
-      session?.user.permissions?.some(
-        (p) => p.entity === entity && p.action === action,
-      ),
+  return permissions.map(({ entity, action }) =>
+    session?.user.permissions?.some(
+      (p) => p.entity === entity && p.action === action,
+    ),
   );
 };
 

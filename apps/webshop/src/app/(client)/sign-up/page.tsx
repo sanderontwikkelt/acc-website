@@ -13,7 +13,7 @@ const SignupPage = () => {
       <div className="container mx-auto">
         <div className="-mx-4 flex flex-wrap items-center">
           <div className="w-full space-y-4 px-4 lg:w-1/2">
-            <h2 className="text-dark mb-4 text-3xl font-bold !leading-[1.22] sm:text-[45px] dark:text-white">
+            <h2 className="text-dark mb-4 text-3xl font-bold !leading-[1.22] dark:text-white sm:text-[45px]">
               Aanmelden
             </h2>
             <p className="text-body-color dark:text-dark-6 mb-8 max-w-[510px] text-base">

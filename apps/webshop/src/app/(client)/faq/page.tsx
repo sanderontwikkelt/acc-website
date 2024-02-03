@@ -10,7 +10,7 @@ const Accordion3 = () => {
               <span className="mb-2 block text-lg font-semibold text-primary">
                 FAQ
               </span>
-              <h2 className="text-dark text-3xl font-bold sm:text-[40px]/[48px] dark:text-white">
+              <h2 className="text-dark text-3xl font-bold dark:text-white sm:text-[40px]/[48px]">
                 Frequently ask questions
               </h2>
             </div>
@@ -68,7 +68,7 @@ const AccordionItem = ({ header, text }: any) => {
           </svg>
         </div>
         <div className="w-full">
-          <h3 className="text-dark mb-6 text-xl font-semibold sm:text-2xl lg:text-xl xl:text-2xl dark:text-white">
+          <h3 className="text-dark mb-6 text-xl font-semibold dark:text-white sm:text-2xl lg:text-xl xl:text-2xl">
             {header}
           </h3>
           <p className="text-body-color dark:text-dark-6 text-base leading-relaxed">

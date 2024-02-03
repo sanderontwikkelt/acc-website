@@ -8,7 +8,7 @@ const FeaturedProducts = () => {
         <div className="-mx-4 flex">
           <div className="w-full px-4">
             <div className="mb-[60px] max-w-[575px]">
-              <h2 className="sm:ledaing-[45px] text-dark mb-4 text-3xl font-bold sm:text-[36px] dark:text-white">
+              <h2 className="sm:ledaing-[45px] text-dark mb-4 text-3xl font-bold dark:text-white sm:text-[36px]">
                 Uit het assortiment
               </h2>
               <p className="text-body-color dark:text-dark-6 text-base">
@@ -85,7 +85,7 @@ const SingleFeaturedProduct = ({
           <h3>
             <Link
               href={link}
-              className="text-dark mb-4 block text-lg font-semibold hover:text-primary xl:text-xl dark:text-white"
+              className="text-dark mb-4 block text-lg font-semibold hover:text-primary dark:text-white xl:text-xl"
             >
               {title}
             </Link>

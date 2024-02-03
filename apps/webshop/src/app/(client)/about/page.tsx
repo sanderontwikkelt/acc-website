@@ -612,7 +612,7 @@ const About1 = () => {
                 <span className="mb-4 block text-lg font-semibold text-primary">
                   Waarom Kiezen voor Ons
                 </span>
-                <h2 className="text-dark mb-5 text-3xl font-bold sm:text-[40px]/[48px] dark:text-white">
+                <h2 className="text-dark mb-5 text-3xl font-bold dark:text-white sm:text-[40px]/[48px]">
                   Het gelukkig maken van onze klanten
                 </h2>
                 <p className="text-body-color dark:text-dark-6 mb-5 text-base"></p>
