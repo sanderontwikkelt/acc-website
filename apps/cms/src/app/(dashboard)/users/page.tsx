@@ -26,6 +26,7 @@ import { useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
 
 const title = "Gebruikers";
+const entity = EntityEnum.USER;
 
 interface Column {
   id: string;
@@ -36,9 +37,14 @@ interface Column {
   role: Role;
 }
 
+interface Option {
+  label: string;
+  value: string;
+}
+
 const UsersPage = () => {
   const searchParams = useSearchParams();
-  const [showUser, setShowUser] = useState<string | null>(null);
+  const [id, setId] = useState<string | null>(null);
 
   const page = +(searchParams.get("page") || 10);
   const perPage = +(searchParams.get("per_page") || 10);
@@ -46,15 +52,17 @@ const UsersPage = () => {
 
   const [users] = api.user.all.useSuspenseQuery<{ user: User; role: Role }[]>({
     page,
-    sort: String(sort),
+    sort: sort ? String(sort) : undefined,
     perPage,
   });
   const [totalUsers] = api.user.count.useSuspenseQuery();
   const [roles] = api.role.all.useSuspenseQuery();
 
+  const deleteUser = api.user.delete.useMutation();
+
   const router = useRouter();
   const { data: user, isLoading } = api.user.byId.useQuery({
-    id: showUser || "",
+    id: id || "",
   });
 
   const roleOptions = useMemo(
@@ -62,11 +70,11 @@ const UsersPage = () => {
       (roles?.map(({ id, name }) => ({
         label: name || "",
         value: String(id),
-      })) || []) as { label: string; value: string }[],
+      })) || []) as Option[],
     [roles],
   );
 
-  const [canCreate] = useHasPermissions([EntityEnum.USER, ActionEnum.CREATE]);
+  const [canCreate] = useHasPermissions([entity, ActionEnum.CREATE]);
 
   const filterableColumns: DataTableFilterableColumn<Column>[] = React.useMemo(
     () => [
@@ -95,7 +103,7 @@ const UsersPage = () => {
   );
 
   const onDelete = async (id: string) => {
-    await api.user.delete.useMutation().mutateAsync(id);
+    await deleteUser.mutateAsync(id);
   };
 
   const columns = DataTableColumnDefs<Column>({
@@ -109,8 +117,8 @@ const UsersPage = () => {
       },
       { label: "Aangemaakt", name: "createdAt" },
     ],
-    onDelete,
-    onEdit: (id: string) => setShowUser(id),
+    entity: entity,
+    onEdit: (id: string) => setId(id),
   });
 
   const { dataTable } = useDataTable({
@@ -120,22 +128,6 @@ const UsersPage = () => {
     filterableColumns,
   });
 
-  const formFields = useMemo(
-    () => [
-      { name: "name", label: "Naam", type: TypeEnum.INPUT },
-      { name: "email", label: "E-mail", type: TypeEnum.EMAIL },
-      {
-        name: "roleId",
-        label: "Rol",
-        type: TypeEnum.SELECT,
-        options: roleOptions,
-      },
-    ],
-    [roleOptions],
-  );
-
-  const isDetails = !!(showUser && showUser !== "new");
-
   return (
     <>
       <Heading
@@ -143,7 +135,7 @@ const UsersPage = () => {
         description={`Een lijst met alle ${title.toLowerCase()} binnen jouw toegang.`}
       >
         {canCreate && (
-          <Button onClick={() => setShowUser("new")}>
+          <Button onClick={() => setId("new")}>
             <Plus className="mr-2 h-4 w-4" /> Toevoegen
           </Button>
         )}
@@ -160,27 +152,65 @@ const UsersPage = () => {
           }}
         />
       </Card>
-      <DetailDrawer
-        title={isDetails ? "Gebruiker aanpassen" : "Gebruiker toevoegen"}
-        description={
-          isDetails
-            ? "Bekijk gebruiker gegevens en pas eventueel aan"
-            : "Maak een nieuw gebruiker aan"
-        }
-        id={showUser || undefined}
-        onClose={() => setShowUser(null)}
-        entity={EntityEnum.USER}
-        initialData={user || { name: "", email: "", roleId: 0 }}
-        formFields={formFields}
-        loading={isLoading}
-        formSchema={userFormSchema}
-        transformData={(data) => {
-          if (data.roleId) data.roleId = +data.roleId;
-          return data;
-        }}
+      <UserDetailDrawer
+        onClose={() => setId(null)}
+        id={id}
+        {...{ user, isLoading, roleOptions }}
       />
     </>
   );
 };
 
 export default UsersPage;
+
+const UserDetailDrawer = ({
+  id,
+  onClose,
+  user,
+  isLoading,
+  roleOptions,
+}: {
+  roleOptions: Option[];
+  id: string | null;
+  isLoading: boolean;
+  user?: User | null;
+  onClose: () => void;
+}) => {
+  const isDetails = !!(id && id !== "new");
+
+  const formFields = useMemo(
+    () => [
+      { name: "name", label: "Naam", type: TypeEnum.INPUT },
+      { name: "email", label: "E-mail", type: TypeEnum.EMAIL },
+      {
+        name: "roleId",
+        label: "Rol",
+        type: TypeEnum.SELECT,
+        options: roleOptions,
+      },
+    ],
+    [roleOptions],
+  );
+
+  return (
+    <DetailDrawer
+      title={isDetails ? "Gebruiker aanpassen" : "Gebruiker toevoegen"}
+      description={
+        isDetails
+          ? "Bekijk gebruiker gegevens en pas eventueel aan"
+          : "Maak een nieuw gebruiker aan"
+      }
+      id={id || undefined}
+      onClose={onClose}
+      entity={entity}
+      initialData={user || { name: "", email: "", roleId: 0 }}
+      formFields={formFields}
+      loading={isLoading}
+      formSchema={userFormSchema}
+      transformData={(data) => {
+        if (data.roleId) data.roleId = +data.roleId;
+        return data;
+      }}
+    />
+  );
+};

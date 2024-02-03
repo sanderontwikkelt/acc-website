@@ -2,10 +2,9 @@
 
 import type { Column, ColumnDef, Row, RowData } from "@tanstack/react-table";
 import type { ReactNode } from "react";
-import { useState, useTransition } from "react";
-import Link from "next/link";
+import type { EntityEnum } from "types/permissions";
+import { useState } from "react";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { toast } from "sonner";
 
 import {
   Button,
@@ -18,12 +17,13 @@ import {
 
 import { AlertModal } from "~/components/modals/alert-modal";
 import { DataTableColumnHeader } from "~/components/ui/data-table/data-table-column-header";
+import { useMutation } from "~/hooks/use-mutation";
 
 export function DataTableColumnDefs<Schema = { id: string }>({
   columns,
+  entity,
   canEdit,
   canDelete,
-  onDelete,
   onEdit,
 }: {
   columns: {
@@ -31,29 +31,19 @@ export function DataTableColumnDefs<Schema = { id: string }>({
     name: string;
     cell?: ({ row }: { row: Row<Schema> }) => ReactNode;
   }[];
+  entity: EntityEnum;
   canDelete?: (row: RowData) => boolean;
   canEdit?: (row: RowData) => boolean;
-  onDelete: (id: string) => Promise<void>;
   onEdit: (id: string) => void;
 }): ColumnDef<Schema, unknown>[] {
-  const [loading, startTransition] = useTransition();
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const handleDelete = (row: Row<Schema & { id: string }>) => {
-    startTransition(() => {
-      row.toggleSelected(false);
-      toast.promise(onDelete(row.original.id), {
-        loading: "Verwijderen..",
-        success: () => {
-          setIsDeleting(false);
-          return "Succesvol verwijderd";
-        },
-        error: (err: unknown) => {
-          console.error(err);
-          return "Verwijdered is mislukt.";
-        },
-      });
-    });
+  const onDelete = useMutation(entity, "delete");
+
+  const handleDelete = async (row: Row<Schema & { id: string }>) => {
+    row.toggleSelected(false);
+    setIsDeleting(false);
+    await onDelete(row.original.id);
   };
   return [
     {
@@ -124,7 +114,7 @@ export function DataTableColumnDefs<Schema = { id: string }>({
             isOpen={isDeleting}
             onClose={() => setIsDeleting(false)}
             onConfirm={() => handleDelete(row as Row<Schema & { id: string }>)}
-            loading={loading}
+            loading={false}
           />
         </>
       ),

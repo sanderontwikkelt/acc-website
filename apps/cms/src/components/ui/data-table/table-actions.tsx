@@ -28,7 +28,7 @@ export function deleteSelectedRows<Column>(
       },
       error: (err: unknown) => {
         console.error(err);
-        return "Verwijdered is mislukt.";
+        return "Verwijderen mislukt.";
       },
     },
   );

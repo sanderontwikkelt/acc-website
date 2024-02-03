@@ -1,7 +1,12 @@
 import type { TRPCErrorResponse } from "@trpc/server/rpc";
 import { cache } from "react";
 import { headers } from "next/headers";
-import { createTRPCClient, loggerLink, TRPCClientError } from "@trpc/client";
+import {
+  createTRPCClient,
+  httpLink,
+  loggerLink,
+  TRPCClientError,
+} from "@trpc/client";
 import { callProcedure } from "@trpc/server";
 import { observable } from "@trpc/server/observable";
 import SuperJSON from "superjson";
@@ -24,12 +29,15 @@ const createContext = cache(async () => {
 });
 
 export const api = createTRPCClient<typeof appRouter>({
-  transformer: SuperJSON,
   links: [
     loggerLink({
       enabled: (op) =>
         process.env.NODE_ENV === "development" ||
         (op.direction === "down" && op.result instanceof Error),
+    }),
+    httpLink({
+      url: "http://localhost:3000",
+      transformer: SuperJSON,
     }),
     /**
      * Custom RSC link that invokes procedures directly in the server component Don't be too afraid

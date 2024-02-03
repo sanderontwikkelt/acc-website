@@ -6,11 +6,6 @@ import { toast } from "@acme/ui/toast";
 
 import { api } from "~/trpc/react";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-interface ReturnType {
-  mutate: (data: any) => void;
-}
-
 const toastMessage = {
   delete: "Succesvol verwijderd!",
   create: "Succesvol aangemaakt!",
@@ -21,7 +16,7 @@ export const useMutation = (
   entity: EntityEnum,
   method: "delete" | "create" | "update",
   route?: string,
-): ReturnType => {
+): ((data: any) => Promise<void>) => {
   const utils = api.useUtils();
   const router = useRouter();
   return api[entity][method].useMutation({
@@ -39,5 +34,5 @@ export const useMutation = (
           : "Actie is mislukt.",
       );
     },
-  }) as ReturnType;
+  }).mutateAsync;
 };

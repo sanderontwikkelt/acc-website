@@ -4,7 +4,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
 import type { InferSelectModel } from "@acme/db";
-import { db, eq, schema, tableCreator } from "@acme/db";
+import { and, db, eq, schema, tableCreator } from "@acme/db";
 
 import { env } from "../env";
 
@@ -22,7 +22,42 @@ declare module "next-auth" {
 }
 
 const authConfig = {
-  adapter: DrizzleAdapter(db, tableCreator),
+  adapter: {
+    ...DrizzleAdapter(db, tableCreator),
+    async getUserByAccount(providerAccountId) {
+      const [results] = await db
+        .select()
+        .from(schema.account)
+        .leftJoin(schema.user, eq(schema.user.id, schema.account.userId))
+        .where(
+          and(
+            eq(schema.account.provider, providerAccountId.provider),
+            eq(
+              schema.account.providerAccountId,
+              providerAccountId.providerAccountId,
+            ),
+          ),
+        );
+
+      return results?.user ?? null;
+    },
+    // async createUser(providerAccountId) {
+    //   console.log(234, {providerAccountId})
+    //   // const results = await db
+    //   //   .select()
+    //   //   .from(schema.account)
+    //   //   .leftJoin(schema.user, eq(schema.user.id, schema.account.userId))
+    //   //   .where(
+    //   //     and(
+    //   //       eq(schema.account.provider, providerAccountId.provider),
+    //   //       eq(schema.account.providerAccountId, providerAccountId.providerAccountId),
+    //   //     ),
+    //   //   );
+
+    //   // return results?.user ?? null;
+    // }
+  },
+
   secret: env.AUTH_SECRET,
   providers: [
     GoogleProvider({

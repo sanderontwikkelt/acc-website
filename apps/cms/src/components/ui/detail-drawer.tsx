@@ -91,9 +91,9 @@ function DetailDrawer({
     [entity, ActionEnum.UPDATE],
   );
 
-  const { mutate: onDelete } = useMutation(entity, "delete");
-  const { mutate: onCreate } = useMutation(entity, "create");
-  const { mutate: onUpdate } = useMutation(entity, "update");
+  const onDelete = useMutation(entity, "delete");
+  const onCreate = useMutation(entity, "create");
+  const onUpdate = useMutation(entity, "update");
 
   const hasInitialData = !!initialData?.id;
 
@@ -106,15 +106,15 @@ function DetailDrawer({
   }, [initialData, form]);
 
   const onSubmit = async (data: FormData) => {
-    startTransition(() => {
+    startTransition(async () => {
       if (transformData) data = transformData(data);
       try {
         if (hasInitialData) {
           allowed(canUpdate);
-          onUpdate({ ...data, id });
+          await onUpdate({ ...data, id });
         } else {
           allowed(canCreate);
-          onCreate(data);
+          await onCreate(data);
         }
         onClose();
       } catch (error) {
