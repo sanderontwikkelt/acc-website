@@ -34,7 +34,7 @@ export function DataTableColumnDefs<Schema = { id: string }>({
   entity: EntityEnum;
   canDelete?: (row: RowData) => boolean;
   canEdit?: (row: RowData) => boolean;
-  onEdit: (id: string) => void;
+  onEdit: (id: string | number) => void;
 }): ColumnDef<Schema, unknown>[] {
   const [isDeleting, setIsDeleting] = useState(false);
 

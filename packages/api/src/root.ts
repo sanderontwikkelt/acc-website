@@ -4,6 +4,7 @@ import { mediaRouter } from "./router/media";
 import { orderRouter } from "./router/order";
 import { productRouter } from "./router/product";
 import { roleRouter } from "./router/role";
+import { permissionRouter } from "./router/permission";
 import { stripeRouter } from "./router/stripe";
 import { teacherRouter } from "./router/teacher";
 import { userRouter } from "./router/user";
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   teacher: teacherRouter,
   role: roleRouter,
+  permission: permissionRouter,
   media: mediaRouter,
   order: orderRouter,
   product: productRouter,

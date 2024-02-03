@@ -40,12 +40,16 @@ import { useMutation } from "~/hooks/use-mutation";
 import { allowed, useHasPermissions } from "~/lib/utils";
 import { AlertModal } from "../modals/alert-modal";
 import { Loader } from "./loader";
+import { Textarea } from "./textarea";
+import MultiSelect from "./multi-select";
 
 export enum TypeEnum {
   INPUT = "input",
+  TEXT = "text",
   EMAIL = "email",
   PASSWORD = "password",
   SELECT = "select",
+  MULTISELECT = "multiselect",
 }
 
 interface FormField {
@@ -71,13 +75,13 @@ function DetailDrawer({
   formSchema,
   loading,
 }: {
-  id?: string;
+  id?: string | number;
   title: string;
   description: string;
   entity: EntityEnum;
   onClose: () => void;
   transformData?: (d: FormData) => FormData;
-  initialData: FormData & { id?: string };
+  initialData: FormData & { id?: string | number };
   formFields: FormField[];
   formSchema: ZodType;
   loading: boolean;
@@ -186,6 +190,24 @@ function DetailDrawer({
                                         `Typ een ${label.toLowerCase()}`
                                       }
                                       {...field}
+                                    />
+                                  ),
+                                  text: (
+                                    <Textarea
+                                      disabled={loading}
+                                      placeholder={
+                                        placeholder ||
+                                        `Typ een ${label.toLowerCase()}`
+                                      }
+                                      {...field}
+                                    />
+                                  ),
+                                  multiselect: (
+                                    <MultiSelect
+                                      disabled={loading}
+                                      options={options}
+                                      onChange={(values: string[]) => field.onChange(values.map((v) => +v))}
+                                      selectedValues={field.value}
                                     />
                                   ),
                                   email: (

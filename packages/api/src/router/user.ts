@@ -10,7 +10,12 @@ export const userRouter = createTRPCRouter({
   count: publicProcedure.query(({ ctx }) => {
     return ctx.db.select({ count: sql<number>`count(*)` }).from(schema.user);
   }),
-  all: protectedProcedure
+  all: publicProcedure.query(({ ctx }) => {
+    return ctx.db.query.user.findMany({
+      orderBy: desc(schema.user.id),
+    });
+  }),
+  list: protectedProcedure
     .input(
       z.object({
         perPage: z.number().optional(),

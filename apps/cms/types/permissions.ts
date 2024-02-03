@@ -15,6 +15,7 @@ export enum ActionEnum {
 }
 
 export const permissionEntities = [
+  { value: "all", label: "Alles" },
   { value: "page", label: "Pagina's" },
   { value: "user", label: "Gebruikers" },
   { value: "role", label: "Rollen" },
@@ -22,4 +23,12 @@ export const permissionEntities = [
   { value: "product", label: "Producten" },
   { value: "order", label: "Bestellingen" },
   { value: "cart", label: "Winkelmanden" },
+];
+
+export const permissionActions = [
+  { value: "all", label: "Alles" },
+  { value: "create", label: "Toevoegen" },
+  { value: "update", label: "Bewerken" },
+  { value: "delete", label: "Verwijeren" },
+  { value: "get", label: "Ophalen" },
 ];

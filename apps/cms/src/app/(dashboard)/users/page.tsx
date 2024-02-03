@@ -50,7 +50,7 @@ const UsersPage = () => {
   const perPage = +(searchParams.get("per_page") || 10);
   const sort = searchParams.get("sort");
 
-  const [users] = api.user.all.useSuspenseQuery<{ user: User; role: Role }[]>({
+  const [users] = api.user.list.useSuspenseQuery<{ user: User; role: Role }[]>({
     page,
     sort: sort ? String(sort) : undefined,
     perPage,
@@ -102,8 +102,8 @@ const UsersPage = () => {
     [users],
   );
 
-  const onDelete = async (id: string) => {
-    await deleteUser.mutateAsync(id);
+  const onDelete = async (id: string | number) => {
+    await deleteUser.mutateAsync(id as string);
   };
 
   const columns = DataTableColumnDefs<Column>({
@@ -118,7 +118,7 @@ const UsersPage = () => {
       { label: "Aangemaakt", name: "createdAt" },
     ],
     entity: entity,
-    onEdit: (id: string) => setId(id),
+    onEdit: (id: string | number) => setId(id as string),
   });
 
   const { dataTable } = useDataTable({

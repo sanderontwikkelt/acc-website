@@ -3,14 +3,12 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 
-import type { InferSelectModel } from "@acme/db";
+import type { Permission } from "@acme/db";
 import { and, db, eq, schema, tableCreator } from "@acme/db";
 
 import { env } from "../env";
 
 export type { Session } from "next-auth";
-
-export type Permission = InferSelectModel<typeof schema.permission>;
 
 declare module "next-auth" {
   interface Session {

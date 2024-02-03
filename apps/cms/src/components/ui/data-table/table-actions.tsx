@@ -6,16 +6,16 @@ import { toast } from "sonner";
 
 import { Button } from "@acme/ui";
 
-type Action = (id: string) => Promise<void>;
+type Action = (id: string | number) => Promise<void>;
 
 export function deleteSelectedRows<Column>(
-  table: Table<Column & { id: string }>,
+  table: Table<Column & { id: string | number }>,
   onDelete: Action,
   event?: React.MouseEvent<HTMLButtonElement, MouseEvent>,
 ) {
   event?.preventDefault();
   const selectedRows = table.getFilteredSelectedRowModel().rows as {
-    original: { id: string };
+    original: { id: string | number };
   }[];
 
   noStore();
@@ -35,7 +35,7 @@ export function deleteSelectedRows<Column>(
 }
 
 export function TableFloatingBarContent<Schema>(
-  table: Table<Schema & { id: string }>,
+  table: Table<Schema & { id: string | number }>,
   onDelete: Action,
 ) {
   return (

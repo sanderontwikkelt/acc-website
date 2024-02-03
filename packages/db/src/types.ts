@@ -4,3 +4,4 @@ import type * as schema from "./schema";
 
 export type User = InferSelectModel<typeof schema.user>;
 export type Role = InferSelectModel<typeof schema.role>;
+export type Permission = InferSelectModel<typeof schema.permission>;
