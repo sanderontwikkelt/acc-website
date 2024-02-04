@@ -49,11 +49,13 @@ const UsersPage = () => {
   const page = +(searchParams.get("page") || 10);
   const perPage = +(searchParams.get("per_page") || 10);
   const sort = searchParams.get("sort");
+  const roleIds = searchParams.get("roleId");
 
-  const [users] = api.user.list.useSuspenseQuery<{ user: User; role: Role }[]>({
+  const [users] = api.user.list.useSuspenseQuery({
     page,
-    sort: sort ? String(sort) : undefined,
+    sort: sort || undefined,
     perPage,
+    ...(roleIds && { roleIds: roleIds.split(".").map((p) => +p) }),
   });
   const [totalUsers] = api.user.count.useSuspenseQuery();
   const [roles] = api.role.all.useSuspenseQuery();
@@ -89,12 +91,12 @@ const UsersPage = () => {
 
   const data = React.useMemo<Column[]>(
     () =>
-      users.map(({ user, role }) => ({
+      users.map((user) => ({
         id: user.id,
         name: user.name ?? "",
         email: user.email,
         roleId: user.roleId,
-        role,
+        role: user.role,
         createdAt: user.createdAt
           ? format(new Date(user.createdAt), "dd-LL-yyyy, hh:mm")
           : "",

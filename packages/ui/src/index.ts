@@ -4,4 +4,6 @@ export * from "./checkbox";
 export * from "./drawer";
 export * from "./button";
 export * from "./dialog";
+export * from "./pagination";
 export * from "./dropdown-menu";
+export * from "./next-image";

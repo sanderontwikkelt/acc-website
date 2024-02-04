@@ -6,7 +6,7 @@ export const permissionRouter = createTRPCRouter({
   all: publicProcedure.query(({ ctx }) => {
     return ctx.db.query.permission.findMany({
       orderBy: desc(schema.permission.id),
-      where: not(eq(schema.permission.id, 1))
+      where: not(eq(schema.permission.id, 1)),
     });
   }),
 });

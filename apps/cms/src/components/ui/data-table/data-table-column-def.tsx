@@ -30,11 +30,12 @@ export function DataTableColumnDefs<Schema = { id: string }>({
     label: string;
     name: string;
     cell?: ({ row }: { row: Row<Schema> }) => ReactNode;
+    enableSorting?: boolean;
   }[];
   entity: EntityEnum;
   canDelete?: (row: RowData) => boolean;
   canEdit?: (row: RowData) => boolean;
-  onEdit: (id: string | number) => void;
+  onEdit?: (id: string | number) => void;
 }): ColumnDef<Schema, unknown>[] {
   const [isDeleting, setIsDeleting] = useState<number | string | null>(null);
 
@@ -74,55 +75,58 @@ export function DataTableColumnDefs<Schema = { id: string }>({
       enableSorting: false,
       enableHiding: false,
     },
-    ...columns.map(({ name, label, cell }) => ({
+    ...columns.map(({ name, label, cell, ...props }) => ({
       accessorKey: name,
       header: ({ column }: { column: Column<Schema> }) => (
         <DataTableColumnHeader column={column} title={label} />
       ),
       ...(cell && { cell }),
+      ...props,
     })),
     {
       id: "actions",
       cell: ({ row }) => {
-        
-        const id = (row.original as { id: string }).id
+        const id = (row.original as { id: string }).id;
         return (
-        <>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                aria-label="Open menu"
-                variant="ghost"
-                className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
-              >
-                <DotsHorizontalIcon className="h-4 w-4" aria-hidden="true" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {(!canEdit || canEdit(row)) && (
-                <DropdownMenuItem
-                  onClick={() => onEdit(id)}
+          <>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  aria-label="Open menu"
+                  variant="ghost"
+                  className="flex h-8 w-8 p-0 data-[state=open]:bg-muted"
                 >
-                  Aanpassen
-                </DropdownMenuItem>
-              )}
-              {(!canDelete || canDelete(row)) && (
-                <>
-                  <DropdownMenuItem onClick={() => setIsDeleting(id)}>
-                    Verwijderen
-                  </DropdownMenuItem>
-                </>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
-          <AlertModal
-            isOpen={isDeleting === id}
-            onClose={() => setIsDeleting(null)}
-            onConfirm={() => handleDelete(row as Row<Schema & { id: string }>)}
-            loading={false}
-          />
-        </>
-      )}
+                  <DotsHorizontalIcon className="h-4 w-4" aria-hidden="true" />
+                </Button>
+              </DropdownMenuTrigger>
+              {
+                <DropdownMenuContent align="end">
+                  {!!onEdit && (!canEdit || canEdit(row)) && (
+                    <DropdownMenuItem onClick={() => onEdit(id)}>
+                      Aanpassen
+                    </DropdownMenuItem>
+                  )}
+                  {(!canDelete || canDelete(row)) && (
+                    <>
+                      <DropdownMenuItem onClick={() => setIsDeleting(id)}>
+                        Verwijderen
+                      </DropdownMenuItem>
+                    </>
+                  )}
+                </DropdownMenuContent>
+              }
+            </DropdownMenu>
+            <AlertModal
+              isOpen={isDeleting === id}
+              onClose={() => setIsDeleting(null)}
+              onConfirm={() =>
+                handleDelete(row as Row<Schema & { id: string }>)
+              }
+              loading={false}
+            />
+          </>
+        );
+      },
     },
   ];
 }

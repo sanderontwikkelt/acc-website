@@ -1,23 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Media } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import { ImagePlus } from "lucide-react";
+import { EntityEnum } from "types/permissions";
+
+import { Media } from "@acme/db";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@acme/ui";
 
 import { Button } from "~/components/ui/button";
 import { Modal } from "~/components/ui/modal";
+import { useMutation } from "~/hooks/use-mutation";
+import { api } from "~/trpc/react";
 import { Loader } from "../ui/loader";
 import { MediaGrid } from "../ui/media-grid";
-import { MediaValue } from "../ui/media-select";
+import UploadButton from "../ui/upload-button";
 
 export type MediaType = "image" | "video";
 
 interface MediaModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelect: (value: MediaValue[]) => void;
-  selected: MediaValue[] | null;
+  onSelect: (value: Media[]) => void;
+  selected: Media[] | null;
   type: MediaType;
   multiple?: boolean;
 }
@@ -30,22 +43,25 @@ export const MediaModal: React.FC<MediaModalProps> = ({
   type = "image",
   multiple,
 }) => {
+  const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isFetching, setIsFetching] = useState(true);
-  const [selectedMedia, setSelectedMedia] = useState<MediaValue[] | null>(
-    selected,
-  );
-  const [media, setMedia] = useState<Media[]>([]);
+  const [selectedMedia, setSelectedMedia] = useState<Media[] | null>(selected);
+  const [page, setPage] = useState(1);
+  const perPage = 12;
 
-  const fetchMedia = async () => {
-    const { data } = await axios.get("/api/media?type=" + type);
-    if (isFetching) setIsFetching(false);
-    setMedia(data);
-  };
+  const { data: media, isLoading } = api.media.list.useQuery({
+    page,
+    perPage,
+  });
+
+  const [totalRoles] = api.role.count.useSuspenseQuery();
+  const pageCount = totalRoles[0]
+    ? Math.ceil(+totalRoles[0]?.count / perPage)
+    : 1;
+
   useEffect(() => {
     setIsMounted(true);
-    fetchMedia();
   }, []);
 
   useEffect(() => {
@@ -55,29 +71,6 @@ export const MediaModal: React.FC<MediaModalProps> = ({
   if (!isMounted) {
     return null;
   }
-
-  const onChange = async (files: FileList | null) => {
-    if (!files) return;
-    setLoading(true);
-
-    try {
-      // Create a FormData object and append the file to it
-      const formData = new FormData();
-      const file = files[0];
-      formData.append("file", file);
-
-      // Send a POST request to your API endpoint
-      const response = await axios.post("/api/media", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      setMedia((prev) => [...prev, response.data]);
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const onSubmit = () => {
     if (!selectedMedia) return;
@@ -99,42 +92,55 @@ export const MediaModal: React.FC<MediaModalProps> = ({
             <Loader />
           </div>
         ) : null}
-        {isFetching ? (
+        {isLoading ? (
           <div className="flex h-36 w-full items-center justify-center">
             <Loader />
           </div>
         ) : (
           <MediaGrid
             multiple={!!multiple}
-            media={media}
+            media={media || []}
             onSelect={setSelectedMedia}
             selected={selectedMedia || []}
-            refetch={fetchMedia}
           />
         )}
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem
+              className={page === 1 ? "pointer-events-none opacity-60" : ""}
+            >
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            {Array(Math.max(pageCount, 3))
+              .fill(0)
+              .map((_, i) => {
+                const start = page > 1 ? page - 1 : 1;
+                const current = start + i;
+                if (pageCount < current) return null;
+                return (
+                  <PaginationItem key={i}>
+                    <PaginationLink
+                      isActive={current === page}
+                      onClick={() => setPage(current)}
+                      href="#"
+                    >
+                      {current}
+                    </PaginationLink>
+                  </PaginationItem>
+                );
+              })}
+            <PaginationItem
+              className={
+                page === pageCount ? "pointer-events-none opacity-60" : ""
+              }
+            >
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
         <div className="sticky bottom-0 space-y-2">
           <div className="flex w-full items-center justify-end space-x-2 pt-6">
-            <div>
-              <input
-                type="file"
-                hidden
-                id="media-model-upload"
-                accept={type === "image" ? "image/*" : "video/*"}
-                onChange={(e) => onChange(e.target.files)}
-              />
-              <Button
-                type="button"
-                disabled={loading}
-                variant="secondary"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  document?.getElementById("media-model-upload")?.click();
-                }}
-              >
-                <ImagePlus className="mr-2 h-4 w-4" />
-                Afbeelding uploaden
-              </Button>
-            </div>
+            <UploadButton />
             <Button
               disabled={loading || !selectedMedia}
               type="button"

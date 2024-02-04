@@ -25,14 +25,14 @@ export function DataTablePagination<TData>({
   pageSizeOptions = [10, 20, 30, 40, 50],
 }: DataTablePaginationProps<TData>) {
   return (
-    <div className="flex w-full items-center justify-between gap-4 overflow-auto py-1 sm:gap-8">
+    <div className="flex w-full items-center justify-between gap-4 overflow-auto sm:gap-8">
       {table.getAllColumns().some(({ id }) => id === "select") && (
         <div className="flex-1 whitespace-nowrap text-sm text-muted-foreground max-md:hidden">
           Rij {table.getFilteredSelectedRowModel().rows.length} van{" "}
           {table.getFilteredRowModel().rows.length}
         </div>
       )}
-      <div className="md:ml-auto flex max-md:justify-between max-md:w-full items-center gap-4 sm:gap-6 lg:gap-8">
+      <div className="flex items-center gap-4 max-md:w-full max-md:justify-between sm:gap-6 md:ml-auto lg:gap-8">
         <div className="flex items-center md:space-x-2">
           <p className="whitespace-nowrap text-sm font-medium max-md:hidden">
             Rijen per pagina

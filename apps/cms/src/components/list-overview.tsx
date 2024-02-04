@@ -7,7 +7,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { Copy, Edit, MoreHorizontal, Plus, Trash } from "lucide-react";
 import { ActionEnum } from "types/permissions";
 
-import { Checkbox } from "@acme/ui/checkbox";
+import { Checkbox } from "@acme/ui";
 import { toast } from "@acme/ui/toast";
 
 import { AlertModal } from "~/components/modals/alert-modal";

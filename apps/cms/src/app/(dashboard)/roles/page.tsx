@@ -4,7 +4,12 @@ import React, { useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { format } from "date-fns";
 import { Plus } from "lucide-react";
-import { ActionEnum, EntityEnum, permissionActions, permissionEntities } from "types/permissions";
+import {
+  ActionEnum,
+  EntityEnum,
+  permissionActions,
+  permissionEntities,
+} from "types/permissions";
 
 import type { Role } from "@acme/db";
 import { Button } from "@acme/ui";
@@ -48,11 +53,17 @@ const RolesPage = () => {
   const perPage = +(searchParams.get("per_page") || 10);
   const sort = searchParams.get("sort");
 
+  const permissionIds = searchParams.get("permissions");
+
   const [roles] = api.role.list.useSuspenseQuery({
     page,
-    sort: sort ? String(sort) : undefined,
+    sort: sort || undefined,
     perPage,
+    ...(permissionIds && {
+      permissionIds: permissionIds.split(".").map((p) => +p),
+    }),
   });
+
   const [permissions] = api.permission.all.useSuspenseQuery();
   const [totalRoles] = api.role.count.useSuspenseQuery();
 
@@ -60,21 +71,32 @@ const RolesPage = () => {
 
   const router = useRouter();
   const { data: roleData, isLoading } = api.role.byId.useQuery({
-    id: id && id !== 'new' ? +id : 0,
+    id: id && id !== "new" ? +id : 0,
   });
 
-const role = useMemo(() => roleData ? ({ ...roleData, permissionIds: roleData.permissions.map((p) => p.permissionId)}) : undefined, [roleData])
+  const role = useMemo(
+    () =>
+      roleData
+        ? {
+            ...roleData,
+            permissionIds: roleData.permissions.map((p) => p.permissionId),
+          }
+        : undefined,
+    [roleData],
+  );
 
   const permissionOptions = useMemo(
     () =>
-      (permissions?.map(({ id, entity, action }) => ({
-        label: `${permissionEntities.find(({ value }) => value === entity)?.label || '-'} - ${permissionActions.find(({ value }) => value === action)?.label || '-'}`,
-        value: String(id),
-      })) || []).sort((a, b) => a.label.localeCompare(b.label)) as Option[],
+      (
+        permissions?.map(({ id, entity, action }) => ({
+          label: `${permissionEntities.find(({ value }) => value === entity)?.label || "-"} - ${permissionActions.find(({ value }) => value === action)?.label || "-"}`,
+          value: String(id),
+        })) || []
+      ).sort((a, b) => a.label.localeCompare(b.label)) as Option[],
     [permissions],
   );
 
- const filterableColumns: DataTableFilterableColumn<Column>[] = React.useMemo(
+  const filterableColumns: DataTableFilterableColumn<Column>[] = React.useMemo(
     () => [
       {
         id: "permissions",
@@ -93,7 +115,10 @@ const role = useMemo(() => roleData ? ({ ...roleData, permissionIds: roleData.pe
         id: role.id,
         name: role.name ?? "",
         description: role.description,
-        permissions: role.permissions.length === permissions.length ? 'Alles' : String(role.permissions.length),
+        permissions:
+          role.permissions.length === permissions.length
+            ? "Alles"
+            : String(role.permissions.length),
         createdAt: role.createdAt
           ? format(new Date(role.createdAt), "dd-LL-yyyy, hh:mm")
           : "",

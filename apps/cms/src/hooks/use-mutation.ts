@@ -16,7 +16,7 @@ export const useMutation = (
   entity: EntityEnum,
   method: "delete" | "create" | "update",
   route?: string,
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): ((data: any) => Promise<any>) => {
   const utils = api.useUtils();
   const router = useRouter();

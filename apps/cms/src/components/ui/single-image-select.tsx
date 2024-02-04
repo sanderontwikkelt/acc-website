@@ -2,45 +2,19 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import axios from "axios";
 import { ImagePlus } from "lucide-react";
+
+import { Media } from "@acme/db";
 
 import { MediaModal } from "../modals/media-modal";
 import { Loader } from "./loader";
 
-export type MediaValue = {
-  src: string;
-  width: number;
-  height: number;
-  id: string;
-  name: string;
-};
-
 interface SingleImageSelectProps {
   disabled?: boolean;
-  onChange: (value: string) => void;
-  value: string;
+  onChange: (value: Media | null) => void;
+  value: Media;
   multiple?: boolean;
 }
-
-const getImage = async (
-  id: string,
-  setImage: (i: MediaValue) => void,
-  setLoading: (b: boolean) => void,
-) => {
-  setLoading(true);
-  const { data } = await axios.get("/api/media/" + id);
-
-  if (data)
-    setImage({
-      id: data.id,
-      height: data.height,
-      width: data.width,
-      src: data.url,
-      name: data.filename,
-    });
-  setLoading(false);
-};
 
 const SingleImageSelect: React.FC<SingleImageSelectProps> = ({
   onChange,
@@ -48,14 +22,11 @@ const SingleImageSelect: React.FC<SingleImageSelectProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [image, setImage] = useState<MediaValue | null>(null);
+  const [image, setImage] = useState<Media | null>(null);
 
   useEffect(() => {
-    console.log({ value });
     if (value) {
-      getImage(value, setImage, setIsLoading);
-    } else {
-      setIsLoading(false);
+      setImage(value);
     }
   }, [value]);
 
@@ -65,11 +36,10 @@ const SingleImageSelect: React.FC<SingleImageSelectProps> = ({
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         selected={image ? [image] : []}
-        onSelect={([{ id }]) => onChange(id)}
+        onSelect={([media]) => onChange(media || null)}
         type="image"
       />
       <button
-        disabled={isLoading}
         type="button"
         className="relative h-36 w-full overflow-hidden rounded-md border border-input bg-secondary"
         onClick={() => setIsOpen(true)}
@@ -78,6 +48,7 @@ const SingleImageSelect: React.FC<SingleImageSelectProps> = ({
           <Image
             fill
             className="object-contain px-5"
+            onLoad={() => setIsLoading(false)}
             alt={image.name}
             src={image.src}
           />

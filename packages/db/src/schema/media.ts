@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 
-import { createdAt, id, nnInt, updatedAt, varChar } from "../utils";
+import { createdAt, id, nnInt, nnVarChar, updatedAt, varChar } from "../utils";
 import { mySqlTable } from "./_table";
 import { contact_email } from "./contact";
 import { product } from "./product";
@@ -12,9 +12,9 @@ export const media = mySqlTable("media", {
   size: nnInt("size"),
   width: nnInt("width"),
   height: nnInt("height"),
-  mimetype: varChar("mimetype"),
+  mimetype: nnVarChar("mimetype"),
   filepath: varChar("filepath"),
-  url: varChar("url"),
+  url: nnVarChar("url"),
   createdAt,
   updatedAt,
 });

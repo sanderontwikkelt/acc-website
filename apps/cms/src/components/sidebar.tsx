@@ -45,7 +45,7 @@ export async function AdminSideBar({
       {...props}
       id="sidebar"
       className={cn(
-        "h-screen transition-all duration-300 max-md:fixed max-md:inset-0 max-md:w-screen max-md:-translate-x-full",
+        "h-screen transition-all duration-300 max-md:fixed max-md:inset-0 max-md:w-[calc(100vw-2rem)] max-md:-translate-x-[calc(100%+2rem)]",
       )}
     >
       <SidebarItem className="relative flex w-full items-center gap-1 pl-1">

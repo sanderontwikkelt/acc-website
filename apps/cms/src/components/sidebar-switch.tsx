@@ -14,7 +14,7 @@ const SidebarSwitch = () => {
     const sidebar = document.getElementById("sidebar");
     if (sidebar) {
       if (open) {
-        sidebar.style.transform = "translateX(-100%)";
+        sidebar.style.transform = `translateX(-${window.innerWidth + 32}px)`;
         setOpen(false);
       } else {
         sidebar.style.transform = "translateX(0%)";
@@ -28,7 +28,7 @@ const SidebarSwitch = () => {
     if (sidebar) {
       if (window.innerWidth < 800) {
         setOpen(false);
-        sidebar.style.transform = "translateX(-100%)";
+        sidebar.style.transform = `translateX(-${window.innerWidth + 32}px)`;
       }
     }
   }, [pathname]);
@@ -36,8 +36,8 @@ const SidebarSwitch = () => {
     <button
       onClick={handleOpen}
       className={cn(
-        "fixed top-[calc(100vh-3.75rem)] flex h-10 w-10 items-center justify-center rounded-full border border-input bg-background transition-all duration-300 md:hidden",
-        open ? "right-5 rotate-0" : "-right-[3.5rem] rotate-180",
+        "fixed bottom-[calc(100vh-3.75rem)] flex h-10 w-10 items-center justify-center rounded-full border border-input bg-background transition-all duration-300 md:hidden",
+        open ? "right-5 rotate-0" : "-right-[5.5rem] rotate-180",
       )}
     >
       <ChevronLeft />

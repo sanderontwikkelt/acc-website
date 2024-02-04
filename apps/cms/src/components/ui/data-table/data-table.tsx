@@ -2,6 +2,8 @@ import type { ColumnDef, Table as TanstackTable } from "@tanstack/react-table";
 import * as React from "react";
 import { flexRender } from "@tanstack/react-table";
 
+import { cn } from "@acme/ui";
+
 import type {
   DataTableFilterableColumn,
   DataTableSearchableColumn,
@@ -75,6 +77,8 @@ interface DataTableProps<TData, TValue> {
    * @example deleteRowsAction={(event) => deleteSelectedRows(dataTable, event)}
    */
   deleteRowsAction?: React.MouseEventHandler<HTMLButtonElement>;
+
+  className?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -87,11 +91,12 @@ export function DataTable<TData, TValue>({
   onClickRow,
   floatingBarContent,
   deleteRowsAction,
+  className,
 }: DataTableProps<TData, TValue>) {
   return (
-    <div className="flex h-full w-full flex-grow flex-col">
+    <div className="flex h-full w-full flex-grow flex-col space-y-3">
       {!hideToolbar && (
-        <div className="mb-3 flex w-full items-center">
+        <div className="flex w-full items-center">
           {advancedFilter ? (
             <DataTableAdvancedToolbar
               dataTable={dataTable}
@@ -108,7 +113,7 @@ export function DataTable<TData, TValue>({
           )}
         </div>
       )}
-      <div className="mb-3 rounded-md border bg-background">
+      <div className={cn("rounded-md border bg-background", className)}>
         <Table>
           <TableHeader>
             {dataTable.getHeaderGroups().map((headerGroup) => (
@@ -138,7 +143,14 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className={
+                        cell.id.includes("_select")
+                          ? "w-min min-w-[3.5rem]"
+                          : ""
+                      }
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),

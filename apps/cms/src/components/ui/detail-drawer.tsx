@@ -2,14 +2,18 @@
 
 import type { EntityEnum } from "types/permissions";
 import type { ZodType } from "zod";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { ActionEnum } from "types/permissions";
 
 import {
   Button,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
   Drawer,
   DrawerClose,
   DrawerContent,
@@ -17,11 +21,6 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
 } from "@acme/ui";
 import {
   Select,
@@ -41,13 +40,12 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import useMediaQuery from "~/hooks/use-media-query";
 import { useMutation } from "~/hooks/use-mutation";
 import { allowed, useHasPermissions } from "~/lib/utils";
-import { AlertModal } from "../modals/alert-modal";
 import { Loader } from "./loader";
-import { Textarea } from "./textarea";
 import MultiSelect from "./multi-select";
-import useMediaQuery from "~/hooks/use-media-query";
+import { Textarea } from "./textarea";
 
 export enum TypeEnum {
   INPUT = "input",
@@ -93,17 +91,14 @@ function DetailDrawer({
   loading: boolean;
 }) {
   const [isLoading, startTransition] = useTransition();
-  const [deleteOpen, setDeleteOpen] = useState(false);
 
-  const isDesktop = useMediaQuery('(min-width: 960px)');
+  const isDesktop = useMediaQuery("(min-width: 960px)");
 
-  const [canDelete, canCreate, canUpdate] = useHasPermissions(
-    [entity, ActionEnum.DELETE],
+  const [canCreate, canUpdate] = useHasPermissions(
     [entity, ActionEnum.CREATE],
     [entity, ActionEnum.UPDATE],
   );
 
-  const onDelete = useMutation(entity, "delete");
   const onCreate = useMutation(entity, "create");
   const onUpdate = useMutation(entity, "update");
 
@@ -136,20 +131,14 @@ function DetailDrawer({
     });
   };
 
-  const Wrapper = isDesktop ? Dialog : Drawer
-  const Content = isDesktop ? DialogContent : DrawerContent
-  const Header = isDesktop ? DialogHeader : DrawerHeader
-  const Title = isDesktop ? DialogTitle : DrawerTitle
-  const Description = isDesktop ? DialogDescription : DrawerDescription
+  const Wrapper = isDesktop ? Dialog : Drawer;
+  const Content = isDesktop ? DialogContent : DrawerContent;
+  const Header = isDesktop ? DialogHeader : DrawerHeader;
+  const Title = isDesktop ? DialogTitle : DrawerTitle;
+  const Description = isDesktop ? DialogDescription : DrawerDescription;
 
   return (
     <>
-      <AlertModal
-        isOpen={deleteOpen}
-        onClose={() => setDeleteOpen(false)}
-        onConfirm={onDelete}
-        loading={isLoading}
-      />
       <Wrapper
         open={!!id}
         onClose={onClose}
@@ -166,16 +155,6 @@ function DetailDrawer({
               <Title className="mb-1">{title}</Title>
               <Description>{description}</Description>
             </div>
-            {hasInitialData && canDelete && (
-              <Button
-                disabled={isLoading}
-                variant="destructive"
-                size="icon"
-                onClick={() => setDeleteOpen(true)}
-              >
-                <Trash className="h-4 w-4" />
-              </Button>
-            )}
           </Header>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -220,7 +199,9 @@ function DetailDrawer({
                                     <MultiSelect
                                       disabled={loading}
                                       options={options}
-                                      onChange={(values: string[]) => field.onChange(values.map((v) => +v))}
+                                      onChange={(values: string[]) =>
+                                        field.onChange(values.map((v) => +v))
+                                      }
                                       selectedValues={field.value}
                                     />
                                   ),
@@ -286,7 +267,7 @@ function DetailDrawer({
                   <DrawerClose asChild>
                     <Button variant="outline">Sluiten</Button>
                   </DrawerClose>
-                  <Button>Opslaan</Button>
+                  <Button disabled={isLoading}>Opslaan</Button>
                 </DrawerFooter>
               </fieldset>
             </form>

@@ -1,7 +1,7 @@
 import { v4 } from "uuid";
 import { z } from "zod";
 
-import { desc, eq, schema, sql } from "@acme/db";
+import { desc, eq, or, schema, sql } from "@acme/db";
 import { userFormSchema } from "@acme/validators";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
@@ -21,16 +21,40 @@ export const userRouter = createTRPCRouter({
         perPage: z.number().optional(),
         page: z.number().optional(),
         sort: z.string().optional(),
+        roleIds: z.array(z.number()).optional(),
       }),
     )
     .query(({ ctx, input }) => {
-      return ctx.db
-        .select()
-        .from(schema.user)
-        .orderBy(desc(schema.user.id))
-        .limit(input.perPage || 10)
-        .offset(input.page ? input.page - 1 : 0)
-        .leftJoin(schema.role, eq(schema.user.roleId, schema.role.id));
+      const limit = input.perPage || 10;
+      const offset = input.page ? (input.page - 1) * limit : 0;
+
+      let orderBy = undefined;
+      if (input.sort) {
+        const [sort, order] = input.sort.split(".") as ["id", "desc" | "asc"];
+        if (sort) {
+          if (order === "desc") {
+            orderBy = desc(schema.user[sort]);
+          } else {
+            orderBy = schema.user[sort];
+          }
+        }
+      } else {
+        orderBy = desc(schema.user.id);
+      }
+
+      return ctx.db.query.user.findMany({
+        with: {
+          role: true,
+        },
+        limit,
+        offset,
+        orderBy,
+        ...(input.roleIds && {
+          where: or(
+            ...input.roleIds.map((roleId) => eq(schema.user.roleId, roleId)),
+          ),
+        }),
+      });
     }),
 
   byId: publicProcedure

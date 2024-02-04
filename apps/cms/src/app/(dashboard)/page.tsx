@@ -39,7 +39,6 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
       <Heading title="Dashboard" description="Overview of your store">
         <CalendarDateRangePicker startDate={startDate} endDate={endDate} />
       </Heading>
-      <Separator />
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
