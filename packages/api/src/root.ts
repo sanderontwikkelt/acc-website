@@ -1,5 +1,6 @@
 import { authRouter } from "./router/auth";
 import { shoppingCartRouter } from "./router/cart";
+import { productCategoryRouter } from "./router/product-category";
 import { mediaRouter } from "./router/media";
 import { orderRouter } from "./router/order";
 import { permissionRouter } from "./router/permission";
@@ -19,6 +20,7 @@ export const appRouter = createTRPCRouter({
   media: mediaRouter,
   order: orderRouter,
   product: productRouter,
+  productCategory: productCategoryRouter,
   stripe: stripeRouter,
   cart: shoppingCartRouter,
 });

@@ -1,13 +1,11 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { format } from "date-fns";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
-import type { Media } from "@acme/db";
 import { buttonVariants, cn, NextImage } from "@acme/ui";
-import { mediaFormSchema } from "@acme/validators";
 
 import type { DataTableFilterableColumn } from "~/components/ui/data-table/data-table-types";
 import { Card } from "~/components/ui/card";
@@ -17,7 +15,6 @@ import {
   deleteSelectedRows,
   TableFloatingBarContent,
 } from "~/components/ui/data-table/table-actions";
-import DetailDrawer, { TypeEnum } from "~/components/ui/detail-drawer";
 import { Heading } from "~/components/ui/heading";
 import UploadButton from "~/components/ui/upload-button";
 import { useDataTable } from "~/hooks/use-data-table";

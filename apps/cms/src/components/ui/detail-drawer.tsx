@@ -62,6 +62,7 @@ interface FormField {
   placeholder?: string;
   type: TypeEnum;
   options?: { label: string; value: string }[];
+  inputProps?: Record<string, string | number>
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -164,7 +165,7 @@ function DetailDrawer({
               >
                 <div className="grid grid-cols-1 gap-4 max-md:px-4">
                   {formFields.map(
-                    ({ name, label, placeholder, type, options }) => (
+                    ({ name, label, placeholder, type, options, inputProps }) => (
                       <FormField
                         control={form.control}
                         key={name}
@@ -183,6 +184,7 @@ function DetailDrawer({
                                         `Typ een ${label.toLowerCase()}`
                                       }
                                       {...field}
+                                      {...inputProps}
                                     />
                                   ),
                                   text: (

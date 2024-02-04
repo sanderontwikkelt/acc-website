@@ -32,11 +32,19 @@ export const roleFormSchema = z.object({
   permissionIds: z.array(z.number()),
 });
 
+export const productCategoryFormSchema = z.object({
+  title: z.string().min(2),
+});
+
 export const productFormSchema = z.object({
   slug: z.string().min(1),
+  description: z.string().min(1),
   title: z.string().min(1),
   price: z.string(),
+  category: z.string(),
   stock: z.number(),
+  mediaIds: z.array(z.number()),
+  relatedProductIds: z.array(z.number()),
 });
 
 export const orderFormSchema = z.object({

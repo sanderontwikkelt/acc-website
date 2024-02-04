@@ -5,6 +5,7 @@ import {
   ImageIcon,
   Package,
   ShoppingBag,
+  TriangleIcon,
   Users,
 } from "lucide-react";
 import { ActionEnum, EntityEnum } from "types/permissions";
@@ -29,6 +30,7 @@ export async function AdminSideBar({
     canFindRoles,
     canFindMedia,
     canFindProducts,
+    canFindProductCategories,
     canFindOrders,
     canFindCarts,
   ] = await getPermissions(
@@ -36,6 +38,7 @@ export async function AdminSideBar({
     [EntityEnum.ROLE, ActionEnum.FIND],
     [EntityEnum.MEDIA, ActionEnum.FIND],
     [EntityEnum.PRODUCT, ActionEnum.FIND],
+    [EntityEnum.PRODUCTCATEGORY, ActionEnum.FIND],
     [EntityEnum.ORDER, ActionEnum.FIND],
     [EntityEnum.CART, ActionEnum.FIND],
   );
@@ -148,10 +151,16 @@ export async function AdminSideBar({
         </SidebarItemContent>
       </SidebarItem>
 
-      {(canFindProducts || canFindOrders || canFindCarts) && (
+      {(canFindProductCategories || canFindProducts || canFindOrders || canFindCarts) && (
         <SidebarItem>
           <SidebarItemLabel>Webshop</SidebarItemLabel>
           <SidebarItemContent>
+            {canFindProductCategories && (
+              <SidebarItemLink href="/product-categories">
+                <TriangleIcon className="mr-2 h-4 w-4" />
+                Productcategoriën
+              </SidebarItemLink>
+            )}
             {canFindProducts && (
               <SidebarItemLink href="/products">
                 <Package className="mr-2 h-4 w-4" />

@@ -3,6 +3,7 @@ export enum EntityEnum {
   ROLE = "role",
   MEDIA = "media",
   PRODUCT = "product",
+  PRODUCTCATEGORY = "productCategory",
   ORDER = "order",
   CART = "cart",
 }
