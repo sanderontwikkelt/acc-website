@@ -1,13 +1,20 @@
 "use client";
 
-import React, { useEffect, useMemo, useTransition } from "react";
+import type { z } from "zod";
+import React, { useEffect, useMemo, useState, useTransition } from "react";
 import { useParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  ClipboardList,
+  ImagePlusIcon,
+  ListFilter,
+  SearchCode,
+} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { ActionEnum, EntityEnum } from "types/permissions";
-import { z } from "zod";
 
-import { Button, Input } from "@acme/ui";
+import { Media } from "@acme/db";
+import { Button, cn, Input, Textarea } from "@acme/ui";
 import {
   Select,
   SelectContent,
@@ -17,7 +24,9 @@ import {
 } from "@acme/ui/select";
 import { productFormSchema } from "@acme/validators";
 
-import { TypeEnum } from "~/app/_components/detail-page";
+import { MediaModal } from "~/components/modals/media-modal";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import DynamicVariants from "~/components/ui/dynamic-variants";
 import {
   Form,
   FormControl,
@@ -26,6 +35,9 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
+import { Heading } from "~/components/ui/heading";
+import { ImageGallary } from "~/components/ui/image-gallary";
+import RichText from "~/components/ui/rich-text";
 import { useMutation } from "~/hooks/use-mutation";
 import { useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
@@ -35,6 +47,8 @@ type ProductFormValues = z.infer<typeof productFormSchema>;
 const ProductDetailPage = () => {
   const { productId } = useParams();
   const isDetails = !!(productId && productId !== "new");
+  const [isOpenMedia, setIsOpenMedia] = useState(false);
+  const [images, setImages] = useState<Media[]>([]);
 
   const [loading, startTransition] = useTransition();
 
@@ -75,12 +89,16 @@ const ProductDetailPage = () => {
       description: "",
       slug: "",
       price: "",
-      stock: 0,
     },
   });
-
+  console.log(product?.images);
   useEffect(() => {
-    if (product) form.reset(product);
+    if (product) {
+      form.reset(product);
+      if (product.images) {
+        // setImages(product.images)
+      }
+    }
   }, [product, form]);
 
   const onSubmit = async (data: ProductFormValues) => {
@@ -93,146 +111,296 @@ const ProductDetailPage = () => {
     });
   };
 
+  const mediaIds = form.watch("mediaIds");
+
   return (
     <>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-8"
+          className="w-full space-y-4"
         >
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-8">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Titel</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Product titel"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Beschrijving</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Product beschrijving"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="slug"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Slug</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      placeholder="Product slug"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Prijs</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      type="number"
-                      min={0}
-                      max={50_000}
-                      step={0.01}
-                      placeholder="Product prijs"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="stock"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Voorraad</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={loading}
-                      type="number"
-                      min={0}
-                      max={1_000}
-                      step={1}
-                      placeholder="Product voorraad"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="stock"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Categorie</FormLabel>
-                  <FormControl>
-                    <Select
-                      onValueChange={(v) => field.onChange(+v)}
-                      defaultValue={
-                        field.value ? field.value.toString() : undefined
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {categoryOptions?.map(({ value, label }) => (
-                          <SelectItem key={value} value={value}>
-                            {label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <Button
-            disabled={isLoading || loading}
-            className="ml-auto"
-            type="submit"
+          <Heading
+            title={isDetails ? "Product aanpassen" : "Product toevoegen"}
+            description={
+              isDetails
+                ? "Bekijk product gegevens en pas eventueel aan"
+                : "Maak een nieuw product aan"
+            }
           >
-            {action}
-          </Button>
+            <Button disabled={isLoading || loading}>{action}</Button>
+          </Heading>
+          <div className="grid grid-cols-1 gap-4">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <ClipboardList className="mr-2 w-5" />
+                  Algemene informatie
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Titel</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="Product titel"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="categoryId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Categorie</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={(v) => field.onChange(+v)}
+                          defaultValue={
+                            field.value ? field.value.toString() : undefined
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecteer een categorie" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {categoryOptions?.map(({ value, label }) => (
+                              <SelectItem key={value} value={value}>
+                                {label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem className="md:col-span-2">
+                      <FormLabel>Beschrijving</FormLabel>
+                      <FormControl>
+                        <RichText
+                          disabled={loading}
+                          id="description"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <SearchCode className="mr-2 w-5" />
+                  SEO
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="seoTitle"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>SEO titel</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="SEO titel"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="slug"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Slug</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="Product slug"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="seoDescription"
+                  render={({ field }) => (
+                    <FormItem className="md:col-span-2">
+                      <FormLabel>SEO beschrijving</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          disabled={loading}
+                          placeholder="SEO beschrijving"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-2">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <ListFilter className="mr-2 w-5" />
+                  Varianten
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Prijs</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          type="number"
+                          min={0}
+                          max={50_000}
+                          step={0.01}
+                          placeholder="Product prijs"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="stock"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Standaard voorraad</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          type="number"
+                          min={0}
+                          max={1_000}
+                          step={1}
+                          placeholder="Product voorraad"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="variants"
+                  render={({ field }) => (
+                    <FormItem className="md:col-span-2">
+                      <FormLabel>Varianten</FormLabel>
+                      <FormControl>
+                        <DynamicVariants
+                          values={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <SearchCode className="mr-2 w-5" />
+                  Afbeeldingen
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="">
+                <FormField
+                  control={form.control}
+                  name="seoTitle"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <ImageGallary
+                          selected={images}
+                          onChange={(media) => {
+                            setImages(media);
+                            field.onChange(media.map(({ id }) => id));
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div
+                  className={cn(
+                    "flex w-full justify-center",
+                    images.length
+                      ? "mt-5"
+                      : "h-40 items-center rounded-md bg-gray-100",
+                  )}
+                >
+                  <Button
+                    className="mx-auto"
+                    size="sm"
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsOpenMedia(true)}
+                  >
+                    <ImagePlusIcon className="mr-1 w-4" />
+                    Selecteren
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </form>
       </Form>
+      <MediaModal
+        isOpen={isOpenMedia}
+        onClose={() => setIsOpenMedia(false)}
+        selected={images}
+        onSelect={(media) => {
+          setImages(media);
+          form.setValue(
+            "mediaIds",
+            media.map(({ id }) => id),
+          );
+        }}
+        type="image"
+        multiple
+      />
     </>
   );
 };

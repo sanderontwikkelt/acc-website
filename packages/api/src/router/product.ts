@@ -64,6 +64,7 @@ export const productRouter = createTRPCRouter({
         where: eq(schema.product.id, input.id),
         with: {
           variants: true,
+          images: true,
         },
       });
     }),
@@ -82,16 +83,14 @@ export const productRouter = createTRPCRouter({
                 .map((id) => ({ productId: +product.insertId, mediaId: +id })),
             );
         if (input.relatedProductIds.length)
-          await tx
-            .insert(schema.productsToProducts)
-            .values(
-              input.relatedProductIds
-                .filter((id, idx, ids) => ids.indexOf(id) === idx)
-                .map((id) => ({
-                  productId: +product.insertId,
-                  relatedProductId: +id,
-                })),
-            );
+          await tx.insert(schema.productsToProducts).values(
+            input.relatedProductIds
+              .filter((id, idx, ids) => ids.indexOf(id) === idx)
+              .map((id) => ({
+                productId: +product.insertId,
+                relatedProductId: +id,
+              })),
+          );
       });
     }),
   update: protectedProcedure

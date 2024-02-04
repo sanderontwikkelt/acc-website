@@ -1,13 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import axios from "axios";
-import { ImagePlus } from "lucide-react";
-import { EntityEnum } from "types/permissions";
 
 import { Media } from "@acme/db";
 import {
+  Button,
   Pagination,
   PaginationContent,
   PaginationItem,
@@ -16,9 +13,7 @@ import {
   PaginationPrevious,
 } from "@acme/ui";
 
-import { Button } from "~/components/ui/button";
 import { Modal } from "~/components/ui/modal";
-import { useMutation } from "~/hooks/use-mutation";
 import { api } from "~/trpc/react";
 import { Loader } from "../ui/loader";
 import { MediaGrid } from "../ui/media-grid";
@@ -40,12 +35,9 @@ export const MediaModal: React.FC<MediaModalProps> = ({
   onClose,
   onSelect,
   selected,
-  type = "image",
   multiple,
 }) => {
-  const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState<Media[] | null>(selected);
   const [page, setPage] = useState(1);
   const perPage = 12;
@@ -81,29 +73,23 @@ export const MediaModal: React.FC<MediaModalProps> = ({
   return (
     <Modal
       className="sm:max-w-4xl"
-      title="Select an image"
-      description="Select one of the images from your media store."
+      title="Kies een afbeelding"
+      description="Selecteer een afbeelding uit je media."
       isOpen={isOpen}
       onClose={onClose}
     >
       <div className="space-y-4 pt-2">
-        {loading ? (
+        {!!isLoading && (
           <div className="absolute inset-0 flex h-full w-full items-center justify-center">
             <Loader />
           </div>
-        ) : null}
-        {isLoading ? (
-          <div className="flex h-36 w-full items-center justify-center">
-            <Loader />
-          </div>
-        ) : (
-          <MediaGrid
-            multiple={!!multiple}
-            media={media || []}
-            onSelect={setSelectedMedia}
-            selected={selectedMedia || []}
-          />
         )}
+        <MediaGrid
+          multiple={!!multiple}
+          media={media as Media[]}
+          onSelect={setSelectedMedia}
+          selected={selectedMedia || []}
+        />
         <Pagination>
           <PaginationContent>
             <PaginationItem
@@ -141,11 +127,7 @@ export const MediaModal: React.FC<MediaModalProps> = ({
         <div className="sticky bottom-0 space-y-2">
           <div className="flex w-full items-center justify-end space-x-2 pt-6">
             <UploadButton />
-            <Button
-              disabled={loading || !selectedMedia}
-              type="button"
-              onClick={onSubmit}
-            >
+            <Button disabled={!selectedMedia} type="button" onClick={onSubmit}>
               Selecteren
             </Button>
           </div>

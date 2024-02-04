@@ -62,6 +62,7 @@ const UploadButton = () => {
       <Button
         type="button"
         className="relative overflow-hidden"
+        variant="outline"
         disabled={loading}
         onClick={(e) => {
           e.stopPropagation();

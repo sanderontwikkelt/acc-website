@@ -114,12 +114,13 @@ const DragList = ({
                                 )}
                                 <button
                                   type="button"
-                                  onClick={() =>
+                                  onClick={(e) => {
+                                    e.preventDefault();
                                     onChange([
                                       ...values,
                                       { ...item, id: uuidv4() },
-                                    ])
-                                  }
+                                    ]);
+                                  }}
                                   className="ml-auto"
                                 >
                                   <TooltipWrapper message="Dupliceren">
@@ -129,11 +130,12 @@ const DragList = ({
 
                                 <button
                                   type="button"
-                                  onClick={() =>
+                                  onClick={(e) => {
+                                    e.preventDefault();
                                     onChange(
                                       values.filter((_, idx) => idx !== index),
-                                    )
-                                  }
+                                    );
+                                  }}
                                   className="ml-[0.75rem]"
                                 >
                                   <TooltipWrapper message="Verwijderen">

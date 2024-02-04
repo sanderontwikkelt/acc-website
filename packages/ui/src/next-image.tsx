@@ -14,6 +14,7 @@ interface NextImageProps {
   className?: string;
   priority?: boolean;
   loading?: "eager" | "lazy";
+  style: React.CSSProperties;
 }
 
 export const NextImage = ({
@@ -29,6 +30,7 @@ export const NextImage = ({
       {...(!!(objectPosition && props.className?.includes("object-cover")) && {
         style: {
           objectPosition: `${objectPosition.x}% ${objectPosition.y}%`,
+          ...props.style,
         },
       })}
     />

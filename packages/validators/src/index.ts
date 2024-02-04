@@ -40,10 +40,15 @@ export const productFormSchema = z.object({
   slug: z.string().min(1),
   description: z.string().min(1),
   title: z.string().min(1),
+  seoDescription: z.string(),
+  seoTitle: z.string(),
   price: z.string(),
   category: z.string(),
   stock: z.number(),
   mediaIds: z.array(z.number()),
+  variants: z.array(
+    z.object({ title: z.string(), stock: z.number().optional() }),
+  ),
   relatedProductIds: z.array(z.number()),
 });
 

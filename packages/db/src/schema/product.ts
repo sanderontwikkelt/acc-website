@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import { decimal, index, int, text } from "drizzle-orm/mysql-core";
 
+import { media } from ".";
 import { createdAt, id, nnInt, nnVarChar, updatedAt, varChar } from "../utils";
 import { mySqlTable } from "./_table";
 
@@ -11,6 +12,8 @@ export const product = mySqlTable(
     slug: nnVarChar("slug"),
     title: nnVarChar("title"),
     description: text("description").notNull(),
+    seoTitle: varChar("seo-title"),
+    seoDescription: text("seo-description"),
     categoryId: int("category_id"),
     price: decimal("price").notNull(),
     stock: nnInt("stock"),
@@ -25,7 +28,7 @@ export const product = mySqlTable(
 );
 
 export const productRelations = relations(product, ({ many, one }) => ({
-  images: many(productsToMedia),
+  images: many(media),
   relatedProducts: many(productsToProducts),
   variants: many(productVariant),
   category: one(productCategory, {
@@ -39,10 +42,38 @@ export const productsToMedia = mySqlTable("productsToMedia", {
   mediaId: nnInt("media_id"),
 });
 
+export const productsToMediaRelations = relations(
+  productsToMedia,
+  ({ one }) => ({
+    product: one(product, {
+      fields: [productsToMedia.productId],
+      references: [product.id],
+    }),
+    image: one(media, {
+      fields: [productsToMedia.mediaId],
+      references: [media.id],
+    }),
+  }),
+);
+
 export const productsToProducts = mySqlTable("productsToProducts", {
   productId: nnInt("product_id"),
   relatedProductId: nnInt("related_product_id"),
 });
+
+export const productsToProductsRelations = relations(
+  productsToProducts,
+  ({ one }) => ({
+    product: one(product, {
+      fields: [productsToProducts.productId],
+      references: [product.id],
+    }),
+    relatedProduct: one(product, {
+      fields: [productsToProducts.relatedProductId],
+      references: [product.id],
+    }),
+  }),
+);
 
 export const productVariant = mySqlTable(
   "productVariant",

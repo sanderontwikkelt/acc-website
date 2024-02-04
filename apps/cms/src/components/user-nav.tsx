@@ -36,8 +36,8 @@ export function UserNav() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="ghost"
-          className="relative flex h-10 space-x-2 px-1 text-sm"
+          variant="outline"
+          className="relative flex h-10 w-full space-x-2 text-sm"
         >
           <span className="max-w-full truncate whitespace-nowrap">
             Welkom, {session?.user.name}!
