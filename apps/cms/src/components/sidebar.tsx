@@ -4,6 +4,7 @@ import {
   GraduationCap,
   ImageIcon,
   Package,
+  ShapesIcon,
   ShoppingBag,
   TriangleIcon,
   Users,
@@ -151,13 +152,16 @@ export async function AdminSideBar({
         </SidebarItemContent>
       </SidebarItem>
 
-      {(canFindProductCategories || canFindProducts || canFindOrders || canFindCarts) && (
+      {(canFindProductCategories ||
+        canFindProducts ||
+        canFindOrders ||
+        canFindCarts) && (
         <SidebarItem>
           <SidebarItemLabel>Webshop</SidebarItemLabel>
           <SidebarItemContent>
             {canFindProductCategories && (
               <SidebarItemLink href="/product-categories">
-                <TriangleIcon className="mr-2 h-4 w-4" />
+                <ShapesIcon className="mr-2 h-4 w-4" />
                 Productcategoriën
               </SidebarItemLink>
             )}

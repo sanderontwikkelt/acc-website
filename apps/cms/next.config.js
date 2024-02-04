@@ -4,7 +4,7 @@ import "@acme/auth/env";
 
 /** @type {import("next").NextConfig} */
 const config = {
-  reactStrictMode: true,
+  reactStrictMode: false,
 
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: [

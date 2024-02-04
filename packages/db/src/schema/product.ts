@@ -63,20 +63,22 @@ export const productVariant = mySqlTable(
 );
 
 export const productVariantRelations = relations(productVariant, ({ one }) => ({
-  product: one(product, { fields: [productVariant.productId], references: [product.id] }),
+  product: one(product, {
+    fields: [productVariant.productId],
+    references: [product.id],
+  }),
 }));
 
-export const productCategory = mySqlTable(
-  "productCategory",
-  {
-    id,
-    title: nnVarChar("title"),
-    createdAt,
-    updatedAt,
-  },
+export const productCategory = mySqlTable("productCategory", {
+  id,
+  title: nnVarChar("title"),
+  createdAt,
+  updatedAt,
+});
+
+export const productCategoryRelations = relations(
+  productCategory,
+  ({ many }) => ({
+    products: many(product),
+  }),
 );
-
-export const productCategoryRelations = relations(productCategory, ({ many }) => ({
-  products: many(product),
-}));
-

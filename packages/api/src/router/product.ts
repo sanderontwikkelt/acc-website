@@ -43,7 +43,7 @@ export const productRouter = createTRPCRouter({
       return ctx.db.query.product.findMany({
         with: {
           variants: true,
-          category: true
+          category: true,
         },
         limit,
         offset,
@@ -73,50 +73,60 @@ export const productRouter = createTRPCRouter({
     .mutation(({ ctx, input }) => {
       return ctx.db.transaction(async (tx) => {
         const product = await tx.insert(schema.product).values(input);
-        if (input.mediaIds.length) await tx
-          .insert(schema.productsToMedia)
-          .values(
-            input.mediaIds
-              .filter((id, idx, ids) => ids.indexOf(id) === idx)
-              .map((id) => ({ productId: +product.insertId, mediaId: +id })),
-          );
-        if (input.relatedProductIds.length) await tx
-          .insert(schema.productsToProducts)
-          .values(
-            input.relatedProductIds
-              .filter((id, idx, ids) => ids.indexOf(id) === idx)
-              .map((id) => ({ productId: +product.insertId, relatedProductId: +id })),
-          );
+        if (input.mediaIds.length)
+          await tx
+            .insert(schema.productsToMedia)
+            .values(
+              input.mediaIds
+                .filter((id, idx, ids) => ids.indexOf(id) === idx)
+                .map((id) => ({ productId: +product.insertId, mediaId: +id })),
+            );
+        if (input.relatedProductIds.length)
+          await tx
+            .insert(schema.productsToProducts)
+            .values(
+              input.relatedProductIds
+                .filter((id, idx, ids) => ids.indexOf(id) === idx)
+                .map((id) => ({
+                  productId: +product.insertId,
+                  relatedProductId: +id,
+                })),
+            );
       });
     }),
   update: protectedProcedure
     .input(productFormSchema.extend({ id: z.number().min(1) }))
-    .mutation(async ({ ctx, input: { id, relatedProductIds, mediaIds, ...input } }) => {
-      return ctx.db.transaction(async (tx) => {
-        await tx
-          .delete(schema.productsToMedia)
-          .where(eq(schema.productsToMedia.productId, +id));
-         await tx
-          .insert(schema.productsToMedia)
-          .values(
-            mediaIds
-              .filter((id, idx, ids) => ids.indexOf(id) === idx)
-              .map((id) => ({ productId: +id, mediaId: +id })),
-          );
+    .mutation(
+      async ({ ctx, input: { id, relatedProductIds, mediaIds, ...input } }) => {
+        return ctx.db.transaction(async (tx) => {
           await tx
-          .delete(schema.productsToProducts)
-          .where(eq(schema.productsToMedia.productId, +id));
-        await tx
-          .insert(schema.productsToProducts)
-          .values(
-            relatedProductIds
-              .filter((id, idx, ids) => ids.indexOf(id) === idx)
-              .map((id) => ({ productId: +id, relatedProductId: +id })),
-          );
+            .delete(schema.productsToMedia)
+            .where(eq(schema.productsToMedia.productId, +id));
+          await tx
+            .insert(schema.productsToMedia)
+            .values(
+              mediaIds
+                .filter((id, idx, ids) => ids.indexOf(id) === idx)
+                .map((id) => ({ productId: +id, mediaId: +id })),
+            );
+          await tx
+            .delete(schema.productsToProducts)
+            .where(eq(schema.productsToMedia.productId, +id));
+          await tx
+            .insert(schema.productsToProducts)
+            .values(
+              relatedProductIds
+                .filter((id, idx, ids) => ids.indexOf(id) === idx)
+                .map((id) => ({ productId: +id, relatedProductId: +id })),
+            );
 
-        return tx.update(schema.product).set(input).where(eq(schema.product.id, +id));
-      });
-    }),
+          return tx
+            .update(schema.product)
+            .set(input)
+            .where(eq(schema.product.id, +id));
+        });
+      },
+    ),
   delete: protectedProcedure.input(z.number()).mutation(({ ctx, input }) => {
     return ctx.db.delete(schema.product).where(eq(schema.product.id, input));
   }),

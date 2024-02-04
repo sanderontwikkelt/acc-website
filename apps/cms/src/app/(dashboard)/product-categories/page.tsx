@@ -4,10 +4,7 @@ import React, { useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { format } from "date-fns";
 import { Plus } from "lucide-react";
-import {
-  ActionEnum,
-  EntityEnum,
-} from "types/permissions";
+import { ActionEnum, EntityEnum } from "types/permissions";
 
 import type { ProductCategory } from "@acme/db";
 import { Button } from "@acme/ui";
@@ -26,18 +23,13 @@ import { useDataTable } from "~/hooks/use-data-table";
 import { useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
 
-const title = "Rollen";
+const title = "Productcategoriën";
 const entity = EntityEnum.PRODUCTCATEGORY;
 
 interface Column {
   id: number;
   createdAt: string;
   title: string;
-}
-
-interface Option {
-  label: string;
-  value: string;
 }
 
 const ProductCategoriesPage = () => {
@@ -64,9 +56,10 @@ const ProductCategoriesPage = () => {
   const deleteProductCategory = api.productCategory.delete.useMutation();
 
   const router = useRouter();
-  const { data: productCategory, isLoading } = api.productCategory.byId.useQuery({
-    id: id && id !== "new" ? +id : 0,
-  });
+  const { data: productCategory, isLoading } =
+    api.productCategory.byId.useQuery({
+      id: id && id !== "new" ? +id : 0,
+    });
 
   const [canCreate] = useHasPermissions([entity, ActionEnum.CREATE]);
 
@@ -98,7 +91,9 @@ const ProductCategoriesPage = () => {
   const { dataTable } = useDataTable({
     data,
     columns,
-    pageCount: totalProductCategories[0] ? Math.ceil(+totalProductCategories[0]?.count / perPage) : 1,
+    pageCount: totalProductCategories[0]
+      ? Math.ceil(+totalProductCategories[0]?.count / perPage)
+      : 1,
   });
 
   return (
@@ -148,9 +143,7 @@ const ProductCategoryDetailDrawer = ({
   const isDetails = !!(id && id !== "new");
 
   const formFields = useMemo(
-    () => [
-      { name: "title", label: "Titel", type: TypeEnum.INPUT },
-    ],
+    () => [{ name: "title", label: "Titel", type: TypeEnum.INPUT }],
     [],
   );
 
@@ -170,7 +163,8 @@ const ProductCategoryDetailDrawer = ({
       loading={isLoading}
       formSchema={productCategoryFormSchema}
       transformData={(data) => {
-        if (data.productCategoryId) data.productCategoryId = +data.productCategoryId;
+        if (data.productCategoryId)
+          data.productCategoryId = +data.productCategoryId;
         return data;
       }}
     />

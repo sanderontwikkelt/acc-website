@@ -7,7 +7,9 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const productCategoryRouter = createTRPCRouter({
   count: publicProcedure.query(({ ctx }) => {
-    return ctx.db.select({ count: sql<number>`count(*)` }).from(schema.productCategory);
+    return ctx.db
+      .select({ count: sql<number>`count(*)` })
+      .from(schema.productCategory);
   }),
   all: publicProcedure.query(({ ctx }) => {
     return ctx.db.query.productCategory.findMany({
@@ -57,14 +59,19 @@ export const productCategoryRouter = createTRPCRouter({
   create: protectedProcedure
     .input(productCategoryFormSchema)
     .mutation(({ ctx, input }) => {
-        return ctx.db.insert(schema.productCategory).values(input);
+      return ctx.db.insert(schema.productCategory).values(input);
     }),
   update: protectedProcedure
     .input(productCategoryFormSchema.extend({ id: z.number().min(1) }))
     .mutation(async ({ ctx, input: { id, ...input } }) => {
-        return ctx.db.update(schema.productCategory).set(input).where(eq(schema.productCategory.id, +id));
+      return ctx.db
+        .update(schema.productCategory)
+        .set(input)
+        .where(eq(schema.productCategory.id, +id));
     }),
   delete: protectedProcedure.input(z.number()).mutation(({ ctx, input }) => {
-    return ctx.db.delete(schema.productCategory).where(eq(schema.productCategory.id, input));
+    return ctx.db
+      .delete(schema.productCategory)
+      .where(eq(schema.productCategory.id, input));
   }),
 });

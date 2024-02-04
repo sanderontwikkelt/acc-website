@@ -9,6 +9,7 @@ import { ActionEnum } from "types/permissions";
 
 import {
   Button,
+  cn,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -44,6 +45,7 @@ import useMediaQuery from "~/hooks/use-media-query";
 import { useMutation } from "~/hooks/use-mutation";
 import { allowed, useHasPermissions } from "~/lib/utils";
 import { Loader } from "./loader";
+import MediaSelect from "./media-select";
 import MultiSelect from "./multi-select";
 import { Textarea } from "./textarea";
 
@@ -54,6 +56,7 @@ export enum TypeEnum {
   PASSWORD = "password",
   SELECT = "select",
   MULTISELECT = "multiselect",
+  IMAGES = "images",
 }
 
 interface FormField {
@@ -62,7 +65,7 @@ interface FormField {
   placeholder?: string;
   type: TypeEnum;
   options?: { label: string; value: string }[];
-  inputProps?: Record<string, string | number>
+  inputProps?: Record<string, string | number>;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -132,11 +135,20 @@ function DetailDrawer({
     });
   };
 
-  const Wrapper = isDesktop ? Dialog : Drawer;
-  const Content = isDesktop ? DialogContent : DrawerContent;
-  const Header = isDesktop ? DialogHeader : DrawerHeader;
-  const Title = isDesktop ? DialogTitle : DrawerTitle;
-  const Description = isDesktop ? DialogDescription : DrawerDescription;
+  const fields = formFields.reduce((a, i) => {
+    const listIndex = a.findIndex((fList) => fList?.[0].lane === i.lane);
+    if (listIndex === -1) return [...a, [i]];
+    if (a[listIndex]) a[listIndex] = [...a[listIndex], i];
+    return a;
+  }, [] as FormField[][]);
+
+  const isDrawer = fields.length > 1 || !isDesktop;
+
+  const Wrapper = isDrawer ? Drawer : Dialog;
+  const Content = isDrawer ? DrawerContent : DialogContent;
+  const Header = isDrawer ? DrawerHeader : DialogHeader;
+  const Title = isDrawer ? DrawerTitle : DialogTitle;
+  const Description = isDrawer ? DrawerDescription : DialogDescription;
 
   return (
     <>
@@ -163,109 +175,150 @@ function DetailDrawer({
                 className="w-full space-y-8"
                 disabled={hasInitialData ? !canUpdate : !canCreate}
               >
-                <div className="grid grid-cols-1 gap-4 max-md:px-4">
-                  {formFields.map(
-                    ({ name, label, placeholder, type, options, inputProps }) => (
-                      <FormField
-                        control={form.control}
-                        key={name}
-                        name={name}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>{label}</FormLabel>
-                            <FormControl>
-                              {
-                                {
-                                  input: (
-                                    <Input
-                                      disabled={loading}
-                                      placeholder={
-                                        placeholder ||
-                                        `Typ een ${label.toLowerCase()}`
-                                      }
-                                      {...field}
-                                      {...inputProps}
-                                    />
-                                  ),
-                                  text: (
-                                    <Textarea
-                                      disabled={loading}
-                                      placeholder={
-                                        placeholder ||
-                                        `Typ een ${label.toLowerCase()}`
-                                      }
-                                      {...field}
-                                    />
-                                  ),
-                                  multiselect: (
-                                    <MultiSelect
-                                      disabled={loading}
-                                      options={options}
-                                      onChange={(values: string[]) =>
-                                        field.onChange(values.map((v) => +v))
-                                      }
-                                      selectedValues={field.value}
-                                    />
-                                  ),
-                                  email: (
-                                    <Input
-                                      disabled={loading}
-                                      placeholder={
-                                        placeholder ||
-                                        `Typ een ${label.toLowerCase()}`
-                                      }
-                                      type="email"
-                                      {...field}
-                                    />
-                                  ),
-                                  password: (
-                                    <Input
-                                      disabled={loading}
-                                      placeholder={
-                                        placeholder ||
-                                        `Typ een ${label.toLowerCase()}`
-                                      }
-                                      type="password"
-                                      {...field}
-                                    />
-                                  ),
-                                  select: (
-                                    <Select
-                                      onValueChange={(v) => field.onChange(+v)}
-                                      defaultValue={
-                                        field.value
-                                          ? field.value.toString()
-                                          : undefined
-                                      }
-                                    >
-                                      <SelectTrigger>
-                                        <SelectValue
+                <div
+                  className={cn(
+                    "flex w-full space-x-4",
+                    isDrawer ? "px-4" : "",
+                  )}
+                >
+                  {fields.map((field, idx) => (
+                    <div
+                      key={idx}
+                      className="w-full flex-grow space-y-4"
+                      style={{ maxWidth: `${100 / fields.length}%` }}
+                    >
+                      {field.map(
+                        ({
+                          name,
+                          label,
+                          placeholder,
+                          type,
+                          options,
+                          inputProps,
+                        }) => (
+                          <FormField
+                            control={form.control}
+                            key={name}
+                            name={name}
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>{label}</FormLabel>
+                                <FormControl>
+                                  {
+                                    {
+                                      input: (
+                                        <Input
+                                          disabled={loading}
                                           placeholder={
                                             placeholder ||
-                                            `Selecteer een ${label.toLowerCase()}`
+                                            `Typ een ${label.toLowerCase()}`
                                           }
+                                          {...field}
+                                          {...inputProps}
                                         />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        {options?.map(({ value, label }) => (
-                                          <SelectItem key={value} value={value}>
-                                            {label}
-                                          </SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
-                                  ),
-                                }[type]
-                              }
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    ),
-                  )}
+                                      ),
+                                      text: (
+                                        <Textarea
+                                          disabled={loading}
+                                          placeholder={
+                                            placeholder ||
+                                            `Typ een ${label.toLowerCase()}`
+                                          }
+                                          {...field}
+                                        />
+                                      ),
+                                      multiselect: (
+                                        <MultiSelect
+                                          disabled={loading}
+                                          options={options}
+                                          onChange={(values: string[]) =>
+                                            field.onChange(
+                                              values.map((v) => +v),
+                                            )
+                                          }
+                                          selectedValues={field.value}
+                                        />
+                                      ),
+                                      images: (
+                                        <MediaSelect
+                                          multiple
+                                          values={field.value}
+                                          onChange={field.onChange}
+                                        />
+                                      ),
+                                      email: (
+                                        <Input
+                                          disabled={loading}
+                                          placeholder={
+                                            placeholder ||
+                                            `Typ een ${label.toLowerCase()}`
+                                          }
+                                          type="email"
+                                          {...field}
+                                        />
+                                      ),
+                                      password: (
+                                        <Input
+                                          disabled={loading}
+                                          placeholder={
+                                            placeholder ||
+                                            `Typ een ${label.toLowerCase()}`
+                                          }
+                                          type="password"
+                                          {...field}
+                                        />
+                                      ),
+                                      select: (
+                                        <Select
+                                          onValueChange={(v) =>
+                                            field.onChange(+v)
+                                          }
+                                          defaultValue={
+                                            field.value
+                                              ? field.value.toString()
+                                              : undefined
+                                          }
+                                        >
+                                          <SelectTrigger>
+                                            <SelectValue
+                                              placeholder={
+                                                placeholder ||
+                                                `Selecteer een ${label.toLowerCase()}`
+                                              }
+                                            />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            {options?.map(
+                                              ({ value, label }) => (
+                                                <SelectItem
+                                                  key={value}
+                                                  value={value}
+                                                >
+                                                  {label}
+                                                </SelectItem>
+                                              ),
+                                            )}
+                                          </SelectContent>
+                                        </Select>
+                                      ),
+                                    }[type]
+                                  }
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        ),
+                      )}
+                    </div>
+                  ))}
                 </div>
-                <DrawerFooter className="flex flex-row justify-end pt-0 md:p-0">
+                <DrawerFooter
+                  className={cn(
+                    "flex flex-row justify-end pt-0",
+                    isDrawer ? "" : "p-4",
+                  )}
+                >
                   <DrawerClose asChild>
                     <Button variant="outline">Sluiten</Button>
                   </DrawerClose>

@@ -1,14 +1,16 @@
-import React, { ReactNode } from "react";
+import type { ReactNode } from "react";
+import React from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 import { CopyIcon, PlusIcon } from "lucide-react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
 
-import { cn } from "~/lib/utils";
+import { cn } from "@acme/ui";
+
 import TooltipWrapper from "../tooltip-wrapper";
 
-type Props = {
+interface Props {
   onChange: (value: any[]) => void;
   values: any[];
   dragItem: (
@@ -26,7 +28,7 @@ type Props = {
   root?: boolean;
   small?: boolean;
   className?: string;
-};
+}
 
 const DragList = ({
   values,
@@ -44,12 +46,15 @@ const DragList = ({
     updatedList.splice(droppedItem.destination.index, 0, reorderedItem);
     onChange(updatedList);
   };
-
   return (
     <div className="relative">
       {root && (
         <button
-          onClick={() => onChange([...values, { ...values[0], id: uuidv4() }])}
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            onChange([...values, { ...values[0], id: uuidv4() }]);
+          }}
           className="absolute -top-8 right-0 p-1"
         >
           <TooltipWrapper message="Toevoegen">
@@ -77,7 +82,7 @@ const DragList = ({
                     return (
                       <Draggable
                         key={item.id + index}
-                        draggableId={item.id}
+                        draggableId={String(item.id)}
                         index={index}
                       >
                         {(provided) => (
@@ -93,9 +98,7 @@ const DragList = ({
                             >
                               <div className="flex w-full items-center">
                                 <div {...provided.dragHandleProps}>
-                                  <TooltipWrapper message="Verslepen">
-                                    <DragHandleDots2Icon className="h-6 w-auto rotate-90" />
-                                  </TooltipWrapper>
+                                  <DragHandleDots2Icon className="h-6 w-auto rotate-90" />
                                 </div>
                                 {!!small && (
                                   <div className="w-full px-1">
@@ -110,6 +113,7 @@ const DragList = ({
                                   </div>
                                 )}
                                 <button
+                                  type="button"
                                   onClick={() =>
                                     onChange([
                                       ...values,
@@ -124,6 +128,7 @@ const DragList = ({
                                 </button>
 
                                 <button
+                                  type="button"
                                   onClick={() =>
                                     onChange(
                                       values.filter((_, idx) => idx !== index),

@@ -1,10 +1,10 @@
 import { authRouter } from "./router/auth";
 import { shoppingCartRouter } from "./router/cart";
-import { productCategoryRouter } from "./router/product-category";
 import { mediaRouter } from "./router/media";
 import { orderRouter } from "./router/order";
 import { permissionRouter } from "./router/permission";
 import { productRouter } from "./router/product";
+import { productCategoryRouter } from "./router/product-category";
 import { roleRouter } from "./router/role";
 import { stripeRouter } from "./router/stripe";
 import { teacherRouter } from "./router/teacher";

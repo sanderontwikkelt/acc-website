@@ -4,21 +4,26 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { ImagePlus } from "lucide-react";
 
-import { MediaModal, MediaType } from "../modals/media-modal";
+import type { Media as DBMedia } from "@acme/db";
+
+import type { MediaType } from "../modals/media-modal";
+import { MediaModal } from "../modals/media-modal";
 import TooltipWrapper from "../tooltip-wrapper";
 import { Button } from "./button";
 import DragPercentages from "./drag-percentages";
-import { MediaValue } from "./media-select";
 import { Video } from "./video";
 
+interface Media extends DBMedia {
+  objectPosition?: { x: number; y: number };
+}
 const MediaItem = ({
   type = "image",
-  value: { objectPosition, ...value },
+  value,
   onChange,
 }: {
   type: MediaType;
-  value: MediaValue;
-  onChange?: (v: MediaValue) => void;
+  value: Media;
+  onChange?: (v: Media) => void;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -28,28 +33,32 @@ const MediaItem = ({
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         selected={[value]}
-        onSelect={([media]) => onChange?.(media)}
+        onSelect={([media]) => media && onChange?.(media)}
         type={type}
         multiple={false}
       />
       <div className="relative h-12 w-12 min-w-[3rem] overflow-hidden rounded-md bg-gray-200 dark:bg-gray-900">
         {type === "image" ? (
           <Image
-            {...value}
+            width={value.width}
+            height={value.height}
+            src={value.url}
             className="h-full w-full object-contain"
             alt="media select"
           />
         ) : (
-          <Video src={value.src} />
+          <Video src={value.url} />
         )}
       </div>
-      <span className="ml-3 mr-auto max-w-full truncate whitespace-nowrap text-sm font-medium">
-        {value.name}
-      </span>
+      <div className="mr-auto max-w-[7rem] px-3">
+        <p className="max-w-full truncate whitespace-nowrap text-sm font-medium">
+          {value.filename}
+        </p>
+      </div>
       {!!onChange && (
         <DragPercentages
           className="mr-2"
-          position={objectPosition || { x: 50, y: 50 }}
+          position={value.objectPosition || { x: 50, y: 50 }}
           setPosition={(o) => onChange({ ...value, objectPosition: o })}
         />
       )}
