@@ -117,7 +117,7 @@ const ProductsPage = () => {
 
   const columns = DataTableColumnDefs<Column>({
     columns: [
-      { label: "Naam", name: "name" },
+      { label: "Titel", name: "title" },
       { label: "Slug", name: "slug" },
       { label: "Beschrijving", name: "description" },
       {

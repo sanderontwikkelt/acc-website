@@ -2,7 +2,7 @@
 
 import type { z } from "zod";
 import React, { useEffect, useMemo, useState, useTransition } from "react";
-import { useParams } from "next/navigation";
+import { notFound, useParams, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ClipboardList,
@@ -13,7 +13,7 @@ import {
 import { useForm } from "react-hook-form";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
-import { Media } from "@acme/db";
+import type { Media } from "@acme/db";
 import { Button, cn, Input, Textarea } from "@acme/ui";
 import {
   Select,
@@ -37,6 +37,7 @@ import {
 } from "~/components/ui/form";
 import { Heading } from "~/components/ui/heading";
 import { ImageGallary } from "~/components/ui/image-gallary";
+import { Loader } from "~/components/ui/loader";
 import RichText from "~/components/ui/rich-text";
 import { useMutation } from "~/hooks/use-mutation";
 import { useHasPermissions } from "~/lib/utils";
@@ -49,6 +50,7 @@ const ProductDetailPage = () => {
   const isDetails = !!(productId && productId !== "new");
   const [isOpenMedia, setIsOpenMedia] = useState(false);
   const [images, setImages] = useState<Media[]>([]);
+  const router = useRouter();
 
   const [loading, startTransition] = useTransition();
 
@@ -65,6 +67,8 @@ const ProductDetailPage = () => {
   const { data: product, isLoading } = api.product.byId.useQuery({
     id: isDetails ? +productId : 0,
   });
+
+  if (isDetails && !isLoading && !product) notFound();
 
   const [categories] = api.productCategory.all.useSuspenseQuery();
 
@@ -91,12 +95,26 @@ const ProductDetailPage = () => {
       price: "",
     },
   });
-  console.log(product?.images);
+
   useEffect(() => {
     if (product) {
+      console.log({ product });
       form.reset(product);
       if (product.images) {
-        // setImages(product.images)
+        setImages(
+          product.images.map(
+            ({ media }) =>
+              ({
+                ...media,
+                createdAt: new Date(media.createdAt),
+                updatedAt: new Date(media.updatedAt),
+              }) as Media,
+          ),
+        );
+        form.setValue(
+          "mediaIds",
+          product.images.map(({ mediaId }) => mediaId),
+        );
       }
     }
   }, [product, form]);
@@ -111,7 +129,15 @@ const ProductDetailPage = () => {
     });
   };
 
-  const mediaIds = form.watch("mediaIds");
+  if (isDetails && isLoading)
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Loader />
+      </div>
+    );
+
+  const sdf = form.watch("categoryId");
+  console.log({ sdf });
 
   return (
     <>
@@ -164,8 +190,8 @@ const ProductDetailPage = () => {
                       <FormLabel>Categorie</FormLabel>
                       <FormControl>
                         <Select
-                          onValueChange={(v) => field.onChange(+v)}
-                          defaultValue={
+                          onValueChange={(v) => v && field.onChange(+v)}
+                          value={
                             field.value ? field.value.toString() : undefined
                           }
                         >
@@ -312,6 +338,7 @@ const ProductDetailPage = () => {
                           step={1}
                           placeholder="Product voorraad"
                           {...field}
+                          onChange={(e) => field.onChange(+e.target.value)}
                         />
                       </FormControl>
                       <FormMessage />

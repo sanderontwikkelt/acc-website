@@ -43,13 +43,13 @@ export const productFormSchema = z.object({
   seoDescription: z.string(),
   seoTitle: z.string(),
   price: z.string(),
-  category: z.string(),
+  categoryId: z.number(),
   stock: z.number(),
   mediaIds: z.array(z.number()),
   variants: z.array(
     z.object({ title: z.string(), stock: z.number().optional() }),
   ),
-  relatedProductIds: z.array(z.number()),
+  // relatedProductIds: z.array(z.number()),
 });
 
 export const orderFormSchema = z.object({

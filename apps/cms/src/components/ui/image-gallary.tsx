@@ -52,6 +52,11 @@ export function ImageGallary({
   onChange: (s: Media[]) => void;
 }) {
   const [activeId, setActiveId] = useState<number | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -84,6 +89,10 @@ export function ImageGallary({
     const res = selected.find((item) => item.id === activeId);
     return res?.url;
   };
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <>

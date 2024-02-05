@@ -28,12 +28,13 @@ export const product = mySqlTable(
 );
 
 export const productRelations = relations(product, ({ many, one }) => ({
-  images: many(media),
-  relatedProducts: many(productsToProducts),
+  images: many(productsToMedia),
+  relatedProducts: many(relatedProduct, { relationName: "relatedProduct" }),
   variants: many(productVariant),
   category: one(productCategory, {
     fields: [product.categoryId],
     references: [productCategory.id],
+    relationName: "productCategory",
   }),
 }));
 
@@ -48,32 +49,33 @@ export const productsToMediaRelations = relations(
     product: one(product, {
       fields: [productsToMedia.productId],
       references: [product.id],
+      relationName: "mediaProduct",
     }),
-    image: one(media, {
+    media: one(media, {
       fields: [productsToMedia.mediaId],
       references: [media.id],
+      relationName: "productMedia",
     }),
   }),
 );
 
-export const productsToProducts = mySqlTable("productsToProducts", {
+export const relatedProduct = mySqlTable("relatedProduct", {
   productId: nnInt("product_id"),
   relatedProductId: nnInt("related_product_id"),
 });
 
-export const productsToProductsRelations = relations(
-  productsToProducts,
-  ({ one }) => ({
-    product: one(product, {
-      fields: [productsToProducts.productId],
-      references: [product.id],
-    }),
-    relatedProduct: one(product, {
-      fields: [productsToProducts.relatedProductId],
-      references: [product.id],
-    }),
+export const relatedProductRelations = relations(relatedProduct, ({ one }) => ({
+  product: one(product, {
+    fields: [relatedProduct.productId],
+    references: [product.id],
+    relationName: "parentProduct",
   }),
-);
+  relatedProduct: one(product, {
+    fields: [relatedProduct.relatedProductId],
+    references: [product.id],
+    relationName: "relatedProduct",
+  }),
+}));
 
 export const productVariant = mySqlTable(
   "productVariant",
@@ -82,7 +84,7 @@ export const productVariant = mySqlTable(
     productId: nnInt("product_id"),
     title: nnVarChar("title"),
     price: decimal("price"),
-    stock: nnInt("stock"),
+    stock: int("stock"),
     createdAt,
     updatedAt,
   },
