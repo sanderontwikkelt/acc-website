@@ -3,7 +3,6 @@
 import React, { useMemo } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { format } from "date-fns";
 import { Plus } from "lucide-react";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
@@ -21,7 +20,7 @@ import {
 } from "~/components/ui/data-table/table-actions";
 import { Heading } from "~/components/ui/heading";
 import { useDataTable } from "~/hooks/use-data-table";
-import { formatter, useHasPermissions } from "~/lib/utils";
+import { formatCreatedAt, formatter, useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
 
 const title = "Producten";
@@ -100,13 +99,16 @@ const ProductsPage = () => {
         slug: product.slug ?? "",
         title: product.title ?? "",
         description: product.description ?? "",
-        category: product.category,
+        category: {
+          ...product.category,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
         categoryId: product.categoryId,
         price: product.price ?? "",
         stock: product.stock ?? "",
-        createdAt: product.createdAt
-          ? format(new Date(product.createdAt), "dd-LL-yyyy, hh:mm")
-          : "",
+        createdAt: formatCreatedAt(product.createdAt),
+        updatedAt: formatCreatedAt(product.updatedAt),
       })) as Column[],
     [products],
   );
@@ -119,13 +121,15 @@ const ProductsPage = () => {
     columns: [
       { label: "Titel", name: "title" },
       { label: "Slug", name: "slug" },
-      { label: "Beschrijving", name: "description" },
       {
         label: "Categorie",
         name: "categoryId",
-        cell: ({ row }) => (
-          <Badge variant="outline">{row.original.category.title}</Badge>
-        ),
+        cell: ({ row }) =>
+          row.original.category ? (
+            <Badge variant="outline">{row.original.category.title}</Badge>
+          ) : (
+            "Geen"
+          ),
       },
       {
         label: "Prijs",
@@ -134,6 +138,7 @@ const ProductsPage = () => {
       },
       { label: "Voorraad", name: "stock" },
       { label: "Aangemaakt", name: "createdAt" },
+      { label: "Aangepast", name: "updatedAt" },
     ],
     entity: entity,
     onEdit: (id: number | string) => router.push(`${pathname}/${id}`),

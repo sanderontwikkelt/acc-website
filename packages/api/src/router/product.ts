@@ -72,15 +72,6 @@ export const productRouter = createTRPCRouter({
           variants: true,
         },
       });
-
-      // .select({
-      //   product: schema.product,
-      //   images: schema.productsToMedia.media
-      // })
-      // .from(schema.product)
-      // .leftJoin(schema.productsToMedia, eq(schema.product.id, schema.productsToMedia.productId))
-      // .leftJoin(schema.productsToMedia.media, eq(schema.productsToMedia.mediaId, schema.productsToMedia.media.id))
-      // .limit(1);
     }),
 
   create: protectedProcedure
@@ -88,17 +79,15 @@ export const productRouter = createTRPCRouter({
     .mutation(({ ctx, input }) => {
       return ctx.db.transaction(async (tx) => {
         const product = await tx.insert(schema.product).values(input);
-        if (input.variants.length)
-          await tx
-            .insert(schema.productVariant)
-            .values(
-              input.variants.map(({ title, stock }) => ({
-                productId: +product.insertId,
-                title,
-                stock,
-              })),
-            );
-        if (input.mediaIds.length)
+        if (input.variants?.length)
+          await tx.insert(schema.productVariant).values(
+            input.variants.map(({ title, stock }) => ({
+              productId: +product.insertId,
+              title,
+              stock,
+            })),
+          );
+        if (input.mediaIds?.length)
           await tx
             .insert(schema.productsToMedia)
             .values(
@@ -106,7 +95,7 @@ export const productRouter = createTRPCRouter({
                 .filter((id, idx, ids) => ids.indexOf(id) === idx)
                 .map((id) => ({ productId: +product.insertId, mediaId: +id })),
             );
-        // if (input.relatedProductIds.length)
+        // if (input.relatedProductIds?.length)
         //   await tx.insert(schema.productsToProducts).values(
         //     input.relatedProductIds
         //       .filter((id, idx, ids) => ids.indexOf(id) === idx)
@@ -119,21 +108,34 @@ export const productRouter = createTRPCRouter({
     }),
   update: protectedProcedure
     .input(productFormSchema.extend({ id: z.number().min(1) }))
-    .mutation(async ({ ctx, input: { id, mediaIds, ...input } }) => {
+    .mutation(async ({ ctx, input: { id, mediaIds, variants, ...input } }) => {
       return ctx.db.transaction(async (tx) => {
+        await tx
+          .delete(schema.productVariant)
+          .where(eq(schema.productVariant.productId, +id));
+        if (variants?.length)
+          await tx.insert(schema.productVariant).values(
+            variants.map(({ title, stock }) => ({
+              productId: +id,
+              title,
+              stock,
+            })),
+          );
+
         await tx
           .delete(schema.productsToMedia)
           .where(eq(schema.productsToMedia.productId, +id));
-        await tx
-          .insert(schema.productsToMedia)
-          .values(
-            mediaIds
-              .filter((id, idx, ids) => ids.indexOf(id) === idx)
-              .map((id) => ({ productId: +id, mediaId: +id })),
-          );
-        await tx
-          .delete(schema.productsToProducts)
-          .where(eq(schema.productsToMedia.productId, +id));
+        if (mediaIds?.length)
+          await tx
+            .insert(schema.productsToMedia)
+            .values(
+              mediaIds
+                .filter((id, idx, ids) => ids.indexOf(id) === idx)
+                .map((mediaId) => ({ productId: +id, mediaId: +mediaId })),
+            );
+        // await tx
+        //   .delete(schema.productsToProducts)
+        //   .where(eq(schema.productsToMedia.productId, +id));
         // await tx
         //   .insert(schema.productsToProducts)
         //   .values(
@@ -142,7 +144,7 @@ export const productRouter = createTRPCRouter({
         //       .map((id) => ({ productId: +id, relatedProductId: +id })),
         //   );
 
-        return tx
+        await tx
           .update(schema.product)
           .set(input)
           .where(eq(schema.product.id, +id));

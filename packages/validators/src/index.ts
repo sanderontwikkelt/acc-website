@@ -37,33 +37,57 @@ export const productCategoryFormSchema = z.object({
 });
 
 export const productFormSchema = z.object({
-  slug: z.string().min(1),
-  description: z.string().min(1),
-  title: z.string().min(1),
-  seoDescription: z.string(),
-  seoTitle: z.string(),
-  price: z.string(),
-  categoryId: z.number(),
-  stock: z.number(),
-  mediaIds: z.array(z.number()),
-  variants: z.array(
-    z.object({ title: z.string(), stock: z.number().optional() }),
-  ),
+  slug: notEmptyString,
+  description: notEmptyString,
+  title: notEmptyString,
+  seoDescription: z.string().optional(),
+  seoTitle: z.string().optional(),
+  price: notEmptyString,
+  categoryId: z.number().optional(),
+  stock: z.number().optional(),
+  mediaIds: z.array(z.number()).optional(),
+  variants: z
+    .array(z.object({ title: z.string(), stock: z.number().optional() }))
+    .optional(),
   // relatedProductIds: z.array(z.number()),
 });
 
 export const orderFormSchema = z.object({
-  userId: z.number(),
+  userId: notEmptyString,
   status: z.enum([
-    "new",
-    "paid",
-    "cancelled",
-    "progress",
-    "production",
-    "sending",
-    "sent",
-    "completed",
+    "WAITING_PAYMENT",
+    "IN_PROGRESS",
+    "WAITING",
+    "FINISHED",
+    "CANCELLED",
+    "REFUNDED",
+    "FAILED",
+    "CONCEPT",
   ]),
+  invoiceFirstName: notEmptyString,
+  invoiceLastName: notEmptyString,
+  invoiceCompanyName: z.string(),
+  invoiceOccupation: z.string(),
+  invoiceBTW: z.string(),
+  invoiceCountry: z.string(),
+  invoiceStreet: notEmptyString,
+  invoiceAddressAdditional: z.string(),
+  invoicePostalCode: notEmptyString,
+  invoiceEmail: notEmptyString,
+  invoiceCity: notEmptyString,
+  invoicePhone: notEmptyString,
+  invoicePaymentMethod: notEmptyString,
+  invoicePaymentBank: z.string(),
+  invoiceAdditionalInformation: z.string(),
+  orderItems: z.array(
+    z.object({
+      orderId: notEmptyNumber,
+      price: notEmptyString,
+      productId: notEmptyNumber,
+      productVariantId: notEmptyNumber,
+      quantity: notEmptyNumber,
+    }),
+  ),
 });
 
 export const mediaFormSchema = z.object({

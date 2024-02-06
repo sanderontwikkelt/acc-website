@@ -14,7 +14,7 @@ interface NextImageProps {
   className?: string;
   priority?: boolean;
   loading?: "eager" | "lazy";
-  style: React.CSSProperties;
+  style?: React.CSSProperties;
 }
 
 export const NextImage = ({

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { format } from "date-fns";
+import React, { useMemo } from "react";
+import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
 import {
   ActionEnum,
@@ -11,9 +11,7 @@ import {
   permissionEntities,
 } from "types/permissions";
 
-import type { Role } from "@acme/db";
-import { Button } from "@acme/ui";
-import { roleFormSchema } from "@acme/validators";
+import { buttonVariants } from "@acme/ui";
 
 import type { DataTableFilterableColumn } from "~/components/ui/data-table/data-table-types";
 import { Card } from "~/components/ui/card";
@@ -23,10 +21,9 @@ import {
   deleteSelectedRows,
   TableFloatingBarContent,
 } from "~/components/ui/data-table/table-actions";
-import DetailDrawer, { TypeEnum } from "~/components/ui/detail-drawer";
 import { Heading } from "~/components/ui/heading";
 import { useDataTable } from "~/hooks/use-data-table";
-import { useHasPermissions } from "~/lib/utils";
+import { formatCreatedAt, useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
 
 const title = "Rollen";
@@ -47,7 +44,6 @@ interface Option {
 
 const RolesPage = () => {
   const searchParams = useSearchParams();
-  const [id, setId] = useState<number | string | null>(null);
 
   const page = +(searchParams.get("page") || 10);
   const perPage = +(searchParams.get("per_page") || 10);
@@ -70,20 +66,7 @@ const RolesPage = () => {
   const deleteRole = api.role.delete.useMutation();
 
   const router = useRouter();
-  const { data: roleData, isLoading } = api.role.byId.useQuery({
-    id: id && id !== "new" ? +id : 0,
-  });
-
-  const role = useMemo(
-    () =>
-      roleData
-        ? {
-            ...roleData,
-            permissionIds: roleData.permissions.map((p) => p.permissionId),
-          }
-        : undefined,
-    [roleData],
-  );
+  const pathname = usePathname();
 
   const permissionOptions = useMemo(
     () =>
@@ -119,9 +102,7 @@ const RolesPage = () => {
           role.permissions.length === permissions.length
             ? "Alles"
             : String(role.permissions.length),
-        createdAt: role.createdAt
-          ? format(new Date(role.createdAt), "dd-LL-yyyy, hh:mm")
-          : "",
+        createdAt: formatCreatedAt(role.createdAt),
       })) as Column[],
     [roles, permissions.length],
   );
@@ -138,7 +119,7 @@ const RolesPage = () => {
       { label: "Aangemaakt", name: "createdAt" },
     ],
     entity: entity,
-    onEdit: (id: number | string) => setId(id as number),
+    onEdit: (id: number | string) => router.push(`${pathname}/${id}`),
   });
 
   const { dataTable } = useDataTable({
@@ -155,12 +136,12 @@ const RolesPage = () => {
         description={`Een lijst met alle ${title.toLowerCase()} binnen jouw toegang.`}
       >
         {canCreate && (
-          <Button onClick={() => setId("new")}>
+          <Link href={`${pathname}/new`} className={buttonVariants()}>
             <Plus className="mr-2 h-4 w-4" /> Toevoegen
-          </Button>
+          </Link>
         )}
       </Heading>
-      <Card className="flex-grow">
+      <Card>
         <DataTable
           dataTable={dataTable}
           columns={columns}
@@ -172,64 +153,8 @@ const RolesPage = () => {
           }}
         />
       </Card>
-      <RoleDetailDrawer
-        onClose={() => setId(null)}
-        {...{ id, role, isLoading, permissionOptions }}
-      />
     </>
   );
 };
 
 export default RolesPage;
-
-const RoleDetailDrawer = ({
-  id,
-  onClose,
-  role,
-  isLoading,
-  permissionOptions,
-}: {
-  permissionOptions: Option[];
-  id: string | number | null;
-  isLoading: boolean;
-  role?: Role | null;
-  onClose: () => void;
-}) => {
-  const isDetails = !!(id && id !== "new");
-
-  const formFields = useMemo(
-    () => [
-      { name: "name", label: "Naam", type: TypeEnum.INPUT },
-      { name: "description", label: "Beschrijving", type: TypeEnum.TEXT },
-      {
-        name: "permissionIds",
-        label: "Rechten",
-        type: TypeEnum.MULTISELECT,
-        options: permissionOptions,
-      },
-    ],
-    [permissionOptions],
-  );
-
-  return (
-    <DetailDrawer
-      title={isDetails ? "Rol aanpassen" : "Rol toevoegen"}
-      description={
-        isDetails
-          ? "Bekijk rol gegevens en pas eventueel aan"
-          : "Maak een nieuw rol aan"
-      }
-      id={id || undefined}
-      onClose={onClose}
-      entity={entity}
-      initialData={role || { name: "", description: "" }}
-      formFields={formFields}
-      loading={isLoading}
-      formSchema={roleFormSchema}
-      transformData={(data) => {
-        if (data.roleId) data.roleId = +data.roleId;
-        return data;
-      }}
-    />
-  );
-};

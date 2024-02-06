@@ -59,6 +59,27 @@ export const formatDate = (date: Date) => {
   return `${day}-${month}-${year} ${hours}:${minutes}`;
 };
 
+export const formatCreatedAt = (date?: string) => {
+  if (!date) return "";
+  const d = new Date(date);
+
+  // Get the localized date string for the date part
+  const localizedDateString = d.toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
+  // Get the localized time string for the time part
+  const localizedTimeString = d.toLocaleTimeString(undefined, {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  // Concatenate the date and time parts
+  return `${localizedDateString} ${localizedTimeString}`;
+};
+
 export function downloadFile(url: string, fileName: string) {
   const a = document.createElement("a");
   a.href = url;

@@ -1,7 +1,16 @@
 import { relations } from "drizzle-orm";
 import { index, mysqlEnum } from "drizzle-orm/mysql-core";
 
-import { createdAt, id, nnDec, nnInt, updatedAt, varChar } from "../utils";
+import { product, productVariant } from ".";
+import {
+  createdAt,
+  id,
+  nnDec,
+  nnInt,
+  nnVarChar,
+  updatedAt,
+  varChar,
+} from "../utils";
 import { mySqlTable } from "./_table";
 import { user } from "./auth";
 
@@ -9,14 +18,32 @@ export const order = mySqlTable(
   "order",
   {
     id,
-    userId: varChar("user_id"),
+    userId: nnVarChar("user_id"),
     status: mysqlEnum("status", [
-      "new",
-      "paid",
-      "cancelled",
-      "progress",
-      "completed",
+      "WAITING_PAYMENT",
+      "IN_PROGRESS",
+      "WAITING",
+      "FINISHED",
+      "CANCELLED",
+      "REFUNDED",
+      "FAILED",
+      "CONCEPT",
     ]),
+    invoiceFirstName: nnVarChar("invoice_first_name"),
+    invoiceLastName: nnVarChar("invoice_last_name"),
+    invoiceCompanyName: varChar("invoice_company_name"),
+    invoiceOccupation: varChar("invoice_occupation"),
+    invoiceBTW: varChar("invoice_btw"),
+    invoiceCountry: varChar("invoice_country"),
+    invoiceStreet: nnVarChar("invoice_street"),
+    invoiceAddressAdditional: varChar("invoice_address_additional"),
+    invoicePostalCode: nnVarChar("invoice_postal_code"),
+    invoiceEmail: nnVarChar("invoice_email"),
+    invoiceCity: nnVarChar("invoice_city"),
+    invoicePhone: nnVarChar("invoice_phone"),
+    invoicePaymentMethod: nnVarChar("invoice_payment_method"),
+    invoicePaymentBank: varChar("invoice_payment_bank"),
+    invoiceAdditionalInformation: varChar("invoice_additional_information"),
     createdAt,
     updatedAt,
   },
@@ -30,6 +57,7 @@ export const order = mySqlTable(
 export const orderRelations = relations(order, ({ one, many }) => ({
   user: one(user, { fields: [order.userId], references: [user.id] }),
   items: many(orderItem),
+  notifications: many(orderNotification),
 }));
 
 export const orderItem = mySqlTable(
@@ -37,10 +65,42 @@ export const orderItem = mySqlTable(
   {
     id,
     orderId: nnInt("order_id"),
-    price: nnDec("price_id"),
+    price: nnDec("price"),
+    productId: nnInt("product_id"),
+    productVariantId: nnInt("product_variant_id"),
     quantity: nnInt("quantity"),
     createdAt,
     updatedAt,
+  },
+  (t) => {
+    return {
+      indx0: index("order_id").on(t.orderId),
+      indx1: index("product_id").on(t.productId),
+      indx2: index("product_variant_id").on(t.productVariantId),
+    };
+  },
+);
+
+export const orderItemRelations = relations(orderItem, ({ one }) => ({
+  order: one(order, { fields: [orderItem.orderId], references: [order.id] }),
+  product: one(product, {
+    fields: [orderItem.orderId],
+    references: [product.id],
+  }),
+  productVariant: one(productVariant, {
+    fields: [orderItem.orderId],
+    references: [productVariant.id],
+  }),
+}));
+
+export const orderNotification = mySqlTable(
+  "orderNotification",
+  {
+    id,
+    orderId: nnInt("order_id"),
+    message: nnVarChar("message"),
+    type: nnInt("type"),
+    createdAt,
   },
   (t) => {
     return {
@@ -49,6 +109,12 @@ export const orderItem = mySqlTable(
   },
 );
 
-export const orderItemRelations = relations(orderItem, ({ one }) => ({
-  order: one(order, { fields: [orderItem.orderId], references: [order.id] }),
-}));
+export const orderNotificationRelations = relations(
+  orderNotification,
+  ({ one }) => ({
+    order: one(order, {
+      fields: [orderNotification.orderId],
+      references: [order.id],
+    }),
+  }),
+);

@@ -2,7 +2,6 @@
 
 import React from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { format } from "date-fns";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
 import { buttonVariants, cn, NextImage } from "@acme/ui";
@@ -19,7 +18,7 @@ import { Heading } from "~/components/ui/heading";
 import UploadButton from "~/components/ui/upload-button";
 import { useDataTable } from "~/hooks/use-data-table";
 import { formatBytes } from "~/lib/formatBytes";
-import { useHasPermissions } from "~/lib/utils";
+import { formatCreatedAt, useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
 
 const title = "Media";
@@ -85,9 +84,7 @@ const MediasPage = () => {
         mimetype: media.mimetype,
         filepath: media.filepath,
         url: media.url,
-        createdAt: media.createdAt
-          ? format(new Date(media.createdAt), "dd-LL-yyyy, hh:mm")
-          : "",
+        createdAt: formatCreatedAt(media.createdAt),
       })) as Column[],
     [medias],
   );
@@ -151,9 +148,8 @@ const MediasPage = () => {
       >
         {canCreate && <UploadButton />}
       </Heading>
-      <Card className="flex-grow">
+      <Card>
         <DataTable
-          className="max-h-[calc(100vh-16.25rem)] overflow-auto"
           dataTable={dataTable}
           columns={columns}
           filterableColumns={filterableColumns}

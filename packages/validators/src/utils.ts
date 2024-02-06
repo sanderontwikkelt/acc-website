@@ -1,9 +1,13 @@
 import { z } from "zod";
 
 export const notEmptyString = z
-  .string()
+  .string({
+    errorMap: () => ({ message: "Dit veld mag niet leeg zijn." }),
+  })
   .min(1, { message: "Dit veld mag niet leeg zijn." });
 
 export const notEmptyNumber = z
-  .number()
+  .number({
+    errorMap: () => ({ message: "Dit veld mag niet leeg zijn." }),
+  })
   .min(1, { message: "Dit veld mag niet leeg zijn." });

@@ -16,7 +16,7 @@ export const product = mySqlTable(
     seoDescription: text("seo-description"),
     categoryId: int("category_id"),
     price: decimal("price").notNull(),
-    stock: nnInt("stock"),
+    stock: int("stock"),
     createdAt,
     updatedAt,
   },

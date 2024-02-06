@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { format } from "date-fns";
+import React from "react";
+import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
-import type { ProductCategory } from "@acme/db";
-import { Button } from "@acme/ui";
-import { productCategoryFormSchema } from "@acme/validators";
+import { buttonVariants } from "@acme/ui";
 
 import { Card } from "~/components/ui/card";
 import { DataTable } from "~/components/ui/data-table/data-table";
@@ -17,10 +15,9 @@ import {
   deleteSelectedRows,
   TableFloatingBarContent,
 } from "~/components/ui/data-table/table-actions";
-import DetailDrawer, { TypeEnum } from "~/components/ui/detail-drawer";
 import { Heading } from "~/components/ui/heading";
 import { useDataTable } from "~/hooks/use-data-table";
-import { useHasPermissions } from "~/lib/utils";
+import { formatCreatedAt, useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
 
 const title = "Productcategoriën";
@@ -34,7 +31,6 @@ interface Column {
 
 const ProductCategoriesPage = () => {
   const searchParams = useSearchParams();
-  const [id, setId] = useState<number | string | null>(null);
 
   const page = +(searchParams.get("page") || 10);
   const perPage = +(searchParams.get("per_page") || 10);
@@ -56,10 +52,7 @@ const ProductCategoriesPage = () => {
   const deleteProductCategory = api.productCategory.delete.useMutation();
 
   const router = useRouter();
-  const { data: productCategory, isLoading } =
-    api.productCategory.byId.useQuery({
-      id: id && id !== "new" ? +id : 0,
-    });
+  const pathname = usePathname();
 
   const [canCreate] = useHasPermissions([entity, ActionEnum.CREATE]);
 
@@ -68,9 +61,8 @@ const ProductCategoriesPage = () => {
       productCategories.map((productCategory) => ({
         id: productCategory.id,
         title: productCategory.title ?? "",
-        createdAt: productCategory.createdAt
-          ? format(new Date(productCategory.createdAt), "dd-LL-yyyy, hh:mm")
-          : "",
+        createdAt: formatCreatedAt(productCategory.createdAt),
+        updatedAt: formatCreatedAt(productCategory.updatedAt),
       })) as Column[],
     [productCategories],
   );
@@ -83,9 +75,10 @@ const ProductCategoriesPage = () => {
     columns: [
       { label: "Titel", name: "title" },
       { label: "Aangemaakt", name: "createdAt" },
+      { label: "Aangepast", name: "updatedAt" },
     ],
     entity: entity,
-    onEdit: (id: number | string) => setId(id as number),
+    onEdit: (id: number | string) => router.push(`${pathname}/${id}`),
   });
 
   const { dataTable } = useDataTable({
@@ -103,12 +96,12 @@ const ProductCategoriesPage = () => {
         description={`Een lijst met alle ${title.toLowerCase()} binnen jouw toegang.`}
       >
         {canCreate && (
-          <Button onClick={() => setId("new")}>
+          <Link href={`${pathname}/new`} className={buttonVariants()}>
             <Plus className="mr-2 h-4 w-4" /> Toevoegen
-          </Button>
+          </Link>
         )}
       </Heading>
-      <Card className="flex-grow">
+      <Card>
         <DataTable
           dataTable={dataTable}
           columns={columns}
@@ -119,54 +112,8 @@ const ProductCategoriesPage = () => {
           }}
         />
       </Card>
-      <ProductCategoryDetailDrawer
-        onClose={() => setId(null)}
-        {...{ id, productCategory, isLoading }}
-      />
     </>
   );
 };
 
 export default ProductCategoriesPage;
-
-const ProductCategoryDetailDrawer = ({
-  id,
-  onClose,
-  productCategory,
-  isLoading,
-}: {
-  id: string | number | null;
-  isLoading: boolean;
-  productCategory?: ProductCategory | null;
-  onClose: () => void;
-}) => {
-  const isDetails = !!(id && id !== "new");
-
-  const formFields = useMemo(
-    () => [{ name: "title", label: "Titel", type: TypeEnum.INPUT }],
-    [],
-  );
-
-  return (
-    <DetailDrawer
-      title={isDetails ? "Rol aanpassen" : "Rol toevoegen"}
-      description={
-        isDetails
-          ? "Bekijk rol gegevens en pas eventueel aan"
-          : "Maak een nieuw rol aan"
-      }
-      id={id || undefined}
-      onClose={onClose}
-      entity={entity}
-      initialData={productCategory || { name: "", description: "" }}
-      formFields={formFields}
-      loading={isLoading}
-      formSchema={productCategoryFormSchema}
-      transformData={(data) => {
-        if (data.productCategoryId)
-          data.productCategoryId = +data.productCategoryId;
-        return data;
-      }}
-    />
-  );
-};

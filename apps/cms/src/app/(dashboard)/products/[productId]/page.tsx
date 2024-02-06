@@ -2,13 +2,15 @@
 
 import type { z } from "zod";
 import React, { useEffect, useMemo, useState, useTransition } from "react";
-import { notFound, useParams, useRouter } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ClipboardList,
   ImagePlusIcon,
   ListFilter,
+  SaveIcon,
   SearchCode,
+  Trash,
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { ActionEnum, EntityEnum } from "types/permissions";
@@ -24,6 +26,7 @@ import {
 } from "@acme/ui/select";
 import { productFormSchema } from "@acme/validators";
 
+import { AlertModal } from "~/components/modals/alert-modal";
 import { MediaModal } from "~/components/modals/media-modal";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import DynamicVariants from "~/components/ui/dynamic-variants";
@@ -37,7 +40,6 @@ import {
 } from "~/components/ui/form";
 import { Heading } from "~/components/ui/heading";
 import { ImageGallary } from "~/components/ui/image-gallary";
-import { Loader } from "~/components/ui/loader";
 import RichText from "~/components/ui/rich-text";
 import { useMutation } from "~/hooks/use-mutation";
 import { useHasPermissions } from "~/lib/utils";
@@ -50,7 +52,7 @@ const ProductDetailPage = () => {
   const isDetails = !!(productId && productId !== "new");
   const [isOpenMedia, setIsOpenMedia] = useState(false);
   const [images, setImages] = useState<Media[]>([]);
-  const router = useRouter();
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const [loading, startTransition] = useTransition();
 
@@ -98,7 +100,6 @@ const ProductDetailPage = () => {
 
   useEffect(() => {
     if (product) {
-      console.log({ product });
       form.reset(product);
       if (product.images) {
         setImages(
@@ -129,16 +130,6 @@ const ProductDetailPage = () => {
     });
   };
 
-  if (isDetails && isLoading)
-    return (
-      <div className="flex h-full w-full items-center justify-center">
-        <Loader />
-      </div>
-    );
-
-  const sdf = form.watch("categoryId");
-  console.log({ sdf });
-
   return (
     <>
       <Form {...form}>
@@ -151,10 +142,26 @@ const ProductDetailPage = () => {
             description={
               isDetails
                 ? "Bekijk product gegevens en pas eventueel aan"
-                : "Maak een nieuw product aan"
+                : "Voeg een nieuw product toe"
             }
           >
-            <Button disabled={isLoading || loading}>{action}</Button>
+            <div className="flex space-x-2">
+              {canDelete && (
+                <Button
+                  variant="outline"
+                  disabled={isLoading || loading}
+                  type="button"
+                  onClick={() => setIsDeleting(true)}
+                >
+                  <Trash className="mr-1 w-4" />
+                  <span className="max-md:hidden">Verwijderen</span>
+                </Button>
+              )}
+              <Button disabled={isLoading || loading}>
+                <SaveIcon className="mr-1 w-4" />
+                <span className="max-md:hidden">{action}</span>
+              </Button>
+            </div>
           </Heading>
           <div className="grid grid-cols-1 gap-4">
             <Card>
@@ -427,6 +434,12 @@ const ProductDetailPage = () => {
         }}
         type="image"
         multiple
+      />
+      <AlertModal
+        isOpen={isDeleting}
+        onClose={() => setIsDeleting(false)}
+        onConfirm={() => deleteProduct(+productId)}
+        loading={false}
       />
     </>
   );
