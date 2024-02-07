@@ -16,11 +16,11 @@ export const contact_email = mySqlTable(
     message: text("message"),
     createdAt,
     updatedAt,
-    fileId: int("fileId").notNull(),
+    fileId: int("file_id").notNull(),
   },
   (t) => {
     return {
-      indx0: index("fileId").on(t.fileId),
+      indx0: index("file_id").on(t.fileId),
     };
   },
 );

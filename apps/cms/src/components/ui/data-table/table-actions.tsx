@@ -36,9 +36,9 @@ export function deleteSelectedRows<Column>(
 
 export function TableFloatingBarContent<Schema>(
   table: Table<Schema & { id: string | number }>,
-  onDelete: Action,
+  onDelete?: Action,
 ) {
-  return (
+  return onDelete ? (
     <div className="justify-between gap-2 align-middle">
       <Button
         title="Delete"
@@ -55,5 +55,5 @@ export function TableFloatingBarContent<Schema>(
         <span className="sr-only">Verwijderen</span>
       </Button>
     </div>
-  );
+  ) : null;
 }

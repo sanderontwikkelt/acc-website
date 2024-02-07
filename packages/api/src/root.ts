@@ -1,7 +1,8 @@
 import { authRouter } from "./router/auth";
-import { shoppingCartRouter } from "./router/cart";
+import { cartRouter } from "./router/cart";
 import { mediaRouter } from "./router/media";
 import { orderRouter } from "./router/order";
+import { pageRouter } from "./router/page";
 import { permissionRouter } from "./router/permission";
 import { productRouter } from "./router/product";
 import { productCategoryRouter } from "./router/product-category";
@@ -20,9 +21,10 @@ export const appRouter = createTRPCRouter({
   media: mediaRouter,
   order: orderRouter,
   product: productRouter,
+  page: pageRouter,
   productCategory: productCategoryRouter,
   stripe: stripeRouter,
-  cart: shoppingCartRouter,
+  cart: cartRouter,
 });
 
 // export type definition of API

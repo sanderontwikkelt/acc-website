@@ -12,8 +12,6 @@ VALUES (1, 1);
 
 INSERT INTO physis_user (id, name, email, role_id) VALUES (1, 'Sander', 'sanderontwikkelt@gmail.com', 1);
 
-INSERT INTO physis_permission (id, type, entity, action) VALUES (1, 'all', 'all', 'all');
-
 INSERT INTO physis_permission (id, type, entity, action) VALUES (2, 'write', 'user', 'create');
 INSERT INTO physis_permission (id, type, entity, action) VALUES (3, 'write', 'user', 'update');
 INSERT INTO physis_permission (id, type, entity, action) VALUES (4, 'write', 'user', 'delete');

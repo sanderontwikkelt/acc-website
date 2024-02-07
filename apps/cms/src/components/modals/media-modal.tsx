@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { Media } from "@acme/db";
+import type { Media } from "@acme/db";
 import {
   Button,
   Pagination,
@@ -86,44 +86,56 @@ export const MediaModal: React.FC<MediaModalProps> = ({
         )}
         <MediaGrid
           multiple={!!multiple}
-          media={media as Media[]}
+          media={
+            media?.map((m) => ({
+              ...m,
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            })) as Media[]
+          }
           onSelect={setSelectedMedia}
           selected={selectedMedia || []}
         />
-        <Pagination>
-          <PaginationContent>
-            <PaginationItem
-              className={page === 1 ? "pointer-events-none opacity-60" : ""}
-            >
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            {Array(Math.max(pageCount, 3))
-              .fill(0)
-              .map((_, i) => {
-                const start = page > 1 ? page - 1 : 1;
-                const current = start + i;
-                if (pageCount < current) return null;
-                return (
-                  <PaginationItem key={i}>
-                    <PaginationLink
-                      isActive={current === page}
-                      onClick={() => setPage(current)}
-                      href="#"
-                    >
-                      {current}
-                    </PaginationLink>
-                  </PaginationItem>
-                );
-              })}
-            <PaginationItem
-              className={
-                page === pageCount ? "pointer-events-none opacity-60" : ""
-              }
-            >
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
+        {media?.length ? (
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem
+                className={page === 1 ? "pointer-events-none opacity-60" : ""}
+              >
+                <PaginationPrevious href="#" />
+              </PaginationItem>
+              {Array(Math.max(pageCount, 3))
+                .fill(0)
+                .map((_, i) => {
+                  const start = page > 1 ? page - 1 : 1;
+                  const current = start + i;
+                  if (pageCount < current) return null;
+                  return (
+                    <PaginationItem key={i}>
+                      <PaginationLink
+                        isActive={current === page}
+                        onClick={() => setPage(current)}
+                        href="#"
+                      >
+                        {current}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
+              <PaginationItem
+                className={
+                  page === pageCount ? "pointer-events-none opacity-60" : ""
+                }
+              >
+                <PaginationNext href="#" />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+        ) : (
+          <p className="flex w-full items-center justify-center rounded-md bg-white py-8 text-sm">
+            Geen media gevonden. Voeg een afbeelding toe.
+          </p>
+        )}
         <div className="sticky bottom-0 space-y-2">
           <div className="flex w-full items-center justify-end space-x-2 pt-6">
             <UploadButton />

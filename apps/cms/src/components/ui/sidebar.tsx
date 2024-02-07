@@ -13,7 +13,7 @@ const SidebarItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("pt-2", className)} {...props} />
+  <div ref={ref} className={cn("p-4", className)} {...props} />
 ));
 SidebarItem.displayName = "SidebarItem";
 
@@ -37,7 +37,7 @@ const SidebarItemLink = React.forwardRef<
       href={href}
       className={cn(
         buttonVariants({ variant: isActive ? "secondary" : "ghost" }),
-        "w-full justify-start transition-all",
+        "w-full justify-start text-xs transition-all",
         className,
         isActive
           ? "px-2 font-semibold opacity-100"
@@ -54,7 +54,7 @@ const SidebarItemContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, children, ...props }, ref) => (
-  <div className={cn("space-y-1 pt-2", className)} {...props} ref={ref}>
+  <div className={cn("space-y-1", className)} {...props} ref={ref}>
     {children}
   </div>
 ));
@@ -80,7 +80,7 @@ const Sidebar = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     className={cn(
-      "z-50 m-4 mr-0 flex h-full max-h-[calc(100vh-2rem)] w-screen flex-col gap-4 rounded-lg border border-border bg-background p-4 text-card-foreground md:w-60 md:min-w-[15rem]",
+      "z-50 m-4 mr-0 flex h-full max-h-[calc(100vh-2rem)] w-screen flex-col rounded-lg border border-border bg-background text-card-foreground md:w-60 md:min-w-[15rem]",
       className,
     )}
     ref={ref}

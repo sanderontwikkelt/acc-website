@@ -8,6 +8,7 @@ import {
   ClipboardList,
   ImagePlusIcon,
   ListFilter,
+  PlusIcon,
   SaveIcon,
   SearchCode,
   Trash,
@@ -158,7 +159,11 @@ const ProductDetailPage = () => {
                 </Button>
               )}
               <Button disabled={isLoading || loading}>
-                <SaveIcon className="mr-1 w-4" />
+                {isDetails ? (
+                  <SaveIcon className="mr-1 w-4" />
+                ) : (
+                  <PlusIcon className="mr-1 w-4" />
+                )}
                 <span className="max-md:hidden">{action}</span>
               </Button>
             </div>

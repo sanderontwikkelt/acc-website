@@ -76,7 +76,7 @@ export const orderFormSchema = z.object({
   invoiceEmail: notEmptyString,
   invoiceCity: notEmptyString,
   invoicePhone: notEmptyString,
-  invoicePaymentMethod: notEmptyString,
+  invoicePaymentMethod: z.enum(["ideal", "credit_card"]),
   invoicePaymentBank: z.string(),
   invoiceAdditionalInformation: z.string(),
   orderItems: z.array(
@@ -102,6 +102,23 @@ export const mediaFormSchema = z.object({
 
 export const cartFormSchema = z.object({
   userId: z.string(),
+});
+
+export const pageFormSchema = z.object({
+  pathname: notEmptyString,
+  name: notEmptyString,
+  blocks: z.string(),
+  concept: z.number().optional(),
+  seoDescription: z.string().optional(),
+  seoTitle: z.string().optional(),
+  seoMediaId: z.number().optional(),
+});
+
+export const cartItemFormSchema = z.object({
+  cartId: notEmptyNumber,
+  productId: notEmptyNumber,
+  productVariantId: notEmptyNumber,
+  quantity: notEmptyNumber,
 });
 
 export const lineItem = z.object({

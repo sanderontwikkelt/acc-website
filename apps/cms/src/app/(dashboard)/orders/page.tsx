@@ -4,9 +4,12 @@ import React, { useMemo } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
+import {
+  orderStatusBadges,
+  orderStatusTranslations,
+} from "node_modules/@acme/api/src/utils";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
-import type { User } from "@acme/db";
 import { buttonVariants } from "@acme/ui";
 
 import type { DataTableFilterableColumn } from "~/components/ui/data-table/data-table-types";
@@ -23,17 +26,21 @@ import { useDataTable } from "~/hooks/use-data-table";
 import { formatCreatedAt, formatter, useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
 
-const title = "Pagina's";
-const entity = EntityEnum.PAGE;
+const title = "Bestellingen";
+const entity = EntityEnum.ORDER;
 
 interface Column {
   id: number;
   createdAt: string;
-  pathname: string;
-  name: string;
-  concept: number;
-  createdBy: User;
-  updatedBy: User;
+  price: number;
+  items: number;
+  status: string;
+  user: {
+    id: string;
+    name: string;
+    email: string;
+  };
+  userId: string;
 }
 
 interface Option {
@@ -41,88 +48,98 @@ interface Option {
   value: string;
 }
 
-const PagesPage = () => {
+const OrdersPage = () => {
   const searchParams = useSearchParams();
 
   const page = +(searchParams.get("page") || 10);
   const perPage = +(searchParams.get("per_page") || 10);
   const sort = searchParams.get("sort");
 
-  const [pages] = api.page.list.useSuspenseQuery({
+  const status = searchParams.get("status");
+
+  const [orders] = api.order.list.useSuspenseQuery({
     page,
     sort: sort || undefined,
     perPage,
+    ...(status && {
+      status: status as "WAITING_PAYMENT",
+    }),
   });
 
-  const [totalPages] = api.page.count.useSuspenseQuery();
+  const [totalOrders] = api.order.count.useSuspenseQuery();
 
-  const deletePage = api.page.delete.useMutation();
+  const deleteOrder = api.order.delete.useMutation();
 
   const router = useRouter();
   const pathname = usePathname();
+
+  const statusOptions = useMemo(
+    () =>
+      (Object.entries(orderStatusTranslations)?.map(([value, label]) => ({
+        label,
+        value,
+      })) || []) as Option[],
+    [],
+  );
+
+  const filterableColumns: DataTableFilterableColumn<Column>[] = React.useMemo(
+    () => [
+      {
+        id: "status",
+        title: "Status",
+        options: statusOptions,
+      },
+    ],
+    [statusOptions],
+  );
 
   const [canCreate] = useHasPermissions([entity, ActionEnum.CREATE]);
 
   const data = React.useMemo<Column[]>(
     () =>
-      pages.map((page) => ({
-        id: page.id,
-        name: page.name ?? "",
-        pathname: page.pathname ?? "",
-        concept: page.concept ?? 0,
-        createdBy: {
-          ...(page.createdBy as User),
-          createdAt: new Date(),
-          updatedAt: new Date(),
+      orders.map((order) => ({
+        id: order.id,
+        userId: order.userId,
+        price: order.items.reduce((a, item) => +item.price, 0),
+        user: {
+          id: order.user.id,
+          name: order.user.name,
+          email: order.user.email,
         },
-        updatedBy: {
-          ...(page.updatedBy as User),
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        createdAt: formatCreatedAt(page.createdAt),
-        updatedAt: formatCreatedAt(page.updatedAt),
+        items: order.items.length,
+        status: order.status,
+        createdAt: formatCreatedAt(order.createdAt),
+        updatedAt: formatCreatedAt(order.updatedAt),
       })) as Column[],
-    [pages],
+    [orders],
   );
 
   const onDelete = async (id: string | number) => {
-    await deletePage.mutateAsync(id as number);
+    await deleteOrder.mutateAsync(id as number);
   };
 
   const columns = DataTableColumnDefs<Column>({
     columns: [
-      { label: "Naam", name: "name" },
-      { label: "Padnaam", name: "pathname" },
+      { label: "Titel", name: "title" },
+      { label: "Slug", name: "slug" },
       {
         label: "Status",
-        name: "concept",
-        cell: ({ row }) => (
-          <Badge variant={row.original.concept ? "default" : "outline"}>
-            {row.original.concept ? "Geplubliseerd" : "Concept"}
-          </Badge>
-        ),
+        name: "status",
+        cell: ({ row }) =>
+          row.original.status ? (
+            <Badge variant={orderStatusBadges[row.original.status]}>
+              {orderStatusTranslations[row.original.status]}
+            </Badge>
+          ) : (
+            "Geen"
+          ),
       },
       {
-        label: "Aangemaakt door",
-        name: "createdBy",
-        cell: ({ row }) =>
-          row.original.createdBy ? (
-            <Link
-              href={`/users/${row.original.createdBy.id}`}
-            >{`${row.original.createdBy.name}`}</Link>
-          ) : null,
+        label: "Prijs",
+        name: "price",
+        cell: ({ row }) => <code>{formatter.format(+row.original.price)}</code>,
       },
-      {
-        label: "Aangepast door",
-        name: "updatedBy",
-        cell: ({ row }) =>
-          row.original.updatedBy ? (
-            <Link
-              href={`/users/${row.original.updatedBy.id}`}
-            >{`${row.original.updatedBy.name}`}</Link>
-          ) : null,
-      },
+      { label: "Voorraad", name: "stock" },
       { label: "Aangemaakt", name: "createdAt" },
       { label: "Aangepast", name: "updatedAt" },
     ],
@@ -133,7 +150,8 @@ const PagesPage = () => {
   const { dataTable } = useDataTable({
     data,
     columns,
-    pageCount: totalPages[0] ? Math.ceil(+totalPages[0]?.count / perPage) : 1,
+    pageCount: totalOrders[0] ? Math.ceil(+totalOrders[0]?.count / perPage) : 1,
+    filterableColumns,
   });
 
   return (
@@ -152,6 +170,7 @@ const PagesPage = () => {
         <DataTable
           dataTable={dataTable}
           columns={columns}
+          filterableColumns={filterableColumns}
           floatingBarContent={TableFloatingBarContent(dataTable, onDelete)}
           deleteRowsAction={async (event) => {
             deleteSelectedRows(dataTable, onDelete, event);
@@ -163,4 +182,4 @@ const PagesPage = () => {
   );
 };
 
-export default PagesPage;
+export default OrdersPage;

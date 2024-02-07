@@ -9,7 +9,7 @@ import {
 
 import { createdAt, nnTSDate, nnVarChar, updatedAt, varChar } from "../utils";
 import { mySqlTable } from "./_table";
-import { shoppingCart } from "./cart";
+import { cart } from "./cart";
 import { order } from "./order";
 import { role } from "./role";
 
@@ -31,7 +31,7 @@ export const user = mySqlTable("user", {
 export const userRelations = relations(user, ({ many, one }) => ({
   account: many(account),
   role: one(role, { fields: [user.roleId], references: [role.id] }),
-  shoppingCart: one(shoppingCart),
+  cart: one(cart),
   orders: many(order),
 }));
 

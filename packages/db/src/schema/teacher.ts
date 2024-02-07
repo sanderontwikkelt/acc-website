@@ -13,13 +13,13 @@ export const teacher = mySqlTable(
     title: varChar("title"),
     name: varChar("name"),
     description: text("description"),
-    mediaId: nnInt("mediaId"),
+    mediaId: nnInt("media_id"),
     createdAt,
     updatedAt,
   },
   (t) => {
     return {
-      indx0: index("mediaId").on(t.mediaId),
+      indx0: index("media_id").on(t.mediaId),
     };
   },
 );

@@ -21,16 +21,18 @@ export const orderRouter = createTRPCRouter({
         perPage: z.number().optional(),
         page: z.number().optional(),
         sort: z.string().optional(),
-        status: z.enum([
-          "WAITING_PAYMENT",
-          "IN_PROGRESS",
-          "WAITING",
-          "FINISHED",
-          "CANCELLED",
-          "REFUNDED",
-          "FAILED",
-          "CONCEPT",
-        ]),
+        status: z
+          .enum([
+            "WAITING_PAYMENT",
+            "IN_PROGRESS",
+            "WAITING",
+            "FINISHED",
+            "CANCELLED",
+            "REFUNDED",
+            "FAILED",
+            "CONCEPT",
+          ])
+          .optional(),
       }),
     )
     .query(({ ctx, input }) => {
@@ -94,12 +96,16 @@ export const orderRouter = createTRPCRouter({
   update: protectedProcedure
     .input(orderFormSchema.extend({ id: z.number().min(1) }))
     .mutation(async ({ ctx, input: { id, ...input } }) => {
-      return ctx.db.transaction(async (tx) => {
-        await tx
-          .update(schema.order)
-          .set(input)
-          .where(eq(schema.order.id, +id));
+      const order = await ctx.db.query.order.findFirst({
+        where: eq(schema.order.id, id),
       });
+      await ctx.db
+        .update(schema.order)
+        .set(input)
+        .where(eq(schema.order.id, +id));
+
+      if (order && order.status !== input.status)
+        await addOrderNotification(id, 4)(input.status);
     }),
   delete: protectedProcedure.input(z.number()).mutation(({ ctx, input }) => {
     return ctx.db.delete(schema.order).where(eq(schema.order.id, input));

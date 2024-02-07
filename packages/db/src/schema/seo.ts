@@ -16,13 +16,13 @@ export const seo = mySqlTable(
     keywords: varChar("keywords"),
     ogTitle: varChar("ogTitle"),
     ogDescription: varChar("ogDescription"),
-    mediaId: varChar("mediaId"),
+    mediaId: varChar("media_id"),
     createdAt,
     updatedAt,
   },
   (t) => {
     return {
-      indx0: index("mediaId").on(t.mediaId),
+      indx0: index("media_id").on(t.mediaId),
     };
   },
 );

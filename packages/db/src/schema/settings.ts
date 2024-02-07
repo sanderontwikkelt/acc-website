@@ -13,11 +13,11 @@ export const settings = mySqlTable(
     email: varChar("email"),
     createdAt,
     updatedAt,
-    mediaId: int("mediaId"),
+    mediaId: int("media_id"),
   },
   (t) => {
     return {
-      indx0: index("mediaId").on(t.mediaId),
+      indx0: index("media_id").on(t.mediaId),
     };
   },
 );

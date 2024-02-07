@@ -4,7 +4,7 @@ import type { z } from "zod";
 import React, { useEffect, useMemo, useState, useTransition } from "react";
 import { notFound, useParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ClipboardList, SaveIcon, Trash } from "lucide-react";
+import { ClipboardList, PlusIcon, SaveIcon, Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
@@ -127,7 +127,11 @@ const UserDetailPage = () => {
                 </Button>
               )}
               <Button disabled={isLoading || loading}>
-                <SaveIcon className="mr-1 w-4" />
+                {isDetails ? (
+                  <SaveIcon className="mr-1 w-4" />
+                ) : (
+                  <PlusIcon className="mr-1 w-4" />
+                )}
                 <span className="max-md:hidden">{action}</span>
               </Button>
             </div>

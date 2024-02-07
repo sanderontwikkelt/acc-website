@@ -1,15 +1,19 @@
 import {
   Activity,
+  BookCopy,
   ClipboardList,
   GraduationCap,
   ImageIcon,
   Package,
+  PanelsTopLeft,
   ShapesIcon,
   ShoppingBag,
-  TriangleIcon,
   Users,
+  Users2,
 } from "lucide-react";
 import { ActionEnum, EntityEnum } from "types/permissions";
+
+import { Separator } from "@acme/ui/separator";
 
 import {
   Sidebar,
@@ -27,6 +31,7 @@ export async function AdminSideBar({
   ...props
 }: React.HTMLAttributes<HTMLElement>) {
   const [
+    canFindPages,
     canFindUsers,
     canFindRoles,
     canFindMedia,
@@ -35,6 +40,7 @@ export async function AdminSideBar({
     canFindOrders,
     canFindCarts,
   ] = await getPermissions(
+    [EntityEnum.PAGE, ActionEnum.FIND],
     [EntityEnum.USER, ActionEnum.FIND],
     [EntityEnum.ROLE, ActionEnum.FIND],
     [EntityEnum.MEDIA, ActionEnum.FIND],
@@ -52,7 +58,7 @@ export async function AdminSideBar({
         "h-screen transition-all duration-300 max-md:fixed max-md:inset-0 max-md:w-[calc(100vw-2rem)] max-md:-translate-x-[calc(100%+2rem)]",
       )}
     >
-      <SidebarItem className="relative flex w-full items-center gap-1 pl-1">
+      <SidebarItem className="relative flex w-full items-center justify-center gap-1">
         <span className="sr-only text-xl font-bold">Physis</span>
         <svg
           width="52"
@@ -123,9 +129,9 @@ export async function AdminSideBar({
           </g>
         </svg>
       </SidebarItem>
-
-      <SidebarItem>
-        <SidebarItemLabel>Algemeen</SidebarItemLabel>
+      <Separator />
+      <SidebarItem className="mt-ato">
+        {/* <SidebarItemLabel>Beheren</SidebarItemLabel> */}
         <SidebarItemContent>
           <SidebarItemLink href="/">
             <Activity className="mr-2 h-4 w-4" />
@@ -143,21 +149,59 @@ export async function AdminSideBar({
               Rollen
             </SidebarItemLink>
           )}
-          {canFindMedia && (
-            <SidebarItemLink href="/media">
-              <ImageIcon className="mr-2 h-4 w-4" />
-              Media
-            </SidebarItemLink>
-          )}
         </SidebarItemContent>
       </SidebarItem>
+      <Separator />
 
-      {(canFindProductCategories ||
+      {(canFindPages ||
+        canFindProductCategories ||
         canFindProducts ||
         canFindOrders ||
         canFindCarts) && (
         <SidebarItem>
-          <SidebarItemLabel>Webshop</SidebarItemLabel>
+          {/* <SidebarItemLabel>Shop</SidebarItemLabel> */}
+          <SidebarItemContent>
+            {canFindPages && (
+              <SidebarItemLink href="/pages">
+                <PanelsTopLeft className="mr-2 h-4 w-4" />
+                Pagina&apos;s
+              </SidebarItemLink>
+            )}
+            {canFindMedia && (
+              <SidebarItemLink href="/media">
+                <ImageIcon className="mr-2 h-4 w-4" />
+                Media
+              </SidebarItemLink>
+            )}
+            {canFindMedia && (
+              <SidebarItemLink href="/teachers">
+                <GraduationCap className="mr-2 h-4 w-4" />
+                Docenten
+              </SidebarItemLink>
+            )}
+            {canFindMedia && (
+              <SidebarItemLink href="/teachers">
+                <BookCopy className="mr-2 h-4 w-4" />
+                Cursussen
+              </SidebarItemLink>
+            )}
+            {canFindMedia && (
+              <SidebarItemLink href="/media">
+                <ImageIcon className="mr-2 h-4 w-4" />
+                Media
+              </SidebarItemLink>
+            )}
+          </SidebarItemContent>
+        </SidebarItem>
+      )}
+      <Separator />
+      {(canFindPages ||
+        canFindProductCategories ||
+        canFindProducts ||
+        canFindOrders ||
+        canFindCarts) && (
+        <SidebarItem>
+          {/* <SidebarItemLabel>Shop</SidebarItemLabel> */}
           <SidebarItemContent>
             {canFindProductCategories && (
               <SidebarItemLink href="/product-categories">

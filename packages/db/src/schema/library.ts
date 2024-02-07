@@ -13,15 +13,15 @@ export const library = mySqlTable(
     slug: varChar("slug"),
     type: mysqlEnum("type", ["PODCAST", "ONLINE_MASTERCLASS", "WHITEPAPER"]),
     title: varChar("title"),
-    mediaId: nnInt("mediaId"),
-    userId: nnInt("userId"),
+    mediaId: nnInt("media_id"),
+    userId: nnInt("user_id"),
     createdAt,
     updatedAt,
   },
   (t) => {
     return {
-      indx0: index("mediaId").on(t.mediaId),
-      indx1: index("userId").on(t.userId),
+      indx0: index("media_id").on(t.mediaId),
+      indx1: index("user_id").on(t.userId),
     };
   },
 );

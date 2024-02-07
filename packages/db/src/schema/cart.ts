@@ -1,7 +1,7 @@
 import { relations } from "drizzle-orm";
 import { index, unique } from "drizzle-orm/mysql-core";
 
-import { createdAt, id, nnInt, updatedAt, varChar } from "../utils";
+import { createdAt, id, nnInt, nnVarChar, updatedAt } from "../utils";
 import { mySqlTable } from "./_table";
 import { user } from "./auth";
 import { product } from "./product";
@@ -10,24 +10,25 @@ export const cartItem = mySqlTable(
   "cartItem",
   {
     id,
-    cartId: nnInt("cartId"),
-    productId: nnInt("productId"),
+    cartId: nnInt("cart_id"),
+    productId: nnInt("product_id"),
+    productVariantId: nnInt("product_variant_id"),
     quantity: nnInt("quantity"),
     createdAt,
     updatedAt,
   },
   (t) => {
     return {
-      indx0: index("cartId").on(t.cartId),
-      indx1: index("productId").on(t.productId),
+      indx0: index("cart_id").on(t.cartId),
+      indx1: index("product_id").on(t.productId),
     };
   },
 );
 
 export const cartItemRelations = relations(cartItem, ({ one }) => ({
-  cart: one(shoppingCart, {
+  cart: one(cart, {
     fields: [cartItem.cartId],
-    references: [shoppingCart.id],
+    references: [cart.id],
   }),
   product: one(product, {
     fields: [cartItem.productId],
@@ -35,11 +36,11 @@ export const cartItemRelations = relations(cartItem, ({ one }) => ({
   }),
 }));
 
-export const shoppingCart = mySqlTable(
-  "shoppingCart",
+export const cart = mySqlTable(
+  "cart",
   {
     id,
-    userId: varChar("userId"),
+    userId: nnVarChar("user_id"),
     createdAt,
     updatedAt,
   },
@@ -50,10 +51,7 @@ export const shoppingCart = mySqlTable(
   },
 );
 
-export const shoppingCartRelations = relations(
-  shoppingCart,
-  ({ one, many }) => ({
-    user: one(user, { fields: [shoppingCart.userId], references: [user.id] }),
-    items: many(cartItem),
-  }),
-);
+export const cartRelations = relations(cart, ({ one, many }) => ({
+  user: one(user, { fields: [cart.userId], references: [user.id] }),
+  items: many(cartItem),
+}));

@@ -49,12 +49,13 @@ const SingleImageSelect: React.FC<SingleImageSelectProps> = ({
             fill
             className="object-contain px-5"
             onLoad={() => setIsLoading(false)}
-            alt={image.name}
-            src={image.src}
+            onError={() => setIsLoading(false)}
+            alt={image.filename}
+            src={image.url}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
-            {isLoading ? <Loader /> : <ImagePlus />}
+            {image && isLoading ? <Loader /> : <ImagePlus />}
           </div>
         )}
       </button>
