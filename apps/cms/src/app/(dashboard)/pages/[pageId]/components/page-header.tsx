@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useHasPermissions } from "@/lib/utils";
 import { ActionEnum, EntityEnum } from "@/types/permissions";
 import axios from "axios";
 import { Trash } from "lucide-react";
@@ -14,6 +13,7 @@ import { AlertModal } from "~/components/modals/alert-modal";
 import { Button, buttonVariants } from "~/components/ui/button";
 import { Heading } from "~/components/ui/heading";
 import { Separator } from "~/components/ui/separator";
+import { useHasPermissions } from "~/lib/utils";
 import { PageActions } from "./page-actions";
 
 const PageHeader = ({

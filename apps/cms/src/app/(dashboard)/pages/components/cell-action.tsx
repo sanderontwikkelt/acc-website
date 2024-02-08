@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useHasPermissions } from "@/lib/utils";
 import { ActionEnum, EntityEnum } from "@/types/permissions";
 import { ActivityLogIcon } from "@radix-ui/react-icons";
 import axios from "axios";
@@ -18,6 +17,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
+import { useHasPermissions } from "~/lib/utils";
 import { PageColumn } from "./columns";
 
 interface CellActionProps {

@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { useParams, useRouter } from "next/navigation";
-import { useHasPermissions } from "@/lib/utils";
 import { ActionEnum, EntityEnum } from "@/types/permissions";
 import { Dialog } from "@radix-ui/react-dialog";
 import { ActivityLogIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
@@ -24,6 +23,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
+import { useHasPermissions } from "~/lib/utils";
 
 export function PageActions({
   seo,

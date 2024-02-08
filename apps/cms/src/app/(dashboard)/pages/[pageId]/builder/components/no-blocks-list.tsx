@@ -1,7 +1,8 @@
 import Image from "next/image";
-import { Block, blocks } from "@/lib/blocks";
 import { Plus } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
+
+import { Block, blocks } from "~/lib/blocks";
 
 export default function NoBlocksList({
   onSelect,

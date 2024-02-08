@@ -28,6 +28,37 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
 
+  apps/auth-proxy:
+    dependencies:
+      '@auth/core':
+        specifier: 0.18.1
+        version: 0.18.1
+    devDependencies:
+      '@acme/eslint-config':
+        specifier: workspace:^0.2.0
+        version: link:../../tooling/eslint
+      '@acme/prettier-config':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/prettier
+      '@acme/tailwind-config':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/tailwind
+      '@acme/tsconfig':
+        specifier: workspace:^0.1.0
+        version: link:../../tooling/typescript
+      eslint:
+        specifier: ^8.56.0
+        version: 8.56.0
+      nitropack:
+        specifier: ^2.8.1
+        version: 2.8.1
+      prettier:
+        specifier: ^3.1.1
+        version: 3.2.4
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+
   apps/cms:
     dependencies:
       '@acme/api':
@@ -241,6 +272,9 @@ importers:
       '@heroicons/react':
         specifier: ^2.1.1
         version: 2.1.1(react@18.2.0)
+      '@react-google-maps/api':
+        specifier: ^2.19.2
+        version: 2.19.2(react-dom@18.2.0)(react@18.2.0)
       '@react-three/drei':
         specifier: ^9.93.0
         version: 9.97.0(@react-three/fiber@8.15.16)(@types/react@18.2.52)(@types/three@0.160.0)(react-dom@18.2.0)(react@18.2.0)(three@0.160.1)
@@ -274,12 +308,18 @@ importers:
       geist:
         specifier: ^1.2.0
         version: 1.2.1(next@14.1.0)
+      keen-slider:
+        specifier: ^6.8.6
+        version: 6.8.6
       leva:
         specifier: ^0.9.35
         version: 0.9.35(@types/react-dom@18.2.18)(@types/react@18.2.52)(react-dom@18.2.0)(react@18.2.0)
       next:
         specifier: ^14.0.4
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
+      next-usequerystate:
+        specifier: ^1.13.0
+        version: 1.16.1(next@14.1.0)
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -1850,6 +1890,19 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
+    dev: false
+
+  /@googlemaps/js-api-loader@1.16.2:
+    resolution: {integrity: sha512-psGw5u0QM6humao48Hn4lrChOM2/rA43ZCm3tKK9qQsEj1/VzqkCqnvGfEOshDbBQflydfaRovbKwZMF4AyqbA==}
+    dependencies:
+      fast-deep-equal: 3.1.3
+    dev: false
+
+  /@googlemaps/markerclusterer@2.3.2:
+    resolution: {integrity: sha512-zb9OQP8XscZp2Npt1uQUYnGKu1miuq4DPP28JyDuFd6HV17HCEcjV9MtBi4muG/iVRXXvuHW9bRCnHbao9ITfw==}
+    dependencies:
+      fast-deep-equal: 3.1.3
+      supercluster: 8.0.1
     dev: false
 
   /@grpc/grpc-js@1.9.14:
@@ -3684,6 +3737,30 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@react-google-maps/api@2.19.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Vt57XWzCKfsUjKOmFUl2erVVfOePkPK5OigF/f+q7UuV/Nm9KDDy1PMFBx+wNahEqOd6a32BxfsykEhBnbU9wQ==}
+    peerDependencies:
+      react: ^16.8 || ^17 || ^18
+      react-dom: ^16.8 || ^17 || ^18
+    dependencies:
+      '@googlemaps/js-api-loader': 1.16.2
+      '@googlemaps/markerclusterer': 2.3.2
+      '@react-google-maps/infobox': 2.19.2
+      '@react-google-maps/marker-clusterer': 2.19.2
+      '@types/google.maps': 3.53.5
+      invariant: 2.2.4
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@react-google-maps/infobox@2.19.2:
+    resolution: {integrity: sha512-6wvBqeJsQ/eFSvoxg+9VoncQvNoVCdmxzxRpLvmjPD+nNC6mHM0vJH1xSqaKijkMrfLJT0nfkTGpovrF896jwg==}
+    dev: false
+
+  /@react-google-maps/marker-clusterer@2.19.2:
+    resolution: {integrity: sha512-x9ibmsP0ZVqzyCo1Pitbw+4b6iEXRw/r1TCy3vOUR3eKrzWLnHYZMR325BkZW2r8fnuWE/V3Fp4QZOP9qYORCw==}
+    dev: false
+
   /@react-spring/animated@9.6.1(react@18.2.0):
     resolution: {integrity: sha512-ls/rJBrAqiAYozjLo5EPPLLOb1LM0lNVQcXODTC1SMtS6DbuBCPaKco5svFUQFMP2dso3O+qcC4k9FsKc0KxMQ==}
     peerDependencies:
@@ -4383,6 +4460,10 @@ packages:
       '@types/minimatch': 5.1.2
       '@types/node': 20.11.16
     dev: true
+
+  /@types/google.maps@3.53.5:
+    resolution: {integrity: sha512-HoRq4Te8J6krH7hj+TfdYepqegoKZCj3kkaK5gf+ySFSHLvyqYkDvkrtbcVJXQ6QBphQ0h1TF7p4J6sOh4r/zg==}
+    dev: false
 
   /@types/hoist-non-react-statics@3.3.5:
     resolution: {integrity: sha512-SbcrWzkKBw2cdwRTwQAswfpB9g9LJWfjtUeW/jvNwbhC8cpmmNYVePa+ncbUe0rGTQ7G3Ff6mYUN2VMfLVr+Sg==}
@@ -8210,6 +8291,14 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
+  /kdbush@4.0.2:
+    resolution: {integrity: sha512-WbCVYJ27Sz8zi9Q7Q0xHC+05iwkm3Znipc2XTlrnJbsHMYktW4hPhXUE8Ys1engBrvffoSCqbil1JQAa7clRpA==}
+    dev: false
+
+  /keen-slider@6.8.6:
+    resolution: {integrity: sha512-dcEQ7GDBpCjUQA8XZeWh3oBBLLmyn8aoeIQFGL/NTVkoEOsmlnXqA4QykUm/SncolAZYGsEk/PfUhLZ7mwMM2w==}
+    dev: false
+
   /keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
     dependencies:
@@ -8755,6 +8844,15 @@ packages:
   /next-tick@1.1.0:
     resolution: {integrity: sha512-CXdUiJembsNjuToQvxayPZF9Vqht7hewsvy2sOWafLvi2awflj9mOC6bHIg50orX8IJvWKY9wYQ/zB2kogPslQ==}
     dev: true
+
+  /next-usequerystate@1.16.1(next@14.1.0):
+    resolution: {integrity: sha512-EWdYQQ76ZZeSScABshuqfE3G4HZrppjp7ijH9trsbC5jn+m1+UF6ANPG9yiz+5E6uhw0rD9x+FVrG4XUyX8wig==}
+    peerDependencies:
+      next: '>=13.4 <14.0.2 || ^14.0.3'
+    dependencies:
+      mitt: 3.0.1
+      next: 14.1.0(react-dom@18.2.0)(react@18.2.0)
+    dev: false
 
   /next@14.1.0(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-wlzrsbfeSU48YQBjZhDzOwhWhGsy+uQycR8bHAOt1LY1bn3zZEcDyHQOEoN3aWzQ8LHCAJ1nqrWCc9XF2+O45Q==}
@@ -10838,6 +10936,12 @@ packages:
       mz: 2.7.0
       pirates: 4.0.6
       ts-interface-checker: 0.1.13
+
+  /supercluster@8.0.1:
+    resolution: {integrity: sha512-IiOea5kJ9iqzD2t7QJq/cREyLHTtSmUT6gQsweojg9WH2sYJqZK9SswTu6jrscO6D1G5v5vYZ9ru/eq85lXeZQ==}
+    dependencies:
+      kdbush: 4.0.2
+    dev: false
 
   /superjson@2.2.1:
     resolution: {integrity: sha512-8iGv75BYOa0xRJHK5vRLEjE2H/i4lulTjzpUXic3Eg8akftYjkmQDa8JARQ42rlczXyFR3IeRoeFCc7RxHsYZA==}

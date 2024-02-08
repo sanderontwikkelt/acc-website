@@ -1,44 +1,28 @@
 import "./globals.css";
 
-import type { Metadata, Viewport } from "next";
-import { cache } from "react";
-import { Inter } from "next/font/google";
-import { headers } from "next/headers";
+import type { Metadata } from "next";
+import { Inter, Playfair_Display } from "next/font/google";
 
 import { cn } from "@acme/ui";
-import { ThemeProvider } from "@acme/ui/theme";
 
-import { env } from "~/env";
-import { TRPCReactProvider } from "~/trpc/react";
-import Footer from "./(client)/components/footer";
-import Header from "./(client)/components/header";
 import GoogleAnalytics from "./GoogleAnalytics";
+import { WEB_URL } from "./lib/constants";
 import { RouteChangeListener } from "./route-change-listener";
 
 process.env.NODE_NO_WARNINGS = "stream/web";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-primary" });
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-secondary",
+});
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    env.VERCEL_ENV === "production"
-      ? "https://turbo.t3.gg"
-      : "http://localhost:3000",
-  ),
-  title:
-    "Sockwave: Op Maat Gemaakte Sportsokken met Eigen Logo - Personaliseer Jouw Stijl",
+  metadataBase: new URL(WEB_URL),
+  title: "Home - Physis Academy",
   description:
-    "Ontdek unieke, op maat gemaakte sportsokken met jouw eigen logo bij [Webshop Naam]. Perfect voor teams, clubs, of individuele sporters. Hoogwaardige kwaliteit, comfortabele pasvorm, en snelle levering. Laat jouw sportstijl zien en maak een statement op het veld. Bestel nu en ervaar het verschil!",
+    "Wij helpen behandelaars en trainers om nog meer impact te maken op de vitaliteit van hun klanten. Elke week waardevolle kennis in je mail? Ontvang gratis kennis! Wat we doen Wij bieden jou een breed cursusaanbod op de gebieden Physis, Coaching en Ondernemen.",
 };
-
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
-};
-
-const getHeaders = cache(async () => headers());
 
 export default function RootLayout({
   children,
@@ -50,18 +34,13 @@ export default function RootLayout({
       <RouteChangeListener />
       <body
         className={cn(
-          inter.className,
+          inter.variable,
+          playfair.variable,
           "text-main w-full overflow-x-hidden bg-white",
         )}
       >
         <GoogleAnalytics />
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-          <TRPCReactProvider headersPromise={getHeaders()}>
-            <Header />
-            <div className="pt-[5rem] md:pt-[7.5rem]">{children}</div>
-            <Footer />
-          </TRPCReactProvider>
-        </ThemeProvider>
+        {children}
       </body>
     </html>
   );
