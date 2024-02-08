@@ -1,9 +1,9 @@
 "use client";
 
 import type { Row } from "@tanstack/react-table";
-import React, { useMemo } from "react";
+import React, { Suspense, useMemo } from "react";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
@@ -19,6 +19,7 @@ import {
   TableFloatingBarContent,
 } from "~/components/ui/data-table/table-actions";
 import { Heading } from "~/components/ui/heading";
+import Loading from "~/components/ui/loading";
 import { useDataTable } from "~/hooks/use-data-table";
 import { formatCreatedAt, useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
@@ -40,13 +41,11 @@ interface Option {
   value: string;
 }
 
-const UsersPage = () => {
-  const searchParams = useSearchParams();
-
-  const page = +(searchParams.get("page") || 10);
-  const perPage = +(searchParams.get("per_page") || 10);
-  const sort = searchParams.get("sort");
-  const roleIds = searchParams.get("roleId");
+const UsersPage = ({ searchParams }) => {
+  const page = +(searchParams.page || 1);
+  const perPage = +(searchParams.per_page || 10);
+  const sort = searchParams.sort;
+  const roleIds = searchParams.roleId;
 
   const [users] = api.user.list.useSuspenseQuery({
     page,
@@ -138,16 +137,18 @@ const UsersPage = () => {
         )}
       </Heading>
       <Card>
-        <DataTable
-          dataTable={dataTable}
-          columns={columns}
-          filterableColumns={filterableColumns}
-          floatingBarContent={TableFloatingBarContent(dataTable, onDelete)}
-          deleteRowsAction={async (event) => {
-            deleteSelectedRows(dataTable, onDelete, event);
-            router.refresh();
-          }}
-        />
+        <Suspense fallback={<Loading />}>
+          <DataTable
+            dataTable={dataTable}
+            columns={columns}
+            filterableColumns={filterableColumns}
+            floatingBarContent={TableFloatingBarContent(dataTable, onDelete)}
+            deleteRowsAction={async (event) => {
+              deleteSelectedRows(dataTable, onDelete, event);
+              router.refresh();
+            }}
+          />
+        </Suspense>
       </Card>
     </>
   );

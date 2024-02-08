@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
 import { buttonVariants, cn, NextImage } from "@acme/ui";
@@ -36,13 +36,11 @@ interface Column {
   url: string;
 }
 
-const MediasPage = () => {
-  const searchParams = useSearchParams();
-
-  const page = +(searchParams.get("page") || 10);
-  const perPage = +(searchParams.get("per_page") || 10);
-  const sort = searchParams.get("sort");
-  const mimetype = searchParams.get("mimetype");
+const MediasPage = ({ searchParams }) => {
+  const page = +(searchParams.page || 1);
+  const perPage = +(searchParams.per_page || 10);
+  const sort = searchParams.sort;
+  const mimetype = searchParams.mimetype;
 
   const [medias] = api.media.list.useSuspenseQuery({
     page,

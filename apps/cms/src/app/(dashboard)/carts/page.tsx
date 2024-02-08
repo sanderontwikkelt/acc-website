@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { EntityEnum } from "types/permissions";
 
 import { User } from "@acme/db";
@@ -24,14 +24,12 @@ interface Column {
   user: User;
 }
 
-const CartsPage = () => {
-  const searchParams = useSearchParams();
+const CartsPage = ({ searchParams }) => {
+  const page = +(searchParams.page || 1);
+  const perPage = +(searchParams.per_page || 10);
+  const sort = searchParams.sort;
 
-  const page = +(searchParams.get("page") || 10);
-  const perPage = +(searchParams.get("per_page") || 10);
-  const sort = searchParams.get("sort");
-
-  const permissionIds = searchParams.get("permissions");
+  const permissionIds = searchParams.permissions;
 
   const [carts] = api.cart.list.useSuspenseQuery({
     page,

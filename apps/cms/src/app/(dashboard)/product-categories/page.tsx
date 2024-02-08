@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
@@ -29,14 +29,12 @@ interface Column {
   title: string;
 }
 
-const ProductCategoriesPage = () => {
-  const searchParams = useSearchParams();
+const ProductCategoriesPage = ({ searchParams }) => {
+  const page = +(searchParams.page || 1);
+  const perPage = +(searchParams.per_page || 10);
+  const sort = searchParams.sort;
 
-  const page = +(searchParams.get("page") || 10);
-  const perPage = +(searchParams.get("per_page") || 10);
-  const sort = searchParams.get("sort");
-
-  const permissionIds = searchParams.get("permissions");
+  const permissionIds = searchParams.permissions;
 
   const [productCategories] = api.productCategory.list.useSuspenseQuery({
     page,

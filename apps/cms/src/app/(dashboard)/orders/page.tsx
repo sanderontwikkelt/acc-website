@@ -2,7 +2,7 @@
 
 import React, { useMemo } from "react";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import {
   orderStatusBadges,
@@ -48,14 +48,12 @@ interface Option {
   value: string;
 }
 
-const OrdersPage = () => {
-  const searchParams = useSearchParams();
+const OrdersPage = ({ searchParams }) => {
+  const page = +(searchParams.page || 1);
+  const perPage = +(searchParams.per_page || 10);
+  const sort = searchParams.sort;
 
-  const page = +(searchParams.get("page") || 10);
-  const perPage = +(searchParams.get("per_page") || 10);
-  const sort = searchParams.get("sort");
-
-  const status = searchParams.get("status");
+  const status = searchParams.status;
 
   const [orders] = api.order.list.useSuspenseQuery({
     page,

@@ -17,6 +17,7 @@ import {
 
 import type { DataTableFilterOption } from "../data-table-types";
 import { useDebounce } from "~/hooks/use-debounce";
+import { useQueryString } from "~/hooks/use-query-string";
 import { Popover, PopoverContent, PopoverTrigger } from "../../popover";
 import { DataTableFacetedFilter } from "../data-table-faceted-filter";
 
@@ -35,9 +36,7 @@ export function DataTableAdvancedFilterItem<TData>({
 }: DataTableAdvancedFilterItemProps<TData>) {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [value, setValue] = React.useState("");
-  const debounceValue = useDebounce(value, 500);
   const [open, setOpen] = React.useState(true);
 
   const selectedValues =
@@ -58,50 +57,11 @@ export function DataTableAdvancedFilterItem<TData>({
 
   const [filterVariety, setFilterVariety] = React.useState(filterVarieties[0]);
 
-  // Create query string
-  const createQueryString = React.useCallback(
-    (params: Record<string, string | number | null>) => {
-      const newSearchParams = new URLSearchParams(searchParams?.toString());
-
-      for (const [key, value] of Object.entries(params)) {
-        if (value === null) {
-          newSearchParams.delete(key);
-        } else {
-          newSearchParams.set(key, String(value));
-        }
-      }
-
-      return newSearchParams.toString();
-    },
-    [searchParams],
+  const createQueryString = useQueryString(
+    value,
+    selectedOption.value as string,
+    filterVariety,
   );
-
-  React.useEffect(() => {
-    if (debounceValue.length > 0) {
-      router.push(
-        `${pathname}?${createQueryString({
-          [selectedOption.value]: `${debounceValue}${
-            debounceValue.length > 0 ? `.${filterVariety}` : ""
-          }`,
-        })}`,
-        {
-          scroll: false,
-        },
-      );
-    }
-
-    if (debounceValue.length === 0) {
-      router.push(
-        `${pathname}?${createQueryString({
-          [selectedOption.value]: null,
-        })}`,
-        {
-          scroll: false,
-        },
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounceValue, filterVariety, selectedOption.value]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

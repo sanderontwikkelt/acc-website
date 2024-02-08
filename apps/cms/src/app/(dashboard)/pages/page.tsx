@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
@@ -35,12 +35,10 @@ interface Column {
   updatedBy: User;
 }
 
-const PagesPage = () => {
-  const searchParams = useSearchParams();
-
-  const page = +(searchParams.get("page") || 10);
-  const perPage = +(searchParams.get("per_page") || 10);
-  const sort = searchParams.get("sort");
+const PagesPage = ({ searchParams }) => {
+  const page = +(searchParams.page || 1);
+  const perPage = +(searchParams.per_page || 10);
+  const sort = searchParams.sort;
 
   const [pages] = api.page.list.useSuspenseQuery({
     page,

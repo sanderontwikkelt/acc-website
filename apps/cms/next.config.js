@@ -5,6 +5,9 @@ import "@acme/auth/env";
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: false,
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
 
   /** Enables hot reloading for local packages without a build step */
   transpilePackages: [

@@ -2,7 +2,7 @@
 
 import React, { useMemo } from "react";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Plus } from "lucide-react";
 import {
   ActionEnum,
@@ -42,14 +42,12 @@ interface Option {
   value: string;
 }
 
-const RolesPage = () => {
-  const searchParams = useSearchParams();
+const RolesPage = ({ searchParams }) => {
+  const page = +(searchParams.page || 1);
+  const perPage = +(searchParams.per_page || 10);
+  const sort = searchParams.sort;
 
-  const page = +(searchParams.get("page") || 10);
-  const perPage = +(searchParams.get("per_page") || 10);
-  const sort = searchParams.get("sort");
-
-  const permissionIds = searchParams.get("permissions");
+  const permissionIds = searchParams.permissions;
 
   const [roles] = api.role.list.useSuspenseQuery({
     page,
