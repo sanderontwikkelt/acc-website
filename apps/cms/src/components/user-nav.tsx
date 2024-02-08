@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Cog, LogOut, Settings, User, UserCog } from "lucide-react";
+import { ChevronUp, Cog, LogOut, Settings, User, UserCog } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 
@@ -20,6 +20,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const themes = [
   { value: "light", label: "Licht" },
@@ -35,11 +36,26 @@ export function UserNav() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="relative flex" size="icon">
-          <UserCog className="w-6" />
-        </Button>
+        {!!session?.user && (
+          <Button
+            variant="ghost"
+            className="relative mt-auto flex w-full justify-start pl-0"
+          >
+            <Avatar className="mr-2">
+              <AvatarImage src={session.user.image} alt={session.user.name} />
+              <AvatarFallback>
+                {session?.user.name
+                  .split(" ")
+                  .map(([n]) => n.toUpperCase())
+                  .join("")}
+              </AvatarFallback>
+            </Avatar>
+            {session.user.name}
+            <ChevronUp className="ml-auto w-4" />
+          </Button>
+        )}
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="" align="end" forceMount>
+      <DropdownMenuContent className="" align="center" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">Welkom!</p>

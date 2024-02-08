@@ -10,7 +10,6 @@ import {
   ShapesIcon,
   ShoppingBag,
   Users,
-  Users2,
 } from "lucide-react";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
@@ -20,7 +19,6 @@ import {
   Sidebar,
   SidebarItem,
   SidebarItemContent,
-  SidebarItemLabel,
   SidebarItemLink,
 } from "~/components/ui/sidebar";
 import { getPermissions } from "~/lib/user";
@@ -60,7 +58,7 @@ export async function AdminSideBar({
         "h-screen transition-all duration-300 max-md:fixed max-md:inset-0 max-md:w-[calc(100vw-2rem)] max-md:-translate-x-[calc(100%+2rem)]",
       )}
     >
-      <Card>
+      <Card className="flex flex-grow flex-col">
         <SidebarItem className="relative flex w-full items-center justify-between">
           <span className="sr-only text-xl font-bold">Physis</span>
           <svg
@@ -131,111 +129,113 @@ export async function AdminSideBar({
               />
             </g>
           </svg>
-          <UserNav />
-        </SidebarItem>
-      </Card>
-      <Card className="max-h-[100vh-9.125rem] flex-grow overflow-auto">
-        <SidebarItem className="mt-ato">
-          {/* <SidebarItemLabel>Beheren</SidebarItemLabel> */}
-          <SidebarItemContent>
-            <SidebarItemLink href="/">
-              <Activity className="mr-3 h-4 w-4" />
-              Analytics
-            </SidebarItemLink>
-            {canFindUsers && (
-              <SidebarItemLink href="/users">
-                <Users className="mr-3 h-4 w-4" />
-                Gebruikers
-              </SidebarItemLink>
-            )}
-            {canFindRoles && (
-              <SidebarItemLink href="/roles">
-                <GraduationCap className="mr-3 h-4 w-4" />
-                Rollen
-              </SidebarItemLink>
-            )}
-          </SidebarItemContent>
         </SidebarItem>
         <Separator className="my-4" />
-
-        {(canFindPages ||
-          canFindProductCategories ||
-          canFindProducts ||
-          canFindOrders ||
-          canFindCarts) && (
-          <SidebarItem>
-            {/* <SidebarItemLabel>Shop</SidebarItemLabel> */}
+        <div className="max-h-[100vh-9.125rem] flex-grow overflow-auto">
+          <SidebarItem className="mt-ato">
+            {/* <SidebarItemLabel>Beheren</SidebarItemLabel> */}
             <SidebarItemContent>
-              {canFindPages && (
-                <SidebarItemLink href="/pages">
-                  <PanelsTopLeft className="mr-3 h-4 w-4" />
-                  Pagina&apos;s
+              <SidebarItemLink href="/">
+                <Activity className="mr-3 h-4 w-4" />
+                Analytics
+              </SidebarItemLink>
+              {canFindUsers && (
+                <SidebarItemLink href="/users">
+                  <Users className="mr-3 h-4 w-4" />
+                  Gebruikers
                 </SidebarItemLink>
               )}
-              {canFindMedia && (
-                <SidebarItemLink href="/media">
-                  <ImageIcon className="mr-3 h-4 w-4" />
-                  Media
-                </SidebarItemLink>
-              )}
-              {canFindMedia && (
-                <SidebarItemLink href="/teachers">
+              {canFindRoles && (
+                <SidebarItemLink href="/roles">
                   <GraduationCap className="mr-3 h-4 w-4" />
-                  Docenten
-                </SidebarItemLink>
-              )}
-              {canFindMedia && (
-                <SidebarItemLink href="/teachers">
-                  <BookCopy className="mr-3 h-4 w-4" />
-                  Cursussen
-                </SidebarItemLink>
-              )}
-              {canFindMedia && (
-                <SidebarItemLink href="/library">
-                  <LayoutPanelTop className="mr-3 h-4 w-4" />
-                  Bibliotheek
+                  Rollen
                 </SidebarItemLink>
               )}
             </SidebarItemContent>
           </SidebarItem>
-        )}
-        <Separator className="my-4" />
-        {(canFindPages ||
-          canFindProductCategories ||
-          canFindProducts ||
-          canFindOrders ||
-          canFindCarts) && (
-          <SidebarItem>
-            {/* <SidebarItemLabel>Shop</SidebarItemLabel> */}
-            <SidebarItemContent>
-              {canFindProductCategories && (
-                <SidebarItemLink href="/product-categories">
-                  <ShapesIcon className="mr-3 h-4 w-4" />
-                  Productcategoriën
-                </SidebarItemLink>
-              )}
-              {canFindProducts && (
-                <SidebarItemLink href="/products">
-                  <Package className="mr-3 h-4 w-4" />
-                  Producten
-                </SidebarItemLink>
-              )}
-              {canFindOrders && (
-                <SidebarItemLink href="/orders">
-                  <ClipboardList className="mr-3 h-4 w-4" />
-                  Bestellingen
-                </SidebarItemLink>
-              )}
-              {canFindCarts && (
-                <SidebarItemLink href="/carts">
-                  <ShoppingBag className="mr-3 h-4 w-4" />
-                  Winkelmanden
-                </SidebarItemLink>
-              )}
-            </SidebarItemContent>
-          </SidebarItem>
-        )}
+          <Separator className="my-4" />
+
+          {(canFindPages ||
+            canFindProductCategories ||
+            canFindProducts ||
+            canFindOrders ||
+            canFindCarts) && (
+            <SidebarItem>
+              {/* <SidebarItemLabel>Shop</SidebarItemLabel> */}
+              <SidebarItemContent>
+                {canFindPages && (
+                  <SidebarItemLink href="/pages">
+                    <PanelsTopLeft className="mr-3 h-4 w-4" />
+                    Pagina&apos;s
+                  </SidebarItemLink>
+                )}
+                {canFindMedia && (
+                  <SidebarItemLink href="/media">
+                    <ImageIcon className="mr-3 h-4 w-4" />
+                    Media
+                  </SidebarItemLink>
+                )}
+                {canFindMedia && (
+                  <SidebarItemLink href="/teachers">
+                    <GraduationCap className="mr-3 h-4 w-4" />
+                    Docenten
+                  </SidebarItemLink>
+                )}
+                {canFindMedia && (
+                  <SidebarItemLink href="/teachers">
+                    <BookCopy className="mr-3 h-4 w-4" />
+                    Cursussen
+                  </SidebarItemLink>
+                )}
+                {canFindMedia && (
+                  <SidebarItemLink href="/library">
+                    <LayoutPanelTop className="mr-3 h-4 w-4" />
+                    Bibliotheek
+                  </SidebarItemLink>
+                )}
+              </SidebarItemContent>
+            </SidebarItem>
+          )}
+          <Separator className="my-4" />
+          {(canFindPages ||
+            canFindProductCategories ||
+            canFindProducts ||
+            canFindOrders ||
+            canFindCarts) && (
+            <SidebarItem>
+              {/* <SidebarItemLabel>Shop</SidebarItemLabel> */}
+              <SidebarItemContent>
+                {canFindProductCategories && (
+                  <SidebarItemLink href="/product-categories">
+                    <ShapesIcon className="mr-3 h-4 w-4" />
+                    Productcategoriën
+                  </SidebarItemLink>
+                )}
+                {canFindProducts && (
+                  <SidebarItemLink href="/products">
+                    <Package className="mr-3 h-4 w-4" />
+                    Producten
+                  </SidebarItemLink>
+                )}
+                {canFindOrders && (
+                  <SidebarItemLink href="/orders">
+                    <ClipboardList className="mr-3 h-4 w-4" />
+                    Bestellingen
+                  </SidebarItemLink>
+                )}
+                {canFindCarts && (
+                  <SidebarItemLink href="/carts">
+                    <ShoppingBag className="mr-3 h-4 w-4" />
+                    Winkelmanden
+                  </SidebarItemLink>
+                )}
+              </SidebarItemContent>
+            </SidebarItem>
+          )}
+        </div>
         <SidebarSwitch />
+
+        <UserNav />
       </Card>
     </Sidebar>
   );
