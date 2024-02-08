@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Settings } from "@prisma/client";
 import axios from "axios";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import * as z from "zod";
+
+import { Settings } from "@acme/db";
 
 import { AlertModal } from "~/components/modals/alert-modal";
 import { ApiAlert } from "~/components/ui/api-alert";

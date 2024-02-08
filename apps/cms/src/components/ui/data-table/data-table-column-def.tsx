@@ -25,6 +25,7 @@ export function DataTableColumnDefs<Schema = { id: string }>({
   canEdit,
   canDelete,
   onEdit,
+  actions,
 }: {
   columns: {
     label: string;
@@ -36,6 +37,7 @@ export function DataTableColumnDefs<Schema = { id: string }>({
   canDelete?: (row: RowData) => boolean;
   canEdit?: (row: RowData) => boolean;
   onEdit?: (id: string | number) => void;
+  actions?: ({ row }: { row: Row<Schema> }) => ReactNode;
 }): ColumnDef<Schema, unknown>[] {
   const [isDeleting, setIsDeleting] = useState<number | string | null>(null);
 
@@ -101,6 +103,7 @@ export function DataTableColumnDefs<Schema = { id: string }>({
               </DropdownMenuTrigger>
               {
                 <DropdownMenuContent align="end">
+                  {!!actions && actions({ row })}
                   {!!onEdit && (!canEdit || canEdit(row)) && (
                     <DropdownMenuItem onClick={() => onEdit(id)}>
                       Aanpassen

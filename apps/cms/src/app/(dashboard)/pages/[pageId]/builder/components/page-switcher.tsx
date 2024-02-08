@@ -2,7 +2,13 @@
 
 import * as React from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";
+import { ActionEnum, EntityEnum } from "types/permissions";
+
+import { Page } from "@acme/db";
+import { cn } from "@acme/ui";
+
+import { Button } from "~/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -11,7 +17,7 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from "@/components/ui/command";
+} from "~/components/ui/command";
 import {
   Dialog,
   DialogContent,
@@ -19,17 +25,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "~/components/ui/dialog";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn, useHasPermissions } from "@/lib/utils";
-import { ActionEnum, EntityEnum } from "@/types/permissions";
-import { Page } from "@prisma/client";
-import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";
-
+} from "~/components/ui/popover";
+import { useHasPermissions } from "~/lib/utils";
 import { PageForm } from "../../components/page-form";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
@@ -101,7 +103,7 @@ export default function PageSwitcher({
                   <CheckIcon
                     className={cn(
                       "ml-auto h-4 w-4",
-                      page.id === params.pageId ? "opacity-100" : "opacity-0",
+                      page.id === +params.pageId ? "opacity-100" : "opacity-0",
                     )}
                   />
                 </CommandItem>

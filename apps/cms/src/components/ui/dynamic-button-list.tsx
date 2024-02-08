@@ -3,7 +3,7 @@ import React, { useCallback } from "react";
 import {
   ButtonValue,
   CollapsibleButton,
-} from "~/app/(dashboard)/(routes)/pages/[pageId]/builder/components/collapsable-button";
+} from "~/app/(dashboard)/pages/[pageId]/builder/components/collapsable-button";
 import DragList from "./drag-list";
 
 const DynamicButtonList = ({

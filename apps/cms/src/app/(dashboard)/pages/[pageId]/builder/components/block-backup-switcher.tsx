@@ -1,25 +1,28 @@
 "use client";
 
 import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { Command, CommandItem, CommandList } from "@/components/ui/command";
-import { Dialog } from "@/components/ui/dialog";
+import { ClockIcon } from "lucide-react";
+
+import { PageBackup } from "@acme/db";
+import { cn } from "@acme/ui";
+
+import { Button } from "~/components/ui/button";
+import { Command, CommandItem, CommandList } from "~/components/ui/command";
+import { Dialog } from "~/components/ui/dialog";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { BlockType } from "@/lib/html-blocks";
-import { cn, formatDate } from "@/lib/utils";
-import { BlockBackup } from "@prisma/client";
-import { ClockIcon } from "lucide-react";
+} from "~/components/ui/popover";
+import { BlockType } from "~/lib/html-blocks";
+import { formatDate } from "~/lib/utils";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
 >;
 
 interface BlockBackupSwitcherProps extends PopoverTriggerProps {
-  backups: BlockBackup[];
+  backups: PageBackup[];
   setBlocks: (b: BlockType[]) => void;
 }
 
@@ -73,7 +76,7 @@ export default function BlockBackupSwitcher({
                     onSelect={() => {
                       setBlocks(
                         Array.isArray(blockBackup.blocks)
-                          ? (blockBackup.blocks as any)
+                          ? (blockBackup.blocks as BlockType[])
                           : [],
                       );
                       setOpen(false);

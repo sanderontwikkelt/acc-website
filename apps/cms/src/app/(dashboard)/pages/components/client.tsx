@@ -1,15 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ApiList } from "@/components/ui/api-list";
-import { Button } from "@/components/ui/button";
-import { DataTable } from "@/components/ui/data-table";
-import { Heading } from "@/components/ui/heading";
-import { Separator } from "@/components/ui/separator";
 import { useHasPermissions } from "@/lib/utils";
 import { ActionEnum, EntityEnum } from "@/types/permissions";
 import { Plus } from "lucide-react";
 
+import { ApiList } from "~/components/ui/api-list";
+import { Button } from "~/components/ui/button";
+import { DataTable } from "~/components/ui/data-table";
+import { Heading } from "~/components/ui/heading";
+import { Separator } from "~/components/ui/separator";
 import { columns, PageColumn } from "./columns";
 
 interface PagesClientProps {

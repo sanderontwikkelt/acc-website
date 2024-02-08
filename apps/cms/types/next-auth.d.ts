@@ -1,5 +1,6 @@
-import { Permission } from "@prisma/client";
 import NextAuth, { DefaultSession } from "next-auth";
+
+import { Permission } from "@acme/db";
 
 declare module "next-auth" {
   /**

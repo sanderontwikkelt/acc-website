@@ -1,13 +1,14 @@
 "use client";
 
-import Slider from "@/components/slider";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import DynamicNavs from "@/components/ui/dynamic-navs";
-import { Label } from "@/components/ui/label";
-import SingleImageSelect from "@/components/ui/single-image-select";
-import { getArray } from "@/lib/getArray";
-import { Header, Page } from "@prisma/client";
+import { Header, Page } from "@acme/db";
+
+import Slider from "~/components/slider";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
+import { Badge } from "~/components/ui/badge";
+import DynamicNavs from "~/components/ui/dynamic-navs";
+import { Label } from "~/components/ui/label";
+import SingleImageSelect from "~/components/ui/single-image-select";
+import { getArray } from "~/lib/getArray";
 
 type Item = { pathname: string; name: string; values: Item[] };
 

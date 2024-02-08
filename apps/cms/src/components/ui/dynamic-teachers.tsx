@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Teacher } from "@prisma/client";
 import axios from "axios";
+
+import { Teacher } from "@acme/db";
 
 import DynamicSelect, { Item } from "./dynamic-select";
 

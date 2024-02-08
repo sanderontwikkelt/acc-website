@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { Page } from "@prisma/client";
+
+import { Page } from "@acme/db";
 
 const Website = ({
   page,

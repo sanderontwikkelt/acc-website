@@ -1,15 +1,15 @@
 "use client";
 
-import Slider from "@/components/slider";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
-import DynamicLinks from "@/components/ui/dynamic-links";
-import DynamicNavs from "@/components/ui/dynamic-navs";
-import { Label } from "@/components/ui/label";
-import RichInput from "@/components/ui/rich-input";
-import { getArray } from "@/lib/getArray";
-import { Footer, Page } from "@prisma/client";
+import { Footer, Page } from "@acme/db";
 
+import Slider from "~/components/slider";
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
+import { Badge } from "~/components/ui/badge";
+import DynamicLinks from "~/components/ui/dynamic-links";
+import DynamicNavs from "~/components/ui/dynamic-navs";
+import { Label } from "~/components/ui/label";
+import RichInput from "~/components/ui/rich-input";
+import { getArray } from "~/lib/getArray";
 import { State } from "./client";
 
 const FooterAsideEditor = ({

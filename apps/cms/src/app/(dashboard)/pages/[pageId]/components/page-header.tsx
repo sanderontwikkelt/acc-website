@@ -2,17 +2,18 @@
 
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { AlertModal } from "@/components/modals/alert-modal";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Heading } from "@/components/ui/heading";
-import { Separator } from "@/components/ui/separator";
 import { useHasPermissions } from "@/lib/utils";
 import { ActionEnum, EntityEnum } from "@/types/permissions";
-import { SEO } from "@prisma/client";
 import axios from "axios";
 import { Trash } from "lucide-react";
-import toast from "react-hot-toast";
 
+import { SEO } from "@acme/db";
+import { toast } from "@acme/ui/toast";
+
+import { AlertModal } from "~/components/modals/alert-modal";
+import { Button, buttonVariants } from "~/components/ui/button";
+import { Heading } from "~/components/ui/heading";
+import { Separator } from "~/components/ui/separator";
 import { PageActions } from "./page-actions";
 
 const PageHeader = ({

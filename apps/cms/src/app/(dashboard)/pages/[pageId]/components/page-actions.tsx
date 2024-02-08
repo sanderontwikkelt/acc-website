@@ -2,26 +2,28 @@
 
 import * as React from "react";
 import { useParams, useRouter } from "next/navigation";
-import { SEOForm } from "@/components/seo-form";
-import { Button } from "@/components/ui/button";
+import { useHasPermissions } from "@/lib/utils";
+import { ActionEnum, EntityEnum } from "@/types/permissions";
+import { Dialog } from "@radix-ui/react-dialog";
+import { ActivityLogIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { SearchIcon } from "lucide-react";
+
+import { SEO } from "@acme/db";
+
+import { SEOForm } from "~/components/seo-form";
+import { Button } from "~/components/ui/button";
 import {
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from "~/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useHasPermissions } from "@/lib/utils";
-import { ActionEnum, EntityEnum } from "@/types/permissions";
-import { SEO } from "@prisma/client";
-import { Dialog } from "@radix-ui/react-dialog";
-import { ActivityLogIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { SearchIcon } from "lucide-react";
+} from "~/components/ui/dropdown-menu";
 
 export function PageActions({
   seo,

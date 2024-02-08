@@ -2,7 +2,25 @@
 
 import * as React from "react";
 import { useParams, useRouter } from "next/navigation";
-import { SEOForm } from "@/components/seo-form";
+import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
+import { Dialog } from "@radix-ui/react-dialog";
+
+import { Page } from "@acme/db";
+import {
+  Button,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@acme/ui";
+import { toast } from "@acme/ui/toast";
+
+import { SEOForm } from "~/components/seo-form";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -11,40 +29,16 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
-import {
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { BlockType } from "@/lib/html-blocks";
-import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
-import { Page, SEO } from "@prisma/client";
-import { Dialog } from "@radix-ui/react-dialog";
-import axios from "axios";
-import { toast } from "react-hot-toast";
-
+} from "~/components/ui/alert-dialog";
+import { api } from "~/trpc/react";
 import { PageForm } from "../../components/page-form";
 
 export function PresetActions({
-  blocks,
   pageIds,
-  seo,
   page,
 }: {
-  blocks: BlockType[];
   page: Page;
-  seo: SEO;
-  pageIds: string[];
+  pageIds: number[];
 }) {
   const [loading, setLoading] = React.useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
@@ -53,10 +47,12 @@ export function PresetActions({
   const params = useParams();
   const router = useRouter();
 
-  const deletePage = async () => {
+  const deletePage = api.page.delete.useMutation();
+
+  const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/pages/${params.pageId}`);
+      await deletePage.mutateAsync(+params.pageId);
       toast.success("Pagina verwijderd.");
       setShowDeleteDialog(false);
       setLoading(false);
@@ -70,7 +66,7 @@ export function PresetActions({
             : ""
         }`,
       );
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error("Er is iets mis gegaan.");
     }
   };
@@ -92,11 +88,9 @@ export function PresetActions({
           <DropdownMenuItem onSelect={() => setShowSettingsDialog(true)}>
             Pagina instellingen
           </DropdownMenuItem>
-          {!!seo && (
-            <DropdownMenuItem onSelect={() => setShowSEODialog(true)}>
-              SEO instellingen
-            </DropdownMenuItem>
-          )}
+          <DropdownMenuItem onSelect={() => setShowSEODialog(true)}>
+            SEO instellingen
+          </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onSelect={() => setShowDeleteDialog(true)}
@@ -116,12 +110,7 @@ export function PresetActions({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <Button
-              variant="destructive"
-              onClick={() => {
-                deletePage();
-              }}
-            >
+            <Button variant="destructive" onClick={onDelete}>
               Verwijderen
             </Button>
           </AlertDialogFooter>
@@ -136,26 +125,20 @@ export function PresetActions({
           <PageForm initialData={page} />
         </DialogContent>
       </Dialog>
-      {!!seo && (
-        <Dialog open={showSEODialog} onOpenChange={setShowSEODialog}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Pagina SEO</DialogTitle>
-              <DialogDescription>
-                SEO optimaliseert websites voor betere vindbaarheid in
-                zoekmachines.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="py-6">
-              <SEOForm
-                initialData={seo}
-                seoId={seo.id}
-                pathname={page.pathname}
-              />
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
+      <Dialog open={showSEODialog} onOpenChange={setShowSEODialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Pagina SEO</DialogTitle>
+            <DialogDescription>
+              SEO optimaliseert websites voor betere vindbaarheid in
+              zoekmachines.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-6">
+            <SEOForm pageId={page.id} />
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

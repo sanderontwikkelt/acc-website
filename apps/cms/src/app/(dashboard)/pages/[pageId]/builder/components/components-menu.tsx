@@ -2,14 +2,16 @@
 
 import { ReactNode, useCallback } from "react";
 import Image from "next/image";
-import DragList from "@/components/ui/drag-list";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import htmlBlocks, { BlockType } from "@/lib/html-blocks";
-import { cn } from "@/lib/utils";
-import { Page } from "@prisma/client";
 import { EditIcon, PlusIcon } from "lucide-react";
-import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
+
+import { Page } from "@acme/db";
+import { cn } from "@acme/ui";
+import { toast } from "@acme/ui/toast";
+
+import DragList from "~/components/ui/drag-list";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import htmlBlocks, { BlockType } from "~/lib/html-blocks";
 
 const BlockNavigation = ({
   onClick,

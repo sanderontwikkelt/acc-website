@@ -7,5 +7,6 @@ export * from "./dialog";
 export * from "./input";
 export * from "./textarea";
 export * from "./pagination";
+export * from "./alert";
 export * from "./dropdown-menu";
 export * from "./next-image";

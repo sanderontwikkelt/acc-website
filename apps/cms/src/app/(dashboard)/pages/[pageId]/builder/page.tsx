@@ -1,44 +1,57 @@
-import prismadb from "@/lib/prismadb";
-import { BlockBackup, Page, SEO } from "@prisma/client";
+"use client";
 
+import { notFound, useParams } from "next/navigation";
+
+import { Footer, Header, Page } from "@acme/db";
+
+import { api } from "~/trpc/react";
 import PageEditorClient from "./components/client";
 
-type PageType = Page & { seo: SEO; backups: BlockBackup[] };
+const PageEditorPage = () => {
+  const { pageId } = useParams();
 
-const PageEditorPage = async ({ params }: { params: { pageId: string } }) => {
-  const pages = await prismadb.page.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      seo: true,
-    },
+  const [pages] = api.page.all.useSuspenseQuery();
+
+  const [page] = api.page.byId.useSuspenseQuery({
+    id: +pageId,
   });
 
-  const page = await prismadb.page.findFirst({
-    where: {
-      id: params.pageId,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      seo: true,
-      backups: true,
-    },
-  });
+  const [header] = api.header.get.useSuspenseQuery();
 
-  const header = await prismadb.header.findFirst();
+  const [footer] = api.footer.get.useSuspenseQuery();
 
-  const footer = await prismadb.footer.findFirst();
+  if (!page) notFound();
 
-  return page?.seo && header && footer ? (
+  return page && header && footer ? (
     <PageEditorClient
-      pages={pages as PageType[]}
-      seo={page.seo}
-      header={header}
-      footer={footer}
-      page={pages.find(({ id }) => id === params.pageId) as Page}
+      pages={
+        pages.map((p) => ({
+          ...p,
+          createdAt: new Date(p.createdAt),
+          updatedAt: new Date(p.updatedAt),
+        })) as Page[]
+      }
+      header={
+        {
+          ...header,
+          createdAt: new Date(header.createdAt),
+          updatedAt: new Date(header.updatedAt),
+        } as Header
+      }
+      footer={
+        {
+          ...footer,
+          createdAt: new Date(footer.createdAt),
+          updatedAt: new Date(footer.updatedAt),
+        } as Footer
+      }
+      page={
+        {
+          ...page,
+          createdAt: new Date(page.createdAt),
+          updatedAt: new Date(page.updatedAt),
+        } as Page
+      }
     />
   ) : null;
 };

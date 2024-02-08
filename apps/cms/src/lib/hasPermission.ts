@@ -1,4 +1,4 @@
-import { Permission } from "@prisma/client";
+import { Permission } from "@acme/db";
 
 import { ActionEnum, EntityEnum } from "~/types/permissions";
 

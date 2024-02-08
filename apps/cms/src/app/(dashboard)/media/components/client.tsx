@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Media } from "@prisma/client";
 import axios from "axios";
 import { ImagePlus } from "lucide-react";
-import toast from "react-hot-toast";
+
+import { Media } from "@acme/db";
+import { toast } from "@acme/ui/toast";
 
 import { AlertModal } from "~/components/modals/alert-modal";
 import { Button } from "~/components/ui/button";

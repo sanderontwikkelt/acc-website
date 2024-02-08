@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
 import type { User } from "@acme/db";
-import { buttonVariants } from "@acme/ui";
+import { buttonVariants, DropdownMenuItem } from "@acme/ui";
 
-import type { DataTableFilterableColumn } from "~/components/ui/data-table/data-table-types";
 import { Badge } from "~/components/ui/badge";
 import { Card } from "~/components/ui/card";
 import { DataTable } from "~/components/ui/data-table/data-table";
@@ -20,7 +19,7 @@ import {
 } from "~/components/ui/data-table/table-actions";
 import { Heading } from "~/components/ui/heading";
 import { useDataTable } from "~/hooks/use-data-table";
-import { formatCreatedAt, formatter, useHasPermissions } from "~/lib/utils";
+import { formatCreatedAt, useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
 
 const title = "Pagina's";
@@ -34,11 +33,6 @@ interface Column {
   concept: number;
   createdBy: User;
   updatedBy: User;
-}
-
-interface Option {
-  label: string;
-  value: string;
 }
 
 const PagesPage = () => {
@@ -128,6 +122,13 @@ const PagesPage = () => {
     ],
     entity: entity,
     onEdit: (id: number | string) => router.push(`${pathname}/${id}`),
+    actions: ({ row }) => (
+      <DropdownMenuItem
+        onClick={() => router.push(`${pathname}/${row.original.id}/builder`)}
+      >
+        Pagina Builder
+      </DropdownMenuItem>
+    ),
   });
 
   const { dataTable } = useDataTable({

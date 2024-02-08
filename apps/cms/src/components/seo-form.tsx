@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import type * as z from "zod";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SEO } from "@prisma/client";
-import axios from "axios";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import * as z from "zod";
+
+import type { Media } from "@acme/db";
+import { toast } from "@acme/ui/toast";
+import { seoFormSchema } from "@acme/validators";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -21,57 +22,73 @@ import {
 import { Input } from "~/components/ui/input";
 import { revalidateClientTag } from "~/lib/revalidate-client-tag";
 import { cn } from "~/lib/utils";
+import { api } from "~/trpc/react";
+import { Loader } from "./ui/loader";
 import { Separator } from "./ui/separator";
 import SingleImageSelect from "./ui/single-image-select";
 import { Textarea } from "./ui/textarea";
 
-const formSchema = z.object({
-  title: z.string().nullable(),
-  description: z.string().nullable(),
-  ogTitle: z.string().nullable(),
-  ogDescription: z.string().nullable(),
-  mediaId: z.string().nullable(),
-});
-
-type SEOFormValues = z.infer<typeof formSchema>;
+type SEOFormValues = z.infer<typeof seoFormSchema>;
 
 interface SEOFormProps {
-  initialData: SEO;
-  seoId: string;
-  pathname: string;
+  pageId: number;
 }
 
-export const SEOForm: React.FC<SEOFormProps> = ({
-  initialData,
-  pathname,
-  seoId,
-}) => {
+export const SEOForm: React.FC<SEOFormProps> = ({ pageId }) => {
+  const [image, setImage] = useState<Media | null>(null);
+
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
-  const defaultValues = initialData;
+  const { data: seo, isLoading } = api.seo.byPageId.useQuery({
+    pageId,
+  });
 
   const form = useForm<SEOFormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
+    resolver: zodResolver(seoFormSchema),
   });
+
+  const updateSeo = api.seo.update.useMutation();
 
   const onSubmit = async (data: SEOFormValues) => {
     try {
       setLoading(true);
-      if (initialData) {
-        await axios.patch(`/api/seo/${seoId}`, data);
-        revalidateClientTag("seo" + (pathname.replaceAll("/", "") || "index"));
-        router.refresh();
-        toast.success("SEO updated.");
-      }
-    } catch (error: any) {
+      await updateSeo.mutateAsync({
+        ...data,
+        pageId,
+      });
+      await revalidateClientTag("seo" + pageId);
+      router.refresh();
+      toast.success("SEO updated.");
+    } catch (error: unknown) {
       toast.error("Er is iets mis gegaan.");
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (seo) {
+      form.reset({
+        ...seo,
+      });
+      if (seo.media) {
+        setImage({
+          ...seo.media,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        } as Media);
+      }
+    }
+  }, [seo, form]);
+
+  if (isLoading)
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <Loader />
+      </div>
+    );
 
   return (
     <>
@@ -166,8 +183,11 @@ export const SEOForm: React.FC<SEOFormProps> = ({
                   <FormLabel>Afbeelding</FormLabel>
                   <FormControl>
                     <SingleImageSelect
-                      value={field.value || ""}
-                      onChange={field.onChange}
+                      value={image}
+                      onChange={(media) => {
+                        field.onChange(media.id);
+                        setImage(media);
+                      }}
                     />
                   </FormControl>
                   <FormMessage />

@@ -1,16 +1,11 @@
 "use client";
 
+import type { LucideIcon } from "lucide-react";
 import React from "react";
 import Link from "next/link";
-import TooltipWrapper from "@/components/tooltip-wrapper";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { BlockType } from "@/lib/html-blocks";
-import { cn } from "@/lib/utils";
-import { Page, SEO } from "@prisma/client";
 import {
   ChevronLeft,
   Command,
-  LucideIcon,
   MenuIcon,
   MonitorIcon,
   Option,
@@ -23,6 +18,10 @@ import {
   Undo,
 } from "lucide-react";
 
+import type { Page } from "@acme/db";
+import { Button, buttonVariants, cn } from "@acme/ui";
+
+import TooltipWrapper from "~/components/tooltip-wrapper";
 import { PresetActions } from "./actions";
 import PageSwitcher from "./page-switcher";
 
@@ -74,8 +73,6 @@ const IconButton = ({
 const Toolbar = ({
   page,
   pages,
-  blocks,
-  seo,
   display,
   loading,
   reset,
@@ -96,8 +93,6 @@ const Toolbar = ({
   canUndo: boolean;
   canRedo: boolean;
   setDisplay: (d: Display) => void;
-  blocks: BlockType[];
-  seo: SEO;
   loading: boolean;
   publish: () => void;
   setShowMenu: (m: (m: boolean) => boolean) => void;
@@ -204,7 +199,6 @@ const Toolbar = ({
         </div>
         <div className="flex items-center space-x-2">
           <Button
-            variant="default"
             className="h-7 px-2 py-2"
             onClick={publish}
             disabled={loading}
@@ -212,12 +206,7 @@ const Toolbar = ({
             <SaveIcon className="w-4" />
           </Button>
 
-          <PresetActions
-            blocks={blocks}
-            page={page}
-            seo={seo}
-            pageIds={pages.map(({ id }) => id)}
-          />
+          <PresetActions page={page} pageIds={pages.map(({ id }) => id)} />
         </div>
       </div>
     </div>

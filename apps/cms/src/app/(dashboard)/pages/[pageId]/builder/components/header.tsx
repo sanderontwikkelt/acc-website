@@ -4,17 +4,18 @@ import { Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { buttonVariants } from "@/components/ui/button";
-import htmlBlocks, { BlockType } from "@/lib/html-blocks";
-import { cn } from "@/lib/utils";
 import { Popover, Transition } from "@headlessui/react";
-import { BlockBackup, Page, SEO } from "@prisma/client";
 import { ChevronLeft, Plus } from "lucide-react";
-import toast from "react-hot-toast";
 import { v4 as uuidv4 } from "uuid";
 
+import { Page, PageBackup, SEO } from "@acme/db";
+import { cn } from "@acme/ui";
+import { toast } from "@acme/ui/toast";
+
+import { buttonVariants } from "~/components/ui/button";
+import htmlBlocks, { BlockType } from "~/lib/html-blocks";
 import { PresetActions } from "./actions";
-import BlockBackupSwitcher from "./block-backup-switcher";
+import PageBackupSwitcher from "./block-backup-switcher";
 import PageSwitcher from "./page-switcher";
 
 export default function Header({
@@ -29,7 +30,7 @@ export default function Header({
   pages: Page[];
   page: Page;
   seo: SEO;
-  backups: BlockBackup[];
+  backups: PageBackup[];
   blocks: BlockType[];
   setBlocks: (blocks: BlockType[]) => void;
   onSelect: (block: BlockType) => void;
@@ -38,7 +39,7 @@ export default function Header({
   return (
     <header className="fixed bottom-5 left-1/2 z-[9999999] flex -translate-x-1/2 items-center justify-between rounded-full border border-gray-400 bg-black text-white">
       <Link
-        href={`/pages/${params.pageId}`}
+        href={`/pages/${params.pageId as string}`}
         className={cn(
           buttonVariants({ variant: "ghostDark" }),
           "rounded-l-full pl-3 pr-2",
@@ -47,7 +48,7 @@ export default function Header({
         <ChevronLeft className="h-4 w-4" />
       </Link>
       <PageSwitcher pages={pages} page={page} mobile />
-      <BlockBackupSwitcher setBlocks={setBlocks} backups={backups} />
+      <PageBackupSwitcher setBlocks={setBlocks} backups={backups} />
 
       <Popover className="relative">
         <Popover.Button

@@ -110,7 +110,7 @@ const PageDetailPage = () => {
       }
     });
   };
-  console.log(page);
+
   return (
     <>
       <Form {...form}>

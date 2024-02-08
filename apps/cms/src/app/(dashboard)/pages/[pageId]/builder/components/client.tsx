@@ -1,15 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Loader } from "@/components/ui/loader";
-import htmlBlocks, { BlockType } from "@/lib/html-blocks";
-import { revalidateClientTag } from "@/lib/revalidate-client-tag";
-import { BlockBackup, Footer, Header, Page, SEO } from "@prisma/client";
-import axios from "axios";
-import toast from "react-hot-toast";
 import useUndo from "use-undo";
 
+import type { Footer, Header, Page } from "@acme/db";
+import { toast } from "@acme/ui/toast";
+
+import type { BlockType } from "~/lib/html-blocks";
+import { Loader } from "~/components/ui/loader";
+import htmlBlocks from "~/lib/html-blocks";
+import { revalidateClientTag } from "~/lib/revalidate-client-tag";
+import { api } from "~/trpc/react";
 import AsideEditor from "./aside-editor";
 import ComponentsMenu from "./components-menu";
 import FooterAsideEditor from "./footer-aside-editor";
@@ -17,22 +20,20 @@ import HeaderAsideEditor from "./header-aside-editor";
 import Toolbar from "./toolbar";
 import Website from "./website";
 
-export type State = {
+export interface State {
   blocks: BlockType[];
   header: Header | null;
   footer: Footer | null;
-};
+}
 
 const PageEditorClient = ({
   pages,
   page,
-  seo,
   header,
   footer,
 }: {
   pages: Page[];
   page: Page;
-  seo: SEO;
   header: Header;
   footer: Footer;
 }) => {
@@ -99,7 +100,7 @@ const PageEditorClient = ({
             }),
           ),
         },
-        frontendUrl as string,
+        frontendUrl,
       );
       setSent(true);
     };
@@ -145,7 +146,7 @@ const PageEditorClient = ({
       const index = state.blocks.findIndex(({ uid }) => sectionId === uid);
       if (index || direction === "DOWN") {
         const swapIndex = index + (direction === "UP" ? -1 : 1);
-        let temp = arr[index];
+        const temp = arr[index];
         arr[index] = arr[swapIndex];
         arr[swapIndex] = temp;
       }
@@ -157,7 +158,7 @@ const PageEditorClient = ({
   const block = useMemo(() => {
     if (!sectionId) return null;
     const stateBlock = state.blocks.find(({ uid, id }) =>
-      [uid, id].includes(sectionId as string),
+      [uid, id].includes(sectionId),
     );
     if (!stateBlock) return null;
     const htmlBlock = htmlBlocks[stateBlock.name];
@@ -188,20 +189,25 @@ const PageEditorClient = ({
     [setSectionId],
   );
 
+  const updatePage = api.page.update.useMutation();
+  const updateHeader = api.header.update.useMutation();
+  const updateFooter = api.footer.update.useMutation();
+
   const publish = async () => {
     try {
       setLoading(true);
-      await axios.patch(`/api/pages/${params.pageId}`, {
-        blocks: state.blocks,
+      await updatePage.mutateAsync({
+        blocks: JSON.stringify(state.blocks),
+        id: page.id,
       });
-      revalidateClientTag(page.pathname.replaceAll("/", "") || "index");
+      await revalidateClientTag(`page${page.id}`);
       if (state.header) {
-        await axios.patch(`/api/header`, state.header);
-        revalidateClientTag("header");
+        await updateHeader.mutateAsync(state.header as any);
+        await revalidateClientTag("header");
       }
       if (state.footer) {
-        await axios.patch(`/api/footer`, state.footer);
-        revalidateClientTag("footer");
+        await updateFooter.mutateAsync(state.footer as any);
+        await revalidateClientTag("footer");
       }
       router.refresh();
       toast.success("Opgeslagen en gepubliseerd.");
@@ -218,7 +224,6 @@ const PageEditorClient = ({
       <Toolbar
         display={display}
         blocks={state.blocks}
-        seo={seo}
         setDisplay={setDisplay}
         publish={publish}
         loading={loading}

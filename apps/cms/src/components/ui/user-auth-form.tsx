@@ -7,8 +7,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { type z } from "zod";
+
+import { toast } from "@acme/ui/toast";
 
 import { cn } from "~/lib/utils";
 import { userAuthSchema } from "~/lib/validation/userAuthSchema";

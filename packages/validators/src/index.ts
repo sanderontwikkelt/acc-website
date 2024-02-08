@@ -13,6 +13,15 @@ export const userFormSchema = z.object({
   email: z.string().email({ message: "Vul een geldig e-mail in." }),
 });
 
+export const seoFormSchema = z.object({
+  pageId: z.number(),
+  title: z.string().nullable(),
+  description: z.string().nullable(),
+  ogTitle: z.string().nullable(),
+  ogDescription: z.string().nullable(),
+  mediaId: z.string().nullable(),
+});
+
 export const teacherFormSchema = z.object({
   title: z.string().min(1),
   name: z.string().min(1),
@@ -112,6 +121,26 @@ export const pageFormSchema = z.object({
   seoDescription: z.string().optional(),
   seoTitle: z.string().optional(),
   seoMediaId: z.number().optional(),
+});
+
+export const link = z.object({
+  pathname: z.string(),
+  name: z.string(),
+});
+
+export const footerFormSchema = z.object({
+  title: notEmptyString,
+  mediaId: z.number().optional(),
+  navigation: z.array(link),
+  links: z.array(link),
+  socials: z.array(link),
+  informationLinks: z.array(link),
+});
+
+export const headerFormSchema = z.object({
+  mediaId: z.number().optional(),
+  navigation: z.array(link).optional(),
+  links: z.array(link),
 });
 
 export const cartItemFormSchema = z.object({

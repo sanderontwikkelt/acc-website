@@ -1,35 +1,36 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useCallback } from "react";
-import InfoTooltip from "@/components/info-tooltip";
-import Slider from "@/components/slider";
-import { Checkbox } from "@/components/ui/checkbox";
-import DynamicButtonList from "@/components/ui/dynamic-button-list";
-import DynamicImageGridList from "@/components/ui/dynamic-image-grid-list";
-import DynamicLinkImages from "@/components/ui/dynamic-link-images";
-import DynamicLinks from "@/components/ui/dynamic-links";
-import DynamicList from "@/components/ui/dynamic-list";
-import DynamicListWithButton from "@/components/ui/dynamic-list-with-button";
-import DynamicStringList from "@/components/ui/dynamic-string-list";
-import DynamicTeachers from "@/components/ui/dynamic-teachers";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import MediaSelect from "@/components/ui/media-select";
-import RichInput from "@/components/ui/rich-input";
-import RichText from "@/components/ui/rich-text";
+import { v4 as uuidv4 } from "uuid";
+
+import InfoTooltip from "~/components/info-tooltip";
+import Slider from "~/components/slider";
+import { Checkbox } from "~/components/ui/checkbox";
+import DynamicButtonList from "~/components/ui/dynamic-button-list";
+import DynamicImageGridList from "~/components/ui/dynamic-image-grid-list";
+import DynamicLinkImages from "~/components/ui/dynamic-link-images";
+import DynamicLinks from "~/components/ui/dynamic-links";
+import DynamicList from "~/components/ui/dynamic-list";
+import DynamicListWithButton from "~/components/ui/dynamic-list-with-button";
+import DynamicStringList from "~/components/ui/dynamic-string-list";
+import DynamicTeachers from "~/components/ui/dynamic-teachers";
+import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
+import MediaSelect from "~/components/ui/media-select";
+import RichInput from "~/components/ui/rich-input";
+import RichText from "~/components/ui/rich-text";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import SizePicker from "@/components/ui/size-picker";
-import StyleForm from "@/components/ui/style-form";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { BlockType } from "@/lib/html-blocks";
-import { v4 as uuidv4 } from "uuid";
-
+} from "~/components/ui/select";
+import SizePicker from "~/components/ui/size-picker";
+import StyleForm from "~/components/ui/style-form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
+import { BlockType } from "~/lib/html-blocks";
 import { CollapsibleButton } from "./collapsable-button";
 
 const AsideEditor = ({
@@ -51,7 +52,7 @@ const AsideEditor = ({
         fields: {
           ...block?.fields,
           [field]: {
-            ...((((block.fields as any)[field] as any) || {}) as any),
+            ...((block.fields as any)[field] || {}),
             value,
           },
         },

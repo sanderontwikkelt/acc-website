@@ -2,8 +2,17 @@
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+import { Page } from "@acme/db";
+import { cn } from "@acme/ui";
+import { toast } from "@acme/ui/toast";
+
+import { Button } from "~/components/ui/button";
+import { Checkbox } from "~/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -12,15 +21,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Page } from "@prisma/client";
-import axios from "axios";
-import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import * as z from "zod";
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import { api } from "~/trpc/react";
 
 const formSchema = z.object({
   name: z.string().min(1),
@@ -64,16 +67,27 @@ export const PageForm: React.FC<PageFormProps> = ({
     defaultValues,
   });
 
+  const createPage = api.page.create.useMutation();
+  const updatePage = api.page.update.useMutation();
+
   const onSubmit = async (data: PageFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`/api/pages/${params.pageId}`, data);
+        await updatePage.mutateAsync({
+          ...data,
+          concept: data.concept ? 0 : 1,
+          id: +params.pageId,
+        });
       } else {
-        const page = await axios.post(`/api/pages`, data);
+        const { insertId } = await createPage.mutateAsync({
+          ...data,
+          blocks: "[]",
+          concept: data.concept ? 0 : 1,
+        });
         if (!withRedirect) {
           router.refresh();
-          router.push(`/pages/${page.data.id}/builder`);
+          router.push(`/pages/${insertId}/builder`);
         }
       }
       router.refresh();
@@ -82,6 +96,7 @@ export const PageForm: React.FC<PageFormProps> = ({
       }
       toast.success(toastMessage);
     } catch (error: any) {
+      console.log(error);
       toast.error("Er is iets mis gegaan.");
     } finally {
       setLoading(false);

@@ -67,6 +67,9 @@ export const pageRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       return ctx.db.insert(schema.page).values({
         ...input,
+        pathname: input.pathname.startsWith("/")
+          ? input.pathname
+          : `/${input.pathname}`,
         createdBy: ctx.session.user.id,
         updatedBy: ctx.session.user.id,
       });
