@@ -4,6 +4,7 @@ import {
   ClipboardList,
   GraduationCap,
   ImageIcon,
+  LayoutPanelTop,
   Package,
   PanelsTopLeft,
   ShapesIcon,
@@ -190,9 +191,9 @@ export async function AdminSideBar({
                 </SidebarItemLink>
               )}
               {canFindMedia && (
-                <SidebarItemLink href="/media">
-                  <ImageIcon className="mr-3 h-4 w-4" />
-                  Media
+                <SidebarItemLink href="/library">
+                  <LayoutPanelTop className="mr-3 h-4 w-4" />
+                  Bibliotheek
                 </SidebarItemLink>
               )}
             </SidebarItemContent>

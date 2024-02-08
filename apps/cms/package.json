@@ -40,6 +40,7 @@
     "@trpc/next": "next",
     "@trpc/react-query": "next",
     "@trpc/server": "next",
+    "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
     "date-fns": "^3.0.6",
     "geist": "^1.2.0",
