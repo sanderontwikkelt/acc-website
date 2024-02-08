@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { LogOut, Settings, User } from "lucide-react";
+import { Cog, LogOut, Settings, User, UserCog } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 
@@ -35,16 +35,11 @@ export function UserNav() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          className="relative flex h-10 w-full space-x-2 text-sm"
-        >
-          <span className="max-w-full truncate whitespace-nowrap">
-            Welkom, {session?.user.name}!
-          </span>
+        <Button variant="outline" className="relative flex" size="icon">
+          <UserCog className="w-6" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="" align="start" forceMount>
+      <DropdownMenuContent className="" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">Welkom!</p>

@@ -148,7 +148,7 @@ const PagesPage = () => {
           </Link>
         )}
       </Heading>
-      <Card className="flex-grow">
+      <Card>
         <DataTable
           dataTable={dataTable}
           columns={columns}
