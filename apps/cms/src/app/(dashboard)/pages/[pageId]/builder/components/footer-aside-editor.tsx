@@ -85,9 +85,8 @@ const FooterAsideEditor = ({
         </div>
         <div className="space-y-2">
           <Label>Links</Label>
-          <DynamicNavs
+          <DynamicLinks
             values={links?.length ? links : []}
-            items={pages}
             onChange={(v) =>
               setState({
                 ...state,
@@ -98,9 +97,8 @@ const FooterAsideEditor = ({
         </div>
         <div className="space-y-2">
           <Label>Informatie links</Label>
-          <DynamicNavs
+          <DynamicLinks
             values={informationLinks?.length ? informationLinks : []}
-            items={pages}
             onChange={(v) =>
               setState({
                 ...state,
@@ -113,12 +111,12 @@ const FooterAsideEditor = ({
           <Label>Socials</Label>
           <DynamicLinks
             values={socials?.length ? socials : []}
-            onChange={(v) => {
+            onChange={(v) =>
               setState({
                 ...state,
                 footer: { ...(state.footer || footer), socials: v },
-              });
-            }}
+              })
+            }
           />
         </div>
       </div>

@@ -123,22 +123,31 @@ export const pageFormSchema = z.object({
   seoMediaId: z.number().optional(),
 });
 
-export const link = z.object({
+export const singleLink = z.object({
   pathname: z.string(),
   name: z.string(),
 });
 
+export const link = singleLink.extend({ values: z.array(singleLink).optional() })
+
+export const externalSingleLink = z.object({
+  href: z.string(),
+  title: z.string(),
+});
+
+export const externalLink = externalSingleLink.extend({ values: z.array(externalSingleLink).optional() })
+
 export const footerFormSchema = z.object({
   title: notEmptyString,
-  mediaId: z.number().optional(),
+  mediaId: z.number().optional().nullable(),
   navigation: z.array(link),
-  links: z.array(link),
-  socials: z.array(link),
-  informationLinks: z.array(link),
+  links: z.array(externalLink),
+  socials: z.array(externalLink),
+  informationLinks: z.array(externalLink),
 });
 
 export const headerFormSchema = z.object({
-  mediaId: z.number().optional(),
+  mediaId: z.number().optional().nullable(),
   navigation: z.array(link).optional(),
   links: z.array(link),
 });

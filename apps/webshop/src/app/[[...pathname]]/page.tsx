@@ -60,7 +60,6 @@ export async function generateStaticParams() {
       pathname: schema.page.pathname,
     })
     .from(schema.page);
-  console.log({ pages });
   return pages.map(({ pathname }: { pathname: string }) => ({
     pathname: [pathname.replace("/", "")],
   }));

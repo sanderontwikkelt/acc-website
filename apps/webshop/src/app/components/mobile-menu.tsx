@@ -32,7 +32,7 @@ const MobileMenu = ({
 
       <div
         className={cn(
-          `max-w-screen fixed bottom-0 right-0 top-[6.25rem] z-10 h-[calc(100vh-6.25rem)] w-full overflow-y-auto bg-accent px-6 py-6 shadow-md transition-all duration-500 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10 md:hidden`,
+          `max-w-screen fixed bottom-0 right-0 top-[6.25rem] z-10 h-[calc(100vh-6.25rem)] w-screen overflow-y-auto bg-accent px-6 py-6 shadow-md transition-all duration-500 md:hidden`,
           mobileMenuOpen
             ? "translate-x-0"
             : "right-[150vw] -translate-x-[150vw]",

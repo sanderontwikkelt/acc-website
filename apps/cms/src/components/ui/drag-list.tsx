@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import React from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { DragHandleDots2Icon } from "@radix-ui/react-icons";
-import { CopyIcon, PlusIcon } from "lucide-react";
+import { CopyIcon, CrossIcon, PlusIcon } from "lucide-react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
 
@@ -49,18 +49,32 @@ const DragList = ({
   return (
     <div className="relative">
       {root && (
+        <div 
+        className="absolute -top-8 right-0 p-1 flex space-x-1"
+        >
+        {!!values?.length && <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            onChange(undefined);
+          }}
+        >
+          <TooltipWrapper message="Toevoegen">
+            <XMarkIcon className="h-5 w-5" />
+          </TooltipWrapper>
+        </button>}
         <button
           type="button"
           onClick={(e) => {
             e.preventDefault();
             onChange([...values, { ...values[0], id: uuidv4() }]);
           }}
-          className="absolute -top-8 right-0 p-1"
         >
           <TooltipWrapper message="Toevoegen">
             <PlusIcon className="h-5 w-5" />
           </TooltipWrapper>
         </button>
+        </div>
       )}
       {values?.length ? (
         values?.length > 1 ? (

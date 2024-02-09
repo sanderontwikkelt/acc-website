@@ -92,6 +92,24 @@ export const pageRouter = createTRPCRouter({
         await tx.update(schema.page).set(input).where(eq(schema.page.id, +id));
       });
     }),
+    updateBlocks: protectedProcedure
+    .input(z.object({ id: z.number().min(1), blocks: z.string().min(1) }))
+    .mutation(async ({ ctx, input: { id, blocks } }) => {
+      const page = await ctx.db.query.page.findFirst({
+        where: eq(schema.page.id, id),
+      });
+      if (!page) return;
+
+      return ctx.db.transaction(async (tx) => {
+        await tx.insert(schema.block_backup).values({
+          blocks: page.blocks,
+          pageId: page.id,
+          createdBy: ctx.session.user.id,
+        });
+
+        await tx.update(schema.page).set({ blocks }).where(eq(schema.page.id, +id));
+      });
+    }),
   delete: protectedProcedure.input(z.number()).mutation(({ ctx, input }) => {
     return ctx.db.delete(schema.page).where(eq(schema.page.id, input));
   }),

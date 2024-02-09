@@ -1,7 +1,7 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Playfair_Display, Poppins } from "next/font/google";
 
 import { cn } from "@acme/ui";
 
@@ -11,10 +11,15 @@ import { RouteChangeListener } from "./route-change-listener";
 
 process.env.NODE_NO_WARNINGS = "stream/web";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-primary" });
+const inter = Inter({ subsets: ["latin"], variable: '--font-primary' });
 const playfair = Playfair_Display({
   subsets: ["latin"],
+  variable: "--font-heading",
+});
+const poppins = Poppins({
+  subsets: ["latin"],
   variable: "--font-secondary",
+  weight: '500'
 });
 
 export const metadata: Metadata = {
@@ -34,8 +39,10 @@ export default function RootLayout({
       <RouteChangeListener />
       <body
         className={cn(
-          inter.variable,
+          inter.className,
           playfair.variable,
+          inter.variable,
+          poppins.variable,
           "text-main w-full overflow-x-hidden bg-white",
         )}
       >

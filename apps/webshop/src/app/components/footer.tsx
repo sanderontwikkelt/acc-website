@@ -7,6 +7,7 @@ import { FooterType } from "~/lib/types";
 import Section from "./section";
 
 const Footer = ({ footer }: { footer: FooterType }) => {
+  console.log({footer})
   return (
     <footer className="bg-main max-w-[100vw] overflow-hidden pt-5 text-white">
       <Section id="footer-content">
@@ -145,16 +146,16 @@ const Footer = ({ footer }: { footer: FooterType }) => {
                 />
               </g>
             </svg>
-            <h3 className="max-w-[16rem]">
+            <h3 className="max-w-[16rem] font-secondary text-4xl">
               <div {...setHtml(footer.title)} />
             </h3>
           </div>
           <div>
-            <h3 className="mb-6 text-2xl md:text-lg">Contact</h3>
-            <ul className="space-y-3 text-base font-medium">
+            <h3 className="mb-6 text-2xl md:text-lg font-primary">Navigatie</h3>
+            <ul className="space-y-3 text-md md:text-lg text-description">
               {getArray(footer.navigation).map(({ pathname, name }) => (
-                <li key={name}>
-                  <Link href={pathname} aria-label={name}>
+                <li className="hover:text-white transition-colors duration-300" key={name}>
+                  <Link href={pathname || "#"} aria-label={name}>
                     {name}
                   </Link>
                 </li>
@@ -162,23 +163,23 @@ const Footer = ({ footer }: { footer: FooterType }) => {
             </ul>
           </div>
           <div>
-            <h3 className="mb-6 text-2xl md:text-lg">Contact</h3>
-            <ul className="space-y-3 text-base font-medium">
-              {getArray(footer.links).map(({ pathname, name }) => (
-                <li key={name}>
-                  <Link href={pathname} aria-label={name}>
-                    {name}
+            <h3 className="mb-6 text-2xl md:text-lg font-primary">Links</h3>
+            <ul className="space-y-3 text-md md:text-lg text-description">
+              {getArray(footer.links).map(({ href, title }) => (
+                <li className="hover:text-white transition-colors duration-300" key={title}>
+                  <Link href={href || "#"} aria-label={title}>
+                    {title}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <h3 className="mb-6 text-2xl md:text-lg">Contact</h3>
-            <ul className="space-y-3 text-base font-medium">
+            <h3 className="mb-6 text-2xl md:text-lg font-primary">Socials</h3>
+            <ul className="space-y-3 text-md md:text-lg text-description">
               {getArray(footer.socials).map(({ href, title }) => (
-                <li key={title}>
-                  <Link href={href} aria-label={title}>
+                <li className="hover:text-white transition-colors duration-300" key={title}>
+                  <Link href={href || "#"} aria-label={title}>
                     {title}
                   </Link>
                 </li>
@@ -186,15 +187,15 @@ const Footer = ({ footer }: { footer: FooterType }) => {
             </ul>
           </div>
         </nav>
-        <p className="mt-16 md:mt-24">
+        <p className="mt-16 md:mt-24 text-description mb-1">
           © Physis Academy, all rights reserved.
         </p>
         <div className="flex items-center">
-          {getArray(footer.informationLinks).map(({ pathname, name }, i) => (
+          {getArray(footer.informationLinks).map(({ href, title }, i) => (
             <>
-              {!!i && <div className="text-description mx-5">|</div>}
-              <Link key={name} href={pathname} aria-label={name}>
-                <p>{name}</p>
+              {!!i && <div className="mx-5 text-description">|</div>}
+              <Link key={title} href={href || "#"} aria-label={title} className="text-description hover:text-white transition-colors duration-300">
+                <p>{title}</p>
               </Link>
             </>
           ))}

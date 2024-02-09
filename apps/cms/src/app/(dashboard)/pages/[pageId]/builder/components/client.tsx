@@ -63,8 +63,6 @@ const PageEditorClient = ({
 
   const frontendUrl = process.env.NEXT_PUBLIC_FRONT_URL;
   const router = useRouter();
-  const params = useParams();
-
   useEffect(() => {
     console.log("rendering");
     const iframe = document.getElementById(
@@ -189,11 +187,12 @@ const PageEditorClient = ({
     [setSectionId],
   );
 
-  const updatePage = api.page.update.useMutation();
+  const updatePage = api.page.updateBlocks.useMutation();
   const updateHeader = api.header.update.useMutation();
   const updateFooter = api.footer.update.useMutation();
 
   const publish = async () => {
+    console.log(state.header)
     try {
       setLoading(true);
       await updatePage.mutateAsync({
