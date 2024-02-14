@@ -192,9 +192,9 @@ const PageEditorClient = ({
   const updateFooter = api.footer.update.useMutation();
 
   const publish = async () => {
-    console.log(state.header)
     try {
       setLoading(true);
+      console.log(state.blocks);
       await updatePage.mutateAsync({
         blocks: JSON.stringify(state.blocks),
         id: page.id,
@@ -268,15 +268,16 @@ const PageEditorClient = ({
 
         <AsideEditor
           open={showMenu && editorOpen === "blocks"}
-          setBlock={(newBlock) =>
+          setBlock={(newBlock) => {
+            console.log({ newBlock }, state.blocks, sectionId);
             setBlocks(
               newBlock
                 ? state.blocks.map((oldBlock) =>
                     sectionId === oldBlock.uid ? newBlock : oldBlock,
                   )
                 : state.blocks.filter((b) => b.uid !== sectionId),
-            )
-          }
+            );
+          }}
           setOpen={() => setEditorOpen(null)}
           block={block as BlockType}
         />

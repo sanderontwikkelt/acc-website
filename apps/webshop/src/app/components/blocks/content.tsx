@@ -13,21 +13,28 @@ const content = ({
   title,
   description,
   image,
-  button,
+  links,
 }: {
   title: string;
   description: string;
   articleDescription: string;
-  button: ButtonType;
+  links: { href: string; title: string }[];
   image: ImageType;
 }) => {
+  console.log({ links });
   return (
     <div className="flex items-center gap-36 max-md:flex-col">
       <NextImage image={image} alt={title} />
       <article>
-        <h3 className="mb-10" {...setHtml(title)} />
+        <h1 className="mb-10" {...setHtml(title)} />
         <p className="mb-10" {...setHtml(description)} />
-        <Button {...button}>{button.title}</Button>
+        <div className="flex space-x-5">
+          {links.map(({ href, title }) => (
+            <Button className="font-bold" key={href} variant="link">
+              {title}
+            </Button>
+          ))}
+        </div>
       </article>
     </div>
   );

@@ -22,6 +22,7 @@ export interface LinksType {
 
 export interface ImageType {
   src: string;
+  url: string;
   width: number;
   height: number;
   objectPosition?: { x: number; y: number };

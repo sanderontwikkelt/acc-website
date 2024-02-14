@@ -15,6 +15,7 @@ const PageEditorPage = () => {
   const [page] = api.page.byId.useSuspenseQuery({
     id: +pageId,
   });
+  console.log({ page });
 
   const [header] = api.header.get.useSuspenseQuery();
 
@@ -48,6 +49,7 @@ const PageEditorPage = () => {
       page={
         {
           ...page,
+          blocks: JSON.parse(page.blocks),
           createdAt: new Date(page.createdAt),
           updatedAt: new Date(page.updatedAt),
         } as Page

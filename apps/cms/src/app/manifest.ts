@@ -2,9 +2,9 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Sockwave",
-    short_name: "Sockwave",
-    description: "Sockwave: Verantwoorde Nederlandse Kledingproductie",
+    name: "Physis",
+    short_name: "Physis",
+    description: "Physis: Verantwoorde Nederlandse Kledingproductie",
     start_url: "/",
     display: "standalone",
     background_color: "#FCF9EC",

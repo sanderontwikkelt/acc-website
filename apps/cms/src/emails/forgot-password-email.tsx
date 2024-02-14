@@ -28,7 +28,7 @@ export const ForgotPasswordEmail = ({
       <Head />
       <Preview>
         We hebben een verzoek ontvangen om het wachtwoord van uw account bij
-        Sockwave te resetten.
+        Physis te resetten.
       </Preview>
 
       <Body style={main}>
@@ -36,17 +36,17 @@ export const ForgotPasswordEmail = ({
           <Container style={container}>
             <Section style={{ marginBottom: 20 }}>
               <Img
-                src={`${baseUrl}/lsocks.png`}
+                src={`${baseUrl}/physis.png`}
                 width="149"
                 height="43"
-                alt="Sockwave"
+                alt="Physis"
               />
             </Section>
             <Section>
               <Row>
                 <Text style={heading}>
                   We hebben een verzoek ontvangen om het wachtwoord van uw
-                  account bij Sockwave te resetten.
+                  account bij Physis te resetten.
                 </Text>
                 <Text style={paragraph}>
                   Als u dit verzoek niet heeft ingediend, kunt u deze e-mail
@@ -87,7 +87,7 @@ export const ForgotPasswordEmail = ({
             <Section>
               <Row>
                 <Text style={footer}>
-                  Sockwave {new Date().getFullYear()}, Protonstraat 9b, 9743 AL
+                  Physis {new Date().getFullYear()}, Protonstraat 9b, 9743 AL
                   Groningen
                 </Text>
               </Row>

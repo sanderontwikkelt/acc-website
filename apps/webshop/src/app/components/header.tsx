@@ -3,16 +3,16 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import HamburgerMenu from "react-hamburger-menu";
 
 import { cn } from "@acme/ui";
 
 import { getArray } from "~/lib/getArray";
 import { HeaderType } from "~/lib/types";
-import MobileMenu from "./mobile-menu";
-import NavItems from "./nav-items";
-import MobileItem from "./mobileItem";
-import HamburgerMenu from "react-hamburger-menu";
 import { Button } from "./button";
+import MobileMenu from "./mobile-menu";
+import MobileItem from "./mobileItem";
+import NavItems from "./nav-items";
 
 type Values = { pathname: string; name: string }[];
 
@@ -34,7 +34,7 @@ const Header = ({ header }: { header: HeaderType }) => {
   const navigation = [
     ...getArray(header.navigation),
     ...getArray(header.links),
-  ]
+  ];
 
   return (
     <>
@@ -210,8 +210,11 @@ const Header = ({ header }: { header: HeaderType }) => {
           </nav>
           <nav className="ml-auto flex items-center space-x-4 lg:space-x-8 xl:space-x-12">
             {[
-              { pathname: "/mijn-account", name: "Mijn account"},
-              { pathname: "https://community.physis.academy/login", name: "Cursist log in"},
+              { pathname: "/mijn-account", name: "Mijn account" },
+              {
+                pathname: "https://community.physis.academy/login",
+                name: "Cursist log in",
+              },
             ].map((item) => (
               <Link
                 href={item.pathname}
@@ -222,28 +225,26 @@ const Header = ({ header }: { header: HeaderType }) => {
               </Link>
             ))}
           </nav>
-        <>
-      <div className="relative z-10 ml-auto md:hidden">
-        <HamburgerMenu
-          isOpen={mobileMenuOpen}
-          menuClicked={() => setMobileMenuOpen((prev: boolean) => !prev)}
-          width={28}
-          height={18}
-          strokeWidth={2}
-          rotate={0}
-          color="#9F9F9F"
-          borderRadius={99}
-          animationDuration={0.5}
-        />
-      </div>
-
-      
-    </>
+          <>
+            <div className="relative z-10 ml-auto md:hidden">
+              <HamburgerMenu
+                isOpen={mobileMenuOpen}
+                menuClicked={() => setMobileMenuOpen((prev: boolean) => !prev)}
+                width={28}
+                height={18}
+                strokeWidth={2}
+                rotate={0}
+                color="#9F9F9F"
+                borderRadius={99}
+                animationDuration={0.5}
+              />
+            </div>
+          </>
         </div>
       </header>
       <div
         className={cn(
-          `max-w-screen fixed bottom-0 right-0 top-0 pt-[6.25rem] z-10 h-screen w-screen overflow-y-auto bg-accent px-6 py-6 shadow-md transition-all duration-500 md:hidden`,
+          `max-w-screen fixed bottom-0 right-0 top-0 z-10 h-screen w-screen overflow-y-auto bg-accent px-6 py-6 pt-[6.25rem] shadow-md transition-all duration-500 md:hidden`,
           mobileMenuOpen
             ? "translate-x-0"
             : "right-[150vw] -translate-x-[150vw]",
@@ -292,7 +293,7 @@ const Header = ({ header }: { header: HeaderType }) => {
               <Link
                 href={pathname}
                 key={name}
-                className="text-main/0.3 hover:text-main text-2xl transition-all p-10 hover:underline"
+                className="text-main/0.3 hover:text-main p-10 text-2xl transition-all hover:underline"
               >
                 {name}
               </Link>

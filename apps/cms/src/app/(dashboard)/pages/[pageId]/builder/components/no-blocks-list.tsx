@@ -37,6 +37,7 @@ export default function NoBlocksList({
                     name,
                     fieldValues: item.defaultFieldValues,
                     id: uuidv4(),
+                    uid: uuidv4(),
                   } as Block)
                 }
               >

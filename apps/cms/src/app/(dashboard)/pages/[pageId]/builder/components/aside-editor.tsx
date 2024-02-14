@@ -46,6 +46,7 @@ const AsideEditor = ({
 }) => {
   const fields = block ? block.fields : null;
   const handleFields = (field: string, value: any) => {
+    console.log({ field, value, block });
     block &&
       setBlock({
         ...block,
@@ -81,7 +82,7 @@ const AsideEditor = ({
               <TabsTrigger value="general">Algemeen</TabsTrigger>
             </TabsList>
             <TabsContent value="fields">
-              <div className="max-h-[calc(100vh-9.9rem)] space-y-8 overflow-auto py-2 pl-1 pr-5 max-md:px-5">
+              <div className="max-h-[calc(100vh-12rem)] space-y-8 overflow-auto py-2 pl-1 pr-5 max-md:px-5">
                 {fields && Object.entries(fields).length ? (
                   Object.entries(fields)
                     .sort(([a], [b]) => b.localeCompare(a))
@@ -189,9 +190,9 @@ const AsideEditor = ({
                               image: (
                                 <MediaSelect
                                   values={value ? [value] : null}
-                                  onChange={([media]) =>
-                                    handleFields(fieldName, media)
-                                  }
+                                  onChange={([media]) => {
+                                    handleFields(fieldName, media);
+                                  }}
                                 />
                               ),
                               strings: (
@@ -300,7 +301,7 @@ const AsideEditor = ({
               </div>
             </TabsContent>
             <TabsContent value="general">
-              <div className="max-h-[calc(100vh-9.9rem)] space-y-8 overflow-auto py-2 pl-1 pr-5 max-md:px-5">
+              <div className="max-h-[calc(100vh-12rem)] space-y-8 overflow-auto py-2 pl-1 pr-5 max-md:px-5">
                 <div className="space-y-2">
                   <Label>
                     ID

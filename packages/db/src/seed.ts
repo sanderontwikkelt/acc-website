@@ -7,7 +7,7 @@ async function main() {
   const entities = ["user", "media", "role", "contact"];
 
   await db.insert(settings).values({
-    name: "Sockwave",
+    name: "Physis",
     email: "sander.mailservice@gmail.com",
   });
 

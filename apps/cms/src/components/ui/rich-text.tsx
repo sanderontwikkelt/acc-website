@@ -88,11 +88,7 @@ export default function RichText({
 }) {
   return (
     <EditorProvider>
-      <Editor
-        id={id}
-        value={value}
-        onChange={(e) => onChange(sanitizeHtml(e.target.value))}
-      >
+      <Editor id={id} value={value} onChange={(e) => onChange(e.target.value)}>
         <Toolbar
           style={{
             backgroundColor: "hsl(210 40% 96.1%)",

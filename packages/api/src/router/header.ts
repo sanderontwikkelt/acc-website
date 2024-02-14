@@ -15,7 +15,7 @@ export const headerRouter = createTRPCRouter({
   update: protectedProcedure
     .input(headerFormSchema)
     .mutation(async ({ ctx, input }) => {
-      console.log(input)
+      console.log(input);
       await ctx.db
         .update(schema.header)
         .set(input)

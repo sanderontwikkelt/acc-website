@@ -20,7 +20,7 @@ export default async function AuthenticationPage() {
 
   return (
     <AuthWrapper
-      title="Welkom bij Sockwave Admin"
+      title="Welkom bij Physis Admin"
       description="Vul je gegevens in om in te loggen."
     >
       <SignInForm />

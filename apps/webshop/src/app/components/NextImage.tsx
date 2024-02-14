@@ -21,6 +21,7 @@ const NextImage = ({
       {...image}
       {...props}
       alt={alt}
+      src={image.url || image.src}
       {...(!!(objectPosition && props.className?.includes("object-cover")) && {
         style: {
           objectPosition: `${objectPosition.x}% ${objectPosition.y}%`,

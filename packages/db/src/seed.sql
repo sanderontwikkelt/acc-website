@@ -1,5 +1,5 @@
 INSERT INTO physis_settings (name, email) 
-VALUES ('Sockwave', 'sander.mailservice@gmail.com');
+VALUES ('Physis', 'sander.mailservice@gmail.com');
 
 INSERT INTO physis_role (id, name, description) 
 VALUES (1, 'Admin', 'Administrator with all permissions');

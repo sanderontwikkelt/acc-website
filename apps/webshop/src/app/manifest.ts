@@ -2,8 +2,8 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Sockwave",
-    short_name: "Sockwave",
+    name: "Physis",
+    short_name: "Physis",
     description: "Op Maat Gemaakte Sportsokken met Eigen Logo",
     start_url: "/",
     display: "standalone",

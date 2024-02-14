@@ -74,7 +74,7 @@ const StyleForm = ({
         <Label>Achtergrondkleur</Label>
         <Select
           value={value.backgroundColor}
-          onValueChange={(v) => handleChange(v, "backgroundColor")}
+          onValueChange={(v) => handleChange(v, "background")}
           defaultValue="transparent"
         >
           <SelectTrigger>
@@ -86,6 +86,7 @@ const StyleForm = ({
               { key: "#fff", label: "Wit" },
               { key: "#0F1012", label: "Donker" },
               { key: "#E9EAEC", label: "Grijs" },
+              { key: "#E9EAEC33", label: "Lichtgrijs" },
               { key: "#E6E1C9", label: "Geel" },
               { key: "#C5CEDF", label: "Blauw" },
             ].map(({ key, label }: { key: string; label: string }) => (

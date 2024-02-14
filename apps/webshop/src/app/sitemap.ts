@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const WEB_URL = "https://www.sockwave.nl";
+const WEB_URL = "https://www.physis.nl";
 
 export const routes = {
   home: {

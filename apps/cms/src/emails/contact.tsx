@@ -43,10 +43,10 @@ export const Contact = ({
           <Container style={container}>
             <Section style={{ marginBottom: 20 }}>
               <Img
-                src={`${baseUrl}/lsocks.png`}
+                src={`${baseUrl}/physis.png`}
                 width="149"
                 height="43"
-                alt="Sockwave"
+                alt="Physis"
               />
             </Section>
             <Section>
@@ -86,7 +86,7 @@ export const Contact = ({
                 {!!phoneNumber && <Text>{phoneNumber}</Text>}
                 <Hr style={hr} />
                 <Text style={footer}>
-                  Sockwave {new Date().getFullYear()}, Protonstraat 9b, 9743 AL
+                  Physis {new Date().getFullYear()}, Protonstraat 9b, 9743 AL
                   Groningen
                 </Text>
               </Row>

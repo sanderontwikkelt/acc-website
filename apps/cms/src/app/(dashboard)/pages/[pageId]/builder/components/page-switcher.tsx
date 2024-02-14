@@ -135,7 +135,7 @@ export default function PageSwitcher({
           <DialogTitle>Pagina Toevoegen</DialogTitle>
           <DialogDescription>Voeg een nieuwe pagina toe</DialogDescription>
         </DialogHeader>
-        <PageForm initialData={null} />
+        <PageForm initialData={null} pages={pages} />
       </DialogContent>
     </Dialog>
   );

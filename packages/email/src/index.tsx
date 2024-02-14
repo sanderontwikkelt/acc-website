@@ -39,7 +39,7 @@ export const sendEmail = async (
   }
   const html = render(comp, { pretty: true });
   const mailOptions: Mail.Options = {
-    from: "no-reply@sockwave.nl",
+    from: "no-reply@physis.nl",
     to,
     subject,
     text: stripHtml(html),

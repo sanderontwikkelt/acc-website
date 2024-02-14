@@ -7,7 +7,7 @@ import { FooterType } from "~/lib/types";
 import Section from "./section";
 
 const Footer = ({ footer }: { footer: FooterType }) => {
-  console.log({footer})
+  console.log({ footer });
   return (
     <footer className="bg-main max-w-[100vw] overflow-hidden pt-5 text-white">
       <Section id="footer-content">
@@ -146,15 +146,18 @@ const Footer = ({ footer }: { footer: FooterType }) => {
                 />
               </g>
             </svg>
-            <h3 className="max-w-[16rem] font-secondary text-4xl">
+            <h3 className="font-secondary max-w-[16rem] text-4xl">
               <div {...setHtml(footer.title)} />
             </h3>
           </div>
           <div>
-            <h3 className="mb-6 text-2xl md:text-lg font-primary">Navigatie</h3>
-            <ul className="space-y-3 text-md md:text-lg text-description">
+            <h3 className="font-primary mb-6 text-2xl md:text-lg">Navigatie</h3>
+            <ul className="text-md text-description space-y-3 md:text-lg">
               {getArray(footer.navigation).map(({ pathname, name }) => (
-                <li className="hover:text-white transition-colors duration-300" key={name}>
+                <li
+                  className="transition-colors duration-300 hover:text-white"
+                  key={name}
+                >
                   <Link href={pathname || "#"} aria-label={name}>
                     {name}
                   </Link>
@@ -163,10 +166,13 @@ const Footer = ({ footer }: { footer: FooterType }) => {
             </ul>
           </div>
           <div>
-            <h3 className="mb-6 text-2xl md:text-lg font-primary">Links</h3>
-            <ul className="space-y-3 text-md md:text-lg text-description">
+            <h3 className="font-primary mb-6 text-2xl md:text-lg">Links</h3>
+            <ul className="text-md text-description space-y-3 md:text-lg">
               {getArray(footer.links).map(({ href, title }) => (
-                <li className="hover:text-white transition-colors duration-300" key={title}>
+                <li
+                  className="transition-colors duration-300 hover:text-white"
+                  key={title}
+                >
                   <Link href={href || "#"} aria-label={title}>
                     {title}
                   </Link>
@@ -175,10 +181,13 @@ const Footer = ({ footer }: { footer: FooterType }) => {
             </ul>
           </div>
           <div>
-            <h3 className="mb-6 text-2xl md:text-lg font-primary">Socials</h3>
-            <ul className="space-y-3 text-md md:text-lg text-description">
+            <h3 className="font-primary mb-6 text-2xl md:text-lg">Socials</h3>
+            <ul className="text-md text-description space-y-3 md:text-lg">
               {getArray(footer.socials).map(({ href, title }) => (
-                <li className="hover:text-white transition-colors duration-300" key={title}>
+                <li
+                  className="transition-colors duration-300 hover:text-white"
+                  key={title}
+                >
                   <Link href={href || "#"} aria-label={title}>
                     {title}
                   </Link>
@@ -187,14 +196,19 @@ const Footer = ({ footer }: { footer: FooterType }) => {
             </ul>
           </div>
         </nav>
-        <p className="mt-16 md:mt-24 text-description mb-1">
+        <p className="text-description mb-1 mt-16 md:mt-24">
           © Physis Academy, all rights reserved.
         </p>
         <div className="flex items-center">
           {getArray(footer.informationLinks).map(({ href, title }, i) => (
             <>
-              {!!i && <div className="mx-5 text-description">|</div>}
-              <Link key={title} href={href || "#"} aria-label={title} className="text-description hover:text-white transition-colors duration-300">
+              {!!i && <div className="text-description mx-5">|</div>}
+              <Link
+                key={title}
+                href={href || "#"}
+                aria-label={title}
+                className="text-description transition-colors duration-300 hover:text-white"
+              >
                 <p>{title}</p>
               </Link>
             </>

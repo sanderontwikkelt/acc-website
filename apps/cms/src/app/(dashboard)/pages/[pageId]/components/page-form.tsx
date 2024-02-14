@@ -3,12 +3,18 @@
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Page } from "@acme/db";
 import { cn } from "@acme/ui";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@acme/ui/select";
 import { toast } from "@acme/ui/toast";
 
 import { Button } from "~/components/ui/button";
@@ -27,6 +33,7 @@ import { api } from "~/trpc/react";
 
 const formSchema = z.object({
   name: z.string().min(1),
+  pageId: z.number().optional(),
   pathname: z.string().min(1),
   concept: z.boolean().default(true).optional(),
 });
@@ -36,11 +43,13 @@ type PageFormValues = z.infer<typeof formSchema>;
 interface PageFormProps {
   initialData: Page | null;
   withRedirect?: boolean;
+  pages: Page[];
 }
 
 export const PageForm: React.FC<PageFormProps> = ({
   initialData,
   withRedirect,
+  pages,
 }) => {
   const params = useParams();
   const router = useRouter();
@@ -70,7 +79,7 @@ export const PageForm: React.FC<PageFormProps> = ({
   const createPage = api.page.create.useMutation();
   const updatePage = api.page.update.useMutation();
 
-  const onSubmit = async (data: PageFormValues) => {
+  const onSubmit = async ({ pageId, ...data }: PageFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
@@ -80,9 +89,12 @@ export const PageForm: React.FC<PageFormProps> = ({
           id: +params.pageId,
         });
       } else {
+        const blocks =
+          ((pageId &&
+            pages.find(({ id }) => +id === +pageId)?.blocks) as string) || "[]";
         const { insertId } = await createPage.mutateAsync({
           ...data,
-          blocks: "[]",
+          blocks,
           concept: data.concept ? 0 : 1,
         });
         if (!withRedirect) {
@@ -146,6 +158,33 @@ export const PageForm: React.FC<PageFormProps> = ({
                       placeholder="Pagina padnaam"
                       {...field}
                     />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="pageId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Pagina dupliceren</FormLabel>
+                  <FormControl>
+                    <Select
+                      value={field.pageId || undefined}
+                      onValueChange={(v) => field.onChange(+v)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecteer een pagina" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {pages.map(({ id, name }) => (
+                          <SelectItem key={id} value={String(id)}>
+                            {name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -49,31 +49,31 @@ const DragList = ({
   return (
     <div className="relative">
       {root && (
-        <div 
-        className="absolute -top-8 right-0 p-1 flex space-x-1"
-        >
-        {!!values?.length && <button
-          type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            onChange(undefined);
-          }}
-        >
-          <TooltipWrapper message="Toevoegen">
-            <XMarkIcon className="h-5 w-5" />
-          </TooltipWrapper>
-        </button>}
-        <button
-          type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            onChange([...values, { ...values[0], id: uuidv4() }]);
-          }}
-        >
-          <TooltipWrapper message="Toevoegen">
-            <PlusIcon className="h-5 w-5" />
-          </TooltipWrapper>
-        </button>
+        <div className="absolute -top-8 right-0 flex space-x-1 p-1">
+          {!!values?.length && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                onChange(undefined);
+              }}
+            >
+              <TooltipWrapper message="Toevoegen">
+                <XMarkIcon className="h-5 w-5" />
+              </TooltipWrapper>
+            </button>
+          )}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              onChange([...values, { ...values[0], id: uuidv4() }]);
+            }}
+          >
+            <TooltipWrapper message="Toevoegen">
+              <PlusIcon className="h-5 w-5" />
+            </TooltipWrapper>
+          </button>
         </div>
       )}
       {values?.length ? (
@@ -132,7 +132,7 @@ const DragList = ({
                                     e.preventDefault();
                                     onChange([
                                       ...values,
-                                      { ...item, id: uuidv4() },
+                                      { ...item, id: uuidv4(), uid: uuidv4() },
                                     ]);
                                   }}
                                   className="ml-auto"

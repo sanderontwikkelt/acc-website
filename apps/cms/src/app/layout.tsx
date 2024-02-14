@@ -26,8 +26,8 @@ export const metadata: Metadata = {
       ? "https://turbo.t3.gg"
       : "http://localhost:3000",
   ),
-  title: "Sockwave Admin",
-  description: "Sockwave Admin",
+  title: "Physis Admin",
+  description: "Physis Admin",
 };
 
 export const viewport: Viewport = {

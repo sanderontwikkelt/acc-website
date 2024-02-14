@@ -114,7 +114,7 @@ export const hero = {
       label: "Afbeelding",
       type: "image",
       value: {
-        src: "https://storage.googleapis.com/socks_cms_storage/201711_SockwaveAcademy_105146_D850_DSC_1271.png",
+        src: "https://storage.googleapis.com/physis_cms_storage/media/957f7bd0-1113-4b55-a4f5-5541343e178b_hero-home.jpg",
         width: 1108,
         height: 738,
         name: "hero.png",
@@ -126,7 +126,7 @@ export const hero = {
       type: "image",
       showOnVariants: ["side-image"],
       value: {
-        src: "https://storage.cloud.google.com/socks_cms_storage/Group%2021.svg",
+        src: "https://storage.cloud.google.com/physis_cms_storage/Group%2021.svg",
         width: 62,
         height: 62,
         name: "icon.svg",
@@ -162,18 +162,18 @@ export const card = {
   previewurl: "/images/block/card.png",
   style: { paddingTop: 0, position: "relative" },
   fields: {
-    title: { label: "Titel", type: "string", value: "Sockwave" },
+    title: { label: "Titel", type: "string", value: "Physis" },
     description: {
       label: "Beschrijving",
       type: "text",
       value:
-        "Al onze vakinhoudelijke opleidingen vallen onder de noemer ‘Sockwave’. Interessante relaties komen naadloos samen in een enorm praktische aanpak. Wij richten ons met deze opleidingen op behandelaars en trainers die graag zo compleet mogelijk naar de klachten van hun klanten willen kijken.",
+        "Al onze vakinhoudelijke opleidingen vallen onder de noemer ‘Physis’. Interessante relaties komen naadloos samen in een enorm praktische aanpak. Wij richten ons met deze opleidingen op behandelaars en trainers die graag zo compleet mogelijk naar de klachten van hun klanten willen kijken.",
     },
     image: {
       label: "Afbeelding",
       type: "image",
       value: {
-        src: "https://storage.googleapis.com/socks_cms_storage/201711_SockwaveAcademy_112845_D850_DSC_1470.png",
+        src: "https://storage.googleapis.com/physis_cms_storage/201711_PhysisAcademy_112845_D850_DSC_1470.png",
         width: 510,
         height: 400,
         name: "card.png",
@@ -184,7 +184,7 @@ export const card = {
       label: "Icoon",
       type: "image",
       value: {
-        src: "https://storage.googleapis.com/socks_cms_storage/success-icon.svg",
+        src: "https://storage.googleapis.com/physis_cms_storage/success-icon.svg",
         width: 66,
         height: 51,
         name: "icon.svg",
@@ -195,8 +195,8 @@ export const card = {
       label: "Links",
       type: "links",
       value: [
-        { href: "/socks", title: "Meer informatie" },
-        { href: "/socks#cursussen", title: "Cursus aanbod" },
+        { href: "/physis", title: "Meer informatie" },
+        { href: "/physis#cursussen", title: "Cursus aanbod" },
       ],
     },
   },
@@ -210,34 +210,42 @@ const content = {
     title: {
       label: "Titel",
       type: "string",
-      value: "Sockwave Academy coach opleiding",
+      value: "Physis Academy coach opleiding",
     },
     description: {
       label: "Beschrijving",
       type: "text",
       value:
-        "De Sockwave Coach Opleiding is een opleiding speciaal voor behandelaars en trainers die coach willen worden. De opleiding omarmt het 6 domeinen model en word gegeven door een coach die enorm veel ervaring heeft met behandelaars en trainers.",
+        "De Physis Coach Opleiding is een opleiding speciaal voor behandelaars en trainers die coach willen worden. De opleiding omarmt het 6 domeinen model en word gegeven door een coach die enorm veel ervaring heeft met behandelaars en trainers.",
     },
     image: {
       label: "Afbeelding",
       type: "image",
-      showOnVariants: ["image"],
       value: {
         name: "content.jpg",
-        src: "https://storage.googleapis.com/socks_cms_storage/content-preview.png",
+        src: "https://storage.googleapis.com/physis_cms_storage/media/12a1fb82-bfea-45a5-99f9-0a2f2a5eaca1_home-physis.jpg",
         width: 389,
         height: 397,
       },
     },
-    button: {
-      label: "Link",
-      type: "button",
+    icon: {
+      label: "Icoon",
+      type: "image",
       value: {
-        title: "Meer informatie",
-        href: "/",
-        target: "_self",
-        variant: "link",
+        src: "https://storage.cloud.google.com/physis_cms_storage/Group%2021.svg",
+        width: 62,
+        height: 62,
+        name: "icon.svg",
+        objectPosition: { x: 50, y: 50 },
       },
+    },
+    links: {
+      label: "Links",
+      type: "links",
+      value: [
+        { href: "#", title: "Meer informatie" },
+        { href: "#", title: "Cursus aanbod" },
+      ],
     },
   },
 };
@@ -335,7 +343,7 @@ const contentImages = {
           title: "Wat is een ODI? En waarom heeft dit de toekomst?",
           href: "/",
           image: {
-            src: "https://storage.googleapis.com/socks_cms_storage/201711_SockwaveAcademy_101313_D850_DSC_1054%20Copy.png",
+            src: "https://storage.googleapis.com/physis_cms_storage/201711_PhysisAcademy_101313_D850_DSC_1054%20Copy.png",
             name: "kennis.jpg",
             width: 389,
             height: 302,
@@ -347,7 +355,7 @@ const contentImages = {
             "Het moeilijk vinden om succesvol te zijn. Over doelen stellen i.c.m. het juiste tarief.",
           href: "/",
           image: {
-            src: "https://storage.googleapis.com/socks_cms_storage/201711_SockwaveAcademy_101313_D850_DSC_1054%20Copy.png",
+            src: "https://storage.googleapis.com/physis_cms_storage/201711_PhysisAcademy_101313_D850_DSC_1054%20Copy.png",
             name: "kennis.jpg",
             width: 389,
             height: 302,
@@ -358,7 +366,7 @@ const contentImages = {
           title: "Gebruik van Synthetische Stoffen",
           href: "/",
           image: {
-            src: "https://storage.googleapis.com/socks_cms_storage/201711_SockwaveAcademy_101313_D850_DSC_1054%20Copy.png",
+            src: "https://storage.googleapis.com/physis_cms_storage/201711_PhysisAcademy_101313_D850_DSC_1054%20Copy.png",
             name: "kennis.jpg",
             width: 389,
             height: 302,
@@ -401,7 +409,7 @@ const testimonials = {
           subtitle: "Personal trainer",
           author: "Wouter van Aalst",
           image: {
-            src: "https://storage.googleapis.com/socks_cms_storage/author.png",
+            src: "https://storage.googleapis.com/physis_cms_storage/author.png",
             name: "author.png",
             width: 136,
             height: 136,
@@ -414,7 +422,7 @@ const testimonials = {
           subtitle: "Personal trainer",
           author: "Wouter van Aalst",
           image: {
-            src: "https://storage.googleapis.com/socks_cms_storage/author.png",
+            src: "https://storage.googleapis.com/physis_cms_storage/author.png",
             name: "author.png",
             width: 136,
             height: 136,
@@ -451,14 +459,14 @@ const ctaContent = {
       label: "Artikel beschrijving",
       type: "text",
       value:
-        "De Sockwave Coach Opleiding is een opleiding speciaal voor behandelaars en trainers die coach willen worden. De opleiding omarmt het 6 domeinen model en word gegeven door een coach die enorm veel ervaring heeft met behandelaars en trainers.",
+        "De Physis Coach Opleiding is een opleiding speciaal voor behandelaars en trainers die coach willen worden. De opleiding omarmt het 6 domeinen model en word gegeven door een coach die enorm veel ervaring heeft met behandelaars en trainers.",
     },
     image: {
       label: "Afbeelding",
       type: "image",
       value: {
         name: "cta.png",
-        src: "https://storage.googleapis.com/socks_cms_storage/cta.png",
+        src: "https://storage.googleapis.com/physis_cms_storage/cta.png",
         width: 600,
         height: 400,
       },
@@ -477,7 +485,7 @@ const ctaContent = {
       label: "Auteur afbeelding",
       type: "image",
       value: {
-        src: "https://storage.googleapis.com/socks_cms_storage/author.png",
+        src: "https://storage.googleapis.com/physis_cms_storage/author.png",
         name: "author.png",
         width: 136,
         height: 136,
@@ -521,19 +529,19 @@ Asked Questions`,
       value: [
         {
           title:
-            "Wat zijn de toelatingseisen voor de opleidingen van Sockwave Academy?",
+            "Wat zijn de toelatingseisen voor de opleidingen van Physis Academy?",
           description:
             "De Coach Opleiding is speciaal ontwikkeld voor behandelaars en trainers en is daarom ook alleen toegankelijk voor deze doelgroep. Het is daarentegen niet verplicht om éérst 1 van onze andere opleidingen te volgen. Benieuwd of deze cursus ook wat voor jou is? Neem dan contact met ons op via het contactformulier op de site.",
         },
         {
           title:
-            "Wat zijn de toelatingseisen voor de opleidingen van Sockwave Academy?",
+            "Wat zijn de toelatingseisen voor de opleidingen van Physis Academy?",
           description:
             "De Coach Opleiding is speciaal ontwikkeld voor behandelaars en trainers en is daarom ook alleen toegankelijk voor deze doelgroep. Het is daarentegen niet verplicht om éérst 1 van onze andere opleidingen te volgen. Benieuwd of deze cursus ook wat voor jou is? Neem dan contact met ons op via het contactformulier op de site.",
         },
         {
           title:
-            "Wat zijn de toelatingseisen voor de opleidingen van Sockwave Academy?",
+            "Wat zijn de toelatingseisen voor de opleidingen van Physis Academy?",
           description:
             "De Coach Opleiding is speciaal ontwikkeld voor behandelaars en trainers en is daarom ook alleen toegankelijk voor deze doelgroep. Het is daarentegen niet verplicht om éérst 1 van onze andere opleidingen te volgen. Benieuwd of deze cursus ook wat voor jou is? Neem dan contact met ons op via het contactformulier op de site.",
         },
@@ -560,7 +568,7 @@ const textColumns = {
         {
           title: "Nieuwe inzichten",
           description:
-            "Onze grootste passie is het delen van kennis! Deze kennis bevat de nieuwste inzichten en unieke relaties die samen komen binnen het 6 domeinen model en uitgediept worden tijdens de Sockwave Academy Jaaropleiding.",
+            "Onze grootste passie is het delen van kennis! Deze kennis bevat de nieuwste inzichten en unieke relaties die samen komen binnen het 6 domeinen model en uitgediept worden tijdens de Physis Academy Jaaropleiding.",
         },
         {
           title: "Veel expertise",
@@ -575,7 +583,7 @@ const textColumns = {
         {
           title: "Onderscheidend vermogen",
           description:
-            "Door vernieuwend en completer te kijken, kun jij je enorm onderscheiden in jouw omgeving. Leer tijdens onze opleidingen en events van de Sockwave Specialisten die dit al jaren succesvol doen!",
+            "Door vernieuwend en completer te kijken, kun jij je enorm onderscheiden in jouw omgeving. Leer tijdens onze opleidingen en events van de Physis Specialisten die dit al jaren succesvol doen!",
         },
       ],
     },
@@ -596,7 +604,7 @@ const images = {
         {
           cols: 5,
           image: {
-            src: "https://storage.googleapis.com/socks_cms_storage/images1.png",
+            src: "https://storage.googleapis.com/physis_cms_storage/images1.png",
             name: "Teamlid.jpg",
             width: 510,
             height: 700,
@@ -606,7 +614,7 @@ const images = {
         {
           cols: 7,
           image: {
-            src: "https://storage.googleapis.com/socks_cms_storage/images2.png",
+            src: "https://storage.googleapis.com/physis_cms_storage/images2.png",
             name: "Teamlid.jpg",
             width: 603,
             height: 448,
@@ -627,7 +635,7 @@ const videoIframe = {
       label: "Embed url/link",
       type: "input",
       value:
-        "https://www.youtube.com/embed/laboVph7Am4?controls=1&amp;rel=0&amp;playsinline=0&amp;modestbranding=0&amp;autoplay=0&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fsocks.academy&amp;widgetid=1",
+        "https://www.youtube.com/embed/laboVph7Am4?controls=1&amp;rel=0&amp;playsinline=0&amp;modestbranding=0&amp;autoplay=0&amp;enablejsapi=1&amp;origin=https%3A%2F%2Fphysis.academy&amp;widgetid=1",
     },
   },
 };
@@ -640,7 +648,7 @@ const googleMap = {
     title: {
       label: "Titel",
       type: "string",
-      value: "Een overzicht van Sockwave specialisten.",
+      value: "Een overzicht van Physis specialisten.",
     },
     placeholder: {
       label: "Zoekveld",
@@ -664,7 +672,7 @@ const productDescription = {
       label: "Beschrijving - Video embed url",
       type: "string",
       value:
-        "https://www.youtube.com/embed/9HGWq9ugLAQ?controls=1&rel=0&playsinline=0&modestbranding=0&autoplay=0&enablejsapi=1&origin=https%3A%2F%2Fsocks.academy&widgetid=1",
+        "https://www.youtube.com/embed/9HGWq9ugLAQ?controls=1&rel=0&playsinline=0&modestbranding=0&autoplay=0&enablejsapi=1&origin=https%3A%2F%2Fphysis.academy&widgetid=1",
     },
     descriptionDescription: {
       label: "Beschrijving - body",
@@ -693,19 +701,19 @@ const productDescription = {
       value: [
         {
           title:
-            "Wat zijn de toelatingseisen voor de opleidingen van Sockwave Academy?",
+            "Wat zijn de toelatingseisen voor de opleidingen van Physis Academy?",
           description:
             "De Coach Opleiding is speciaal ontwikkeld voor behandelaars en trainers en is daarom ook alleen toegankelijk voor deze doelgroep. Het is daarentegen niet verplicht om éérst 1 van onze andere opleidingen te volgen. Benieuwd of deze cursus ook wat voor jou is? Neem dan contact met ons op via het contactformulier op de site.",
         },
         {
           title:
-            "Wat zijn de toelatingseisen voor de opleidingen van Sockwave Academy?",
+            "Wat zijn de toelatingseisen voor de opleidingen van Physis Academy?",
           description:
             "De Coach Opleiding is speciaal ontwikkeld voor behandelaars en trainers en is daarom ook alleen toegankelijk voor deze doelgroep. Het is daarentegen niet verplicht om éérst 1 van onze andere opleidingen te volgen. Benieuwd of deze cursus ook wat voor jou is? Neem dan contact met ons op via het contactformulier op de site.",
         },
         {
           title:
-            "Wat zijn de toelatingseisen voor de opleidingen van Sockwave Academy?",
+            "Wat zijn de toelatingseisen voor de opleidingen van Physis Academy?",
           description:
             "De Coach Opleiding is speciaal ontwikkeld voor behandelaars en trainers en is daarom ook alleen toegankelijk voor deze doelgroep. Het is daarentegen niet verplicht om éérst 1 van onze andere opleidingen te volgen. Benieuwd of deze cursus ook wat voor jou is? Neem dan contact met ons op via het contactformulier op de site.",
         },
@@ -732,14 +740,14 @@ const productDescription = {
       value: [
         {
           title: "Download whitepaper",
-          href: "https://socks.academy/wp-content/uploads/2020/12/Whitepaper-Immuunsysteem.pdf",
+          href: "https://physis.academy/wp-content/uploads/2020/12/Whitepaper-Immuunsysteem.pdf",
           target: "_blank",
           variant: "outline",
           size: "lg",
         },
         {
           title: "Schrijf je nu in!",
-          href: "https://socks.academy/product/geen-categorie/de-6-domeinen-cursus/",
+          href: "https://physis.academy/product/geen-categorie/de-6-domeinen-cursus/",
           target: "_self",
           variant: "success",
           size: "lg",

@@ -11,7 +11,7 @@ import { RouteChangeListener } from "./route-change-listener";
 
 process.env.NODE_NO_WARNINGS = "stream/web";
 
-const inter = Inter({ subsets: ["latin"], variable: '--font-primary' });
+const inter = Inter({ subsets: ["latin"], variable: "--font-primary" });
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-heading",
@@ -19,7 +19,7 @@ const playfair = Playfair_Display({
 const poppins = Poppins({
   subsets: ["latin"],
   variable: "--font-secondary",
-  weight: '500'
+  weight: "500",
 });
 
 export const metadata: Metadata = {

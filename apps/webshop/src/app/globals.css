@@ -46,4 +46,47 @@
     --ring: 240 5% 64.9%;
     --radius: 0.5rem;
   }
+
+  h1 {
+    @apply text-4xl font-semibold md:text-7xl;
+  }
+
+  h1 b,
+  h2 b,
+  h3 b,
+  h4 b,
+  h5 b {
+    @apply font-semibold text-primary;
+  }
+  h2 {
+    @apply mb-7 text-[1.625rem] font-medium leading-[2rem] md:mb-8 md:text-[3.5rem] md:leading-[4.5rem];
+  }
+  h3 {
+    @apply mb-8 text-[2.125rem] font-normal leading-[2.75rem];
+  }
+  p {
+    @apply text-base;
+  }
+
+  a {
+    @apply hover:opacity-80;
+  }
+}
+
+@tailwind components;
+@tailwind utilities;
+
+.rich-content ol,
+.rich-content ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+.rich-content ul {
+  list-style: disc;
+}
+.rich-content ol {
+  list-style-type: none;
+}
+.rich-content ol li {
+  counter-increment: step-counter;
 }

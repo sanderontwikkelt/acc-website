@@ -47,7 +47,7 @@ export const ContactEmail = ({
 
         <Section style={paddingY}>
           <Text style={footer.text}>
-            © 2024 Sockwave, Inc. All Rights Reserved.
+            © 2024 Physis, Inc. All Rights Reserved.
           </Text>
           <Text style={footer.text}>SOCKWAVE, INC. Nederland, Groningen</Text>
         </Section>

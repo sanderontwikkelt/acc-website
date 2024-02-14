@@ -83,6 +83,7 @@ export default function Header({
                       onSelect({
                         ...item,
                         uid: uuidv4(),
+                        id: uuidv4(),
                       } as any);
                     }}
                     className="group relative flex items-center gap-x-6 rounded-lg p-4 hover:bg-gray-50"

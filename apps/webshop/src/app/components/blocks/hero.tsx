@@ -34,6 +34,7 @@ const hero = ({
   const isSideImage = variant === "side-image";
   const isBlog = variant === "blog";
   const dark = background === "#0F1012";
+
   return (
     <>
       <div

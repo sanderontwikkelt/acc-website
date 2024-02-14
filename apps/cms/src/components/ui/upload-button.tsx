@@ -65,6 +65,11 @@ const UploadButton = () => {
         variant="outline"
         disabled={loading}
         onClick={(e) => {
+          console.log(
+            e,
+            loading,
+            document?.getElementById("media-model-upload"),
+          );
           e.stopPropagation();
           document?.getElementById("media-model-upload")?.click();
         }}

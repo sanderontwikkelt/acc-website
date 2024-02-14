@@ -158,6 +158,7 @@ export default function ComponentsMenu({
                         onSelect({
                           ...item,
                           uid: uuidv4(),
+                          id: uuidv4(),
                         } as any);
                       }}
                     >

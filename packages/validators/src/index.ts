@@ -128,14 +128,18 @@ export const singleLink = z.object({
   name: z.string(),
 });
 
-export const link = singleLink.extend({ values: z.array(singleLink).optional() })
+export const link = singleLink.extend({
+  values: z.array(singleLink).optional(),
+});
 
 export const externalSingleLink = z.object({
   href: z.string(),
   title: z.string(),
 });
 
-export const externalLink = externalSingleLink.extend({ values: z.array(externalSingleLink).optional() })
+export const externalLink = externalSingleLink.extend({
+  values: z.array(externalSingleLink).optional(),
+});
 
 export const footerFormSchema = z.object({
   title: notEmptyString,

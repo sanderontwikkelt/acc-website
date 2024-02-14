@@ -1,8 +1,8 @@
 import { relations } from "drizzle-orm";
-import { index, int, json, text } from "drizzle-orm/mysql-core";
+import { index, int, json } from "drizzle-orm/mysql-core";
 
 import { user } from ".";
-import { createdAt, id, nnInt, nnVarChar, updatedAt, varChar } from "../utils";
+import { createdAt, id, nnInt, nnVarChar, updatedAt } from "../utils";
 import { mySqlTable } from "./_table";
 import { media } from "./media";
 import { seo } from "./seo";
@@ -62,9 +62,7 @@ export const page = mySqlTable(
     blocks: json("blocks"),
     createdBy: nnVarChar("createdBy"),
     updatedBy: nnVarChar("updatedBy"),
-    seoTitle: varChar("seo-title"),
-    seoDescription: text("seo-description"),
-    seoMediaId: int("media_id"),
+    seoId: int("seo_id"),
     createdAt,
     updatedAt,
   },
@@ -72,14 +70,13 @@ export const page = mySqlTable(
     return {
       indx0: index("createdBy").on(t.createdBy),
       indx1: index("updatedBy").on(t.updatedBy),
-      indx2: index("media_id").on(t.seoMediaId),
+      indx2: index("media_id").on(t.seoId),
     };
   },
 );
 
 export const pageRelations = relations(page, ({ one, many }) => ({
-  seo: one(seo),
-  media: one(media, { fields: [page.seoMediaId], references: [media.id] }),
+  seo: one(seo, { fields: [page.seoId], references: [seo.id] }),
   createdBy: one(user, { fields: [page.createdBy], references: [user.id] }),
   updatedBy: one(user, { fields: [page.updatedBy], references: [user.id] }),
   backups: many(block_backup),

@@ -57,23 +57,35 @@ export const pageRouter = createTRPCRouter({
         with: {
           createdBy: true,
           updatedBy: true,
-          media: true,
+          seo: true,
         },
       });
     }),
 
   create: protectedProcedure
     .input(pageFormSchema)
-    .mutation(async ({ ctx, input }) => {
-      return ctx.db.insert(schema.page).values({
-        ...input,
-        pathname: input.pathname.startsWith("/")
-          ? input.pathname
-          : `/${input.pathname}`,
-        createdBy: ctx.session.user.id,
-        updatedBy: ctx.session.user.id,
-      });
-    }),
+    .mutation(
+      async ({ ctx, input: { seoTitle, seoDescription, ...input } }) => {
+        console.log({ input });
+        const userId = ctx.session.user.id;
+
+        const seo = await ctx.db.insert(schema.seo).values({
+          title: seoTitle,
+          description: seoDescription,
+        });
+
+        const { insertId } = await ctx.db.insert(schema.page).values({
+          ...input,
+          seoId: +seo.insertId,
+          pathname: input.pathname.startsWith("/")
+            ? input.pathname
+            : `/${input.pathname}`,
+          createdBy: userId,
+          updatedBy: userId,
+        });
+        return { insertId };
+      },
+    ),
   update: protectedProcedure
     .input(pageFormSchema.extend({ id: z.number().min(1) }))
     .mutation(async ({ ctx, input: { id, ...input } }) => {
@@ -92,12 +104,13 @@ export const pageRouter = createTRPCRouter({
         await tx.update(schema.page).set(input).where(eq(schema.page.id, +id));
       });
     }),
-    updateBlocks: protectedProcedure
+  updateBlocks: protectedProcedure
     .input(z.object({ id: z.number().min(1), blocks: z.string().min(1) }))
     .mutation(async ({ ctx, input: { id, blocks } }) => {
       const page = await ctx.db.query.page.findFirst({
         where: eq(schema.page.id, id),
       });
+      console.log({ page, blocks });
       if (!page) return;
 
       return ctx.db.transaction(async (tx) => {
@@ -107,7 +120,10 @@ export const pageRouter = createTRPCRouter({
           createdBy: ctx.session.user.id,
         });
 
-        await tx.update(schema.page).set({ blocks }).where(eq(schema.page.id, +id));
+        await tx
+          .update(schema.page)
+          .set({ blocks })
+          .where(eq(schema.page.id, +id));
       });
     }),
   delete: protectedProcedure.input(z.number()).mutation(({ ctx, input }) => {
