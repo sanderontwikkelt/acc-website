@@ -116,6 +116,7 @@ export default function Header({
       <PresetActions
         blocks={blocksState}
         page={page}
+        pages={pages}
         seo={seo}
         pageIds={pages.map(({ id }) => id)}
       />

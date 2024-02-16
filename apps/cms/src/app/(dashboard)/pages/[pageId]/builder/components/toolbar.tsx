@@ -4,8 +4,10 @@ import type { LucideIcon } from "lucide-react";
 import React from "react";
 import Link from "next/link";
 import {
+  ArchiveRestoreIcon,
   ChevronLeft,
   Command,
+  CrossIcon,
   MenuIcon,
   MonitorIcon,
   Option,
@@ -16,6 +18,7 @@ import {
   TabletIcon,
   TimerReset,
   Undo,
+  XSquareIcon,
 } from "lucide-react";
 
 import type { Page } from "@acme/db";
@@ -192,7 +195,7 @@ const Toolbar = ({
             <Command className="mr-[6px] w-3" /> +{" "}
             <Shift className="ml-[6px] mr-[6px] w-3" /> + Z
           </IconButton>
-          <IconButton onClick={() => reset()} message="Reset" Icon={TimerReset}>
+          <IconButton onClick={() => reset()} message="Reset" Icon={XSquareIcon}>
             <Command className="mr-[6px] w-3" />
             <Shift className="ml-[6px] mr-[6px] w-3" /> + R
           </IconButton>
@@ -206,7 +209,7 @@ const Toolbar = ({
             <SaveIcon className="w-4" />
           </Button>
 
-          <PresetActions page={page} pageIds={pages.map(({ id }) => id)} />
+          <PresetActions page={page} pages={pages} pageIds={pages.map(({ id }) => id)} />
         </div>
       </div>
     </div>

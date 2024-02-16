@@ -5,28 +5,41 @@ import React, { useState } from "react";
 import { sendEmail } from "~/lib/sendEmail";
 import AnimatedCheck from "./animated-check";
 import { Input } from "./input";
-import SubmitButton from "./submit-button";
+import { Align, Button as ButtonType } from "~/lib/types";
 import { Textarea } from "./textarea";
-import Upload from "./upload";
+import { Button, Checkbox, cn } from "@acme/ui";
 
 const ContactForm = ({
-  inputFirstName,
-  inputLastName,
-  inputEmail,
-  inputPhoneNumber,
-  inputMessage,
-  inputUpload,
+  inputFirstNamePlaceholder,
+  inputFirstNameLabel,
+  inputLastNamePlaceholder,
+  inputLastNameLabel,
+  inputEmailPlaceholder,
+  inputEmailLabel,
+  inputPhoneNumberPlaceholder,
+  inputPhoneNumberLabel,
+  inputMessagePlaceholder,
+  inputMessageLabel,
+  inputConsentLabel,
   button,
+  buttonAlign,
   successMessage,
 }: {
-  inputFirstName: string;
-  inputLastName: string;
-  inputEmail: string;
-  inputPhoneNumber: string;
-  inputMessage: string;
-  inputUpload: string;
-  button: string;
+  inputFirstNamePlaceholder: string;
+  inputFirstNameLabel: string;
+  inputLastNamePlaceholder: string;
+  inputLastNameLabel: string;
+  inputEmailPlaceholder: string;
+  inputEmailLabel: string;
+  inputPhoneNumberPlaceholder: string;
+  inputPhoneNumberLabel: string;
+  inputMessagePlaceholder: string;
+  inputMessageLabel: string;
+  inputConsentLabel: string;
   successMessage: string;
+  button: ButtonType;
+  buttonAlign: Align;
+
 }) => {
   const [submitted, setSubmitted] = useState(false);
 
@@ -45,28 +58,44 @@ const ContactForm = ({
         action={sendEmail}
         onSubmit={onSubmit}
         id="contact-form"
-        className="grid grid-cols-1 gap-x-5 gap-y-10 md:grid-cols-2"
+        className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2"
       >
-        <Input name="firstName" placeholder={inputFirstName} />
-        <Input name="lastName" placeholder={inputLastName} />
-        <Input name="email" required placeholder={inputEmail} />
-        <Input name="phoneNumber" required placeholder={inputPhoneNumber} />
+        <Input name="firstName" placeholder={inputFirstNamePlaceholder} label={inputFirstNameLabel} />
+        <Input name="lastName" placeholder={inputLastNamePlaceholder} label={inputLastNameLabel} />
+        <Input name="email" required placeholder={inputEmailPlaceholder} label={inputEmailLabel} />
+        <Input name="phoneNumber" required placeholder={inputPhoneNumberPlaceholder} label={inputPhoneNumberLabel} />
+        <Input name="companyName" required placeholder={inputPhoneNumberPlaceholder} label={inputPhoneNumberLabel} />
+        <Input name="occupation" required placeholder={inputPhoneNumberPlaceholder} label={inputPhoneNumberLabel} />
+        <Input name="subject" className="md:col-span-2" required placeholder={inputPhoneNumberPlaceholder} label={inputPhoneNumberLabel} />
         <Textarea
           className="md:col-span-2"
           name="message"
           required
-          placeholder={inputMessage}
+          placeholder={inputMessagePlaceholder}
+          label={inputMessageLabel}
         />
-        <div className="md:col-span-2">
-          <label
-            className="text-md mb-5 mt-10 font-bold md:mt-20"
-            htmlFor="upload"
-          >
-            {inputUpload}
-          </label>
-          <Upload id="upload" name="upload" />
+        <div className="flex items-center">
+        <Checkbox name="consent" id="consent" required />
+        <label htmlFor="content">
+          {inputConsentLabel}
+        </label>
         </div>
-        <SubmitButton title={button} />
+        {!!button?.title && (
+        <Button
+          className={cn(
+            "mt-4 w-min",
+            buttonAlign === "center"
+              ? "mx-auto"
+              : buttonAlign === "right"
+                ? "ml-auto"
+                : "",
+          )}
+          size="lg"
+          {...button}
+        >
+          {button.title}
+        </Button>
+      )}
       </form>
     </div>
   );

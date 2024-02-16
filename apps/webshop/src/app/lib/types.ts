@@ -10,6 +10,8 @@ export interface Button {
   };
 }
 
+export type Align = "left" | "center" | "right";
+
 export interface NavigationType {
   name: string;
   href: string;

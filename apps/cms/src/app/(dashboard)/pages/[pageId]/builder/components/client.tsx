@@ -63,46 +63,50 @@ const PageEditorClient = ({
 
   const frontendUrl = process.env.NEXT_PUBLIC_FRONT_URL;
   const router = useRouter();
-  useEffect(() => {
-    console.log("rendering");
+
+  const postMessageToIframe = () => {
     const iframe = document.getElementById(
       "website-iframe",
     ) as HTMLIFrameElement;
-    const postMessageToIframe = () => {
-      iframe?.contentWindow?.postMessage(
-        {
-          header: state.header || header,
-          footer: state.footer || footer,
-          blocks: state.blocks.map(
-            ({
-              uid,
-              id,
-              fields,
-              name,
-              style,
-              innerStyle,
-              maxWidth,
-              label,
-            }) => ({
-              label,
-              id,
-              uid,
-              innerStyle,
-              maxWidth,
-              fields: Object.entries(fields).reduce(
-                (acc, [key, { value }]) => ({ ...acc, [key]: value }),
-                {} as any,
-              ),
-              name,
-              style,
-            }),
-          ),
-        },
-        frontendUrl,
-      );
-      setSent(true);
-    };
-    console.log({ isIframeReady, iframe });
+
+    iframe?.contentWindow?.postMessage(
+      {
+        header: state.header || header,
+        footer: state.footer || footer,
+        blocks: state.blocks.map(
+          ({
+            uid,
+            id,
+            fields,
+            name,
+            style,
+            innerStyle,
+            maxWidth,
+            label,
+          }) => ({
+            label,
+            id,
+            uid,
+            innerStyle,
+            maxWidth,
+            fields: Object.entries(fields).reduce(
+              (acc, [key, { value }]) => ({ ...acc, [key]: value }),
+              {} as any,
+            ),
+            name,
+            style,
+          }),
+        ),
+      },
+      frontendUrl,
+    );
+    setSent(true);
+  };
+
+  useEffect(() => {
+    const iframe = document.getElementById(
+      "website-iframe",
+    ) as HTMLIFrameElement;
     // If the iframe is already ready, post the message immediately
     if (isIframeReady) {
       setTimeout(
@@ -194,7 +198,6 @@ const PageEditorClient = ({
   const publish = async () => {
     try {
       setLoading(true);
-      console.log(state.blocks);
       await updatePage.mutateAsync({
         blocks: JSON.stringify(state.blocks),
         id: page.id,

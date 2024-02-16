@@ -3,10 +3,8 @@ import React from "react";
 import { cn } from "@acme/ui";
 
 import { setHtml } from "~/lib/setHtml";
-import { Button as ButtonType } from "~/lib/types";
+import { Align, Button as ButtonType } from "~/lib/types";
 import { Button } from "../button";
-
-type Align = "left" | "center" | "right";
 
 const heading = ({
   children,

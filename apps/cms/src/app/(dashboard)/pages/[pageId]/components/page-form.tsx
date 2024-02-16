@@ -35,7 +35,7 @@ const formSchema = z.object({
   name: z.string().min(1),
   pageId: z.number().optional(),
   pathname: z.string().min(1),
-  concept: z.boolean().default(true).optional(),
+  concept: z.number().default(1).optional(),
 });
 
 type PageFormValues = z.infer<typeof formSchema>;
@@ -84,7 +84,9 @@ export const PageForm: React.FC<PageFormProps> = ({
       setLoading(true);
       if (initialData) {
         await updatePage.mutateAsync({
+          ...initialData,
           ...data,
+          blocks: JSON.stringify(initialData.blocks || []),
           concept: data.concept ? 0 : 1,
           id: +params.pageId,
         });

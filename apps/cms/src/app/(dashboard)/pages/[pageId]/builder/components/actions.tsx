@@ -36,8 +36,10 @@ import { PageForm } from "../../components/page-form";
 export function PresetActions({
   pageIds,
   page,
+  pages,
 }: {
   page: Page;
+  pages: Page[];
   pageIds: number[];
 }) {
   const [loading, setLoading] = React.useState(false);
@@ -122,7 +124,7 @@ export function PresetActions({
             <DialogTitle>Pagina aanpassen</DialogTitle>
             <DialogDescription>Stel je pagina in.</DialogDescription>
           </DialogHeader>
-          <PageForm initialData={page} />
+          <PageForm initialData={page} pages={pages} />
         </DialogContent>
       </Dialog>
       <Dialog open={showSEODialog} onOpenChange={setShowSEODialog}>

@@ -11,6 +11,7 @@ import productDescription from "~/components/blocks/product-description";
 import testimonials from "~/components/blocks/testimonials";
 import textColumns from "~/components/blocks/text-columns";
 import videoIframe from "~/components/blocks/video-iframe";
+import contactForm from "~/components/blocks/video-";
 
 export interface Block {
   fields: any;
@@ -35,5 +36,6 @@ export const blocks = {
   images,
   videoIframe,
   googleMap,
+  contactForm,
   productDescription,
 };

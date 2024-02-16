@@ -658,6 +658,24 @@ const googleMap = {
   },
 };
 
+const contact = {
+  name: "contact" as "contact",
+  label: "Contactformulier",
+  previewurl: "/images/block/contact.png",
+  fields: {
+    title: {
+      label: "Titel",
+      type: "string",
+      value: "Een overzicht van Physis specialisten.",
+    },
+    placeholder: {
+      label: "Zoekveld",
+      type: "input",
+      value: "Zoek op locatie",
+    },
+  },
+};
+
 const productDescription = {
   name: "productDescription" as "productDescription",
   label: "Product beschrijving",
