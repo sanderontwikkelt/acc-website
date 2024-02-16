@@ -9,7 +9,7 @@ import Breadcrumbs from "../breadcrumbs";
 import NextImage from "../NextImage";
 import Section from "../section";
 
-export type ContentVariant = "side-image" | "full-width" | "blog";
+export type ContentVariant = "side-image" | "full-width" | "blog" | 'default';
 
 const hero = ({
   title,
@@ -33,7 +33,15 @@ const hero = ({
 }) => {
   const isSideImage = variant === "side-image";
   const isBlog = variant === "blog";
+  const isDefault = variant === "default";
   const dark = background === "#0F1012";
+
+  if (isDefault) return <article className="w-full py-[10.625rem]">
+    <h1
+              {...setHtml(title)}
+            />
+            <p className="text-4xl" {...setHtml(description)} />
+  </article>
 
   return (
     <>

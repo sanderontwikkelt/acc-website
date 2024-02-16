@@ -3,11 +3,13 @@
 import React, { useState } from "react";
 
 import { sendEmail } from "~/lib/sendEmail";
-import AnimatedCheck from "./animated-check";
-import { Input } from "./input";
 import type { Align, Button as ButtonType } from "~/lib/types";
-import { Textarea } from "./textarea";
-import { Button, Checkbox, cn } from "@acme/ui";
+import { Checkbox, cn } from "@acme/ui";
+import { Input } from "../input";
+import { Textarea } from "../textarea";
+import AnimatedCheck from "../animated-check";
+import { Button } from "../button";
+import { setHtml } from "~/lib/setHtml";
 
 const ContactForm = ({
   inputFirstNamePlaceholder,
@@ -58,8 +60,12 @@ const ContactForm = ({
         action={sendEmail}
         onSubmit={onSubmit}
         id="contact-form"
-        className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2"
+        className="space-y-8 flex flex-col"
       >
+        <div 
+        className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2"
+  
+>
         <Input name="firstName" placeholder={inputFirstNamePlaceholder} label={inputFirstNameLabel} />
         <Input name="lastName" placeholder={inputLastNamePlaceholder} label={inputLastNameLabel} />
         <Input name="email" required placeholder={inputEmailPlaceholder} label={inputEmailLabel} />
@@ -73,12 +79,11 @@ const ContactForm = ({
           required
           placeholder={inputMessagePlaceholder}
           label={inputMessageLabel}
-        />
-        <div className="flex items-center">
+          />
+          </div>
+        <div className="flex items-center w-full">
         <Checkbox name="consent" id="consent" required />
-        <label htmlFor="content">
-          {inputConsentLabel}
-        </label>
+        <label htmlFor="content" className="ml-2 w-full"  {...setHtml(inputConsentLabel)} />
         </div>
         {!!button?.title && (
         <Button

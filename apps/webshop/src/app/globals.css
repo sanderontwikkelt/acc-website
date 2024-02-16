@@ -58,6 +58,10 @@
   h5 b {
     @apply font-semibold text-primary;
   }
+
+  h1 {
+    @apply mb-3;
+  }
   h2 {
     @apply mb-7 text-[1.625rem] font-medium leading-[2rem] md:mb-8 md:text-[3.5rem] md:leading-[4.5rem];
   }

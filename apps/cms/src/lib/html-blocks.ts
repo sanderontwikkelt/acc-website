@@ -75,7 +75,7 @@ export type BlockType = {
 } & HeroType;
 
 export const hero = {
-  name: "hero" as "hero",
+  name: "hero" as const,
   id: "home-hero",
   label: "Hero",
   previewurl: "/images/block/hero.png",
@@ -85,6 +85,7 @@ export const hero = {
       label: "Variant",
       type: "enum",
       options: [
+        { key: "default", label: "Standaard" },
         { key: "blog", label: "Blog" },
         { key: "full-width", label: "Volledige breedte" },
         { key: "side-image", label: "Zijafbeelding" },
@@ -156,7 +157,7 @@ export const hero = {
 };
 
 export const card = {
-  name: "card" as "card",
+  name: "card" as const,
   id: "home-card",
   label: "Card",
   previewurl: "/images/block/card.png",
@@ -203,7 +204,7 @@ export const card = {
 };
 
 const content = {
-  name: "content" as "content",
+  name: "content" as const,
   label: "Content",
   previewurl: "/images/block/content.png",
   fields: {
@@ -251,7 +252,7 @@ const content = {
 };
 
 const heading = {
-  name: "heading" as "heading",
+  name: "heading" as const,
   label: "Koptitel",
   previewurl: "/images/block/headingWithDescription.png",
   fields: {
@@ -325,7 +326,7 @@ const heading = {
 };
 
 const contentImages = {
-  name: "contentImages" as "contentImages",
+  name: "contentImages" as const,
   label: "Afbeeldingen met link",
   previewurl: "/images/block/contentImages.png",
   style: { backgroundColor: "#000", color: "#fff" },
@@ -389,7 +390,7 @@ const contentImages = {
 };
 
 const testimonials = {
-  name: "testimonials" as "testimonials",
+  name: "testimonials" as const,
   label: "Getuigenissen",
   previewurl: "/images/block/testimonials.png",
   style: { backgroundColor: "#E9EAEC" },
@@ -435,7 +436,7 @@ const testimonials = {
 };
 
 const ctaContent = {
-  name: "ctaContent" as "ctaContent",
+  name: "ctaContent" as const,
   label: "CTA met content",
   previewurl: "/images/block/ctaContent.png",
   fields: {
@@ -506,7 +507,7 @@ const ctaContent = {
 };
 
 const accordion = {
-  name: "accordion" as "accordion",
+  name: "accordion" as const,
   label: "Accordion",
   id: "faq",
   previewurl: "/images/block/accordion.png",
@@ -551,7 +552,7 @@ Asked Questions`,
 };
 
 const textColumns = {
-  name: "textColumns" as "textColumns",
+  name: "textColumns" as const,
   label: "Text kolommen",
   previewurl: "/images/block/textColumns.png",
   style: { backgroundColor: "#000", color: "#fff" },
@@ -591,7 +592,7 @@ const textColumns = {
 };
 
 const images = {
-  name: "images" as "images",
+  name: "images" as const,
   label: "Afbeelding Grid",
   description:
     "Combine engaging imagery and concise text to convey the site's purpose.",
@@ -627,7 +628,7 @@ const images = {
 };
 
 const videoIframe = {
-  name: "videoIframe" as "videoIframe",
+  name: "videoIframe" as const,
   label: "Video embed",
   previewurl: "/images/block/videoIframe.png",
   fields: {
@@ -641,7 +642,7 @@ const videoIframe = {
 };
 
 const googleMap = {
-  name: "googleMap" as "googleMap",
+  name: "googleMap" as const,
   label: "Landkaart",
   previewurl: "/images/block/googleMap.png",
   fields: {
@@ -658,8 +659,8 @@ const googleMap = {
   },
 };
 
-const contact = {
-  name: "contact" as "contact",
+const contactForm = {
+  name: "contactForm" as const,
   label: "Contactformulier",
   previewurl: "/images/block/contact.png",
   fields: {
@@ -668,16 +669,92 @@ const contact = {
       type: "string",
       value: "Een overzicht van Physis specialisten.",
     },
-    placeholder: {
-      label: "Zoekveld",
+    inputFirstNamePlaceholder: {
+      label: "Voornaam plaatshouder",
       type: "input",
-      value: "Zoek op locatie",
+      value: "Typ een voornaam",
+    },
+    inputFirstNameLabel: {
+      label: "Voornaam",
+      type: "input",
+      value: "Voornaam",
+    },
+    inputLastNamePlaceholder: {
+      label: "Achternaam plaatshouder",
+      type: "input",
+      value: "Typ een achternaam",
+    },
+    inputLastNameLabel: {
+      label: "Achternaam",
+      type: "input",
+      value: "Achternaam",
+    },
+    inputEmailPlaceholder: {
+      label: "E-mail plaatshouder",
+      type: "input",
+      value: "Typ een ",
+    },
+    inputEmailLabel: {
+      label: "E-mail",
+      type: "input",
+      value: "E-mail",
+    },
+    inputPhoneNumberPlaceholder: {
+      label: "Telefoonnummer plaatshouder",
+      type: "input",
+      value: "Typ een telefoonnummer",
+    },
+    inputPhoneNumberLabel: {
+      label: "Telefoonnummer",
+      type: "input",
+      value: "Telefoonnummer",
+    },
+    inputMessagePlaceholder: {
+      label: "Bericht plaatshouder",
+      type: "input",
+      value: "Typ een bericht",
+    },
+    inputMessageLabel: {
+      label: "Bericht",
+      type: "input",
+      value: "Bericht",
+    },
+    inputConsentLabel: {
+      label: "Zoekveld",
+      type: "text",
+      value: `Ik heb de algemene voorwaarden gelezen en ga hiermee akkoord <a href="#">Privacy Policy</a>.`,
+    },
+    successMessage: {
+      label: "Bericht na indienen",
+      type: "text",
+      value: `Bedankt voor je inzending! We nemen zo snel mogelijk contact me je op.`,
+    },
+    button: {
+      label: "Knop",
+      type: "button",
+      value: {
+        title: "Verzenden",
+        href: "#",
+        target: "_self",
+        size: 'lg',
+        variant: "main",
+      },
+    },
+    buttonAlign: {
+      label: "Link centrering",
+      type: "enum",
+      options: [
+        { key: "left", label: "Links" },
+        { key: "center", label: "Gecentreerd" },
+        { key: "right", label: "Rechts" },
+      ],
+      value: "right",
     },
   },
 };
 
 const productDescription = {
-  name: "productDescription" as "productDescription",
+  name: "productDescription" as const,
   label: "Product beschrijving",
   previewurl: "/images/block/productDescription.png",
   fields: {
@@ -789,6 +866,7 @@ const htmlBlocks = {
   videoIframe,
   googleMap,
   productDescription,
+  contactForm,
 };
 
 export default htmlBlocks;

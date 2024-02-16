@@ -117,7 +117,7 @@ export const pageFormSchema = z.object({
   pathname: notEmptyString,
   name: notEmptyString,
   blocks: z.string(),
-  concept: z.number().optional(),
+  concept: z.boolean().optional(),
   seoDescription: z.string().optional(),
   seoTitle: z.string().optional(),
   seoMediaId: z.number().optional(),

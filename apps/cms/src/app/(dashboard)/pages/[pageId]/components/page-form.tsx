@@ -35,7 +35,7 @@ const formSchema = z.object({
   name: z.string().min(1),
   pageId: z.number().optional(),
   pathname: z.string().min(1),
-  concept: z.number().default(1).optional(),
+  concept: z.boolean().optional(),
 });
 
 type PageFormValues = z.infer<typeof formSchema>;
@@ -75,7 +75,7 @@ export const PageForm: React.FC<PageFormProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
-
+console.log(form.formState.errors)
   const createPage = api.page.create.useMutation();
   const updatePage = api.page.update.useMutation();
 
@@ -87,7 +87,7 @@ export const PageForm: React.FC<PageFormProps> = ({
           ...initialData,
           ...data,
           blocks: JSON.stringify(initialData.blocks || []),
-          concept: data.concept ? 0 : 1,
+          concept: !!data.concept,
           id: +params.pageId,
         });
       } else {
@@ -97,7 +97,7 @@ export const PageForm: React.FC<PageFormProps> = ({
         const { insertId } = await createPage.mutateAsync({
           ...data,
           blocks,
-          concept: data.concept ? 0 : 1,
+          concept: !!data.concept,
         });
         if (!withRedirect) {
           router.refresh();

@@ -4,6 +4,8 @@ export interface Button {
   title: string;
   href: string;
   children: ReactNode;
+  variant?: string;
+  size?: string;
   mobile?: {
     children?: ReactNode;
     href?: string;
