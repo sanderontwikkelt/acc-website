@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { notEmptyNumber, notEmptyString } from "./utils";
+import { notEmptyNumber, notEmptyString, optionalNumber, optionalString } from "./utils";
 
 export const CreatePostSchema = z.object({
   title: z.string().min(1),
@@ -53,14 +53,14 @@ export const productFormSchema = z.object({
   slug: notEmptyString,
   description: notEmptyString,
   title: notEmptyString,
-  seoDescription: z.string().optional(),
-  seoTitle: z.string().optional(),
+  seoDescription: optionalString,
+  seoTitle: optionalString,
   price: notEmptyString,
-  categoryId: z.number().optional(),
-  stock: z.number().optional(),
+  categoryId: optionalNumber,
+  stock: optionalNumber,
   mediaIds: z.array(z.number()).optional(),
   variants: z
-    .array(z.object({ title: z.string(), stock: z.number().optional() }))
+    .array(z.object({ title: z.string(), stock: optionalNumber }))
     .optional(),
   // relatedProductIds: z.array(z.number()),
 });
@@ -74,10 +74,10 @@ export const libraryFormSchema = z.object({
   userId: notEmptyNumber,
   mediaId: notEmptyNumber,
   mediaIds: z.array(z.number()).optional(),
-  relatedLibraryIds: z.array(z.number()),
-  seoDescription: z.string().optional(),
-  seoTitle: z.string().optional(),
-  seoMediaId: z.number().optional(),
+  relatedLibraryIds: z.array(z.number()).optional(),
+  seoDescription: optionalString,
+  seoTitle: optionalString,
+  seoMediaId: optionalNumber,
 });
 
 export const orderFormSchema = z.object({
@@ -137,9 +137,9 @@ export const pageFormSchema = z.object({
   name: notEmptyString,
   blocks: z.string(),
   concept: z.boolean().optional(),
-  seoDescription: z.string().optional(),
-  seoTitle: z.string().optional(),
-  seoMediaId: z.number().optional(),
+  seoDescription: optionalString,
+  seoTitle: optionalString,
+  seoMediaId: optionalNumber,
 });
 
 export const singleLink = z.object({
@@ -162,7 +162,7 @@ export const externalLink = externalSingleLink.extend({
 
 export const footerFormSchema = z.object({
   title: notEmptyString,
-  mediaId: z.number().optional().nullable(),
+  mediaId: optionalNumber.nullable(),
   navigation: z.array(link),
   links: z.array(externalLink),
   socials: z.array(externalLink),
@@ -170,7 +170,7 @@ export const footerFormSchema = z.object({
 });
 
 export const headerFormSchema = z.object({
-  mediaId: z.number().optional().nullable(),
+  mediaId: optionalNumber.nullable(),
   navigation: z.array(link).optional(),
   links: z.array(link),
 });

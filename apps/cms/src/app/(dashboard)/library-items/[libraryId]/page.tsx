@@ -6,7 +6,6 @@ import { notFound, useParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ClipboardList,
-  ListFilter,
   PlusIcon,
   SaveIcon,
   SearchCode,
@@ -37,11 +36,12 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Heading } from "~/components/ui/heading";
-import RichText from "~/components/ui/rich-text";
 import { useMutation } from "~/hooks/use-mutation";
 import { useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
 import SingleImageSelect from "~/components/ui/single-image-select";
+import FullRichText from "~/components/ui/full-rich-text";
+import MultiSelect from "~/components/ui/multi-select";
 
 type LibraryFormValues = z.infer<typeof libraryFormSchema>;
 
@@ -60,13 +60,14 @@ const LibraryDetailPage = () => {
     [EntityEnum.LIBRARY, ActionEnum.UPDATE],
   );
 
-  const deleteLibrary = useMutation(EntityEnum.LIBRARY, "delete", "/librarys");
+  const deleteLibrary = useMutation(EntityEnum.LIBRARY, "delete", "/library-items");
   const updateLibrary = useMutation(EntityEnum.LIBRARY, "update");
-  const createLibrary = useMutation(EntityEnum.LIBRARY, "create", "/librarys");
+  const createLibrary = useMutation(EntityEnum.LIBRARY, "create", "/library-items");
 
   const { data: library, isLoading } = api.library.byId.useQuery({
     id: isDetails ? +libraryId : 0,
   });
+  console.log({library})
 
   if (isDetails && !isLoading && !library) notFound();
 
@@ -82,6 +83,34 @@ const LibraryDetailPage = () => {
         value: string;
       }[],
     [categories],
+  );
+
+  const [teachers] = api.teacher.all.useSuspenseQuery();
+
+  const teacherOptions = useMemo(
+    () =>
+      (teachers?.map(({ id, name }) => ({
+        label: name,
+        value: String(id),
+      })) || []) as {
+        label: string;
+        value: string;
+      }[],
+    [teachers],
+  );
+
+  const [libraries] = api.library.all.useSuspenseQuery();
+
+  const libraryOptions = useMemo(
+    () =>
+      (libraries?.filter(({ id }) => id !== +libraryId).map(({ id, title }) => ({
+        label: title,
+        value: String(id),
+      })) || []) as {
+        label: string;
+        value: string;
+      }[],
+    [libraries, libraryId],
   );
 
   const action = isDetails ? "Opslaan" : "Toevoegen";
@@ -108,6 +137,12 @@ const LibraryDetailPage = () => {
         //   library.images.map(({ mediaId }) => mediaId),
         // );
       }
+      if (library.relatedLibraries?.length) {
+        form.setValue(
+          "relatedLibraryIds",
+          library.relatedLibraries.map((l) => l.libraryId),
+        );
+      }
     }
   }, [library, form]);
 
@@ -120,6 +155,7 @@ const LibraryDetailPage = () => {
       }
     });
   };
+  console.log(form.formState.errors)
 
   return (
     <>
@@ -129,11 +165,11 @@ const LibraryDetailPage = () => {
           className="w-full space-y-4"
         >
           <Heading
-            title={isDetails ? "Library aanpassen" : "Library toevoegen"}
+            title={isDetails ? "Bibliotheekitem aanpassen" : "Bibliotheekitem toevoegen"}
             description={
               isDetails
-                ? "Bekijk library gegevens en pas eventueel aan"
-                : "Voeg een nieuw library toe"
+                ? "Bekijk bilbiotheekitem gegevens en pas eventueel aan"
+                : "Voeg een nieuw bilbiotheekitem toe"
             }
           >
             <div className="flex space-x-2">
@@ -167,6 +203,8 @@ const LibraryDetailPage = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="space-y-4">
+
                 <FormField
                   control={form.control}
                   name="title"
@@ -178,12 +216,12 @@ const LibraryDetailPage = () => {
                           disabled={loading}
                           placeholder="Item titel"
                           {...field}
-                        />
+                          />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                  />
                 <FormField
                   control={form.control}
                   name="categoryId"
@@ -196,7 +234,7 @@ const LibraryDetailPage = () => {
                           value={
                             field.value ? field.value.toString() : undefined
                           }
-                        >
+                          >
                           <SelectTrigger>
                             <SelectValue placeholder="Selecteer een categorie" />
                           </SelectTrigger>
@@ -212,7 +250,76 @@ const LibraryDetailPage = () => {
                       <FormMessage />
                     </FormItem>
                   )}
+                  />
+                  </div>
+                  <FormField
+                  control={form.control}
+                  name="mediaId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Thumbnail afbeelding</FormLabel>
+                      <FormControl>
+                        <SingleImageSelect
+                          value={image}
+                          onChange={(media) => {
+                            setImage(media);
+                            field.onChange(media.id);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
+                  <FormField
+                  control={form.control}
+                  name="userId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Docent</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={(v) => v && field.onChange(+v)}
+                          value={
+                            field.value ? field.value.toString() : undefined
+                          }
+                          >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecteer een docent" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {teacherOptions?.map(({ value, label }) => (
+                              <SelectItem key={value} value={value}>
+                                {label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                  />
+                  <FormField
+                   control={form.control}
+                   name="relatedLibraryIds"
+                   render={({ field }) => (
+                     <FormItem>
+                       <FormLabel>Gerelateerde items</FormLabel>
+                       <FormControl>
+                         <MultiSelect
+                           disabled={loading}
+                           options={libraryOptions}
+                           onChange={(values: string[]) =>
+                             field.onChange(values.map((v) => +v))
+                           }
+                           selectedValues={field.value?.map((v) => String(v))}
+                         />
+                       </FormControl>
+                       <FormMessage />
+                     </FormItem>
+                   )}
+                 />
                 <FormField
                   control={form.control}
                   name="mediaLink"
@@ -230,8 +337,26 @@ const LibraryDetailPage = () => {
                     </FormItem>
                   )}
                 />
+                <FormField
+                  control={form.control}
+                  name="body"
+                  render={({ field }) => (
+                    <FormItem className="md:col-span-2">
+                      <FormLabel>Beschrijving</FormLabel>
+                      <FormControl>
+                        <FullRichText
+                          disabled={loading}
+                          id="library-body"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </CardContent>
             </Card>
+           
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -285,6 +410,7 @@ const LibraryDetailPage = () => {
                         <Textarea
                           disabled={loading}
                           placeholder="SEO beschrijving"
+                          className="h-36"
                           {...field}
                         />
                       </FormControl>
@@ -297,68 +423,12 @@ const LibraryDetailPage = () => {
                   name="seoMediaId"
                   render={({ field }) => (
                     <FormItem>
+                      <FormLabel>SEO afbeelding</FormLabel>
                       <FormControl>
                         <SingleImageSelect
                           value={seoImage}
                           onChange={(media) => {
                             setSeoImage(media);
-                            field.onChange(media.id);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </CardContent>
-            </Card>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <ListFilter className="mr-2 w-5" />
-                  Uitebreide beschrijving
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <FormField
-                  control={form.control}
-                  name="body"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <RichText
-                          disabled={loading}
-                          id="library-body"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <SearchCode className="mr-2 w-5" />
-                  Afbeeldingen
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="">
-                <FormField
-                  control={form.control}
-                  name="seoTitle"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <SingleImageSelect
-                          value={image}
-                          onChange={(media) => {
-                            setImage(media);
                             field.onChange(media.id);
                           }}
                         />

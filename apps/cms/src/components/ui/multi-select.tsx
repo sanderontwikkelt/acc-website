@@ -49,8 +49,8 @@ const MultiSelect = ({
       </PopoverTrigger>
       <PopoverContent className="max-h-[50vh] w-[300px] overflow-auto p-0">
         <Command>
-          <CommandInput placeholder="Search permissions..." />
-          <CommandEmpty>Geen rechten gevonden.</CommandEmpty>
+          <CommandInput placeholder="Zoeken..." />
+          <CommandEmpty>Geen gevonden.</CommandEmpty>
           <CommandGroup>
             {options?.map((option) => (
               <CommandItem

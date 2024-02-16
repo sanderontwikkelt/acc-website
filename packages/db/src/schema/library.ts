@@ -38,8 +38,7 @@ export const libraryRelations = relations(library, ({ one, many }) => ({
   media: one(media, { fields: [library.mediaId], references: [media.id] }),
   user: one(user, { fields: [library.userId], references: [user.id] }),
   seoMedia: one(seo, { fields: [library.seoMediaId], references: [seo.id] }),
-  relatingLibraries: many(library),
-  relatedLibraries: many(relatedLibrary, { relationName: "relatedLibrary" }),
+  relatedLibraries: many(relatedLibrary, { relationName: "parentLibrary" }),
   category: one(libraryCategory, {
     fields: [library.categoryId],
     references: [libraryCategory.id],

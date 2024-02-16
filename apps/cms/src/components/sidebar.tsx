@@ -5,7 +5,6 @@ import {
   ClipboardList,
   GraduationCap,
   ImageIcon,
-  LayoutPanelTop,
   Package,
   PanelsTopLeft,
   ShapesIcon,
@@ -42,6 +41,7 @@ export async function AdminSideBar({
     canFindLibraryCategories,
     canFindOrders,
     canFindCarts,
+    canFindTeachers,
   ] = await getPermissions(
     [EntityEnum.PAGE, ActionEnum.FIND],
     [EntityEnum.USER, ActionEnum.FIND],
@@ -53,6 +53,7 @@ export async function AdminSideBar({
     [EntityEnum.LIBRARYCATEGORY, ActionEnum.FIND],
     [EntityEnum.ORDER, ActionEnum.FIND],
     [EntityEnum.CART, ActionEnum.FIND],
+    [EntityEnum.TEACHER, ActionEnum.FIND],
   );
 
   return (
@@ -180,14 +181,14 @@ export async function AdminSideBar({
                     Media
                   </SidebarItemLink>
                 )}
-                {canFindMedia && (
+                {canFindTeachers && (
                   <SidebarItemLink href="/teachers">
                     <GraduationCap className="mr-3 h-4 w-4" />
                     Docenten
                   </SidebarItemLink>
                 )}
                 {canFindMedia && (
-                  <SidebarItemLink href="/teachers">
+                  <SidebarItemLink href="/courses">
                     <BookCopy className="mr-3 h-4 w-4" />
                     Cursussen
                   </SidebarItemLink>
