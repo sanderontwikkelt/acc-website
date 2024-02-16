@@ -6,11 +6,11 @@ import MediaSelect, { MediaValue } from "./media-select";
 import RichText from "./rich-text";
 
 type Item = {
-  title: string;
+  title?: string;
   subtitle?: string;
   author?: string;
   href?: string;
-  description: string;
+  description?: string;
   image?: MediaValue;
 };
 

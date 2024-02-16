@@ -11,6 +11,7 @@ export enum EntityEnum {
   CART = "cart",
   SEO = "seo",
   TEACHER = "teacher",
+  COURSE = "course",
 }
 
 export enum ActionEnum {
@@ -31,7 +32,8 @@ export const permissionEntities = [
   { value: "cart", label: "Winkelmanden" },
   { value: "seo", label: "SEO" },
   { value: "library", label: "Bibliotheek" },
-  { value: "teacher", label: "Docent" },
+  { value: "teacher", label: "Docenten" },
+  { value: "course", label: "Cursussen" },
 ];
 
 export const permissionActions = [

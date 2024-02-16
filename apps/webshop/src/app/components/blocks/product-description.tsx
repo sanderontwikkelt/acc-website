@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/heading-has-content */
 import React from "react";
 import Link from "next/link";
 
@@ -96,7 +97,7 @@ const ProductDescription = ({
         ))}
         <div className="mt-12 space-y-2">
           {buttons.map((button) => (
-            <Button className="w-full" {...button}>
+            <Button className="w-full" key={button.href} {...button}>
               {button.title}
             </Button>
           ))}

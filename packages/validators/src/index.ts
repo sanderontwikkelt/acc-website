@@ -13,6 +13,24 @@ export const userFormSchema = z.object({
   email: z.string().email({ message: "Vul een geldig e-mail in." }),
 });
 
+export const courseFormSchema = z.object({
+  title: notEmptyString,
+  description: notEmptyString,
+  mediaId: notEmptyNumber,
+  videoLink: optionalString,
+  body: notEmptyString,
+  infoItems: z
+  .array(z.object({ title: z.string(), description: z.string() }))
+  .optional(),
+  faqItems: z
+  .array(z.object({ title: z.string(), description: z.string() }))
+  .optional(),
+  buttons: z
+  .array(z.object({ title: z.string(), description: z.string() }))
+  .optional(),
+  teacherIds: z.array(z.number()).optional(),
+});
+
 export const seoFormSchema = z.object({
   pageId: z.number(),
   title: z.string().nullable(),

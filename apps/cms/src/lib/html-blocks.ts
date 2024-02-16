@@ -1,46 +1,46 @@
-type Field = {
+interface Field {
   label: string;
   showOnVariants?: string[];
-};
+}
 
-type Input = {
+interface Input {
   type: "string";
   value: string;
-};
+}
 
-type Text = {
+interface Text {
   type: "text";
   value: string;
-};
+}
 
-type Image = {
+interface Image {
   type: "image";
   value: {
     src: string;
     width: number;
     height: number;
   };
-};
+}
 
-type Video = {
+interface Video {
   type: "video";
   value: {
     src: string;
     width: number;
     height: number;
   };
-};
+}
 
-type Variant = {
+interface Variant {
   type: "enum";
   options: {
     key: string;
     label: string;
   }[];
   value: string;
-};
+}
 
-type Button = {
+interface Button {
   type: "button";
   value: {
     withArrow: boolean;
@@ -49,9 +49,9 @@ type Button = {
     target: "_self" | "_blank";
     variant: string;
   };
-};
+}
 
-type HeroType = {
+interface HeroType {
   name: "hero";
   fields: {
     variant?: Field & Variant;
@@ -62,7 +62,7 @@ type HeroType = {
     video: Field & Video;
     button?: Field & Button;
   };
-};
+}
 export type BlockType = {
   style: React.CSSProperties;
   innerStyle: React.CSSProperties;
@@ -753,104 +753,104 @@ const contactForm = {
   },
 };
 
-const productDescription = {
-  name: "productDescription" as const,
-  label: "Product beschrijving",
-  previewurl: "/images/block/productDescription.png",
-  fields: {
-    descriptionTitle: {
-      label: "Beschrijving - titel",
-      type: "string",
-      value: "Omschrijving",
-    },
-    descriptionVideoSrc: {
-      label: "Beschrijving - Video embed url",
-      type: "string",
-      value:
-        "https://www.youtube.com/embed/9HGWq9ugLAQ?controls=1&rel=0&playsinline=0&modestbranding=0&autoplay=0&enablejsapi=1&origin=https%3A%2F%2Fphysis.academy&widgetid=1",
-    },
-    descriptionDescription: {
-      label: "Beschrijving - body",
-      type: "text",
-      value: `Steeds meer behandelaars en trainers hebben het gevoel dat alléén trainen of behandelen niet tot het resultaat leidt wat mensen echt nodig hebben.
-      Veel van de problemen waar klanten mee komen, liggen niet alleen bij bewegen en voeding, maar komen vanuit problemen met slaap, stress, ademhaling en het functioneren van het immuunsysteem. Dit zal in de toekomst alleen maar meer voor gaan komen door onze hedendaagse levensstijl en de eisen vanuit de maatschappij.
+// const productDescription = {
+//   name: "productDescription" as const,
+//   label: "Product beschrijving",
+//   previewurl: "/images/block/productDescription.png",
+//   fields: {
+//     descriptionTitle: {
+//       label: "Beschrijving - titel",
+//       type: "string",
+//       value: "Omschrijving",
+//     },
+//     descriptionVideoSrc: {
+//       label: "Beschrijving - Video embed url",
+//       type: "string",
+//       value:
+//         "https://www.youtube.com/embed/9HGWq9ugLAQ?controls=1&rel=0&playsinline=0&modestbranding=0&autoplay=0&enablejsapi=1&origin=https%3A%2F%2Fphysis.academy&widgetid=1",
+//     },
+//     descriptionDescription: {
+//       label: "Beschrijving - body",
+//       type: "text",
+//       value: `Steeds meer behandelaars en trainers hebben het gevoel dat alléén trainen of behandelen niet tot het resultaat leidt wat mensen echt nodig hebben.
+//       Veel van de problemen waar klanten mee komen, liggen niet alleen bij bewegen en voeding, maar komen vanuit problemen met slaap, stress, ademhaling en het functioneren van het immuunsysteem. Dit zal in de toekomst alleen maar meer voor gaan komen door onze hedendaagse levensstijl en de eisen vanuit de maatschappij.
       
-      Tijdens de 6 domeinen cursus leer je in 4 dagen enorm veel relaties en praktische tools. Cursisten zetten de kennis veel in om:
-      <ul>
-      <li>het energie niveau van klanten enorm te verhogen.</li>
-      <li>sneller resultaat te behalen bij klanten met Chronische Pijn.</li>
-      <li>mensen van hun slaapproblemen en darmklachten af te helpen.</li>
-      <li>ademhaling in te zetten bij bekkenbodemproblemen, hoofdpijn en nekpijn.</li>
-      <li>en nog veel meer!</li>
-      </ul>
-      `,
-    },
-    listTitle: {
-      label: "Informatie - titel",
-      type: "string",
-      value: "Praktische informatie",
-    },
-    listItems: {
-      label: "Informatie - lijst",
-      type: "list",
-      value: [
-        {
-          title:
-            "Wat zijn de toelatingseisen voor de opleidingen van Physis Academy?",
-          description:
-            "De Coach Opleiding is speciaal ontwikkeld voor behandelaars en trainers en is daarom ook alleen toegankelijk voor deze doelgroep. Het is daarentegen niet verplicht om éérst 1 van onze andere opleidingen te volgen. Benieuwd of deze cursus ook wat voor jou is? Neem dan contact met ons op via het contactformulier op de site.",
-        },
-        {
-          title:
-            "Wat zijn de toelatingseisen voor de opleidingen van Physis Academy?",
-          description:
-            "De Coach Opleiding is speciaal ontwikkeld voor behandelaars en trainers en is daarom ook alleen toegankelijk voor deze doelgroep. Het is daarentegen niet verplicht om éérst 1 van onze andere opleidingen te volgen. Benieuwd of deze cursus ook wat voor jou is? Neem dan contact met ons op via het contactformulier op de site.",
-        },
-        {
-          title:
-            "Wat zijn de toelatingseisen voor de opleidingen van Physis Academy?",
-          description:
-            "De Coach Opleiding is speciaal ontwikkeld voor behandelaars en trainers en is daarom ook alleen toegankelijk voor deze doelgroep. Het is daarentegen niet verplicht om éérst 1 van onze andere opleidingen te volgen. Benieuwd of deze cursus ook wat voor jou is? Neem dan contact met ons op via het contactformulier op de site.",
-        },
-      ],
-    },
-    teachersTitle: {
-      label: "Docenten - titel",
-      type: "string",
-      value: "Docenten",
-    },
-    teachersItems: {
-      label: "Docenten - lijst",
-      type: "teachers",
-      value: [],
-    },
-    reviewsTitle: {
-      label: "Reviews - titel",
-      type: "string",
-      value: "Reviews van cursisten",
-    },
-    buttons: {
-      label: "Knoppen",
-      type: "buttons",
-      value: [
-        {
-          title: "Download whitepaper",
-          href: "https://physis.academy/wp-content/uploads/2020/12/Whitepaper-Immuunsysteem.pdf",
-          target: "_blank",
-          variant: "outline",
-          size: "lg",
-        },
-        {
-          title: "Schrijf je nu in!",
-          href: "https://physis.academy/product/geen-categorie/de-6-domeinen-cursus/",
-          target: "_self",
-          variant: "success",
-          size: "lg",
-        },
-      ],
-    },
-  },
-};
+//       Tijdens de 6 domeinen cursus leer je in 4 dagen enorm veel relaties en praktische tools. Cursisten zetten de kennis veel in om:
+//       <ul>
+//       <li>het energie niveau van klanten enorm te verhogen.</li>
+//       <li>sneller resultaat te behalen bij klanten met Chronische Pijn.</li>
+//       <li>mensen van hun slaapproblemen en darmklachten af te helpen.</li>
+//       <li>ademhaling in te zetten bij bekkenbodemproblemen, hoofdpijn en nekpijn.</li>
+//       <li>en nog veel meer!</li>
+//       </ul>
+//       `,
+//     },
+//     listTitle: {
+//       label: "Informatie - titel",
+//       type: "string",
+//       value: "Praktische informatie",
+//     },
+//     listItems: {
+//       label: "Informatie - lijst",
+//       type: "list",
+//       value: [
+//         {
+//           title:
+//             "Wat zijn de toelatingseisen voor de opleidingen van Physis Academy?",
+//           description:
+//             "De Coach Opleiding is speciaal ontwikkeld voor behandelaars en trainers en is daarom ook alleen toegankelijk voor deze doelgroep. Het is daarentegen niet verplicht om éérst 1 van onze andere opleidingen te volgen. Benieuwd of deze cursus ook wat voor jou is? Neem dan contact met ons op via het contactformulier op de site.",
+//         },
+//         {
+//           title:
+//             "Wat zijn de toelatingseisen voor de opleidingen van Physis Academy?",
+//           description:
+//             "De Coach Opleiding is speciaal ontwikkeld voor behandelaars en trainers en is daarom ook alleen toegankelijk voor deze doelgroep. Het is daarentegen niet verplicht om éérst 1 van onze andere opleidingen te volgen. Benieuwd of deze cursus ook wat voor jou is? Neem dan contact met ons op via het contactformulier op de site.",
+//         },
+//         {
+//           title:
+//             "Wat zijn de toelatingseisen voor de opleidingen van Physis Academy?",
+//           description:
+//             "De Coach Opleiding is speciaal ontwikkeld voor behandelaars en trainers en is daarom ook alleen toegankelijk voor deze doelgroep. Het is daarentegen niet verplicht om éérst 1 van onze andere opleidingen te volgen. Benieuwd of deze cursus ook wat voor jou is? Neem dan contact met ons op via het contactformulier op de site.",
+//         },
+//       ],
+//     },
+//     teachersTitle: {
+//       label: "Docenten - titel",
+//       type: "string",
+//       value: "Docenten",
+//     },
+//     teachersItems: {
+//       label: "Docenten - lijst",
+//       type: "teachers",
+//       value: [],
+//     },
+//     reviewsTitle: {
+//       label: "Reviews - titel",
+//       type: "string",
+//       value: "Reviews van cursisten",
+//     },
+//     buttons: {
+//       label: "Knoppen",
+//       type: "buttons",
+//       value: [
+//         {
+//           title: "Download whitepaper",
+//           href: "https://physis.academy/wp-content/uploads/2020/12/Whitepaper-Immuunsysteem.pdf",
+//           target: "_blank",
+//           variant: "outline",
+//           size: "lg",
+//         },
+//         {
+//           title: "Schrijf je nu in!",
+//           href: "https://physis.academy/product/geen-categorie/de-6-domeinen-cursus/",
+//           target: "_self",
+//           variant: "success",
+//           size: "lg",
+//         },
+//       ],
+//     },
+//   },
+// };
 
 const htmlBlocks = {
   hero,
@@ -865,7 +865,7 @@ const htmlBlocks = {
   images,
   videoIframe,
   googleMap,
-  productDescription,
+  // productDescription,
   contactForm,
 };
 

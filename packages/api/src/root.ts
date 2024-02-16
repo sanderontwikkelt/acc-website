@@ -14,6 +14,7 @@ import { roleRouter } from "./router/role";
 import { seoRouter } from "./router/seo";
 import { stripeRouter } from "./router/stripe";
 import { teacherRouter } from "./router/teacher";
+import { courseRouter } from "./router/course";
 import { userRouter } from "./router/user";
 import { createTRPCRouter } from "./trpc";
 
@@ -21,6 +22,7 @@ export const appRouter = createTRPCRouter({
   auth: authRouter,
   user: userRouter,
   teacher: teacherRouter,
+  course: courseRouter,
   role: roleRouter,
   permission: permissionRouter,
   media: mediaRouter,

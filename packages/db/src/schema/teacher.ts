@@ -26,5 +26,5 @@ export const teacher = mySqlTable(
 
 export const teacherRelations = relations(teacher, ({ one, many }) => ({
   media: one(media, { fields: [teacher.mediaId], references: [media.id] }),
-  courses: many(course),
+  courses: many(course, { relationName: "courseTeacher" }),
 }));
