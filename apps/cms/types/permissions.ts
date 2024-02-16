@@ -5,6 +5,8 @@ export enum EntityEnum {
   PAGE = "page",
   PRODUCT = "product",
   PRODUCTCATEGORY = "productCategory",
+  LIBRARY = "library",
+  LIBRARYCATEGORY = "libraryCategory",
   ORDER = "order",
   CART = "cart",
   SEO = "seo",
@@ -27,6 +29,7 @@ export const permissionEntities = [
   { value: "order", label: "Bestellingen" },
   { value: "cart", label: "Winkelmanden" },
   { value: "seo", label: "SEO" },
+  { value: "library", label: "Bibliotheek" },
 ];
 
 export const permissionActions = [

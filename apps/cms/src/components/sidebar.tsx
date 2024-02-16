@@ -1,6 +1,7 @@
 import {
   Activity,
   BookCopy,
+  BookUserIcon,
   ClipboardList,
   GraduationCap,
   ImageIcon,
@@ -37,6 +38,8 @@ export async function AdminSideBar({
     canFindMedia,
     canFindProducts,
     canFindProductCategories,
+    canFindLibraries,
+    canFindLibraryCategories,
     canFindOrders,
     canFindCarts,
   ] = await getPermissions(
@@ -46,6 +49,8 @@ export async function AdminSideBar({
     [EntityEnum.MEDIA, ActionEnum.FIND],
     [EntityEnum.PRODUCT, ActionEnum.FIND],
     [EntityEnum.PRODUCTCATEGORY, ActionEnum.FIND],
+    [EntityEnum.LIBRARY, ActionEnum.FIND],
+    [EntityEnum.LIBRARYCATEGORY, ActionEnum.FIND],
     [EntityEnum.ORDER, ActionEnum.FIND],
     [EntityEnum.CART, ActionEnum.FIND],
   );
@@ -58,8 +63,8 @@ export async function AdminSideBar({
         "h-screen transition-all duration-300 max-md:fixed max-md:inset-0 max-md:w-[calc(100vw-2rem)] max-md:-translate-x-[calc(100%+2rem)]",
       )}
     >
-      <Card className="flex flex-grow flex-col">
-        <SidebarItem className="relative flex w-full items-center justify-between">
+      <Card className="flex flex-grow flex-col p-0">
+        <SidebarItem className="relative flex w-full items-center justify-between p-5 pb-0">
           <span className="sr-only text-xl font-bold">Physis</span>
           <svg
             width="52"
@@ -130,8 +135,8 @@ export async function AdminSideBar({
             </g>
           </svg>
         </SidebarItem>
-        <Separator className="my-4" />
-        <div className="max-h-[100vh-9.125rem] flex-grow overflow-auto">
+        <Separator className="mt-4" />
+        <div className="max-h-[calc(100vh-13.125rem)] flex-grow overflow-auto p-5">
           <SidebarItem className="mt-ato">
             {/* <SidebarItemLabel>Beheren</SidebarItemLabel> */}
             <SidebarItemContent>
@@ -187,9 +192,16 @@ export async function AdminSideBar({
                     Cursussen
                   </SidebarItemLink>
                 )}
-                {canFindMedia && (
-                  <SidebarItemLink href="/library">
-                    <LayoutPanelTop className="mr-3 h-4 w-4" />
+               
+                {canFindLibraryCategories && (
+                  <SidebarItemLink href="/library-categories">
+                    <ShapesIcon className="mr-3 h-4 w-4" />
+                    Bibliotheekcategoriën
+                  </SidebarItemLink>
+                )}
+                {canFindLibraries && (
+                  <SidebarItemLink href="/library-items">
+                    <BookUserIcon className="mr-3 h-4 w-4" />
                     Bibliotheek
                   </SidebarItemLink>
                 )}
@@ -234,8 +246,10 @@ export async function AdminSideBar({
           )}
         </div>
         <SidebarSwitch />
+<div className="border-t border-border p-5 pb-0">
 
         <UserNav />
+</div>
       </Card>
     </Sidebar>
   );

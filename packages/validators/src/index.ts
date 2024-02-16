@@ -45,6 +45,10 @@ export const productCategoryFormSchema = z.object({
   title: z.string().min(2),
 });
 
+export const libraryCategoryFormSchema = z.object({
+  title: z.string().min(2),
+});
+
 export const productFormSchema = z.object({
   slug: notEmptyString,
   description: notEmptyString,
@@ -59,6 +63,21 @@ export const productFormSchema = z.object({
     .array(z.object({ title: z.string(), stock: z.number().optional() }))
     .optional(),
   // relatedProductIds: z.array(z.number()),
+});
+
+export const libraryFormSchema = z.object({
+  slug: notEmptyString,
+  body: notEmptyString,
+  title: notEmptyString,
+  mediaLink: notEmptyString,
+  categoryId: notEmptyNumber,
+  userId: notEmptyNumber,
+  mediaId: notEmptyNumber,
+  mediaIds: z.array(z.number()).optional(),
+  relatedLibraryIds: z.array(z.number()),
+  seoDescription: z.string().optional(),
+  seoTitle: z.string().optional(),
+  seoMediaId: z.number().optional(),
 });
 
 export const orderFormSchema = z.object({

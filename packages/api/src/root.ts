@@ -8,6 +8,8 @@ import { pageRouter } from "./router/page";
 import { permissionRouter } from "./router/permission";
 import { productRouter } from "./router/product";
 import { productCategoryRouter } from "./router/product-category";
+import { libraryRouter } from "./router/library";
+import { libraryCategoryRouter } from "./router/library-category";
 import { roleRouter } from "./router/role";
 import { seoRouter } from "./router/seo";
 import { stripeRouter } from "./router/stripe";
@@ -24,8 +26,10 @@ export const appRouter = createTRPCRouter({
   media: mediaRouter,
   order: orderRouter,
   product: productRouter,
-  page: pageRouter,
   productCategory: productCategoryRouter,
+  library: libraryRouter,
+  libraryCategory: libraryCategoryRouter,
+  page: pageRouter,
   stripe: stripeRouter,
   cart: cartRouter,
   header: headerRouter,
