@@ -92,6 +92,7 @@ const ProductCategoriesPage = ({ searchParams }) => {
       <Heading
         title={`${title} (${data?.length})`}
         description={`Een lijst met alle ${title.toLowerCase()} binnen jouw toegang.`}
+        backHref="/products"
       >
         {canCreate && (
           <Link href={`${pathname}/new`} className={buttonVariants()}>

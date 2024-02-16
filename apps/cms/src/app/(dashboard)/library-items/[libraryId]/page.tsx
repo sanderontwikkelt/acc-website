@@ -132,10 +132,6 @@ const LibraryDetailPage = () => {
                 createdAt: new Date(library.media.createdAt),
                 updatedAt: new Date(library.media.updatedAt),
               } as Media)
-        // form.setValue(
-        //   "mediaIds",
-        //   library.images.map(({ mediaId }) => mediaId),
-        // );
       }
       if (library.relatedLibraries?.length) {
         form.setValue(
@@ -155,7 +151,6 @@ const LibraryDetailPage = () => {
       }
     });
   };
-  console.log(form.formState.errors)
 
   return (
     <>

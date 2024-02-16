@@ -88,7 +88,7 @@ const ProductsPage = ({ searchParams }) => {
     [categoryOptions],
   );
 
-  const [canCreate] = useHasPermissions([entity, ActionEnum.CREATE]);
+  const [canCreate, canViewCategories] = useHasPermissions([entity, ActionEnum.CREATE], [EntityEnum.LIBRARYCATEGORY, ActionEnum.FIND]);
 
   const data = React.useMemo<Column[]>(
     () =>
@@ -157,11 +157,19 @@ const ProductsPage = ({ searchParams }) => {
         title={`${title} (${data?.length})`}
         description={`Een lijst met alle ${title.toLowerCase()} binnen jouw toegang.`}
       >
-        {canCreate && (
-          <Link href={`${pathname}/new`} className={buttonVariants()}>
-            <Plus className="mr-2 h-4 w-4" /> Toevoegen
-          </Link>
-        )}
+         <div className="flex space-x-2">
+
+{canViewCategories && (
+  <Link href="/product-categories" className={buttonVariants({ variant: 'outline'})}>
+    Categorieën
+  </Link>
+)}
+{canCreate && (
+  <Link href={`${pathname}/new`} className={buttonVariants()}>
+    <Plus className="mr-2 h-4 w-4" /> Toevoegen
+  </Link>
+)}
+</div>
       </Heading>
       <Card>
         <DataTable

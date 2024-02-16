@@ -7,7 +7,6 @@ import {
   ImageIcon,
   Package,
   PanelsTopLeft,
-  ShapesIcon,
   ShoppingBag,
   Users,
 } from "lucide-react";
@@ -36,9 +35,7 @@ export async function AdminSideBar({
     canFindRoles,
     canFindMedia,
     canFindProducts,
-    canFindProductCategories,
     canFindLibraries,
-    canFindLibraryCategories,
     canFindOrders,
     canFindCarts,
     canFindTeachers,
@@ -48,9 +45,7 @@ export async function AdminSideBar({
     [EntityEnum.ROLE, ActionEnum.FIND],
     [EntityEnum.MEDIA, ActionEnum.FIND],
     [EntityEnum.PRODUCT, ActionEnum.FIND],
-    [EntityEnum.PRODUCTCATEGORY, ActionEnum.FIND],
     [EntityEnum.LIBRARY, ActionEnum.FIND],
-    [EntityEnum.LIBRARYCATEGORY, ActionEnum.FIND],
     [EntityEnum.ORDER, ActionEnum.FIND],
     [EntityEnum.CART, ActionEnum.FIND],
     [EntityEnum.TEACHER, ActionEnum.FIND],
@@ -162,7 +157,6 @@ export async function AdminSideBar({
           <Separator className="my-4" />
 
           {(canFindPages ||
-            canFindProductCategories ||
             canFindProducts ||
             canFindOrders ||
             canFindCarts) && (
@@ -194,12 +188,6 @@ export async function AdminSideBar({
                   </SidebarItemLink>
                 )}
                
-                {canFindLibraryCategories && (
-                  <SidebarItemLink href="/library-categories">
-                    <ShapesIcon className="mr-3 h-4 w-4" />
-                    Bibliotheekcategoriën
-                  </SidebarItemLink>
-                )}
                 {canFindLibraries && (
                   <SidebarItemLink href="/library-items">
                     <BookUserIcon className="mr-3 h-4 w-4" />
@@ -211,19 +199,12 @@ export async function AdminSideBar({
           )}
           <Separator className="my-4" />
           {(canFindPages ||
-            canFindProductCategories ||
             canFindProducts ||
             canFindOrders ||
             canFindCarts) && (
             <SidebarItem>
               {/* <SidebarItemLabel>Shop</SidebarItemLabel> */}
               <SidebarItemContent>
-                {canFindProductCategories && (
-                  <SidebarItemLink href="/product-categories">
-                    <ShapesIcon className="mr-3 h-4 w-4" />
-                    Productcategoriën
-                  </SidebarItemLink>
-                )}
                 {canFindProducts && (
                   <SidebarItemLink href="/products">
                     <Package className="mr-3 h-4 w-4" />

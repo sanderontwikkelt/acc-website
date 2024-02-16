@@ -16,13 +16,9 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
 } from "@dnd-kit/sortable";
-import { ImagePlusIcon } from "lucide-react";
 import { createPortal } from "react-dom";
 
 import type { Media } from "@acme/db";
-import { Button, cn } from "@acme/ui";
-
-import { MediaModal } from "../modals/media-modal";
 import { SortableItem } from "./sortable-item";
 
 const defaultInitializer = (index: number) => index;
