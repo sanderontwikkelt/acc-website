@@ -36,7 +36,7 @@ const DynamicButtonList = ({
   return (
     <div className="space-y-4">
       <DragList
-        className="mb-0"
+        className="mb-0 p-0"
         disabled={disabled}
         values={values || []}
         onChange={onChange}

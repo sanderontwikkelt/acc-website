@@ -11,21 +11,21 @@ import {
 } from "~/components/ui/select";
 import DragList from "./drag-list";
 
-export type Item = { key: string; name: string };
+export interface Item { key: string; name: string };
 
 const DynamicSelect = ({
   values,
   onChange,
   items,
 }: {
-  values: Item[];
-  items: { key: string; name: string }[];
-  onChange: (value: Item[]) => void;
+  values: string[];
+  items: Item[];
+  onChange: (value: string[]) => void;
 }) => {
   const handleChange = useCallback(
     (value: Item, index: number) => {
       onChange(
-        values.map((oldValue, idx) => (idx === index ? value : oldValue)),
+        values.map((oldValue, idx) => (idx === index ? value.key : oldValue)),
       );
     },
     [values],
@@ -59,8 +59,8 @@ const DynamicSelect = ({
 
   return (
     <DragList
-      values={values || []}
-      onChange={onChange}
+      values={values?.length ? values.map((key) => ({ key, name: key })) : []}
+      onChange={(items) => onChange(items.map((i) => i.key))}
       dragItem={dragItem}
       root
     />

@@ -1,11 +1,15 @@
 "use client";
 
 import type { z } from "zod";
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useEffect, useMemo, useState, useTransition } from "react";
 import { notFound, useParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ClipboardList,
+  ExternalLink,
+  FileQuestionIcon,
+  GraduationCap,
+  InfoIcon,
   PencilLine,
   PlusIcon,
   SaveIcon,
@@ -37,7 +41,9 @@ import { api } from "~/trpc/react";
 import SingleImageSelect from "~/components/ui/single-image-select";
 import FullRichText from "~/components/ui/full-rich-text";
 import DynamicKVList from "~/components/ui/dynamic-kv-list";
-import DynamicTeachers from "~/components/ui/dynamic-teachers";
+import DynamicSelect from "~/components/ui/dynamic-select";
+import DynamicButtonList from "~/components/ui/dynamic-button-list";
+import { ButtonValue } from "../../pages/[pageId]/builder/components/collapsable-button";
 
 type CourseFormValues = z.infer<typeof courseFormSchema>;
 
@@ -91,11 +97,13 @@ const CourseDetailPage = () => {
                 updatedAt: new Date(course.media.updatedAt),
               } as Media)
       }
+      if (course.teachers) {
+        form.setValue('teacherIds', course.teachers.map(({teacherId}) => teacherId))
+      }
     }
   }, [course, form]);
 
   const onSubmit = async (data: CourseFormValues) => {
-    console.log(data)
     startTransition(async () => {
       if (isDetails && canUpdate) {
         await updateCourse({ ...data, id: +courseId });
@@ -104,9 +112,22 @@ const CourseDetailPage = () => {
       }
     });
   };
-  console.log(form.formState.errors)
-  console.log(form.watch('mediaId'))
 
+  const [teachers] = api.teacher.all.useSuspenseQuery();
+
+  const teacherOptions = useMemo(
+    () =>
+      (teachers?.map(({ id, name }) => ({
+        name: name,
+        key: String(id),
+      })) || []) as {
+        name: string;
+        key: string;
+      }[],
+    [teachers],
+  );
+
+console.log(form.formState.errors)
   return (
     <>
       <Form {...form}>
@@ -115,11 +136,11 @@ const CourseDetailPage = () => {
           className="w-full space-y-4"
         >
           <Heading
-            title={isDetails ? "Docent aanpassen" : "Docent toevoegen"}
+            title={isDetails ? "Cursus aanpassen" : "Cursus toevoegen"}
             description={
               isDetails
-                ? "Bekijk docent gegevens en pas eventueel aan"
-                : "Voeg een nieuw docent toe"
+                ? "Bekijk cursus gegevens en pas eventueel aan"
+                : "Voeg een nieuw cursus toe"
             }
           >
             <div className="flex space-x-2">
@@ -258,7 +279,7 @@ const CourseDetailPage = () => {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <PencilLine className="mr-2 w-5" />
+                  <InfoIcon className="mr-2 w-5" />
                   Praktische informatie
                 </CardTitle>
               </CardHeader>
@@ -268,7 +289,6 @@ const CourseDetailPage = () => {
                   name="infoItems"
                   render={({ field }) => (
                     <FormItem className="">
-                      <FormLabel>Afbeelding</FormLabel>
                       <FormControl>
                       <DynamicKVList
                                   values={field.value?.length ? field.value : []}
@@ -283,11 +303,11 @@ const CourseDetailPage = () => {
                 />
               </CardContent>
             </Card>
-
+<div className="grid md:grid-cols-2 grid-cols-1 gap-4">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <PencilLine className="mr-2 w-5" />
+                  <GraduationCap className="mr-2 w-5" />
                   Docenten
                 </CardTitle>
               </CardHeader>
@@ -297,9 +317,62 @@ const CourseDetailPage = () => {
                   name="teacherIds"
                   render={({ field }) => (
                     <FormItem className="">
-                      <FormLabel>Docenten</FormLabel>
                       <FormControl>
-                      <DynamicTeachers
+                    <DynamicSelect
+      values={field.value?.length ? field.value.map((key) => String(key)) : []}
+      onChange={(newItems) => field.onChange(newItems.map((v) => +v))}
+      items={teacherOptions}
+    />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <ExternalLink className="mr-2 w-5" />
+                  Knoppen
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 gap-4">
+                 <FormField
+                  control={form.control}
+                  name="buttons"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <FormControl>
+    <DynamicButtonList
+                                  values={(field.value?.length ? field.value : []) as ButtonValue[]}
+                                  onChange={(list) =>
+                                    field.onChange(list)
+                                  }
+                                />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+          </div>
+          <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <FileQuestionIcon className="mr-2 w-5" />
+                  FAQ
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 gap-4">
+                 <FormField
+                  control={form.control}
+                  name="faqItems"
+                  render={({ field }) => (
+                    <FormItem className="">
+                      <FormControl>
+                      <DynamicKVList
                                   values={field.value?.length ? field.value : []}
                                   onChange={(list) =>
                                     field.onChange(list)

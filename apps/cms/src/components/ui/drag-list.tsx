@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import React from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { DragHandleDots2Icon } from "@radix-ui/react-icons";
-import { CopyIcon, CrossIcon, PlusIcon } from "lucide-react";
+import { CopyIcon, PlusIcon } from "lucide-react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { v4 as uuidv4 } from "uuid";
 
@@ -10,9 +10,11 @@ import { cn } from "@acme/ui";
 
 import TooltipWrapper from "../tooltip-wrapper";
 
+type Value = Record<string, string>;
+
 interface Props {
-  onChange: (value: any[]) => void;
-  values: any[];
+  onChange: (value: Value[]) => void;
+  values: Value[];
   dragItem: (
     {
       key,

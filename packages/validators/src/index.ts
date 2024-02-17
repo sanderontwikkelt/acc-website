@@ -26,7 +26,7 @@ export const courseFormSchema = z.object({
   .array(z.object({ title: z.string(), description: z.string() }))
   .optional(),
   buttons: z
-  .array(z.object({ title: z.string(), description: z.string() }))
+  .array(z.object({ title: z.string(), href: z.string() }))
   .optional(),
   teacherIds: z.array(z.number()).optional(),
 });
