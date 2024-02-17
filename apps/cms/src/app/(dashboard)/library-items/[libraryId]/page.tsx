@@ -152,6 +152,12 @@ const LibraryDetailPage = () => {
     });
   };
 
+  const title = form.watch('title')
+
+  useEffect(() => {
+    form.setValue('slug', title.toLocaleLowerCase().replaceAll(" ", "-"))
+  }, [title, form])
+
   return (
     <>
       <Form {...form}>

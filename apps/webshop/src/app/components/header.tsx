@@ -10,7 +10,6 @@ import { cn } from "@acme/ui";
 import { getArray } from "~/lib/getArray";
 import { HeaderType } from "~/lib/types";
 import { Button } from "./button";
-import MobileMenu from "./mobile-menu";
 import MobileItem from "./mobileItem";
 import NavItems from "./nav-items";
 
@@ -22,7 +21,7 @@ const Header = ({ header }: { header: HeaderType }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleScroll = () => {
-    setScrolled(window.scrollY > 100);
+    setScrolled(window.scrollY > 10);
   };
 
   useEffect(() => {

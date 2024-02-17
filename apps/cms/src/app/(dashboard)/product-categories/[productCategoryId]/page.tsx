@@ -88,6 +88,12 @@ const ProductCategoryDetailPage = () => {
     });
   };
 
+  const title = form.watch('title')
+
+  useEffect(() => {
+    form.setValue('slug', title.toLocaleLowerCase().replaceAll(" ", "-"))
+  }, [title, form])
+
   return (
     <>
       <Form {...form}>
@@ -148,6 +154,23 @@ const ProductCategoryDetailPage = () => {
                         <Input
                           disabled={loading}
                           placeholder="Titel"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="slug"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Slug</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="Item slug"
                           {...field}
                         />
                       </FormControl>

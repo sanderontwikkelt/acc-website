@@ -2,11 +2,10 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 import { cn } from "@acme/ui";
 
-import { LinksType } from "~/lib/types";
+import type { LinksType } from "~/lib/types";
 
 const Breadcrumbs = ({
   breadcrumbs,
@@ -15,10 +14,9 @@ const Breadcrumbs = ({
   breadcrumbs: LinksType[];
   dark: boolean;
 }) => {
-  const currentPathname = usePathname().split("?")[0];
   return (
     <div className="absolute bottom-10 left-0 flex items-center space-x-3">
-      {breadcrumbs.map(({ title, href }, i) => (
+      {breadcrumbs.map(({ title, href, active }, i) => (
         <div className="flex items-center space-x-3" key={title}>
           {!!i && (
             <svg
@@ -29,8 +27,8 @@ const Breadcrumbs = ({
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
+                fillRule="evenodd"
+                clipRule="evenodd"
                 d="M1.51284 0L0 1.4004L4.97316 6L0 10.5997L1.51284 12L8 6L1.51284 0Z"
               />
             </svg>
@@ -39,8 +37,8 @@ const Breadcrumbs = ({
             href={href}
             className={cn(
               "flex items-center text-base",
-              currentPathname === href.replace("#", "").split("?")[0]
-                ? ""
+              active
+                ? "pointer-events-none"
                 : "opacity-50",
             )}
           >

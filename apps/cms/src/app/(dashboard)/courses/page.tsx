@@ -27,6 +27,7 @@ interface Column {
   id: number;
   createdAt: string;
   title: string;
+  slug: string;
 }
 
 const CoursesPage = ({ searchParams }) => {
@@ -54,6 +55,7 @@ const CoursesPage = ({ searchParams }) => {
       courses.map((course) => ({
         id: course.id,
         title: course.title ?? "",
+        slug: course.slug ?? "",
         createdAt: formatCreatedAt(course.createdAt),
         updatedAt: formatCreatedAt(course.updatedAt),
       })) as Column[],
@@ -67,6 +69,7 @@ const CoursesPage = ({ searchParams }) => {
   const columns = DataTableColumnDefs<Column>({
     columns: [
       { label: "Titel", name: "title" },
+      { label: "Slug", name: "slug" },
       { label: "Aangemaakt", name: "createdAt" },
       { label: "Aangepast", name: "updatedAt" },
     ],

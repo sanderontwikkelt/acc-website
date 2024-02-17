@@ -1,11 +1,11 @@
 import React from "react";
 
 import { setHtml } from "~/lib/setHtml";
-import { ImageType } from "~/lib/types";
 import Expandable from "./expandable";
 import NextImage from "./NextImage";
+import { ImageType } from "~/lib/types";
 
-const Teacher = ({
+const TeacherDetails = ({
   image,
   name,
   title,
@@ -36,4 +36,4 @@ const Teacher = ({
   );
 };
 
-export default Teacher;
+export default TeacherDetails;

@@ -1,7 +1,7 @@
 import { db, schema } from "@acme/db";
 
 import { WEB_URL } from "~/lib/constants";
-import { metadata } from "../layout";
+import { metadata } from "../../layout";
 import Client from "./components/client";
 import Server from "./components/server";
 
@@ -70,7 +70,7 @@ export default async function DynamicPage({
   searchParams,
 }: {
   params: { pathname: string[] };
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: Record<string, string | string[] | undefined>;
 }) {
   const pathname = params.pathname?.join("/") || "";
 

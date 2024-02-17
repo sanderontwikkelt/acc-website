@@ -26,7 +26,7 @@ const hero = ({
   description: string;
   image: ImageType;
   background?: string;
-  icon: ImageType;
+  icon?: ImageType;
   variant?: ContentVariant;
   links?: LinksType[];
   breadcrumbs?: LinksType[];
@@ -72,9 +72,9 @@ const hero = ({
               {...setHtml(title)}
               className={isSideImage ? "" : "text-6xl font-normal"}
             />
-            {isSideImage ? (
+            {isSideImage ? icon ? (
               <NextImage image={icon} alt="Hero icon" />
-            ) : isBlog ? null : (
+            ) : null : isBlog ? null : (
               <Link href="#next-section">
                 <svg
                   width="51"

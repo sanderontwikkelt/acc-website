@@ -22,6 +22,7 @@ export interface NavigationType {
 export interface LinksType {
   title: string;
   href: string;
+  active?: boolean;
 }
 
 export interface ImageType {

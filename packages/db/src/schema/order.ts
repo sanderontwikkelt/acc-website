@@ -1,7 +1,7 @@
 import { relations } from "drizzle-orm";
 import { index, mysqlEnum } from "drizzle-orm/mysql-core";
 
-import { product, productVariant } from ".";
+import { product, productPaymentPlan, productVariant } from ".";
 import {
   createdAt,
   id,
@@ -71,6 +71,7 @@ export const orderItem = mySqlTable(
     price: nnDec("price"),
     productId: nnInt("product_id"),
     productVariantId: nnInt("product_variant_id"),
+    productPaymentPlanId: nnInt("product_payment_plan_id"),
     quantity: nnInt("quantity"),
     createdAt,
     updatedAt,
@@ -80,6 +81,7 @@ export const orderItem = mySqlTable(
       indx0: index("order_id").on(t.orderId),
       indx1: index("product_id").on(t.productId),
       indx2: index("product_variant_id").on(t.productVariantId),
+      indx3: index("product_payment_plan_id").on(t.productPaymentPlanId),
     };
   },
 );
@@ -93,6 +95,10 @@ export const orderItemRelations = relations(orderItem, ({ one }) => ({
   productVariant: one(productVariant, {
     fields: [orderItem.orderId],
     references: [productVariant.id],
+  }),
+  productPaymentPlan: one(productPaymentPlan, {
+    fields: [orderItem.orderId],
+    references: [productPaymentPlan.id],
   }),
 }));
 

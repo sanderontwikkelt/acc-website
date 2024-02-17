@@ -68,6 +68,7 @@ export const relatedLibraryRelations = relations(relatedLibrary, ({ one }) => ({
 export const libraryCategory = mySqlTable("libraryCategory", {
   id,
   title: nnVarChar("title"),
+  slug: nnVarChar("slug"),
   createdAt,
   updatedAt,
 });

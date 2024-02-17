@@ -8,5 +8,7 @@ export * from "./input";
 export * from "./textarea";
 export * from "./pagination";
 export * from "./alert";
+export * from "./select";
+export * from "./carousel";
 export * from "./dropdown-menu";
 export * from "./next-image";

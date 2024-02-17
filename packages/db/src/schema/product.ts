@@ -12,11 +12,13 @@ export const product = mySqlTable(
     slug: nnVarChar("slug"),
     title: nnVarChar("title"),
     description: text("description").notNull(),
-    seoTitle: varChar("seo-title"),
+    seoTitle: varChar("seo-title"), 
     seoDescription: text("seo-description"),
     categoryId: int("category_id"),
     price: decimal("price").notNull(),
     stock: int("stock"),
+    installments: int("installments"),
+    price_per_installment: int("price_per_installment"),
     createdAt,
     updatedAt,
   },
@@ -31,6 +33,7 @@ export const productRelations = relations(product, ({ many, one }) => ({
   images: many(productsToMedia),
   relatedProducts: many(relatedProduct, { relationName: "relatedProduct" }),
   variants: many(productVariant),
+  paymentPlans: many(productPaymentPlan),
   category: one(productCategory, {
     fields: [product.categoryId],
     references: [productCategory.id],
@@ -105,6 +108,7 @@ export const productVariantRelations = relations(productVariant, ({ one }) => ({
 export const productCategory = mySqlTable("productCategory", {
   id,
   title: nnVarChar("title"),
+  slug: nnVarChar("slug"),
   createdAt,
   updatedAt,
 });
@@ -115,3 +119,30 @@ export const productCategoryRelations = relations(
     products: many(product),
   }),
 );
+
+
+export const productPaymentPlan = mySqlTable(
+  "productPaymentPlan",
+  {
+    id,
+    productId: nnInt("product_id"),
+    rate: nnInt("rate"),
+    frequency: nnVarChar("frequency"),
+    length: nnInt("length"),
+    price: decimal("price"),
+    createdAt,
+    updatedAt,
+  },
+  (t) => {
+    return {
+      indx0: index("product_id").on(t.productId),
+    };
+  },
+);
+
+export const productPaymentPlanRelations = relations(productPaymentPlan, ({ one }) => ({
+  product: one(product, {
+    fields: [productPaymentPlan.productId],
+    references: [product.id],
+  }),
+}));

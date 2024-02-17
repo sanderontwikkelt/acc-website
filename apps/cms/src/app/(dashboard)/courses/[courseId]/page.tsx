@@ -1,5 +1,6 @@
 "use client";
 
+import sanitizeHtml from "sanitize-html";
 import type { z } from "zod";
 import React, { useEffect, useMemo, useState, useTransition } from "react";
 import { notFound, useParams } from "next/navigation";
@@ -13,13 +14,15 @@ import {
   PencilLine,
   PlusIcon,
   SaveIcon,
+  SearchCode,
   Trash,
+  Workflow,
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
 import type { Media } from "@acme/db";
-import { Button, Input } from "@acme/ui";
+import { Button, Input, Textarea } from "@acme/ui";
 
 import { courseFormSchema } from "@acme/validators";
 
@@ -43,7 +46,8 @@ import FullRichText from "~/components/ui/full-rich-text";
 import DynamicKVList from "~/components/ui/dynamic-kv-list";
 import DynamicSelect from "~/components/ui/dynamic-select";
 import DynamicButtonList from "~/components/ui/dynamic-button-list";
-import { ButtonValue } from "../../pages/[pageId]/builder/components/collapsable-button";
+import { CollapsibleButton  } from "../../pages/[pageId]/builder/components/collapsable-button";
+import type {ButtonValue} from "../../pages/[pageId]/builder/components/collapsable-button";
 
 type CourseFormValues = z.infer<typeof courseFormSchema>;
 
@@ -51,6 +55,7 @@ const CourseDetailPage = () => {
   const { courseId } = useParams();
   const isDetails = !!(courseId && courseId !== "new");
   const [image, setImage] = useState<Media | null>(null);
+  const [seoImage, setSeoImage] = useState<Media | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const [loading, startTransition] = useTransition();
@@ -97,6 +102,13 @@ const CourseDetailPage = () => {
                 updatedAt: new Date(course.media.updatedAt),
               } as Media)
       }
+      if (course.seoMedia) {
+        setSeoImage({
+                ...course.seoMedia,
+                createdAt: new Date(course.seoMedia.createdAt),
+                updatedAt: new Date(course.seoMedia.updatedAt),
+              } as Media)
+      }
       if (course.teachers) {
         form.setValue('teacherIds', course.teachers.map(({teacherId}) => teacherId))
       }
@@ -104,6 +116,8 @@ const CourseDetailPage = () => {
   }, [course, form]);
 
   const onSubmit = async (data: CourseFormValues) => {
+    if (data.description) data.description = sanitizeHtml(data.description)
+    if (data.body) data.body = sanitizeHtml(data.body)
     startTransition(async () => {
       if (isDetails && canUpdate) {
         await updateCourse({ ...data, id: +courseId });
@@ -127,7 +141,12 @@ const CourseDetailPage = () => {
     [teachers],
   );
 
-console.log(form.formState.errors)
+const title = form.watch('title')
+
+useEffect(() => {
+  form.setValue('slug', title.toLocaleLowerCase().replaceAll(" ", "-"))
+}, [title, form])
+
   return (
     <>
       <Form {...form}>
@@ -179,7 +198,7 @@ console.log(form.formState.errors)
                   control={form.control}
                   name="title"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="md:col-span-2">
                       <FormLabel>Titel</FormLabel>
                       <FormControl>
                         <Input
@@ -192,8 +211,23 @@ console.log(form.formState.errors)
                     </FormItem>
                   )}
                   />
-                
-               
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Beschrijving</FormLabel>
+                      <FormControl>
+                        <RichText
+                          disabled={loading}
+                          id="description"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                <FormField
                   control={form.control}
                   name="mediaId"
@@ -207,24 +241,6 @@ console.log(form.formState.errors)
                             setImage(media);
                             field.onChange(media.id);
                           }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-<FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem className="md:col-span-2">
-                      <FormLabel>Beschrijving</FormLabel>
-                      <FormControl>
-                        <RichText
-                          disabled={loading}
-                          id="description"
-                          {...field}
                         />
                       </FormControl>
                       <FormMessage />
@@ -386,6 +402,134 @@ console.log(form.formState.errors)
               </CardContent>
             </Card>
           </div>
+          <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Workflow className="mr-2 w-5" />
+                  CTA
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 gap-4">
+              <FormField
+                  control={form.control}
+                  name="ctaTitle"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Titel</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="Cursus cta titel"
+                          {...field}
+                          />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                  />
+              <FormField
+                  control={form.control}
+                  name="ctaButton"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Link</FormLabel>
+                      <FormControl>
+                      <CollapsibleButton
+          value={(field.value || {}) as ButtonValue}
+          setValue={field.onChange}
+        >
+          {null}
+        </CollapsibleButton>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                  />
+                 
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <SearchCode className="mr-2 w-5" />
+                  SEO
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="seoTitle"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>SEO titel</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="SEO titel"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="slug"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Slug</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="Item slug"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="seoDescription"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>SEO beschrijving</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          disabled={loading}
+                          placeholder="SEO beschrijving"
+                          className="h-36"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="seoMediaId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>SEO afbeelding</FormLabel>
+                      <FormControl>
+                        <SingleImageSelect
+                          value={seoImage}
+                          onChange={(media) => {
+                            setSeoImage(media);
+                            field.onChange(media.id);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
         </form>
       </Form>
       <AlertModal

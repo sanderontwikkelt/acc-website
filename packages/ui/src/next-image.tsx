@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 export interface ImageType {
-  src: string;
+  src?: string;
   width: number;
   height: number;
   objectPosition?: { x: number; y: number };

@@ -2,6 +2,7 @@ import {
   decimal,
   int,
   serial,
+  text,
   timestamp,
   varchar,
 } from "drizzle-orm/mysql-core";
@@ -19,6 +20,8 @@ export const varChar = (col: string) => varchar(col, { length: 256 });
 export const nnInt = (col: string) => int(col).notNull();
 
 export const nnDec = (col: string) => decimal(col).notNull();
+
+export const nnText = (col: string) => text(col).notNull();
 
 export const createdAt = timestamp("created_at").defaultNow().notNull();
 

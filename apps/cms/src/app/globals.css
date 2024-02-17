@@ -54,3 +54,19 @@
     --ring: 240 4.9% 83.9%;
   }
 }
+
+
+.rsw-editor ol,
+.rsw-editor ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+.rsw-editor ul {
+  list-style: disc;
+}
+.rsw-editor ol {
+  list-style-type: decimal;
+}
+.rsw-editor ol li {
+  counter-increment: step-counter;
+}

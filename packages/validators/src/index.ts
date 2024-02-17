@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { notEmptyNumber, notEmptyString, optionalNumber, optionalString } from "./utils";
+import { formButton, notEmptyNumber, notEmptyString, optionalNumber, optionalString } from "./utils";
 
 export const CreatePostSchema = z.object({
   title: z.string().min(1),
@@ -15,6 +15,7 @@ export const userFormSchema = z.object({
 
 export const courseFormSchema = z.object({
   title: notEmptyString,
+  slug: notEmptyString,
   description: notEmptyString,
   mediaId: notEmptyNumber,
   videoLink: optionalString,
@@ -26,9 +27,14 @@ export const courseFormSchema = z.object({
   .array(z.object({ title: z.string(), description: z.string() }))
   .optional(),
   buttons: z
-  .array(z.object({ title: z.string(), href: z.string() }))
+  .array(formButton)
   .optional(),
+  ctaTitle: notEmptyString,
+  ctaButton: formButton,
   teacherIds: z.array(z.number()).optional(),
+  seoDescription: optionalString,
+  seoTitle: optionalString,
+  seoMediaId: optionalNumber,
 });
 
 export const seoFormSchema = z.object({
@@ -48,23 +54,25 @@ export const teacherFormSchema = z.object({
 });
 
 export const CreateRoleSchema = z.object({
-  name: z.string().min(2),
-  description: z.string().min(2).nullable(),
+  name: notEmptyString,
+  description: notEmptyString.nullable(),
   permissionIds: z.array(z.string()),
 });
 
 export const roleFormSchema = z.object({
-  name: z.string().min(2),
-  description: z.string().min(2).nullable(),
+  name: notEmptyString,
+  description: notEmptyString.nullable(),
   permissionIds: z.array(z.number()),
 });
 
 export const productCategoryFormSchema = z.object({
-  title: z.string().min(2),
+  title: notEmptyString,
+  slug: notEmptyString,
 });
 
 export const libraryCategoryFormSchema = z.object({
-  title: z.string().min(2),
+  title: notEmptyString,
+  slug: notEmptyString,
 });
 
 export const productFormSchema = z.object({

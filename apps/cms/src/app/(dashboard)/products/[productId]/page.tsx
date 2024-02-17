@@ -3,6 +3,7 @@
 import type { z } from "zod";
 import React, { useEffect, useMemo, useState, useTransition } from "react";
 import { notFound, useParams } from "next/navigation";
+import sanitizeHtml from "sanitize-html";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ClipboardList,
@@ -122,6 +123,8 @@ const ProductDetailPage = () => {
   }, [product, form]);
 
   const onSubmit = async (data: ProductFormValues) => {
+    if (data.description) data.description = sanitizeHtml(data.description)
+
     startTransition(async () => {
       if (isDetails && canUpdate) {
         await updateProduct({ ...data, id: +productId });
@@ -130,6 +133,12 @@ const ProductDetailPage = () => {
       }
     });
   };
+
+  const title = form.watch('title')
+
+  useEffect(() => {
+    form.setValue('slug', title.toLocaleLowerCase().replaceAll(" ", "-"))
+  }, [title, form])
 
   return (
     <>

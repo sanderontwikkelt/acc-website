@@ -15,7 +15,6 @@ import {
   EditorProvider,
   Toolbar,
 } from "react-simple-wysiwyg";
-import sanitizeHtml from "sanitize-html";
 
 export const BtnBold = createButton(
   "Bold",

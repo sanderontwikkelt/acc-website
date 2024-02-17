@@ -47,7 +47,7 @@ export function CollapsibleButton({ children, value, setValue }: Props) {
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
-      className="h-full w-full space-y-2"
+      className="w-full space-y-2"
     >
       <div className="flex h-full items-center justify-between space-x-4">
         {children || (

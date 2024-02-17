@@ -18,14 +18,14 @@ const heading = ({
   buttonAlign,
 }: {
   children: string;
-  subtitle: string;
-  description: string;
+  subtitle?: string;
+  description?: string;
   as: "h2" | "h1";
   button: ButtonType;
-  subtitleTextAlign: Align;
-  descriptionTextAlign: Align;
-  headingTextAlign: Align;
-  buttonAlign: Align;
+  subtitleTextAlign?: Align;
+  descriptionTextAlign?: Align;
+  headingTextAlign?: Align;
+  buttonAlign?: Align;
 }) => {
   const Comp = as;
   return (

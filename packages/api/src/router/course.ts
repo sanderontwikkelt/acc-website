@@ -64,6 +64,7 @@ export const courseRouter = createTRPCRouter({
         with: {
           teachers: true,
           media: true,
+          seoMedia: true,
         },
       });
     }),

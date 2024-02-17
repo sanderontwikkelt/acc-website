@@ -4,7 +4,7 @@ import { index, unique } from "drizzle-orm/mysql-core";
 import { createdAt, id, nnInt, nnVarChar, updatedAt } from "../utils";
 import { mySqlTable } from "./_table";
 import { user } from "./auth";
-import { product } from "./product";
+import { product, productPaymentPlan, productVariant } from "./product";
 
 export const cartItem = mySqlTable(
   "cartItem",
@@ -13,6 +13,7 @@ export const cartItem = mySqlTable(
     cartId: nnInt("cart_id"),
     productId: nnInt("product_id"),
     productVariantId: nnInt("product_variant_id"),
+    productPaymentPlanId: nnInt("product_payment_plan_id"),
     quantity: nnInt("quantity"),
     createdAt,
     updatedAt,
@@ -21,6 +22,8 @@ export const cartItem = mySqlTable(
     return {
       indx0: index("cart_id").on(t.cartId),
       indx1: index("product_id").on(t.productId),
+      indx2: index("product_variant_id").on(t.productVariantId),
+      indx3: index("product_payment_plan_id").on(t.productPaymentPlanId),
     };
   },
 );
@@ -33,6 +36,14 @@ export const cartItemRelations = relations(cartItem, ({ one }) => ({
   product: one(product, {
     fields: [cartItem.productId],
     references: [product.id],
+  }),
+  productVariant: one(productVariant, {
+    fields: [cartItem.productVariantId],
+    references: [productVariant.id],
+  }),
+  productPaymentPlan: one(productPaymentPlan, {
+    fields: [cartItem.productPaymentPlanId],
+    references: [productPaymentPlan.id],
   }),
 }));
 
