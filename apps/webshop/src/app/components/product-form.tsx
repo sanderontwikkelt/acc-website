@@ -9,6 +9,7 @@ import RadioGroupForm from './radio-group';
 import { formatter } from '~/lib/utils';
 import { api } from 'src/trpc/react';
 import { useRouter } from 'next/navigation';
+import {useSession} from "next-auth/react"
 
 const getFrequency = (frequency: string) => {
     return {
@@ -35,8 +36,10 @@ const ProductForm = ({ id, variants, paymentPlans}: { id: number; variants: Prod
     const addCartItem = api.cartItem.createOwn.useMutation();
     const utils = api.useUtils();
 
-    const onSubmit = async () => {
-      if (variant) await addCartItem.mutateAsync({
+    const onSubmit = async (e) => {
+      e.preventDefault();
+      if (!variant) return null;
+      await addCartItem.mutateAsync({
         quantity,
         productId: id,
         productVariantId: variant,
@@ -47,9 +50,10 @@ const ProductForm = ({ id, variants, paymentPlans}: { id: number; variants: Prod
     }
 
   return (
-    <div>
+    <form onSubmit={onSubmit}>
        <Select
         onValueChange={(v) => setVariant(+v)}
+        required
         value={variant ? String(variant) : undefined}
                           >
                           <SelectTrigger className='mb-7 rounded-none border-main'>
@@ -71,9 +75,9 @@ const ProductForm = ({ id, variants, paymentPlans}: { id: number; variants: Prod
                         <p className='text-lg underline font-semibold mt-5'>{stock > 0 ? "Op voorraad" : "Volgeboekt"}</p>
                         <div className="flex mt-2 items-center">
                             <Counter max={stock} value={quantity} onChange={setQuantity} />
-                            <Button disabled={!(stock > 0) || !variant} className='ml-5 px-10 h-16' variant="success">Inschrijven</Button>
+                            <Button disabled={!(stock > 0) || !variant} className='ml-5 px-10 h-16' type="submit" onClick={onSubmit} variant="success">Inschrijven</Button>
                         </div>
-    </div>
+    </form>
   )
 }
 

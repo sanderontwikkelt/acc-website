@@ -7,7 +7,7 @@ import ProductForm from './product-form';
 import ProductImages from './product-images';
 
 const ProductDetails = ({ product }: { product: Product & {images: Media[]; variants: ProductVariant[]; paymentPlans: ProductPaymentPlan[] } }) => {
-    const {images, title, price, description, variants, paymentPlans } = product;
+    const {images, title, price, description, variants, paymentPlans, id } = product;
   return (
     <div>
         <h3>Details</h3>
@@ -22,7 +22,7 @@ const ProductDetails = ({ product }: { product: Product & {images: Media[]; vari
     <span className='text-base'>Excl BTW</span>
     </div>
     <p className='text-md md:text-lg mb-7' {...setHtml(description)} />
-    <ProductForm variants={variants} paymentPlans={paymentPlans} />
+    <ProductForm variants={variants} id={id} paymentPlans={paymentPlans} />
 </div>
         </div>
     </div>

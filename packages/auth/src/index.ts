@@ -2,6 +2,8 @@ import type { DefaultSession, NextAuthConfig } from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials"
+import { v4 as uuidv4 } from "uuid";
 
 import type { Permission } from "@acme/db";
 import { and, db, eq, schema, tableCreator } from "@acme/db";
@@ -57,44 +59,72 @@ const authConfig = {
   },
 
   secret: env.AUTH_SECRET,
+  session: {
+    strategy: 'jwt'
+  },
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
     }),
+    CredentialsProvider({
+      name: "anonymous",
+      credentials: {},
+      async authorize() {
+          const user = {
+            id: uuidv4(),
+            anonymous: true,
+            email: '',
+            name: 'Anoniem',
+          }
+          await db.insert(schema.user).values(user)
+          return {
+            ...user, 
+            image: "",
+            provider: "anonymous"
+          };
+      },
+  }),
   ],
   callbacks: {
-    session: async ({ session, user: { id: userId } }) => {
-      const userWithPermissions = await db.query.user.findFirst({
-        where: eq(schema.user.id, userId),
-        with: {
-          role: {
-            with: {
-              permissions: {
-                with: {
-                  permission: true,
-                },
-              },
-            },
-          },
-        },
-      });
-      const permissions = userWithPermissions?.role?.permissions.map(
-        ({ permission }) => permission,
-      );
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: userId,
-          permissions,
-        },
-      };
+    // session: async ({ session, user: { id: userId } }) => {
+    //   return { ...session, user: { name: 'asdf', id: 1, email: 'sdf' }}
+    //   const userWithPermissions = await db.query.user.findFirst({
+    //     where: eq(schema.user.id, userId),
+    //     with: {
+    //       role: {
+    //         with: {
+    //           permissions: {
+    //             with: {
+    //               permission: true,
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //   });
+    //   const permissions = userWithPermissions?.role?.permissions.map(
+    //     ({ permission }) => permission,
+    //   );
+    //   return {
+    //     ...session,
+    //     user: {
+    //       ...session.user,
+    //       id: userId,
+    //       permissions,
+    //     },
+    //   };
+    // },
+    async session({ session, token }) {
+      if (token?.user) session.user = token.user;
+      return session
     },
-    authorized(params) {
-      return !!params.auth?.user;
-    },
+    async jwt({ token, user }) {
+      if (user) token.user = user;
+      return token
+    }
+
   },
 } satisfies NextAuthConfig;
 

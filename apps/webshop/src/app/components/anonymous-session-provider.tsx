@@ -11,9 +11,7 @@ export const AnonymousSessionProvider = ({
 }) => {
     const {status} = useSession();
     useEffect(() => {
-        console.log({status})
         if (status === "unauthenticated") {
-            // login as anonymous
             // eslint-disable-next-line @typescript-eslint/no-floating-promises
             signIn("credentials");
         }
