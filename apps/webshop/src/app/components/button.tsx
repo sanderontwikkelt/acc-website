@@ -14,7 +14,7 @@ const buttonVariants = cva(
         accent: "text-main hover:bg-main bg-accent hover:text-white",
         main: "bg-main h-[75px] scale-100 px-12 text-lg text-white transition-transform duration-300 hover:scale-105",
         success:
-          "h-[75px] scale-100 bg-[#2ADC84] hover:bg-main px-12 text-lg text-white transition-transform duration-300 hover:scale-105",
+          "hover:bg-main h-[75px] scale-100 bg-[#2ADC84] px-12 text-lg text-white transition-transform duration-300 hover:scale-105",
         outline:
           "border-main hover:bg-main border-2 bg-transparent hover:text-white",
         link: "px-0 text-lg font-normal underline underline-offset-4",

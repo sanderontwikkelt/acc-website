@@ -2,12 +2,13 @@
 
 import React, { useState } from "react";
 
+import { Button, Checkbox, cn } from "@acme/ui";
+
+import type { Align, Button as ButtonType } from "~/lib/types";
 import { sendEmail } from "~/lib/sendEmail";
 import AnimatedCheck from "./animated-check";
 import { Input } from "./input";
-import type { Align, Button as ButtonType } from "~/lib/types";
 import { Textarea } from "./textarea";
-import { Button, Checkbox, cn } from "@acme/ui";
 
 const ContactForm = ({
   inputFirstNamePlaceholder,
@@ -39,7 +40,6 @@ const ContactForm = ({
   successMessage: string;
   button: ButtonType;
   buttonAlign: Align;
-
 }) => {
   const [submitted, setSubmitted] = useState(false);
 
@@ -60,13 +60,47 @@ const ContactForm = ({
         id="contact-form"
         className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2"
       >
-        <Input name="firstName" placeholder={inputFirstNamePlaceholder} label={inputFirstNameLabel} />
-        <Input name="lastName" placeholder={inputLastNamePlaceholder} label={inputLastNameLabel} />
-        <Input name="email" required placeholder={inputEmailPlaceholder} label={inputEmailLabel} />
-        <Input name="phoneNumber" required placeholder={inputPhoneNumberPlaceholder} label={inputPhoneNumberLabel} />
-        <Input name="companyName" required placeholder={inputPhoneNumberPlaceholder} label={inputPhoneNumberLabel} />
-        <Input name="occupation" required placeholder={inputPhoneNumberPlaceholder} label={inputPhoneNumberLabel} />
-        <Input name="subject" className="md:col-span-2" required placeholder={inputPhoneNumberPlaceholder} label={inputPhoneNumberLabel} />
+        <Input
+          name="firstName"
+          placeholder={inputFirstNamePlaceholder}
+          label={inputFirstNameLabel}
+        />
+        <Input
+          name="lastName"
+          placeholder={inputLastNamePlaceholder}
+          label={inputLastNameLabel}
+        />
+        <Input
+          name="email"
+          required
+          placeholder={inputEmailPlaceholder}
+          label={inputEmailLabel}
+        />
+        <Input
+          name="phoneNumber"
+          required
+          placeholder={inputPhoneNumberPlaceholder}
+          label={inputPhoneNumberLabel}
+        />
+        <Input
+          name="companyName"
+          required
+          placeholder={inputPhoneNumberPlaceholder}
+          label={inputPhoneNumberLabel}
+        />
+        <Input
+          name="occupation"
+          required
+          placeholder={inputPhoneNumberPlaceholder}
+          label={inputPhoneNumberLabel}
+        />
+        <Input
+          name="subject"
+          className="md:col-span-2"
+          required
+          placeholder={inputPhoneNumberPlaceholder}
+          label={inputPhoneNumberLabel}
+        />
         <Textarea
           className="md:col-span-2"
           name="message"
@@ -75,27 +109,25 @@ const ContactForm = ({
           label={inputMessageLabel}
         />
         <div className="flex items-center">
-        <Checkbox name="consent" id="consent" required />
-        <label htmlFor="content">
-          {inputConsentLabel}
-        </label>
+          <Checkbox name="consent" id="consent" required />
+          <label htmlFor="content">{inputConsentLabel}</label>
         </div>
         {!!button?.title && (
-        <Button
-          className={cn(
-            "mt-4 w-min",
-            buttonAlign === "center"
-              ? "mx-auto"
-              : buttonAlign === "right"
-                ? "ml-auto"
-                : "",
-          )}
-          variant={button.variant as 'link'}
-          size={button.size as 'lg'}
-        >
-          {button.title}
-        </Button>
-      )}
+          <Button
+            className={cn(
+              "mt-4 w-min",
+              buttonAlign === "center"
+                ? "mx-auto"
+                : buttonAlign === "right"
+                  ? "ml-auto"
+                  : "",
+            )}
+            variant={button.variant as "link"}
+            size={button.size as "lg"}
+          >
+            {button.title}
+          </Button>
+        )}
       </form>
     </div>
   );

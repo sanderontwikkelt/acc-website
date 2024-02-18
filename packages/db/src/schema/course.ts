@@ -1,11 +1,19 @@
 import { relations } from "drizzle-orm";
 import { boolean, index, int, json, text } from "drizzle-orm/mysql-core";
 
-import { createdAt, id, nnInt, nnText, nnVarChar, updatedAt, varChar } from "../utils";
+import { seo } from ".";
+import {
+  createdAt,
+  id,
+  nnInt,
+  nnText,
+  nnVarChar,
+  updatedAt,
+  varChar,
+} from "../utils";
 import { mySqlTable } from "./_table";
 import { media } from "./media";
 import { teacher } from "./teacher";
-import { seo } from ".";
 
 export const course = mySqlTable(
   "course",

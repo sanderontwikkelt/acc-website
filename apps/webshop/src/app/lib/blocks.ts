@@ -1,5 +1,6 @@
 import accordion from "~/components/blocks/accordion";
 import card from "~/components/blocks/card";
+import contactForm from "~/components/blocks/contact-form";
 import content from "~/components/blocks/content";
 import contentImages from "~/components/blocks/contentImages";
 import ctaContent from "~/components/blocks/cta-content";
@@ -11,7 +12,6 @@ import productDescription from "~/components/blocks/product-description";
 import testimonials from "~/components/blocks/testimonials";
 import textColumns from "~/components/blocks/text-columns";
 import videoIframe from "~/components/blocks/video-iframe";
-import contactForm from "~/components/blocks/contact-form";
 
 export interface Block {
   fields: any;

@@ -4,18 +4,12 @@ import type { z } from "zod";
 import React, { useEffect, useState, useTransition } from "react";
 import { notFound, useParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  ClipboardList,
-  PlusIcon,
-  SaveIcon,
-  Trash,
-} from "lucide-react";
+import { ClipboardList, PlusIcon, SaveIcon, Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
 import type { Media } from "@acme/db";
 import { Button, Input } from "@acme/ui";
-
 import { teacherFormSchema } from "@acme/validators";
 
 import { AlertModal } from "~/components/modals/alert-modal";
@@ -30,10 +24,10 @@ import {
 } from "~/components/ui/form";
 import { Heading } from "~/components/ui/heading";
 import RichText from "~/components/ui/rich-text";
+import SingleImageSelect from "~/components/ui/single-image-select";
 import { useMutation } from "~/hooks/use-mutation";
 import { useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
-import SingleImageSelect from "~/components/ui/single-image-select";
 
 type TeacherFormValues = z.infer<typeof teacherFormSchema>;
 
@@ -77,10 +71,10 @@ const TeacherDetailPage = () => {
       form.reset(teacher);
       if (teacher.media) {
         setImage({
-                ...teacher.media,
-                createdAt: new Date(teacher.media.createdAt),
-                updatedAt: new Date(teacher.media.updatedAt),
-              } as Media)
+          ...teacher.media,
+          createdAt: new Date(teacher.media.createdAt),
+          updatedAt: new Date(teacher.media.updatedAt),
+        } as Media);
       }
     }
   }, [teacher, form]);
@@ -142,43 +136,42 @@ const TeacherDetailPage = () => {
               </CardHeader>
               <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Naam</FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={loading}
+                            placeholder="Docent naam"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Titel</FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={loading}
+                            placeholder="Docent titel"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Naam</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={loading}
-                          placeholder="Docent naam"
-                          {...field}
-                          />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                  />
-                <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Titel</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={loading}
-                          placeholder="Docent titel"
-                          {...field}
-                          />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                  />
-                  </div>
-               
                 <FormField
                   control={form.control}
                   name="mediaId"
@@ -199,7 +192,7 @@ const TeacherDetailPage = () => {
                   )}
                 />
 
-<FormField
+                <FormField
                   control={form.control}
                   name="description"
                   render={({ field }) => (

@@ -13,16 +13,14 @@ export async function GET(req: Request) {
         paymentPlans: true,
         images: {
           with: {
-            media: true
-          }
-        }
+            media: true,
+          },
+        },
       },
       where:
         mode === "builder"
           ? eq(schema.product.slug, slug)
-          : and(
-              eq(schema.product.slug, slug),
-            ),
+          : and(eq(schema.product.slug, slug)),
     });
 
     return NextResponse.json(product);

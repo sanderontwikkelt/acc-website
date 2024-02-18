@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
 
-import DragList from "./drag-list";
+import type { ButtonValue } from "~/app/(dashboard)/pages/[pageId]/builder/components/collapsable-button";
 import type { KV } from "~/app/(dashboard)/pages/[pageId]/builder/components/collapsable-kv";
 import { CollapsibleKV } from "~/app/(dashboard)/pages/[pageId]/builder/components/collapsable-kv";
-import type { ButtonValue } from "~/app/(dashboard)/pages/[pageId]/builder/components/collapsable-button";
+import DragList from "./drag-list";
 
 const DynamicKVList = ({
   values,
@@ -32,7 +32,7 @@ const DynamicKVList = ({
 
   return (
     <DragList
-      values={values as Record<string, string>[] || []}
+      values={(values as Record<string, string>[]) || []}
       onChange={onChange}
       dragItem={dragItem}
       root

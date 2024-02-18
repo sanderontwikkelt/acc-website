@@ -9,7 +9,7 @@ import Breadcrumbs from "../breadcrumbs";
 import NextImage from "../NextImage";
 import Section from "../section";
 
-export type ContentVariant = "side-image" | "full-width" | "blog" | 'default';
+export type ContentVariant = "side-image" | "full-width" | "blog" | "default";
 
 const hero = ({
   title,
@@ -36,12 +36,13 @@ const hero = ({
   const isDefault = variant === "default";
   const dark = background === "#0F1012";
 
-  if (isDefault) return <article className="w-full py-[10.625rem]">
-    <h1
-              {...setHtml(title)}
-            />
-            <p className="text-4xl" {...setHtml(description)} />
-  </article>
+  if (isDefault)
+    return (
+      <article className="w-full py-[10.625rem]">
+        <h1 {...setHtml(title)} />
+        <p className="text-4xl" {...setHtml(description)} />
+      </article>
+    );
 
   return (
     <>
@@ -72,9 +73,11 @@ const hero = ({
               {...setHtml(title)}
               className={isSideImage ? "" : "text-6xl font-normal"}
             />
-            {isSideImage ? icon ? (
-              <NextImage image={icon} alt="Hero icon" />
-            ) : null : isBlog ? null : (
+            {isSideImage ? (
+              icon ? (
+                <NextImage image={icon} alt="Hero icon" />
+              ) : null
+            ) : isBlog ? null : (
               <Link href="#next-section">
                 <svg
                   width="51"

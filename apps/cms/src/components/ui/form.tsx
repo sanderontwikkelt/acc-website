@@ -161,7 +161,9 @@ const FormMessage = React.forwardRef<
       className={cn("text-sm font-medium text-destructive", className)}
       {...props}
     >
-      {body === 'undefined' ? 'Dit veld is niet correct' : body || "Dit veld is niet correct"}
+      {body === "undefined"
+        ? "Dit veld is niet correct"
+        : body || "Dit veld is niet correct"}
     </p>
   );
 });

@@ -1,14 +1,14 @@
- 
 import React from "react";
 import Link from "next/link";
 
-import { setHtml } from "~/lib/setHtml";
+import type { Media, Teacher } from "@acme/db";
+
 import type { Button as ButtonType } from "~/lib/types";
+import { setHtml } from "~/lib/setHtml";
 import Accordion from "./accordion";
+import VideoIframe from "./blocks/video-iframe";
 import { Button } from "./button";
 import Expandable from "./expandable";
-import VideoIframe from "./blocks/video-iframe";
-import type { Media, Teacher } from "@acme/db";
 import TeacherDetails from "./teacher";
 
 const Reviews = () => (
@@ -74,10 +74,10 @@ const CourseDetails = ({
   buttons: ButtonType[];
 }) => {
   const sections = [
-    { title: 'Omschrijving', id: "description" },
-    { title: 'Praktische informatie', id: "information" },
-    { title: 'Docenten', id: "teachers" },
-    { title: 'Reviews', id: "reviews" },
+    { title: "Omschrijving", id: "description" },
+    { title: "Praktische informatie", id: "information" },
+    { title: "Docenten", id: "teachers" },
+    { title: "Reviews", id: "reviews" },
     { title: "FAQ", id: "faq" },
   ];
   return (
@@ -86,7 +86,7 @@ const CourseDetails = ({
         {sections.map(({ title, id }) => (
           <Link
             href={`#${id}`}
-            className="text-md block h-11 md:text-lg whitespace-nowrap"
+            className="text-md block h-11 whitespace-nowrap md:text-lg"
             key={id}
           >
             {title}
@@ -94,7 +94,13 @@ const CourseDetails = ({
         ))}
         <div className="mt-12 space-y-2">
           {buttons.map((button) => (
-            <Button className="w-full" key={button.href} {...button} variant={button.variant as 'main'} size={button.size as 'lg' || 'lg'}>
+            <Button
+              className="w-full"
+              key={button.href}
+              {...button}
+              variant={button.variant as "main"}
+              size={(button.size as "lg") || "lg"}
+            >
               {button.title}
             </Button>
           ))}
@@ -123,7 +129,13 @@ const CourseDetails = ({
         <div id={sections[2].id}>
           <h3 className="mb-6">{sections[2].title}</h3>
           <div className="space-y-8">
-            {teachers.map(({id, image, ...teacher}) => <TeacherDetails key={id} {...teacher} image={{...image, src: image.url}} />)}
+            {teachers.map(({ id, image, ...teacher }) => (
+              <TeacherDetails
+                key={id}
+                {...teacher}
+                image={{ ...image, src: image.url }}
+              />
+            ))}
           </div>
         </div>
         <div id={sections[3].id}>

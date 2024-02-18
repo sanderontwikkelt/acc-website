@@ -19,18 +19,18 @@ export const cartItemRouter = createTRPCRouter({
   createOwn: protectedProcedure
     .input(ownCartItemFormSchema)
     .mutation(async ({ ctx, input }) => {
-      console.log(9, ctx.session)
+      console.log(9, ctx.session);
       if (!ctx.session) return new Error("UNAUTHENTICATED");
       let cartId: number;
       const cart = await ctx.db.query.cart.findFirst({
-        where: eq(schema.cart.userId, ctx.session.user.id)
-      })
+        where: eq(schema.cart.userId, ctx.session.user.id),
+      });
       if (cart) {
         cartId = cart.id;
       } else {
         const insertCart = await ctx.db.insert(schema.cart).values({
           userId: ctx.session.user.id,
-        })
+        });
         cartId = +insertCart.insertId;
       }
       return ctx.db.insert(schema.cartItem).values({

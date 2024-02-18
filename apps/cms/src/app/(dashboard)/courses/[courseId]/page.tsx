@@ -1,6 +1,5 @@
 "use client";
 
-import sanitizeHtml from "sanitize-html";
 import type { z } from "zod";
 import React, { useEffect, useMemo, useState, useTransition } from "react";
 import { notFound, useParams } from "next/navigation";
@@ -19,15 +18,19 @@ import {
   Workflow,
 } from "lucide-react";
 import { useForm } from "react-hook-form";
+import sanitizeHtml from "sanitize-html";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
 import type { Media } from "@acme/db";
 import { Button, Input, Textarea } from "@acme/ui";
-
 import { courseFormSchema } from "@acme/validators";
 
+import type { ButtonValue } from "../../pages/[pageId]/builder/components/collapsable-button";
 import { AlertModal } from "~/components/modals/alert-modal";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import DynamicButtonList from "~/components/ui/dynamic-button-list";
+import DynamicKVList from "~/components/ui/dynamic-kv-list";
+import DynamicSelect from "~/components/ui/dynamic-select";
 import {
   Form,
   FormControl,
@@ -36,18 +39,14 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
+import FullRichText from "~/components/ui/full-rich-text";
 import { Heading } from "~/components/ui/heading";
 import RichText from "~/components/ui/rich-text";
+import SingleImageSelect from "~/components/ui/single-image-select";
 import { useMutation } from "~/hooks/use-mutation";
 import { useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
-import SingleImageSelect from "~/components/ui/single-image-select";
-import FullRichText from "~/components/ui/full-rich-text";
-import DynamicKVList from "~/components/ui/dynamic-kv-list";
-import DynamicSelect from "~/components/ui/dynamic-select";
-import DynamicButtonList from "~/components/ui/dynamic-button-list";
-import { CollapsibleButton  } from "../../pages/[pageId]/builder/components/collapsable-button";
-import type {ButtonValue} from "../../pages/[pageId]/builder/components/collapsable-button";
+import { CollapsibleButton } from "../../pages/[pageId]/builder/components/collapsable-button";
 
 type CourseFormValues = z.infer<typeof courseFormSchema>;
 
@@ -97,27 +96,30 @@ const CourseDetailPage = () => {
       });
       if (course.media) {
         setImage({
-                ...course.media,
-                createdAt: new Date(course.media.createdAt),
-                updatedAt: new Date(course.media.updatedAt),
-              } as Media)
+          ...course.media,
+          createdAt: new Date(course.media.createdAt),
+          updatedAt: new Date(course.media.updatedAt),
+        } as Media);
       }
       if (course.seoMedia) {
         setSeoImage({
-                ...course.seoMedia,
-                createdAt: new Date(course.seoMedia.createdAt),
-                updatedAt: new Date(course.seoMedia.updatedAt),
-              } as Media)
+          ...course.seoMedia,
+          createdAt: new Date(course.seoMedia.createdAt),
+          updatedAt: new Date(course.seoMedia.updatedAt),
+        } as Media);
       }
       if (course.teachers) {
-        form.setValue('teacherIds', course.teachers.map(({teacherId}) => teacherId))
+        form.setValue(
+          "teacherIds",
+          course.teachers.map(({ teacherId }) => teacherId),
+        );
       }
     }
   }, [course, form]);
 
   const onSubmit = async (data: CourseFormValues) => {
-    if (data.description) data.description = sanitizeHtml(data.description)
-    if (data.body) data.body = sanitizeHtml(data.body)
+    if (data.description) data.description = sanitizeHtml(data.description);
+    if (data.body) data.body = sanitizeHtml(data.body);
     startTransition(async () => {
       if (isDetails && canUpdate) {
         await updateCourse({ ...data, id: +courseId });
@@ -141,11 +143,11 @@ const CourseDetailPage = () => {
     [teachers],
   );
 
-const title = form.watch('title')
+  const title = form.watch("title");
 
-useEffect(() => {
-  form.setValue('slug', title.toLocaleLowerCase().replaceAll(" ", "-"))
-}, [title, form])
+  useEffect(() => {
+    form.setValue("slug", title.toLocaleLowerCase().replaceAll(" ", "-"));
+  }, [title, form]);
 
   return (
     <>
@@ -193,7 +195,6 @@ useEffect(() => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
-
                 <FormField
                   control={form.control}
                   name="title"
@@ -205,12 +206,12 @@ useEffect(() => {
                           disabled={loading}
                           placeholder="Cursus titel"
                           {...field}
-                          />
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
-                  />
+                />
                 <FormField
                   control={form.control}
                   name="description"
@@ -228,7 +229,7 @@ useEffect(() => {
                     </FormItem>
                   )}
                 />
-               <FormField
+                <FormField
                   control={form.control}
                   name="mediaId"
                   render={({ field }) => (
@@ -257,23 +258,19 @@ useEffect(() => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
-<FormField
+                <FormField
                   control={form.control}
                   name="body"
                   render={({ field }) => (
                     <FormItem className="md:col-span-2">
                       <FormControl>
-                        <FullRichText
-                          disabled={loading}
-                          id="body"
-                          {...field}
-                        />
+                        <FullRichText disabled={loading} id="body" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                 <FormField
+                <FormField
                   control={form.control}
                   name="videoLink"
                   render={({ field }) => (
@@ -284,12 +281,12 @@ useEffect(() => {
                           disabled={loading}
                           placeholder="Video link"
                           {...field}
-                          />
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
-                  />
+                />
               </CardContent>
             </Card>
             <Card>
@@ -300,18 +297,16 @@ useEffect(() => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="grid grid-cols-1 gap-4">
-                 <FormField
+                <FormField
                   control={form.control}
                   name="infoItems"
                   render={({ field }) => (
                     <FormItem className="">
                       <FormControl>
-                      <DynamicKVList
-                                  values={field.value?.length ? field.value : []}
-                                  onChange={(list) =>
-                                    field.onChange(list)
-                                  }
-                                />
+                        <DynamicKVList
+                          values={field.value?.length ? field.value : []}
+                          onChange={(list) => field.onChange(list)}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -319,62 +314,70 @@ useEffect(() => {
                 />
               </CardContent>
             </Card>
-<div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <GraduationCap className="mr-2 w-5" />
+                    Docenten
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="teacherIds"
+                    render={({ field }) => (
+                      <FormItem className="">
+                        <FormControl>
+                          <DynamicSelect
+                            values={
+                              field.value?.length
+                                ? field.value.map((key) => String(key))
+                                : []
+                            }
+                            onChange={(newItems) =>
+                              field.onChange(newItems.map((v) => +v))
+                            }
+                            items={teacherOptions}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <ExternalLink className="mr-2 w-5" />
+                    Knoppen
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="grid grid-cols-1 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="buttons"
+                    render={({ field }) => (
+                      <FormItem className="">
+                        <FormControl>
+                          <DynamicButtonList
+                            values={
+                              (field.value?.length
+                                ? field.value
+                                : []) as ButtonValue[]
+                            }
+                            onChange={(list) => field.onChange(list)}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
+            </div>
             <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <GraduationCap className="mr-2 w-5" />
-                  Docenten
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="grid grid-cols-1 gap-4">
-                 <FormField
-                  control={form.control}
-                  name="teacherIds"
-                  render={({ field }) => (
-                    <FormItem className="">
-                      <FormControl>
-                    <DynamicSelect
-      values={field.value?.length ? field.value.map((key) => String(key)) : []}
-      onChange={(newItems) => field.onChange(newItems.map((v) => +v))}
-      items={teacherOptions}
-    />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <ExternalLink className="mr-2 w-5" />
-                  Knoppen
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="grid grid-cols-1 gap-4">
-                 <FormField
-                  control={form.control}
-                  name="buttons"
-                  render={({ field }) => (
-                    <FormItem className="">
-                      <FormControl>
-    <DynamicButtonList
-                                  values={(field.value?.length ? field.value : []) as ButtonValue[]}
-                                  onChange={(list) =>
-                                    field.onChange(list)
-                                  }
-                                />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </CardContent>
-            </Card>
-          </div>
-          <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <FileQuestionIcon className="mr-2 w-5" />
@@ -382,18 +385,16 @@ useEffect(() => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="grid grid-cols-1 gap-4">
-                 <FormField
+                <FormField
                   control={form.control}
                   name="faqItems"
                   render={({ field }) => (
                     <FormItem className="">
                       <FormControl>
-                      <DynamicKVList
-                                  values={field.value?.length ? field.value : []}
-                                  onChange={(list) =>
-                                    field.onChange(list)
-                                  }
-                                />
+                        <DynamicKVList
+                          values={field.value?.length ? field.value : []}
+                          onChange={(list) => field.onChange(list)}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -403,133 +404,132 @@ useEffect(() => {
             </Card>
           </div>
           <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Workflow className="mr-2 w-5" />
-                  CTA
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="grid grid-cols-1 gap-4">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Workflow className="mr-2 w-5" />
+                CTA
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 gap-4">
               <FormField
-                  control={form.control}
-                  name="ctaTitle"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Titel</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={loading}
-                          placeholder="Cursus cta titel"
-                          {...field}
-                          />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                  />
+                control={form.control}
+                name="ctaTitle"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Titel</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder="Cursus cta titel"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
-                  control={form.control}
-                  name="ctaButton"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Link</FormLabel>
-                      <FormControl>
+                control={form.control}
+                name="ctaButton"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Link</FormLabel>
+                    <FormControl>
                       <CollapsibleButton
-          value={(field.value || {}) as ButtonValue}
-          setValue={field.onChange}
-        >
-          {null}
-        </CollapsibleButton>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                  />
-                 
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <SearchCode className="mr-2 w-5" />
-                  SEO
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <FormField
-                  control={form.control}
-                  name="seoTitle"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>SEO titel</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={loading}
-                          placeholder="SEO titel"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                        value={(field.value || {}) as ButtonValue}
+                        setValue={field.onChange}
+                      >
+                        {null}
+                      </CollapsibleButton>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <SearchCode className="mr-2 w-5" />
+                SEO
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="seoTitle"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>SEO titel</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder="SEO titel"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-                <FormField
-                  control={form.control}
-                  name="slug"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Slug</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={loading}
-                          placeholder="Item slug"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="seoDescription"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>SEO beschrijving</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          disabled={loading}
-                          placeholder="SEO beschrijving"
-                          className="h-36"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="seoMediaId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>SEO afbeelding</FormLabel>
-                      <FormControl>
-                        <SingleImageSelect
-                          value={seoImage}
-                          onChange={(media) => {
-                            setSeoImage(media);
-                            field.onChange(media.id);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </CardContent>
-            </Card>
+              <FormField
+                control={form.control}
+                name="slug"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Slug</FormLabel>
+                    <FormControl>
+                      <Input
+                        disabled={loading}
+                        placeholder="Item slug"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="seoDescription"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>SEO beschrijving</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        disabled={loading}
+                        placeholder="SEO beschrijving"
+                        className="h-36"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="seoMediaId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>SEO afbeelding</FormLabel>
+                    <FormControl>
+                      <SingleImageSelect
+                        value={seoImage}
+                        onChange={(media) => {
+                          setSeoImage(media);
+                          field.onChange(media.id);
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
         </form>
       </Form>
       <AlertModal

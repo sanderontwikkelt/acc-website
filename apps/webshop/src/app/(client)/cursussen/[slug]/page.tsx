@@ -1,16 +1,21 @@
+import { notFound } from "next/navigation";
+
+import { Course, db, Media, schema, Teacher } from "@acme/db";
+
+import type { Button as ButtonType } from "~/lib/types";
+import Accordion from "~/components/blocks/accordion";
+import Heading from "~/components/blocks/heading";
+import Hero from "~/components/blocks/hero";
+import CourseDetails from "~/components/course";
+import Section from "~/components/section";
+import ServerWrapper from "~/components/server-wrapper";
 import { WEB_URL } from "~/lib/constants";
 import { metadata } from "../../../layout";
-import { Course, Media, Teacher, db, schema } from "@acme/db";
-import { notFound } from "next/navigation";
-import CourseDetails from "~/components/course";
-import type { Button as ButtonType } from "~/lib/types";
-import ServerWrapper from "~/components/server-wrapper";
-import Section from "~/components/section";
-import Accordion from "~/components/blocks/accordion";
-import Hero from "~/components/blocks/hero";
-import Heading from "~/components/blocks/heading";
 
-interface ListItem {title: string; description: string}
+interface ListItem {
+  title: string;
+  description: string;
+}
 
 async function getCourse(id: string) {
   const tags = ["course/" + id];
@@ -24,7 +29,12 @@ async function getCourse(id: string) {
       throw new Error("Failed to fetch");
     }
 
-    return res.json() as Promise<Course & { media: Media, teachers: {teacher:Teacher & { media: Media}}[] }>;
+    return res.json() as Promise<
+      Course & {
+        media: Media;
+        teachers: { teacher: Teacher & { media: Media } }[];
+      }
+    >;
   } catch (e) {
     console.log({ e, url });
   }
@@ -35,12 +45,12 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }) {
-  const {slug} = params;
+  const { slug } = params;
   const course = await getCourse(slug);
   if (!course) return metadata;
 
-  const title = course.seoTitle || course.title
-  const description = course.seoDescription || course.description
+  const title = course.seoTitle || course.title;
+  const description = course.seoDescription || course.description;
 
   return {
     metadataBase: new URL(WEB_URL),
@@ -83,34 +93,55 @@ export default async function DynamicPage({
   const course = await getCourse(params.slug);
   if (!course?.id) return notFound();
 
-return <ServerWrapper>
-  <Section id="course-hero" className="bg-accent">
-    <Hero
-    title={course.title}
-    description={course.description}
-    image={{...course.media, src: course.media.url}}
-    variant='blog'
-    breadcrumbs={[
-      { title: 'Home', href: '/' },
-      { title: course.title, href: '#', active: true },
-    ]}
-    />
-    </Section>
-  <Section id="course-details">
-
-  <CourseDetails
-  description={course.body as string}
-  videoLink={course.videoLink}
-  infoItems={course.infoItems as ListItem[]}
-  teachers={course.teachers?.map(({teacher}) => ({ ...teacher, image: teacher.media})) || []}
-  buttons={course.buttons as ButtonType[]}
-  />
-  </Section>
- {!!(course.faqItems as ListItem[])?.length && <Section id="faq">
-  <Accordion title="Frequently Asked Questions" description="" list={course.faqItems as ListItem[]} />
-  </Section>}
- {!!course.ctaTitle && <Section id="cta" className="bg-accent">
-  <Heading button={course.ctaButton as ButtonType} as='h2' headingTextAlign="center" buttonAlign="center">{course.ctaTitle}</Heading>
-  </Section>}
-  </ServerWrapper>;
+  return (
+    <ServerWrapper>
+      <Section id="course-hero" className="bg-accent">
+        <Hero
+          title={course.title}
+          description={course.description}
+          image={{ ...course.media, src: course.media.url }}
+          variant="blog"
+          breadcrumbs={[
+            { title: "Home", href: "/" },
+            { title: course.title, href: "#", active: true },
+          ]}
+        />
+      </Section>
+      <Section id="course-details">
+        <CourseDetails
+          description={course.body as string}
+          videoLink={course.videoLink}
+          infoItems={course.infoItems as ListItem[]}
+          teachers={
+            course.teachers?.map(({ teacher }) => ({
+              ...teacher,
+              image: teacher.media,
+            })) || []
+          }
+          buttons={course.buttons as ButtonType[]}
+        />
+      </Section>
+      {!!(course.faqItems as ListItem[])?.length && (
+        <Section id="faq">
+          <Accordion
+            title="Frequently Asked Questions"
+            description=""
+            list={course.faqItems as ListItem[]}
+          />
+        </Section>
+      )}
+      {!!course.ctaTitle && (
+        <Section id="cta" className="bg-accent">
+          <Heading
+            button={course.ctaButton as ButtonType}
+            as="h2"
+            headingTextAlign="center"
+            buttonAlign="center"
+          >
+            {course.ctaTitle}
+          </Heading>
+        </Section>
+      )}
+    </ServerWrapper>
+  );
 }

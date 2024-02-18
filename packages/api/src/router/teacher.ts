@@ -7,9 +7,7 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
 export const teacherRouter = createTRPCRouter({
   count: publicProcedure.query(({ ctx }) => {
-    return ctx.db
-      .select({ count: sql<number>`count(*)` })
-      .from(schema.teacher);
+    return ctx.db.select({ count: sql<number>`count(*)` }).from(schema.teacher);
   }),
   all: publicProcedure.query(({ ctx }) => {
     return ctx.db.query.teacher.findMany({
@@ -53,8 +51,8 @@ export const teacherRouter = createTRPCRouter({
       return ctx.db.query.teacher.findFirst({
         where: eq(schema.teacher.id, input.id),
         with: {
-          media: true
-        }
+          media: true,
+        },
       });
     }),
 
@@ -72,8 +70,6 @@ export const teacherRouter = createTRPCRouter({
         .where(eq(schema.teacher.id, +id));
     }),
   delete: protectedProcedure.input(z.number()).mutation(({ ctx, input }) => {
-    return ctx.db
-      .delete(schema.teacher)
-      .where(eq(schema.teacher.id, input));
+    return ctx.db.delete(schema.teacher).where(eq(schema.teacher.id, input));
   }),
 });

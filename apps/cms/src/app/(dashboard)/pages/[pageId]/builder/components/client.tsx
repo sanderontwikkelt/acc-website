@@ -74,16 +74,7 @@ const PageEditorClient = ({
         header: state.header || header,
         footer: state.footer || footer,
         blocks: state.blocks.map(
-          ({
-            uid,
-            id,
-            fields,
-            name,
-            style,
-            innerStyle,
-            maxWidth,
-            label,
-          }) => ({
+          ({ uid, id, fields, name, style, innerStyle, maxWidth, label }) => ({
             label,
             id,
             uid,

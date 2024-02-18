@@ -1,11 +1,11 @@
 import { relations } from "drizzle-orm";
 import { index, int, text } from "drizzle-orm/mysql-core";
 
+import { seo } from ".";
 import { createdAt, id, nnInt, nnVarChar, updatedAt, varChar } from "../utils";
 import { mySqlTable } from "./_table";
 import { user } from "./auth";
 import { media } from "./media";
-import { seo } from ".";
 
 export const library = mySqlTable(
   "library",
@@ -63,7 +63,6 @@ export const relatedLibraryRelations = relations(relatedLibrary, ({ one }) => ({
     relationName: "relatedLibrary",
   }),
 }));
-
 
 export const libraryCategory = mySqlTable("libraryCategory", {
   id,

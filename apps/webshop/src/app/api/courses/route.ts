@@ -13,20 +13,17 @@ export async function GET(req: Request) {
           with: {
             teacher: {
               with: {
-                media: true
-              }
-            }
-          }
+                media: true,
+              },
+            },
+          },
         },
-        media: true
+        media: true,
       },
       where:
         mode === "builder"
           ? eq(schema.course.slug, slug)
-          : and(
-              eq(schema.course.slug, slug),
-              ne(schema.course.concept, true),
-            ),
+          : and(eq(schema.course.slug, slug), ne(schema.course.concept, true)),
     });
 
     return NextResponse.json(course);

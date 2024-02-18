@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
 
-import DragList from "./drag-list";
 import type { PaymentPlan } from "./collapsable-payment-plan";
 import { CollapsiblePaymentPlan } from "./collapsable-payment-plan";
+import DragList from "./drag-list";
 
 const DynamicPaymentPlanList = ({
   values,

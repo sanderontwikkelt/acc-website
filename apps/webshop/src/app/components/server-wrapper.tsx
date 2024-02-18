@@ -46,9 +46,7 @@ const ServerWrapper = async ({ children }: { children: ReactNode }) => {
   return (
     <>
       <Header header={header} />
-      <main className="min-h-screen w-full">
-        {children}
-      </main>
+      <main className="min-h-screen w-full">{children}</main>
       <Footer footer={footer} />
     </>
   );

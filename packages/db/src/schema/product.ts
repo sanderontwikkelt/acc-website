@@ -12,7 +12,7 @@ export const product = mySqlTable(
     slug: nnVarChar("slug"),
     title: nnVarChar("title"),
     description: text("description").notNull(),
-    seoTitle: varChar("seo_title"), 
+    seoTitle: varChar("seo_title"),
     seoDescription: text("seo_description"),
     categoryId: int("category_id"),
     price: double("price").notNull(),
@@ -118,7 +118,6 @@ export const productCategoryRelations = relations(
   }),
 );
 
-
 export const productPaymentPlan = mySqlTable(
   "productPaymentPlan",
   {
@@ -138,9 +137,12 @@ export const productPaymentPlan = mySqlTable(
   },
 );
 
-export const productPaymentPlanRelations = relations(productPaymentPlan, ({ one }) => ({
-  product: one(product, {
-    fields: [productPaymentPlan.productId],
-    references: [product.id],
+export const productPaymentPlanRelations = relations(
+  productPaymentPlan,
+  ({ one }) => ({
+    product: one(product, {
+      fields: [productPaymentPlan.productId],
+      references: [product.id],
+    }),
   }),
-}));
+);

@@ -2,14 +2,15 @@
 
 import React, { useState } from "react";
 
-import { sendEmail } from "~/lib/sendEmail";
-import type { Align, Button as ButtonType } from "~/lib/types";
 import { Checkbox, cn } from "@acme/ui";
-import { Input } from "../input";
-import { Textarea } from "../textarea";
+
+import type { Align, Button as ButtonType } from "~/lib/types";
+import { sendEmail } from "~/lib/sendEmail";
+import { setHtml } from "~/lib/setHtml";
 import AnimatedCheck from "../animated-check";
 import { Button } from "../button";
-import { setHtml } from "~/lib/setHtml";
+import { Input } from "../input";
+import { Textarea } from "../textarea";
 
 const ContactForm = ({
   inputFirstNamePlaceholder,
@@ -41,7 +42,6 @@ const ContactForm = ({
   successMessage: string;
   button: ButtonType;
   buttonAlign: Align;
-
 }) => {
   const [submitted, setSubmitted] = useState(false);
 
@@ -60,47 +60,82 @@ const ContactForm = ({
         action={sendEmail}
         onSubmit={onSubmit}
         id="contact-form"
-        className="space-y-8 flex flex-col"
+        className="flex flex-col space-y-8"
       >
-        <div 
-        className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2"
-  
->
-        <Input name="firstName" placeholder={inputFirstNamePlaceholder} label={inputFirstNameLabel} />
-        <Input name="lastName" placeholder={inputLastNamePlaceholder} label={inputLastNameLabel} />
-        <Input name="email" required placeholder={inputEmailPlaceholder} label={inputEmailLabel} />
-        <Input name="phoneNumber" required placeholder={inputPhoneNumberPlaceholder} label={inputPhoneNumberLabel} />
-        <Input name="companyName" required placeholder={inputPhoneNumberPlaceholder} label={inputPhoneNumberLabel} />
-        <Input name="occupation" required placeholder={inputPhoneNumberPlaceholder} label={inputPhoneNumberLabel} />
-        <Input name="subject" className="md:col-span-2" required placeholder={inputPhoneNumberPlaceholder} label={inputPhoneNumberLabel} />
-        <Textarea
-          className="md:col-span-2"
-          name="message"
-          required
-          placeholder={inputMessagePlaceholder}
-          label={inputMessageLabel}
+        <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2">
+          <Input
+            name="firstName"
+            placeholder={inputFirstNamePlaceholder}
+            label={inputFirstNameLabel}
           />
-          </div>
-        <div className="flex items-center w-full">
-        <Checkbox name="consent" id="consent" required />
-        <label htmlFor="content" className="ml-2 w-full"  {...setHtml(inputConsentLabel)} />
+          <Input
+            name="lastName"
+            placeholder={inputLastNamePlaceholder}
+            label={inputLastNameLabel}
+          />
+          <Input
+            name="email"
+            required
+            placeholder={inputEmailPlaceholder}
+            label={inputEmailLabel}
+          />
+          <Input
+            name="phoneNumber"
+            required
+            placeholder={inputPhoneNumberPlaceholder}
+            label={inputPhoneNumberLabel}
+          />
+          <Input
+            name="companyName"
+            required
+            placeholder={inputPhoneNumberPlaceholder}
+            label={inputPhoneNumberLabel}
+          />
+          <Input
+            name="occupation"
+            required
+            placeholder={inputPhoneNumberPlaceholder}
+            label={inputPhoneNumberLabel}
+          />
+          <Input
+            name="subject"
+            className="md:col-span-2"
+            required
+            placeholder={inputPhoneNumberPlaceholder}
+            label={inputPhoneNumberLabel}
+          />
+          <Textarea
+            className="md:col-span-2"
+            name="message"
+            required
+            placeholder={inputMessagePlaceholder}
+            label={inputMessageLabel}
+          />
+        </div>
+        <div className="flex w-full items-center">
+          <Checkbox name="consent" id="consent" required />
+          <label
+            htmlFor="content"
+            className="ml-2 w-full"
+            {...setHtml(inputConsentLabel)}
+          />
         </div>
         {!!button?.title && (
-        <Button
-          className={cn(
-            "mt-4 w-min",
-            buttonAlign === "center"
-              ? "mx-auto"
-              : buttonAlign === "right"
-                ? "ml-auto"
-                : "",
-          )}
-          variant={button.variant as 'link'}
-          size={button.size as 'lg'}
-        >
-          {button.title}
-        </Button>
-      )}
+          <Button
+            className={cn(
+              "mt-4 w-min",
+              buttonAlign === "center"
+                ? "mx-auto"
+                : buttonAlign === "right"
+                  ? "ml-auto"
+                  : "",
+            )}
+            variant={button.variant as "link"}
+            size={button.size as "lg"}
+          >
+            {button.title}
+          </Button>
+        )}
       </form>
     </div>
   );

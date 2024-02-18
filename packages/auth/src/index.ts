@@ -1,8 +1,8 @@
 import type { DefaultSession, NextAuthConfig } from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials"
 import { v4 as uuidv4 } from "uuid";
 
 import type { Permission } from "@acme/db";
@@ -60,7 +60,7 @@ const authConfig = {
 
   secret: env.AUTH_SECRET,
   session: {
-    strategy: 'jwt'
+    strategy: "jwt",
   },
   providers: [
     GoogleProvider({
@@ -72,20 +72,20 @@ const authConfig = {
       name: "anonymous",
       credentials: {},
       async authorize() {
-          const user = {
-            id: uuidv4(),
-            anonymous: true,
-            email: '',
-            name: 'Anoniem',
-          }
-          await db.insert(schema.user).values(user)
-          return {
-            ...user, 
-            image: "",
-            provider: "anonymous"
-          };
+        const user = {
+          id: uuidv4(),
+          anonymous: true,
+          email: "",
+          name: "Anoniem",
+        };
+        await db.insert(schema.user).values(user);
+        return {
+          ...user,
+          image: "",
+          provider: "anonymous",
+        };
       },
-  }),
+    }),
   ],
   callbacks: {
     // session: async ({ session, user: { id: userId } }) => {
@@ -118,13 +118,12 @@ const authConfig = {
     // },
     async session({ session, token }) {
       if (token?.user) session.user = token.user;
-      return session
+      return session;
     },
     async jwt({ token, user }) {
       if (user) token.user = user;
-      return token
-    }
-
+      return token;
+    },
   },
 } satisfies NextAuthConfig;
 

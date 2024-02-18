@@ -18,8 +18,12 @@ const DynamicTeachers = ({
 }) => {
   return (
     <DynamicSelect
-      values={values.map(({ id, name }) => ({ key: String(id), name}))}
-      onChange={(newItems) => onChange(items.filter((i: any) => newItems.some((n) => +n.key === +i.id)))}
+      values={values.map(({ id, name }) => ({ key: String(id), name }))}
+      onChange={(newItems) =>
+        onChange(
+          items.filter((i: any) => newItems.some((n) => +n.key === +i.id)),
+        )
+      }
       items={items}
     />
   );

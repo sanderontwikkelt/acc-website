@@ -35,13 +35,13 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
+import FullRichText from "~/components/ui/full-rich-text";
 import { Heading } from "~/components/ui/heading";
+import MultiSelect from "~/components/ui/multi-select";
+import SingleImageSelect from "~/components/ui/single-image-select";
 import { useMutation } from "~/hooks/use-mutation";
 import { useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
-import SingleImageSelect from "~/components/ui/single-image-select";
-import FullRichText from "~/components/ui/full-rich-text";
-import MultiSelect from "~/components/ui/multi-select";
 
 type LibraryFormValues = z.infer<typeof libraryFormSchema>;
 
@@ -60,9 +60,17 @@ const LibraryDetailPage = () => {
     [EntityEnum.LIBRARY, ActionEnum.UPDATE],
   );
 
-  const deleteLibrary = useMutation(EntityEnum.LIBRARY, "delete", "/library-items");
+  const deleteLibrary = useMutation(
+    EntityEnum.LIBRARY,
+    "delete",
+    "/library-items",
+  );
   const updateLibrary = useMutation(EntityEnum.LIBRARY, "update");
-  const createLibrary = useMutation(EntityEnum.LIBRARY, "create", "/library-items");
+  const createLibrary = useMutation(
+    EntityEnum.LIBRARY,
+    "create",
+    "/library-items",
+  );
 
   const { data: library, isLoading } = api.library.byId.useQuery({
     id: isDetails ? +libraryId : 0,
@@ -102,10 +110,12 @@ const LibraryDetailPage = () => {
 
   const libraryOptions = useMemo(
     () =>
-      (libraries?.filter(({ id }) => id !== +libraryId).map(({ id, title }) => ({
-        label: title,
-        value: String(id),
-      })) || []) as {
+      (libraries
+        ?.filter(({ id }) => id !== +libraryId)
+        .map(({ id, title }) => ({
+          label: title,
+          value: String(id),
+        })) || []) as {
         label: string;
         value: string;
       }[],
@@ -127,10 +137,10 @@ const LibraryDetailPage = () => {
       form.reset(library);
       if (library.media) {
         setImage({
-                ...library.media,
-                createdAt: new Date(library.media.createdAt),
-                updatedAt: new Date(library.media.updatedAt),
-              } as Media)
+          ...library.media,
+          createdAt: new Date(library.media.createdAt),
+          updatedAt: new Date(library.media.updatedAt),
+        } as Media);
       }
       if (library.relatedLibraries?.length) {
         form.setValue(
@@ -151,11 +161,11 @@ const LibraryDetailPage = () => {
     });
   };
 
-  const title = form.watch('title')
+  const title = form.watch("title");
 
   useEffect(() => {
-    form.setValue('slug', title.toLocaleLowerCase().replaceAll(" ", "-"))
-  }, [title, form])
+    form.setValue("slug", title.toLocaleLowerCase().replaceAll(" ", "-"));
+  }, [title, form]);
 
   return (
     <>
@@ -165,7 +175,11 @@ const LibraryDetailPage = () => {
           className="w-full space-y-4"
         >
           <Heading
-            title={isDetails ? "Bibliotheekitem aanpassen" : "Bibliotheekitem toevoegen"}
+            title={
+              isDetails
+                ? "Bibliotheekitem aanpassen"
+                : "Bibliotheekitem toevoegen"
+            }
             description={
               isDetails
                 ? "Bekijk bilbiotheekitem gegevens en pas eventueel aan"
@@ -204,55 +218,54 @@ const LibraryDetailPage = () => {
               </CardHeader>
               <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <div className="space-y-4">
-
-                <FormField
-                  control={form.control}
-                  name="title"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Titel</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={loading}
-                          placeholder="Item titel"
-                          {...field}
-                          />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                  />
-                <FormField
-                  control={form.control}
-                  name="categoryId"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Categorie</FormLabel>
-                      <FormControl>
-                        <Select
-                          onValueChange={(v) => v && field.onChange(+v)}
-                          value={
-                            field.value ? field.value.toString() : undefined
-                          }
-                          >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Selecteer een categorie" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {categoryOptions?.map(({ value, label }) => (
-                              <SelectItem key={value} value={value}>
-                                {label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                  />
-                  </div>
                   <FormField
+                    control={form.control}
+                    name="title"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Titel</FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={loading}
+                            placeholder="Item titel"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="categoryId"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Categorie</FormLabel>
+                        <FormControl>
+                          <Select
+                            onValueChange={(v) => v && field.onChange(+v)}
+                            value={
+                              field.value ? field.value.toString() : undefined
+                            }
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Selecteer een categorie" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {categoryOptions?.map(({ value, label }) => (
+                                <SelectItem key={value} value={value}>
+                                  {label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <FormField
                   control={form.control}
                   name="mediaId"
                   render={({ field }) => (
@@ -271,7 +284,7 @@ const LibraryDetailPage = () => {
                     </FormItem>
                   )}
                 />
-                  <FormField
+                <FormField
                   control={form.control}
                   name="userId"
                   render={({ field }) => (
@@ -283,7 +296,7 @@ const LibraryDetailPage = () => {
                           value={
                             field.value ? field.value.toString() : undefined
                           }
-                          >
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="Selecteer een docent" />
                           </SelectTrigger>
@@ -299,27 +312,27 @@ const LibraryDetailPage = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                  />
-                  <FormField
-                   control={form.control}
-                   name="relatedLibraryIds"
-                   render={({ field }) => (
-                     <FormItem>
-                       <FormLabel>Gerelateerde items</FormLabel>
-                       <FormControl>
-                         <MultiSelect
-                           disabled={loading}
-                           options={libraryOptions}
-                           onChange={(values: string[]) =>
-                             field.onChange(values.map((v) => +v))
-                           }
-                           selectedValues={field.value?.map((v) => String(v))}
-                         />
-                       </FormControl>
-                       <FormMessage />
-                     </FormItem>
-                   )}
-                 />
+                />
+                <FormField
+                  control={form.control}
+                  name="relatedLibraryIds"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Gerelateerde items</FormLabel>
+                      <FormControl>
+                        <MultiSelect
+                          disabled={loading}
+                          options={libraryOptions}
+                          onChange={(values: string[]) =>
+                            field.onChange(values.map((v) => +v))
+                          }
+                          selectedValues={field.value?.map((v) => String(v))}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="mediaLink"
@@ -356,7 +369,7 @@ const LibraryDetailPage = () => {
                 />
               </CardContent>
             </Card>
-           
+
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">

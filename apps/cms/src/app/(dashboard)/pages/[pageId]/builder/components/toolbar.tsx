@@ -195,7 +195,11 @@ const Toolbar = ({
             <Command className="mr-[6px] w-3" /> +{" "}
             <Shift className="ml-[6px] mr-[6px] w-3" /> + Z
           </IconButton>
-          <IconButton onClick={() => reset()} message="Reset" Icon={XSquareIcon}>
+          <IconButton
+            onClick={() => reset()}
+            message="Reset"
+            Icon={XSquareIcon}
+          >
             <Command className="mr-[6px] w-3" />
             <Shift className="ml-[6px] mr-[6px] w-3" /> + R
           </IconButton>
@@ -209,7 +213,11 @@ const Toolbar = ({
             <SaveIcon className="w-4" />
           </Button>
 
-          <PresetActions page={page} pages={pages} pageIds={pages.map(({ id }) => id)} />
+          <PresetActions
+            page={page}
+            pages={pages}
+            pageIds={pages.map(({ id }) => id)}
+          />
         </div>
       </div>
     </div>

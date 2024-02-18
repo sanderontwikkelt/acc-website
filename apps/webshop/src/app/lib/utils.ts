@@ -1,5 +1,4 @@
 export const formatter = new Intl.NumberFormat("nl-NL", {
-    style: "currency",
-    currency: "EUR",
-  });
-  
+  style: "currency",
+  currency: "EUR",
+});

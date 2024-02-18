@@ -64,24 +64,27 @@ export const libraryRouter = createTRPCRouter({
         with: {
           relatedLibraries: true,
           category: true,
-          media: true
+          media: true,
         },
       });
     }),
 
   create: protectedProcedure
     .input(libraryFormSchema)
-    .mutation(({ ctx, input: {relatedLibraryIds, ...input} }) => {
+    .mutation(({ ctx, input: { relatedLibraryIds, ...input } }) => {
       return ctx.db.transaction(async (tx) => {
         const library = await tx.insert(schema.library).values(input);
-        
+
         if (relatedLibraryIds?.length)
           await tx
             .insert(schema.relatedLibrary)
             .values(
               relatedLibraryIds
                 .filter((id, idx, ids) => ids.indexOf(id) === idx)
-                .map((id) => ({ libraryId: +library.insertId, relatedLibraryId: +id })),
+                .map((id) => ({
+                  libraryId: +library.insertId,
+                  relatedLibraryId: +id,
+                })),
             );
       });
     }),
@@ -92,7 +95,7 @@ export const libraryRouter = createTRPCRouter({
         await tx
           .delete(schema.relatedLibrary)
           .where(eq(schema.relatedLibrary.libraryId, +id));
-          if (relatedLibraryIds?.length)
+        if (relatedLibraryIds?.length)
           await tx
             .insert(schema.relatedLibrary)
             .values(

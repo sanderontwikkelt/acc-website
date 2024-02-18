@@ -1,9 +1,9 @@
 import React from "react";
 
 import { setHtml } from "~/lib/setHtml";
+import { ImageType } from "~/lib/types";
 import Expandable from "./expandable";
 import NextImage from "./NextImage";
-import { ImageType } from "~/lib/types";
 
 const TeacherDetails = ({
   image,

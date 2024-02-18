@@ -19,6 +19,7 @@ import {
 import { createPortal } from "react-dom";
 
 import type { Media } from "@acme/db";
+
 import { SortableItem } from "./sortable-item";
 
 const defaultInitializer = (index: number) => index;

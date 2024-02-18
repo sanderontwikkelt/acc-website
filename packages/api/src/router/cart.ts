@@ -57,37 +57,36 @@ export const cartRouter = createTRPCRouter({
           user: true,
           items: {
             with: {
-              product: true
-            }
+              product: true,
+            },
           },
         },
       });
     }),
-  own: publicProcedure
-    .query(({ ctx }) => {
-      if (!ctx.session) return null
-      return ctx.db.query.cart.findFirst({
-        where: eq(schema.cart.userId, ctx.session.user.id),
-        with: {
-          user: true,
-          items: {
-            with: {
-              productVariant: true,
-              productPaymentPlan: true,
-              product: {
-                with: {
-                  images: {
-                    with: {
-                      media: true
-                    }
-                  }
-                }
-              }
-            }
+  own: publicProcedure.query(({ ctx }) => {
+    if (!ctx.session) return null;
+    return ctx.db.query.cart.findFirst({
+      where: eq(schema.cart.userId, ctx.session.user.id),
+      with: {
+        user: true,
+        items: {
+          with: {
+            productVariant: true,
+            productPaymentPlan: true,
+            product: {
+              with: {
+                images: {
+                  with: {
+                    media: true,
+                  },
+                },
+              },
+            },
           },
         },
-      });
-    }),
+      },
+    });
+  }),
   create: protectedProcedure
     .input(cartFormSchema)
     .mutation(({ ctx, input }) => {

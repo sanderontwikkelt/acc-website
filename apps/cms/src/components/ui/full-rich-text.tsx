@@ -1,5 +1,5 @@
-import React from 'react'
-import { Editor } from '@tinymce/tinymce-react';
+import React from "react";
+import { Editor } from "@tinymce/tinymce-react";
 
 const FullRichText = ({
   value,
@@ -17,13 +17,15 @@ const FullRichText = ({
       id={id}
       onEditorChange={onChange}
       init={{
-        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+        plugins:
+          "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount",
         menubar: false,
         statusbar: false,
-        toolbar: 'undo redo | blocks | bold italic underline strikethrough | link image media table | align | numlist bullist indent outdent | emoticons charmap',
+        toolbar:
+          "undo redo | blocks | bold italic underline strikethrough | link image media table | align | numlist bullist indent outdent | emoticons charmap",
       }}
     />
-  )
-}
+  );
+};
 
-export default FullRichText
+export default FullRichText;

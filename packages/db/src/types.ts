@@ -18,4 +18,6 @@ export type PageBackup = InferSelectModel<typeof schema.block_backup>;
 export type SEO = InferSelectModel<typeof schema.seo>;
 export type Teacher = InferSelectModel<typeof schema.teacher>;
 export type Course = InferSelectModel<typeof schema.course>;
-export type ProductPaymentPlan = InferSelectModel<typeof schema.productPaymentPlan>;
+export type ProductPaymentPlan = InferSelectModel<
+  typeof schema.productPaymentPlan
+>;

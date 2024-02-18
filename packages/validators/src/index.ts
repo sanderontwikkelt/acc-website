@@ -1,6 +1,12 @@
 import { z } from "zod";
 
-import { formButton, notEmptyNumber, notEmptyString, optionalNumber, optionalString } from "./utils";
+import {
+  formButton,
+  notEmptyNumber,
+  notEmptyString,
+  optionalNumber,
+  optionalString,
+} from "./utils";
 
 export const CreatePostSchema = z.object({
   title: z.string().min(1),
@@ -21,14 +27,12 @@ export const courseFormSchema = z.object({
   videoLink: optionalString,
   body: notEmptyString,
   infoItems: z
-  .array(z.object({ title: z.string(), description: z.string() }))
-  .optional(),
+    .array(z.object({ title: z.string(), description: z.string() }))
+    .optional(),
   faqItems: z
-  .array(z.object({ title: z.string(), description: z.string() }))
-  .optional(),
-  buttons: z
-  .array(formButton)
-  .optional(),
+    .array(z.object({ title: z.string(), description: z.string() }))
+    .optional(),
+  buttons: z.array(formButton).optional(),
   ctaTitle: notEmptyString,
   ctaButton: formButton,
   teacherIds: z.array(z.number()).optional(),
@@ -89,12 +93,14 @@ export const productFormSchema = z.object({
     .array(z.object({ title: z.string(), stock: optionalNumber }))
     .optional(),
   paymentPlans: z
-    .array(z.object({ 
-      rate: optionalNumber,
-      frequency: optionalString,
-      length: optionalNumber,
-      price: optionalNumber,
-     }))
+    .array(
+      z.object({
+        rate: optionalNumber,
+        frequency: optionalString,
+        length: optionalNumber,
+        price: optionalNumber,
+      }),
+    )
     .optional(),
   // relatedProductIds: z.array(z.number()),
 });

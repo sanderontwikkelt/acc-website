@@ -10,19 +10,18 @@ import {
   CollapsibleTrigger,
 } from "~/components/ui/collapsible";
 import { Input } from "~/components/ui/input";
-
 import RichText from "~/components/ui/rich-text";
 
 export interface KV {
   title?: string;
   description?: string;
-};
+}
 
 interface Props {
   children: React.ReactNode;
   value: KV;
   setValue: (v: KV) => void;
-};
+}
 
 export function CollapsibleKV({ children, value, setValue }: Props) {
   const { title, description } = value;

@@ -91,12 +91,12 @@ export const productRouter = createTRPCRouter({
 
         if (input.paymentPlans?.length)
           await tx.insert(schema.productPaymentPlan).values(
-            input.paymentPlans.map(({ rate, frequency, length, price}) => ({
+            input.paymentPlans.map(({ rate, frequency, length, price }) => ({
               productId: +product.insertId,
-              rate: rate || 1, 
-              frequency: frequency || 'month', 
-              length: length || 1, 
-              price: price || input.price
+              rate: rate || 1,
+              frequency: frequency || "month",
+              length: length || 1,
+              price: price || input.price,
             })),
           );
         if (input.mediaIds?.length)
@@ -120,62 +120,67 @@ export const productRouter = createTRPCRouter({
     }),
   update: protectedProcedure
     .input(productFormSchema.extend({ id: z.number().min(1) }))
-    .mutation(async ({ ctx, input: { id, mediaIds, variants, paymentPlans, ...input } }) => {
-      return ctx.db.transaction(async (tx) => {
-        await tx
-          .delete(schema.productVariant)
-          .where(eq(schema.productVariant.productId, +id));
-        if (variants?.length)
-          await tx.insert(schema.productVariant).values(
-            variants.map(({ title, stock }) => ({
-              productId: +id,
-              title,
-              stock,
-            })),
-          );
-       
+    .mutation(
+      async ({
+        ctx,
+        input: { id, mediaIds, variants, paymentPlans, ...input },
+      }) => {
+        return ctx.db.transaction(async (tx) => {
           await tx
-          .delete(schema.productPaymentPlan)
-          .where(eq(schema.productPaymentPlan.productId, +id));
-        if (paymentPlans?.length)
-          await tx.insert(schema.productPaymentPlan).values(
-            paymentPlans.map(({ rate, frequency, length, price}) => ({
-              productId: +id,
-              rate: rate || 1, 
-              frequency: frequency || 'month', 
-              length: length || 1, 
-              price: price || input.price
-            })),
-          );
-
-        await tx
-          .delete(schema.productsToMedia)
-          .where(eq(schema.productsToMedia.productId, +id));
-        if (mediaIds?.length)
-          await tx
-            .insert(schema.productsToMedia)
-            .values(
-              mediaIds
-                .filter((id, idx, ids) => ids.indexOf(id) === idx)
-                .map((mediaId) => ({ productId: +id, mediaId: +mediaId })),
+            .delete(schema.productVariant)
+            .where(eq(schema.productVariant.productId, +id));
+          if (variants?.length)
+            await tx.insert(schema.productVariant).values(
+              variants.map(({ title, stock }) => ({
+                productId: +id,
+                title,
+                stock,
+              })),
             );
-        // await tx
-        //   .delete(schema.productsToProducts)
-        //   .where(eq(schema.productsToMedia.productId, +id));
-        // await tx
-        //   .insert(schema.productsToProducts)
-        //   .values(
-        //     relatedProductIds
-        //       .filter((id, idx, ids) => ids.indexOf(id) === idx)
-        //       .map((id) => ({ productId: +id, relatedProductId: +id })),
-        //   );
 
-        await tx
-          .update(schema.product)
-          .set(input)
-          .where(eq(schema.product.id, +id));
-      });
-    }),
+          await tx
+            .delete(schema.productPaymentPlan)
+            .where(eq(schema.productPaymentPlan.productId, +id));
+          if (paymentPlans?.length)
+            await tx.insert(schema.productPaymentPlan).values(
+              paymentPlans.map(({ rate, frequency, length, price }) => ({
+                productId: +id,
+                rate: rate || 1,
+                frequency: frequency || "month",
+                length: length || 1,
+                price: price || input.price,
+              })),
+            );
+
+          await tx
+            .delete(schema.productsToMedia)
+            .where(eq(schema.productsToMedia.productId, +id));
+          if (mediaIds?.length)
+            await tx
+              .insert(schema.productsToMedia)
+              .values(
+                mediaIds
+                  .filter((id, idx, ids) => ids.indexOf(id) === idx)
+                  .map((mediaId) => ({ productId: +id, mediaId: +mediaId })),
+              );
+          // await tx
+          //   .delete(schema.productsToProducts)
+          //   .where(eq(schema.productsToMedia.productId, +id));
+          // await tx
+          //   .insert(schema.productsToProducts)
+          //   .values(
+          //     relatedProductIds
+          //       .filter((id, idx, ids) => ids.indexOf(id) === idx)
+          //       .map((id) => ({ productId: +id, relatedProductId: +id })),
+          //   );
+
+          await tx
+            .update(schema.product)
+            .set(input)
+            .where(eq(schema.product.id, +id));
+        });
+      },
+    ),
   delete: protectedProcedure.input(z.number()).mutation(({ ctx, input }) => {
     return ctx.db.delete(schema.product).where(eq(schema.product.id, input));
   }),

@@ -1,19 +1,18 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { Inter, Playfair_Display, Poppins } from "next/font/google";
-
-import { cn } from "@acme/ui";
-
-import GoogleAnalytics from "./GoogleAnalytics";
-import { WEB_URL } from "./lib/constants";
-import { RouteChangeListener } from "./route-change-listener";
-
 import { cache } from "react";
+import { Inter, Playfair_Display, Poppins } from "next/font/google";
 import { headers } from "next/headers";
 import { SessionProvider } from "next-auth/react";
 import { TRPCReactProvider } from "src/trpc/react";
+
+import { cn } from "@acme/ui";
+
 import { AnonymousSessionProvider } from "./components/anonymous-session-provider";
+import GoogleAnalytics from "./GoogleAnalytics";
+import { WEB_URL } from "./lib/constants";
+import { RouteChangeListener } from "./route-change-listener";
 
 const getHeaders = cache(async () => headers());
 

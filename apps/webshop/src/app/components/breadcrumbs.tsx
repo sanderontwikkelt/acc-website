@@ -37,9 +37,7 @@ const Breadcrumbs = ({
             href={href}
             className={cn(
               "flex items-center text-base",
-              active
-                ? "pointer-events-none"
-                : "opacity-50",
+              active ? "pointer-events-none" : "opacity-50",
             )}
           >
             {title}

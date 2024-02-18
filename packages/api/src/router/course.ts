@@ -48,11 +48,7 @@ export const courseRouter = createTRPCRouter({
           teachers: true,
         },
         ...(input.teacherIds && {
-          where: or(
-            ...input.teacherIds.map((id) =>
-              eq(schema.teacher.id, id),
-            ),
-          ),
+          where: or(...input.teacherIds.map((id) => eq(schema.teacher.id, id))),
         }),
       });
     }),
@@ -71,10 +67,10 @@ export const courseRouter = createTRPCRouter({
 
   create: protectedProcedure
     .input(courseFormSchema)
-    .mutation(({ ctx, input: {teacherIds, ...input} }) => {
+    .mutation(({ ctx, input: { teacherIds, ...input } }) => {
       return ctx.db.transaction(async (tx) => {
         const course = await tx.insert(schema.course).values(input);
-        
+
         if (teacherIds?.length)
           await tx
             .insert(schema.courseToTeacher)
@@ -92,7 +88,7 @@ export const courseRouter = createTRPCRouter({
         await tx
           .delete(schema.courseToTeacher)
           .where(eq(schema.courseToTeacher.courseId, +id));
-          if (teacherIds?.length)
+        if (teacherIds?.length)
           await tx
             .insert(schema.courseToTeacher)
             .values(

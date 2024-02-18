@@ -14,7 +14,7 @@ const SubmitButton = ({
   return (
     <Button
       type="submit"
-      className="w-min ml-auto"
+      className="ml-auto w-min"
       size="lg"
       aria-label={title}
       disabled={loading}

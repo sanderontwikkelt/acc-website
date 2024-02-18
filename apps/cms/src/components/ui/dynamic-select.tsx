@@ -11,7 +11,10 @@ import {
 } from "~/components/ui/select";
 import DragList from "./drag-list";
 
-export interface Item { key: string; name: string };
+export interface Item {
+  key: string;
+  name: string;
+}
 
 const DynamicSelect = ({
   values,

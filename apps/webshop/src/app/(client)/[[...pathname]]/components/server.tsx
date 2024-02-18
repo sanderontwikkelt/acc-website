@@ -1,10 +1,10 @@
 import React from "react";
 
+import ServerWrapper from "~/components/server-wrapper";
+import { Block } from "~/lib/blocks";
 import { WEB_URL } from "~/lib/constants";
 import { getArray } from "~/lib/getArray";
 import BlocksRenderer from "./blocks-renderer";
-import ServerWrapper from "~/components/server-wrapper";
-import { Block } from "~/lib/blocks";
 
 async function getPage(pathname: string) {
   const tags = [pathname.replaceAll("/", "") || "index"];
@@ -33,17 +33,19 @@ const Server = async ({ pathname }: { pathname: string }) => {
 
   return (
     <ServerWrapper>
-
-        <BlocksRenderer
-          blocks={blocks.map((block) => ({
-            ...block,
-            fields: Object.entries(block.fields as Block).reduce(
-              (a, [field, { value }]) => ({ ...a, [field]: value }),
-              {},
+      <BlocksRenderer
+        blocks={blocks.map(
+          (block) =>
+            ({
+              ...block,
+              fields: Object.entries(block.fields as Block).reduce(
+                (a, [field, { value }]) => ({ ...a, [field]: value }),
+                {},
               ),
-            } as Block))}
-            />
-          </ServerWrapper>
+            }) as Block,
+        )}
+      />
+    </ServerWrapper>
   );
 };
 

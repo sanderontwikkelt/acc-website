@@ -3,7 +3,6 @@
 import type { z } from "zod";
 import React, { useEffect, useMemo, useState, useTransition } from "react";
 import { notFound, useParams } from "next/navigation";
-import sanitizeHtml from "sanitize-html";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ClipboardList,
@@ -15,6 +14,7 @@ import {
   Trash,
 } from "lucide-react";
 import { useForm } from "react-hook-form";
+import sanitizeHtml from "sanitize-html";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
 import type { Media } from "@acme/db";
@@ -31,6 +31,7 @@ import { productFormSchema } from "@acme/validators";
 import { AlertModal } from "~/components/modals/alert-modal";
 import { MediaModal } from "~/components/modals/media-modal";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import DynamicPaymentPlanList from "~/components/ui/dynamic-payment-plan-list";
 import DynamicVariants from "~/components/ui/dynamic-variants";
 import {
   Form,
@@ -46,7 +47,6 @@ import RichText from "~/components/ui/rich-text";
 import { useMutation } from "~/hooks/use-mutation";
 import { useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
-import DynamicPaymentPlanList from "~/components/ui/dynamic-payment-plan-list";
 
 type ProductFormValues = z.infer<typeof productFormSchema>;
 
@@ -123,7 +123,7 @@ const ProductDetailPage = () => {
   }, [product, form]);
 
   const onSubmit = async (data: ProductFormValues) => {
-    if (data.description) data.description = sanitizeHtml(data.description)
+    if (data.description) data.description = sanitizeHtml(data.description);
 
     startTransition(async () => {
       if (isDetails && canUpdate) {
@@ -134,11 +134,11 @@ const ProductDetailPage = () => {
     });
   };
 
-  const title = form.watch('title')
+  const title = form.watch("title");
 
   useEffect(() => {
-    form.setValue('slug', title.toLocaleLowerCase().replaceAll(" ", "-"))
-  }, [title, form])
+    form.setValue("slug", title.toLocaleLowerCase().replaceAll(" ", "-"));
+  }, [title, form]);
 
   return (
     <>
@@ -410,55 +410,54 @@ const ProductDetailPage = () => {
                 />
               </CardContent>
             </Card>
-
           </div>
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <SearchCode className="mr-2 w-5" />
-                  Afbeeldingen
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="">
-                <FormField
-                  control={form.control}
-                  name="seoTitle"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <ImageGallary
-                          selected={images}
-                          onChange={(media) => {
-                            setImages(media);
-                            field.onChange(media.map(({ id }) => id));
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <div
-                  className={cn(
-                    "flex w-full justify-center",
-                    images.length
-                      ? "mt-5"
-                      : "h-40 items-center rounded-md bg-gray-100",
-                  )}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <SearchCode className="mr-2 w-5" />
+                Afbeeldingen
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="">
+              <FormField
+                control={form.control}
+                name="seoTitle"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <ImageGallary
+                        selected={images}
+                        onChange={(media) => {
+                          setImages(media);
+                          field.onChange(media.map(({ id }) => id));
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div
+                className={cn(
+                  "flex w-full justify-center",
+                  images.length
+                    ? "mt-5"
+                    : "h-40 items-center rounded-md bg-gray-100",
+                )}
+              >
+                <Button
+                  className="mx-auto"
+                  size="sm"
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsOpenMedia(true)}
                 >
-                  <Button
-                    className="mx-auto"
-                    size="sm"
-                    type="button"
-                    variant="outline"
-                    onClick={() => setIsOpenMedia(true)}
-                  >
-                    <ImagePlusIcon className="mr-1 w-4" />
-                    Selecteren
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                  <ImagePlusIcon className="mr-1 w-4" />
+                  Selecteren
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </form>
       </Form>
       <MediaModal

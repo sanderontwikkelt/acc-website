@@ -736,7 +736,7 @@ const contactForm = {
         title: "Verzenden",
         href: "#",
         target: "_self",
-        size: 'lg',
+        size: "lg",
         variant: "main",
       },
     },
@@ -774,7 +774,7 @@ const contactForm = {
 //       type: "text",
 //       value: `Steeds meer behandelaars en trainers hebben het gevoel dat alléén trainen of behandelen niet tot het resultaat leidt wat mensen echt nodig hebben.
 //       Veel van de problemen waar klanten mee komen, liggen niet alleen bij bewegen en voeding, maar komen vanuit problemen met slaap, stress, ademhaling en het functioneren van het immuunsysteem. Dit zal in de toekomst alleen maar meer voor gaan komen door onze hedendaagse levensstijl en de eisen vanuit de maatschappij.
-      
+
 //       Tijdens de 6 domeinen cursus leer je in 4 dagen enorm veel relaties en praktische tools. Cursisten zetten de kennis veel in om:
 //       <ul>
 //       <li>het energie niveau van klanten enorm te verhogen.</li>

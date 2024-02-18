@@ -15,7 +15,9 @@ import { order } from "./order";
 import { role } from "./role";
 
 export const user = mySqlTable("user", {
-  id: varChar("id").primaryKey().default(sql`(uuid())`),
+  id: varChar("id")
+    .primaryKey()
+    .default(sql`(uuid())`),
   name: nnVarChar("name").default("Gebruiker"),
   email: nnVarChar("email").default(""),
   roleId: int("role_id"),
@@ -24,7 +26,7 @@ export const user = mySqlTable("user", {
     fsp: 3,
   }).default(sql`CURRENT_TIMESTAMP(3)`),
   image: varChar("image"),
-  anonymous: boolean('anonymous').default(false),
+  anonymous: boolean("anonymous").default(false),
   createdAt,
   updatedAt,
 });

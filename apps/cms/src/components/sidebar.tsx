@@ -187,7 +187,7 @@ export async function AdminSideBar({
                     Cursussen
                   </SidebarItemLink>
                 )}
-               
+
                 {canFindLibraries && (
                   <SidebarItemLink href="/library-items">
                     <BookUserIcon className="mr-3 h-4 w-4" />
@@ -228,10 +228,9 @@ export async function AdminSideBar({
           )}
         </div>
         <SidebarSwitch />
-<div className="border-t border-border p-5 pb-0">
-
-        <UserNav />
-</div>
+        <div className="border-t border-border p-5 pb-0">
+          <UserNav />
+        </div>
       </Card>
     </Sidebar>
   );
