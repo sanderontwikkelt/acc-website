@@ -43,7 +43,7 @@ export const order = mySqlTable(
     invoicePhone: nnVarChar("invoice_phone"),
     invoicePaymentMethod: mysqlEnum("invoice_payment_method", [
       "ideal",
-      "credit_card",
+      "creditcard",
     ]),
     invoicePaymentBank: varChar("invoice_payment_bank"),
     invoiceAdditionalInformation: varChar("invoice_additional_information"),

@@ -79,12 +79,37 @@ export const orderRouter = createTRPCRouter({
 
   create: protectedProcedure
     .input(orderFormSchema)
-    .mutation(({ ctx, input: { orderItems, ...input } }) => {
+    .mutation(({ ctx, input }) => {
       return ctx.db.transaction(async (tx) => {
-        const { insertId } = await tx.insert(schema.order).values(input);
-        await tx
-          .insert(schema.orderItem)
-          .values(orderItems.map((item) => ({ ...item, orderId: +insertId })));
+        const { insertId } = await tx
+          .insert(schema.order)
+          .values({
+            ...input,
+            userId: ctx.session.user.id,
+            status: "WAITING_PAYMENT",
+          });
+        const cart = await ctx.db.query.cart.findFirst({
+          where: eq(schema.cart.userId, ctx.session.user.id),
+          with: {
+            items: {
+              with: {
+                product: true,
+              },
+            },
+          },
+        });
+
+        if (cart)
+          await tx.insert(schema.orderItem).values(
+            cart.items.map((item) => ({
+              orderId: +insertId,
+              price: item.product.price,
+              productId: item.productId,
+              productVariantId: item.productVariantId,
+              productPaymentPlanId: item.productPaymentPlanId,
+              quantity: item.quantity,
+            })),
+          );
         await addOrderNotification(+insertId, 0)();
         await tx.insert(schema.orderNotification).values({
           orderId: +insertId,
@@ -95,7 +120,21 @@ export const orderRouter = createTRPCRouter({
       });
     }),
   update: protectedProcedure
-    .input(orderFormSchema.extend({ id: z.number().min(1) }))
+    .input(
+      orderFormSchema.extend({
+        id: z.number().min(1),
+        status: z.enum([
+          "WAITING_PAYMENT",
+          "IN_PROGRESS",
+          "WAITING",
+          "FINISHED",
+          "CANCELLED",
+          "REFUNDED",
+          "FAILED",
+          "CONCEPT",
+        ]),
+      }),
+    )
     .mutation(async ({ ctx, input: { id, ...input } }) => {
       const order = await ctx.db.query.order.findFirst({
         where: eq(schema.order.id, id),

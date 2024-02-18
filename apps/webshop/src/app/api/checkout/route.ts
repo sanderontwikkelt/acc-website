@@ -1,34 +1,25 @@
 import type { NextRequest } from "next/server";
-import type { z } from "zod";
 import { NextResponse } from "next/server";
-import { createMollieClient } from "@mollie/api-client";
+import { createMollieClient, Locale, PaymentMethod } from "@mollie/api-client";
 import { env } from "src/env";
 import { api } from "src/trpc/server";
 
-import type { orderFormSchema } from "@acme/validators";
-
 import { WEB_URL } from "~/lib/constants";
-
-type OrderFormValues = z.infer<typeof orderFormSchema>;
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
 
-  const { cartId, orderData } = body as {
+  const { cartId, orderId, method } = body as {
     cartId: number;
-    orderData: OrderFormValues;
+    orderId: number;
+    method: PaymentMethod;
   };
 
-  if (!(cartId && orderData)) {
+  if (!(cartId && orderId)) {
     return NextResponse.json({ error: "INVALID DATA" }, { status: 500 });
   }
 
   const cart = await api.cart.byId.query({ id: cartId });
-
-  const order = await api.order.create.mutate({
-    ...orderData,
-    orderItems: cart.items,
-  });
 
   const price = cart.items.reduce(
     (total, item) => total + item.product.price * item.quantity,
@@ -43,11 +34,10 @@ export async function POST(req: NextRequest) {
     },
     description: "Bestelling by Physis Academy",
     redirectUrl: `${WEB_URL}/success`,
-    cancelUrl: `${WEB_URL}/`,
-    webhookUrl: "",
-    locale: "nl_NL",
-    metadata: { orderId: order.id },
-    method: "ideal",
+    // webhookUrl: `${WEB_URL}/api/webhooks/mollie`,
+    locale: "nl_NL" as Locale,
+    metadata: { orderId },
+    method,
   });
 
   console.log({ payment });
