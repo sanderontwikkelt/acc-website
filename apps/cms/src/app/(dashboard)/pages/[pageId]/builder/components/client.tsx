@@ -272,7 +272,6 @@ const PageEditorClient = ({
         <AsideEditor
           open={showMenu && editorOpen === "blocks"}
           setBlock={(newBlock) => {
-            console.log({ newBlock }, state.blocks, sectionId);
             setBlocks(
               newBlock
                 ? state.blocks.map((oldBlock) =>

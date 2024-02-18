@@ -70,6 +70,7 @@ export const productRouter = createTRPCRouter({
           },
           relatedProducts: true,
           variants: true,
+          paymentPlans: true,
         },
       });
     }),
@@ -85,6 +86,17 @@ export const productRouter = createTRPCRouter({
               productId: +product.insertId,
               title,
               stock,
+            })),
+          );
+
+        if (input.paymentPlans?.length)
+          await tx.insert(schema.productPaymentPlan).values(
+            input.paymentPlans.map(({ rate, frequency, length, price}) => ({
+              productId: +product.insertId,
+              rate: rate || 1, 
+              frequency: frequency || 'month', 
+              length: length || 1, 
+              price: price || input.price
             })),
           );
         if (input.mediaIds?.length)
@@ -108,7 +120,7 @@ export const productRouter = createTRPCRouter({
     }),
   update: protectedProcedure
     .input(productFormSchema.extend({ id: z.number().min(1) }))
-    .mutation(async ({ ctx, input: { id, mediaIds, variants, ...input } }) => {
+    .mutation(async ({ ctx, input: { id, mediaIds, variants, paymentPlans, ...input } }) => {
       return ctx.db.transaction(async (tx) => {
         await tx
           .delete(schema.productVariant)
@@ -119,6 +131,20 @@ export const productRouter = createTRPCRouter({
               productId: +id,
               title,
               stock,
+            })),
+          );
+       
+          await tx
+          .delete(schema.productPaymentPlan)
+          .where(eq(schema.productPaymentPlan.productId, +id));
+        if (paymentPlans?.length)
+          await tx.insert(schema.productPaymentPlan).values(
+            paymentPlans.map(({ rate, frequency, length, price}) => ({
+              productId: +id,
+              rate: rate || 1, 
+              frequency: frequency || 'month', 
+              length: length || 1, 
+              price: price || input.price
             })),
           );
 

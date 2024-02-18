@@ -91,6 +91,7 @@ export const orderRouter = createTRPCRouter({
           message: "Bestelling geplaatst",
           type: 1,
         });
+        return { id: insertId }
       });
     }),
   update: protectedProcedure

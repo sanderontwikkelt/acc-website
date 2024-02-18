@@ -9,6 +9,14 @@ import GoogleAnalytics from "./GoogleAnalytics";
 import { WEB_URL } from "./lib/constants";
 import { RouteChangeListener } from "./route-change-listener";
 
+import { cache } from "react";
+import { headers } from "next/headers";
+import { SessionProvider } from "next-auth/react";
+import { TRPCReactProvider } from "src/trpc/react";
+import { AnonymousSessionProvider } from "./components/anonymous-session-provider";
+
+const getHeaders = cache(async () => headers());
+
 process.env.NODE_NO_WARNINGS = "stream/web";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-primary" });
@@ -47,7 +55,13 @@ export default function RootLayout({
         )}
       >
         <GoogleAnalytics />
-        {children}
+        <SessionProvider>
+          <AnonymousSessionProvider>
+            <TRPCReactProvider headersPromise={getHeaders()}>
+              {children}
+            </TRPCReactProvider>
+          </AnonymousSessionProvider>
+        </SessionProvider>
       </body>
     </html>
   );

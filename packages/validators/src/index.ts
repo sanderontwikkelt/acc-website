@@ -81,12 +81,20 @@ export const productFormSchema = z.object({
   title: notEmptyString,
   seoDescription: optionalString,
   seoTitle: optionalString,
-  price: notEmptyString,
+  price: notEmptyNumber,
   categoryId: optionalNumber,
   stock: optionalNumber,
   mediaIds: z.array(z.number()).optional(),
   variants: z
     .array(z.object({ title: z.string(), stock: optionalNumber }))
+    .optional(),
+  paymentPlans: z
+    .array(z.object({ 
+      rate: optionalNumber,
+      frequency: optionalString,
+      length: optionalNumber,
+      price: optionalNumber,
+     }))
     .optional(),
   // relatedProductIds: z.array(z.number()),
 });
@@ -136,7 +144,7 @@ export const orderFormSchema = z.object({
   orderItems: z.array(
     z.object({
       orderId: notEmptyNumber,
-      price: notEmptyString,
+      price: notEmptyNumber,
       productId: notEmptyNumber,
       productVariantId: notEmptyNumber,
       quantity: notEmptyNumber,
@@ -203,6 +211,12 @@ export const headerFormSchema = z.object({
 
 export const cartItemFormSchema = z.object({
   cartId: notEmptyNumber,
+  productId: notEmptyNumber,
+  productVariantId: notEmptyNumber,
+  quantity: notEmptyNumber,
+});
+
+export const ownCartItemFormSchema = z.object({
   productId: notEmptyNumber,
   productVariantId: notEmptyNumber,
   quantity: notEmptyNumber,

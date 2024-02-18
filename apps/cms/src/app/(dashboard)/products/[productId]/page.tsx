@@ -46,6 +46,7 @@ import RichText from "~/components/ui/rich-text";
 import { useMutation } from "~/hooks/use-mutation";
 import { useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
+import DynamicPaymentPlanList from "~/components/ui/dynamic-payment-plan-list";
 
 type ProductFormValues = z.infer<typeof productFormSchema>;
 
@@ -96,7 +97,6 @@ const ProductDetailPage = () => {
       title: "",
       description: "",
       slug: "",
-      price: "",
     },
   });
 
@@ -322,28 +322,7 @@ const ProductDetailPage = () => {
                   Varianten
                 </CardTitle>
               </CardHeader>
-              <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <FormField
-                  control={form.control}
-                  name="price"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Prijs</FormLabel>
-                      <FormControl>
-                        <Input
-                          disabled={loading}
-                          type="number"
-                          min={0}
-                          max={50_000}
-                          step={0.01}
-                          placeholder="Product prijs"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <CardContent className="space-y-4">
                 <FormField
                   control={form.control}
                   name="stock"
@@ -370,7 +349,7 @@ const ProductDetailPage = () => {
                   control={form.control}
                   name="variants"
                   render={({ field }) => (
-                    <FormItem className="md:col-span-2">
+                    <FormItem>
                       <FormLabel>Varianten</FormLabel>
                       <FormControl>
                         <DynamicVariants
@@ -384,7 +363,55 @@ const ProductDetailPage = () => {
                 />
               </CardContent>
             </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <ListFilter className="mr-2 w-5" />
+                  Betalingsplannen
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Standaard prijs</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          type="number"
+                          min={0}
+                          max={50_000}
+                          step={0.01}
+                          placeholder="Product prijs"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="paymentPlans"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Betalen in termijnen</FormLabel>
+                      <FormControl>
+                        <DynamicPaymentPlanList
+                          values={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
 
+          </div>
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -432,7 +459,6 @@ const ProductDetailPage = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
         </form>
       </Form>
       <MediaModal

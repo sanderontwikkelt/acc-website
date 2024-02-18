@@ -15,7 +15,6 @@ const PageEditorPage = () => {
   const [page] = api.page.byId.useSuspenseQuery({
     id: +pageId,
   });
-  console.log({ page });
 
   const [header] = api.header.get.useSuspenseQuery();
 

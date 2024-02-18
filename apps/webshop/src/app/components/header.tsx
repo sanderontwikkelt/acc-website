@@ -214,6 +214,10 @@ const Header = ({ header }: { header: HeaderType }) => {
                 pathname: "https://community.physis.academy/login",
                 name: "Cursist log in",
               },
+              {
+                pathname: "/winkelmand",
+                name: "Winkelmand",
+              },
             ].map((item) => (
               <Link
                 href={item.pathname}

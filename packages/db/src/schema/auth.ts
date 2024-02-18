@@ -1,5 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import {
+  boolean,
   index,
   int,
   primaryKey,
@@ -14,16 +15,16 @@ import { order } from "./order";
 import { role } from "./role";
 
 export const user = mySqlTable("user", {
-  id: varChar("id").primaryKey(),
+  id: varChar("id").primaryKey().default(sql`(uuid())`),
   name: nnVarChar("name").default("Gebruiker"),
-  email: nnVarChar("email"),
+  email: nnVarChar("email").default(""),
   roleId: int("role_id"),
   emailVerified: timestamp("emailVerified", {
     mode: "date",
     fsp: 3,
   }).default(sql`CURRENT_TIMESTAMP(3)`),
   image: varChar("image"),
-  stripeCustomerId: varChar("stripe_customer_id"),
+  anonymous: boolean('anonymous').default(false),
   createdAt,
   updatedAt,
 });

@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { decimal, index, int, text } from "drizzle-orm/mysql-core";
+import { double, index, int, text } from "drizzle-orm/mysql-core";
 
 import { media } from ".";
 import { createdAt, id, nnInt, nnVarChar, updatedAt, varChar } from "../utils";
@@ -12,13 +12,11 @@ export const product = mySqlTable(
     slug: nnVarChar("slug"),
     title: nnVarChar("title"),
     description: text("description").notNull(),
-    seoTitle: varChar("seo-title"), 
-    seoDescription: text("seo-description"),
+    seoTitle: varChar("seo_title"), 
+    seoDescription: text("seo_description"),
     categoryId: int("category_id"),
-    price: decimal("price").notNull(),
+    price: double("price").notNull(),
     stock: int("stock"),
-    installments: int("installments"),
-    price_per_installment: int("price_per_installment"),
     createdAt,
     updatedAt,
   },
@@ -86,7 +84,7 @@ export const productVariant = mySqlTable(
     id,
     productId: nnInt("product_id"),
     title: nnVarChar("title"),
-    price: decimal("price"),
+    price: double("price"),
     stock: int("stock"),
     createdAt,
     updatedAt,
@@ -129,7 +127,7 @@ export const productPaymentPlan = mySqlTable(
     rate: nnInt("rate"),
     frequency: nnVarChar("frequency"),
     length: nnInt("length"),
-    price: decimal("price"),
+    price: double("price"),
     createdAt,
     updatedAt,
   },

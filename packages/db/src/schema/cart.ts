@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { index, unique } from "drizzle-orm/mysql-core";
+import { index, int, unique } from "drizzle-orm/mysql-core";
 
 import { createdAt, id, nnInt, nnVarChar, updatedAt } from "../utils";
 import { mySqlTable } from "./_table";
@@ -13,7 +13,7 @@ export const cartItem = mySqlTable(
     cartId: nnInt("cart_id"),
     productId: nnInt("product_id"),
     productVariantId: nnInt("product_variant_id"),
-    productPaymentPlanId: nnInt("product_payment_plan_id"),
+    productPaymentPlanId: int("product_payment_plan_id"),
     quantity: nnInt("quantity"),
     createdAt,
     updatedAt,

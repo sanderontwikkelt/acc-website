@@ -35,7 +35,6 @@ const Section = ({
   isFirst?: boolean;
   isLast?: boolean;
 }) => {
-  console.log(fields);
   return asChild ? (
     children
   ) : (

@@ -18,7 +18,6 @@ const Client = () => {
 
   const getMessage = (event: any) => {
     if (event.origin === API_URL) {
-      console.log(5, event.data);
       setData(event.data);
     }
   };
@@ -29,7 +28,6 @@ const Client = () => {
       window.removeEventListener("message", getMessage);
     };
   }, []);
-  console.log(data?.blocks);
   return data ? (
     <>
       <Header header={data.header} />

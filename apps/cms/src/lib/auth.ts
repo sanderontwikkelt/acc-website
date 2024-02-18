@@ -24,7 +24,7 @@ const getUserWithPermissions = async (email: string) => {
   return db.query.user.findFirst({
     where: eq(schema.user.email, email),
     with: {
-      roles: {
+      role: {
         with: {
           permissions: true,
         },

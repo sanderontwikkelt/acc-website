@@ -10,7 +10,7 @@ import { cn } from "@acme/ui";
 
 import TooltipWrapper from "../tooltip-wrapper";
 
-type Value = Record<string, string>;
+type Value = Record<string, any>;
 
 interface Props {
   onChange: (value: Value[]) => void;

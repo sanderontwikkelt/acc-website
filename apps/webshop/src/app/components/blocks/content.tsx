@@ -21,7 +21,6 @@ const content = ({
   links: { href: string; title: string }[];
   image: ImageType;
 }) => {
-  console.log({ links });
   return (
     <div className="flex items-center gap-36 max-md:flex-col">
       <NextImage image={image} alt={title} />

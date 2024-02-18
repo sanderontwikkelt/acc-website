@@ -1,5 +1,6 @@
 import { authRouter } from "./router/auth";
 import { cartRouter } from "./router/cart";
+import { cartItemRouter } from "./router/cart-item";
 import { footerRouter } from "./router/footer";
 import { headerRouter } from "./router/header";
 import { mediaRouter } from "./router/media";
@@ -34,6 +35,7 @@ export const appRouter = createTRPCRouter({
   page: pageRouter,
   stripe: stripeRouter,
   cart: cartRouter,
+  cartItem: cartItemRouter,
   header: headerRouter,
   footer: footerRouter,
   seo: seoRouter,

@@ -21,7 +21,6 @@ const DashboardPage: React.FC<DashboardPageProps> = async ({
   searchParams,
 }) => {
   const session = await auth();
-  console.log(session);
   const startDate = searchParams?.startDate ?? getDateString(7) ?? "";
   const endDate = searchParams?.endDate ?? getDateString() ?? "";
 

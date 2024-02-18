@@ -66,7 +66,6 @@ export const pageRouter = createTRPCRouter({
     .input(pageFormSchema)
     .mutation(
       async ({ ctx, input: { seoTitle, seoDescription, ...input } }) => {
-        console.log({ input });
         const userId = ctx.session.user.id;
 
         const seo = await ctx.db.insert(schema.seo).values({
@@ -110,7 +109,6 @@ export const pageRouter = createTRPCRouter({
       const page = await ctx.db.query.page.findFirst({
         where: eq(schema.page.id, id),
       });
-      console.log({ page, blocks });
       if (!page) return;
 
       return ctx.db.transaction(async (tx) => {

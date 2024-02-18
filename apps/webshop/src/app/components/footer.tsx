@@ -7,7 +7,6 @@ import { FooterType } from "~/lib/types";
 import Section from "./section";
 
 const Footer = ({ footer }: { footer: FooterType }) => {
-  console.log({ footer });
   return (
     <footer className="bg-main max-w-[100vw] overflow-hidden pt-5 text-white">
       <Section id="footer-content">

@@ -48,7 +48,6 @@ const DynamicLinkImages = ({
     ),
     [values],
   );
-  console.log({ values });
   return (
     <DragList
       values={values || []}

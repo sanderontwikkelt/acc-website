@@ -46,7 +46,6 @@ const AsideEditor = ({
 }) => {
   const fields = block ? block.fields : null;
   const handleFields = (field: string, value: any) => {
-    console.log({ field, value, block });
     block &&
       setBlock({
         ...block,

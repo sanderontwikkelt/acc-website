@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { index, mysqlEnum } from "drizzle-orm/mysql-core";
+import { double, index, int, mysqlEnum } from "drizzle-orm/mysql-core";
 
 import { product, productPaymentPlan, productVariant } from ".";
 import {
@@ -68,10 +68,10 @@ export const orderItem = mySqlTable(
   {
     id,
     orderId: nnInt("order_id"),
-    price: nnDec("price"),
+    price: double("price").notNull(),
     productId: nnInt("product_id"),
     productVariantId: nnInt("product_variant_id"),
-    productPaymentPlanId: nnInt("product_payment_plan_id"),
+    productPaymentPlanId: int("product_payment_plan_id"),
     quantity: nnInt("quantity"),
     createdAt,
     updatedAt,

@@ -1,4 +1,4 @@
-import type { Media, Product, ProductVariant } from '@acme/db'
+import type { Media, Product, ProductPaymentPlan, ProductVariant } from '@acme/db'
 import { NextImage } from '@acme/ui';
 import React from 'react'
 import { setHtml } from '~/lib/setHtml';
@@ -6,8 +6,8 @@ import { formatter } from '~/lib/utils';
 import ProductForm from './product-form';
 import ProductImages from './product-images';
 
-const ProductDetails = ({ product }: { product: Product & {images: Media[]; variants: ProductVariant[] } }) => {
-    const {images, title, price, description, variants } = product;
+const ProductDetails = ({ product }: { product: Product & {images: Media[]; variants: ProductVariant[]; paymentPlans: ProductPaymentPlan[] } }) => {
+    const {images, title, price, description, variants, paymentPlans } = product;
   return (
     <div>
         <h3>Details</h3>
@@ -22,7 +22,7 @@ const ProductDetails = ({ product }: { product: Product & {images: Media[]; vari
     <span className='text-base'>Excl BTW</span>
     </div>
     <p className='text-md md:text-lg mb-7' {...setHtml(description)} />
-    <ProductForm variants={variants} />
+    <ProductForm variants={variants} paymentPlans={paymentPlans} />
 </div>
         </div>
     </div>

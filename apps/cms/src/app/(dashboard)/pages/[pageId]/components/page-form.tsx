@@ -75,7 +75,6 @@ export const PageForm: React.FC<PageFormProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
-console.log(form.formState.errors)
   const createPage = api.page.create.useMutation();
   const updatePage = api.page.update.useMutation();
 

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { desc, eq, schema } from "@acme/db";
-import { cartItemFormSchema } from "@acme/validators";
+import { cartItemFormSchema, ownCartItemFormSchema } from "@acme/validators";
 
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
@@ -15,6 +15,27 @@ export const cartItemRouter = createTRPCRouter({
     .input(cartItemFormSchema)
     .mutation(({ ctx, input }) => {
       return ctx.db.insert(schema.cartItem).values(input);
+    }),
+  createOwn: protectedProcedure
+    .input(ownCartItemFormSchema)
+    .mutation(async ({ ctx, input }) => {
+      if (!ctx.session) return null;
+      let cartId: number;
+      const cart = await ctx.db.query.cart.findFirst({
+        where: eq(schema.cart.userId, ctx.session.user.id)
+      })
+      if (cart) {
+        cartId = cart.id;
+      } else {
+        const insertCart = await ctx.db.insert(schema.cart).values({
+          userId: ctx.session.user.id,
+        })
+        cartId = +insertCart.insertId;
+      }
+      return ctx.db.insert(schema.cartItem).values({
+        ...input,
+        cartId,
+      });
     }),
   updateCount: protectedProcedure
     .input(z.object({ id: z.number().min(1), quantity: z.number() }))

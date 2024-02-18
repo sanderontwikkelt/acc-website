@@ -67,7 +67,6 @@ const LibraryDetailPage = () => {
   const { data: library, isLoading } = api.library.byId.useQuery({
     id: isDetails ? +libraryId : 0,
   });
-  console.log({library})
 
   if (isDetails && !isLoading && !library) notFound();
 
