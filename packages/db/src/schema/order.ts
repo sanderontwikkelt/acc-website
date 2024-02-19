@@ -1,16 +1,8 @@
 import { relations } from "drizzle-orm";
-import { double, index, int, mysqlEnum } from "drizzle-orm/mysql-core";
+import { double, index, int, timestamp } from "drizzle-orm/mysql-core";
 
 import { product, productPaymentPlan, productVariant } from ".";
-import {
-  createdAt,
-  id,
-  nnDec,
-  nnInt,
-  nnVarChar,
-  updatedAt,
-  varChar,
-} from "../utils";
+import { createdAt, id, nnInt, nnVarChar, updatedAt, varChar } from "../utils";
 import { mySqlTable } from "./_table";
 import { user } from "./auth";
 
@@ -19,16 +11,7 @@ export const order = mySqlTable(
   {
     id,
     userId: nnVarChar("user_id"),
-    status: mysqlEnum("status", [
-      "WAITING_PAYMENT",
-      "IN_PROGRESS",
-      "WAITING",
-      "FINISHED",
-      "CANCELLED",
-      "REFUNDED",
-      "FAILED",
-      "CONCEPT",
-    ]),
+    status: nnVarChar("status").default("WAITING_PAYMENT"),
     invoiceFirstName: nnVarChar("invoice_first_name"),
     invoiceLastName: nnVarChar("invoice_last_name"),
     invoiceCompanyName: varChar("invoice_company_name"),
@@ -41,11 +24,6 @@ export const order = mySqlTable(
     invoiceEmail: nnVarChar("invoice_email"),
     invoiceCity: nnVarChar("invoice_city"),
     invoicePhone: nnVarChar("invoice_phone"),
-    invoicePaymentMethod: mysqlEnum("invoice_payment_method", [
-      "ideal",
-      "creditcard",
-    ]),
-    invoicePaymentBank: varChar("invoice_payment_bank"),
     invoiceAdditionalInformation: varChar("invoice_additional_information"),
     createdAt,
     updatedAt,
@@ -99,6 +77,35 @@ export const orderItemRelations = relations(orderItem, ({ one }) => ({
   productPaymentPlan: one(productPaymentPlan, {
     fields: [orderItem.orderId],
     references: [productPaymentPlan.id],
+  }),
+}));
+
+export const orderPayment = mySqlTable(
+  "orderPayment",
+  {
+    id,
+    orderId: nnInt("order_id"),
+    paymentId: nnVarChar("payment_id"),
+    method: nnVarChar("method"),
+    status: nnVarChar("status").default("new"),
+    bank: varChar("bank"),
+    charged: double("charged").notNull(),
+    paidAt: timestamp("paid_at"),
+    createdAt,
+    updatedAt,
+  },
+  (t) => {
+    return {
+      indx0: index("order_id").on(t.orderId),
+      indx1: index("payment_id").on(t.paymentId),
+    };
+  },
+);
+
+export const orderPaymentRelations = relations(orderPayment, ({ one }) => ({
+  order: one(order, {
+    fields: [orderPayment.orderId],
+    references: [order.id],
   }),
 }));
 

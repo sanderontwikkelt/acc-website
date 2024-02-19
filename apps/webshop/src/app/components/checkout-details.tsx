@@ -77,8 +77,7 @@ const CheckoutDetails = () => {
         }),
       });
       const payment = await response.json();
-      router.push(payment.payment._links.checkout.href);
-      console.log({ payment });
+      router.push(payment.href as string);
     });
   };
 
