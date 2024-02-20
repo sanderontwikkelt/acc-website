@@ -2,12 +2,12 @@
 
 import * as React from "react";
 import { useParams, useRouter } from "next/navigation";
-import { ActionEnum, EntityEnum } from "@/types/permissions";
 import { Dialog } from "@radix-ui/react-dialog";
 import { ActivityLogIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { SearchIcon } from "lucide-react";
+import { ActionEnum, EntityEnum } from "types/permissions";
 
-import { SEO } from "@acme/db";
+import type { SEO } from "@acme/db";
 
 import { SEOForm } from "~/components/seo-form";
 import { Button } from "~/components/ui/button";
@@ -49,7 +49,9 @@ export function PageActions({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
-            onSelect={() => router.push(`/pages/${params.pageId}/builder`)}
+            onSelect={() =>
+              router.push(`/pages/${params.pageId as string}/builder`)
+            }
           >
             <ActivityLogIcon className="mr-2 h-4 w-4" />
             Content Builder
@@ -73,7 +75,7 @@ export function PageActions({
               </DialogDescription>
             </DialogHeader>
             <div className="py-6">
-              <SEOForm initialData={seo} seoId={seo.id} pathname={pathname} />
+              <SEOForm pageId={+params.pageId} />
             </div>
           </DialogContent>
         </Dialog>

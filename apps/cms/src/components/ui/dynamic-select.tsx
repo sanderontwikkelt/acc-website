@@ -31,7 +31,7 @@ const DynamicSelect = ({
         values.map((oldValue, idx) => (idx === index ? value.key : oldValue)),
       );
     },
-    [values],
+    [values, onChange],
   );
 
   const dragItem = useCallback(
@@ -57,13 +57,15 @@ const DynamicSelect = ({
         </Select>
       </div>
     ),
-    [values],
+    [handleChange, items],
   );
 
   return (
     <DragList
       values={values?.length ? values.map((key) => ({ key, name: key })) : []}
-      onChange={(items) => onChange(items?.map((i) => i.key) || [])}
+      onChange={(items) =>
+        onChange(items?.map((i) => i.key as string) || ([] as string[]))
+      }
       dragItem={dragItem}
       root
     />

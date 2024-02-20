@@ -7,7 +7,7 @@ import "keen-slider/keen-slider.min.css";
 
 import { cn } from "@acme/ui";
 
-import { ImageType } from "~/lib/types";
+import type { ImageType } from "~/lib/types";
 import NextImage from "./NextImage";
 
 const sliderOptions = {

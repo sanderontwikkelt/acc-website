@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { DropAnimation } from "@dnd-kit/core";
 import React, { useEffect, useState } from "react";
 import {
@@ -28,6 +29,7 @@ export function createRange<T = number>(
   length: number,
   initializer: (index: number) => any = defaultInitializer,
 ): T[] {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return [...new Array(length)].map((_, index) => initializer(index));
 }
 
@@ -71,12 +73,11 @@ export function ImageGallary({
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      onChange((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over.id);
+      const oldIndex = selected.findIndex((item) => item.id === active.id);
+      const newIndex = selected.findIndex((item) => item.id === over.id);
 
-        return arrayMove(items, oldIndex, newIndex);
-      });
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      onChange(arrayMove(selected, oldIndex, newIndex));
     }
 
     setActiveId(null);

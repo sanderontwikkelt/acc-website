@@ -1,6 +1,7 @@
 "use client";
 
-import React, { ReactNode, useRef, useState } from "react";
+import type { ReactNode } from "react";
+import React, { useRef, useState } from "react";
 
 import { cn } from "@acme/ui";
 

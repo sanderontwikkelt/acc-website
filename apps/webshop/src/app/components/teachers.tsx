@@ -2,16 +2,16 @@
 
 import React, { useEffect, useState } from "react";
 
+import type { ImageType } from "~/lib/types";
 import { API_URL } from "~/lib/constants";
-import { ImageType } from "~/lib/types";
 import Teacher from "./teacher";
 
-export type Teacher = {
+export interface Teacher {
   image: ImageType;
   name: string;
   title: string;
   description: string;
-};
+}
 
 async function fetchTeachers(ids: string[]) {
   const tags = ["teachers"];
@@ -35,12 +35,12 @@ async function getTeachers(ids: string[], setTeachers: (t: Teacher[]) => void) {
   const teachers = await fetchTeachers(ids);
   if (teachers)
     setTeachers(
-      teachers.map(({ name, title, media, description }: any) => ({
+      teachers.map(({ name, title, media, description }) => ({
         name,
         image: { ...media, src: media.url },
         title,
         description,
-      })),
+      })) as Teacher[],
     );
 }
 
@@ -48,6 +48,7 @@ const Teachers = ({ ids }: { ids: string[] }) => {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     if (ids?.length) getTeachers(ids, setTeachers);
   }, [ids]);
 

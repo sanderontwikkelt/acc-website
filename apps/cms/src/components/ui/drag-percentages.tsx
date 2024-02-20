@@ -5,7 +5,10 @@ import Draggable from "react-draggable";
 
 import { cn } from "~/lib/utils";
 
-type Position = { x: number; y: number };
+interface Position {
+  x: number;
+  y: number;
+}
 
 const DragPercentages: React.FC<{
   className?: string;
@@ -14,7 +17,7 @@ const DragPercentages: React.FC<{
 }> = ({ className, position, setPosition }) => {
   const containerSize = 40;
   const childSize = 12;
-  const handleDrag = (e: any, data: any) => {
+  const handleDrag = (_: unknown, data: { x: number; y: number }) => {
     const xPercent = (data.x / (containerSize - childSize)) * 100;
     const yPercent = (data.y / (containerSize - childSize)) * 100;
 

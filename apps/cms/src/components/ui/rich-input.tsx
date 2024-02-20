@@ -1,6 +1,4 @@
 import {
-  BoldIcon,
-  EraserIcon,
   ItalicIcon,
   LinkIcon,
   ListIcon,
@@ -50,7 +48,6 @@ export const BtnLink = createButton(
     if ($selection?.nodeName === "A") {
       document.execCommand("unlink");
     } else {
-      // eslint-disable-next-line no-alert
       document.execCommand("createLink", false, prompt("URL", "") || undefined);
     }
   },
@@ -94,7 +91,7 @@ export default function RichInput({
       <Editor
         id={id}
         value={value}
-        onChange={(e) => onChange(sanitizeHtml(e.target.value))}
+        onChange={(e) => onChange(sanitizeHtml(e.target.value) as string)}
       >
         <Toolbar
           style={{

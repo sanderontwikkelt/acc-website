@@ -45,7 +45,6 @@ export async function POST(req: NextRequest) {
       method,
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     await db.insert(schema.orderPayment).values({
       paymentId: payment.id,
       charged: +charged,

@@ -1,8 +1,9 @@
 "use client";
 
+import type { EntityEnum } from "types/permissions";
 import React, { useState } from "react";
 import { Trash } from "lucide-react";
-import { ActionEnum, EntityEnum } from "types/permissions";
+import { ActionEnum } from "types/permissions";
 
 import { Button } from "@acme/ui/button";
 

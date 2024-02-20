@@ -6,15 +6,6 @@ const Error3 = () => {
     <section className="dark:bg-dark bg-white py-20 lg:py-[120px]">
       <div className="container mx-auto">
         <div className="-mx-4 flex flex-wrap items-center">
-          <div className="w-full px-4 md:w-5/12 lg:w-6/12">
-            <div className="text-center">
-              <img
-                src="https://cdn.tailgrids.com/2.0/image/application/images/404/image-01.svg"
-                alt="image"
-                className="mx-auto max-w-full"
-              />
-            </div>
-          </div>
           <div className="w-full px-4 md:w-7/12 lg:w-6/12 xl:w-5/12">
             <div>
               <div className="mb-8">
@@ -35,9 +26,6 @@ const Error3 = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-dark mb-6 text-2xl font-bold dark:text-white">
-                We Can't Seem to Find The Page You're Looking For.
-              </h3>
               <p className="text-body-color dark:text-dark-6 mb-8 text-lg">
                 Oops! The page you are looking for does not exist. It might have
                 been moved or deleted.

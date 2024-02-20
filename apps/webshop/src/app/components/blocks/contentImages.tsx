@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import { Button as ButtonType, ImageType } from "~/lib/types";
+import type { Button as ButtonType, ImageType } from "~/lib/types";
 
 import "keen-slider/keen-slider.min.css";
 

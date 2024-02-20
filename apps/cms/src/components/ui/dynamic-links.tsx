@@ -3,7 +3,10 @@ import React, { useCallback } from "react";
 import DragList from "./drag-list";
 import { Input } from "./input";
 
-type Item = { title: string; href: string };
+export interface Item {
+  title: string;
+  href: string;
+}
 
 const DynamicLinks = ({
   values,

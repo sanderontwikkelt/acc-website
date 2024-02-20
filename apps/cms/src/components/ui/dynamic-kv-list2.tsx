@@ -1,9 +1,7 @@
 import React, { useCallback } from "react";
 
-import {
-  ButtonValue,
-  CollapsibleButton,
-} from "~/app/(dashboard)/pages/[pageId]/builder/components/collapsable-button";
+import type { ButtonValue } from "~/app/(dashboard)/pages/[pageId]/builder/components/collapsable-button";
+import { CollapsibleButton } from "~/app/(dashboard)/pages/[pageId]/builder/components/collapsable-button";
 import DragList from "./drag-list";
 
 const DynamicButtonList = ({

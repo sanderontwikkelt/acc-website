@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 
-import { Library, LibraryCategory, Media } from "@acme/db";
+import type { Library, LibraryCategory, Media } from "@acme/db";
 import { cn, NextImage } from "@acme/ui";
 
 function formatDate(dateString: Date) {

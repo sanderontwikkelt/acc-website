@@ -1,7 +1,7 @@
 import React from "react";
 
+import type { ImageType } from "~/lib/types";
 import { setHtml } from "~/lib/setHtml";
-import { ImageType } from "~/lib/types";
 import Expandable from "./expandable";
 import NextImage from "./NextImage";
 

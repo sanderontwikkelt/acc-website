@@ -1,10 +1,10 @@
 "use client";
 
+import type { DateRange } from "react-day-picker";
 import * as React from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
-import { DateRange } from "react-day-picker";
 
 import { Button } from "~/components/ui/button";
 import { Calendar } from "~/components/ui/calendar";

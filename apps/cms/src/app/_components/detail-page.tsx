@@ -48,6 +48,7 @@ export enum TypeEnum {
 }
 
 interface FormField {
+  lane: string;
   name: string;
   label: string;
   placeholder?: string;
@@ -152,7 +153,7 @@ function DetailPage({
                 {canDelete && (
                   <div className="flex items-center space-x-2">
                     <Button
-                      disabled={loading}
+                      disabled={loading || isLoading}
                       variant="outline"
                       type="button"
                       onClick={() => setOpenDelete(true)}

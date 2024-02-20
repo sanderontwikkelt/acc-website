@@ -1,16 +1,12 @@
 "use client";
 
+import type { Libraries } from "@react-google-maps/api";
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import {
-  GoogleMap,
-  Libraries,
-  Marker,
-  useLoadScript,
-} from "@react-google-maps/api";
+import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { useQueryState } from "next-usequerystate";
 
-import { Media, Teacher } from "@acme/db";
+import type { Media, Teacher } from "@acme/db";
 import { cn } from "@acme/ui";
 
 import { setHtml } from "~/lib/setHtml";

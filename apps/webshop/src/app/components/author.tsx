@@ -1,6 +1,6 @@
 import React from "react";
 
-import { ImageType } from "~/lib/types";
+import type { ImageType } from "~/lib/types";
 import NextImage from "./NextImage";
 
 const Author = ({

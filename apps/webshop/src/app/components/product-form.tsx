@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { api } from "src/trpc/react";
 
-import { ProductPaymentPlan, ProductVariant } from "@acme/db";
+import type { ProductPaymentPlan, ProductVariant } from "@acme/db";
 import {
   Select,
   SelectContent,

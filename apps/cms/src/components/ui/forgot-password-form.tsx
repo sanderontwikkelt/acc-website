@@ -1,11 +1,11 @@
 "use client";
 
+import type { z } from "zod";
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { type z } from "zod";
 
 import { toast } from "@acme/ui/toast";
 

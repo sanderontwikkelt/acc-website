@@ -1,6 +1,6 @@
 import type { Table } from "@tanstack/react-table";
 import * as React from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { TrashIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@acme/ui";
@@ -16,7 +16,6 @@ import {
 } from "@acme/ui/select";
 
 import type { DataTableFilterOption } from "../data-table-types";
-import { useDebounce } from "~/hooks/use-debounce";
 import { useQueryString } from "~/hooks/use-query-string";
 import { Popover, PopoverContent, PopoverTrigger } from "../../popover";
 import { DataTableFacetedFilter } from "../data-table-faceted-filter";

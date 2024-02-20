@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import useUndo from "use-undo";
 
 import type { Footer, Header, Page } from "@acme/db";
@@ -64,37 +66,46 @@ const PageEditorClient = ({
   const frontendUrl = process.env.NEXT_PUBLIC_FRONT_URL;
   const router = useRouter();
 
-  const postMessageToIframe = () => {
-    const iframe = document.getElementById(
-      "website-iframe",
-    ) as HTMLIFrameElement;
-
-    iframe?.contentWindow?.postMessage(
-      {
-        header: state.header || header,
-        footer: state.footer || footer,
-        blocks: state.blocks.map(
-          ({ uid, id, fields, name, style, innerStyle, maxWidth, label }) => ({
-            label,
-            id,
-            uid,
-            innerStyle,
-            maxWidth,
-            fields: Object.entries(fields).reduce(
-              (acc, [key, { value }]) => ({ ...acc, [key]: value }),
-              {} as any,
-            ),
-            name,
-            style,
-          }),
-        ),
-      },
-      frontendUrl,
-    );
-    setSent(true);
-  };
-
   useEffect(() => {
+    const postMessageToIframe = () => {
+      const iframe = document.getElementById(
+        "website-iframe",
+      ) as HTMLIFrameElement;
+
+      iframe?.contentWindow?.postMessage(
+        {
+          header: state.header || header,
+          footer: state.footer || footer,
+          blocks: state.blocks.map(
+            ({
+              uid,
+              id,
+              fields,
+              name,
+              style,
+              innerStyle,
+              maxWidth,
+              label,
+            }) => ({
+              label,
+              id,
+              uid,
+              innerStyle,
+              maxWidth,
+              fields: Object.entries(fields).reduce(
+                (acc, [key, { value }]) => ({ ...acc, [key]: value }),
+                {} as any,
+              ),
+              name,
+              style,
+            }),
+          ),
+        },
+        frontendUrl,
+      );
+      setSent(true);
+    };
+
     const iframe = document.getElementById(
       "website-iframe",
     ) as HTMLIFrameElement;
@@ -123,7 +134,7 @@ const PageEditorClient = ({
       };
     }
     setSent(true);
-  }, [state, isIframeReady, frontendUrl]);
+  }, [state, isIframeReady, frontendUrl, sent, footer, header]);
 
   useEffect(() => {
     const sidebar = document.getElementById("sidebar");
@@ -216,7 +227,6 @@ const PageEditorClient = ({
     <div className="flex h-full w-full flex-col">
       <Toolbar
         display={display}
-        blocks={state.blocks}
         setDisplay={setDisplay}
         publish={publish}
         loading={loading}

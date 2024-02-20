@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 import accordion from "~/components/blocks/accordion";
 import callToAction from "~/components/blocks/call-to-action";
 import card from "~/components/blocks/card";
@@ -16,10 +18,11 @@ import textColumns from "~/components/blocks/text-columns";
 import videoIframe from "~/components/blocks/video-iframe";
 
 export interface Block {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fields: any;
   name: "hero" | "content";
-  style?: any;
-  innerStyle?: any;
+  style?: CSSProperties;
+  innerStyle?: CSSProperties;
   id: string;
   uid: string;
   label: string;

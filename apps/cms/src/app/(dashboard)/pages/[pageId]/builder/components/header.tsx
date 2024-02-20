@@ -8,12 +8,13 @@ import { Popover, Transition } from "@headlessui/react";
 import { ChevronLeft, Plus } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 
-import { Page, PageBackup, SEO } from "@acme/db";
+import type { Page, PageBackup, SEO } from "@acme/db";
 import { cn } from "@acme/ui";
 import { toast } from "@acme/ui/toast";
 
+import type { BlockType } from "~/lib/html-blocks";
 import { buttonVariants } from "~/components/ui/button";
-import htmlBlocks, { BlockType } from "~/lib/html-blocks";
+import htmlBlocks from "~/lib/html-blocks";
 import { PresetActions } from "./actions";
 import PageBackupSwitcher from "./block-backup-switcher";
 import PageSwitcher from "./page-switcher";
@@ -22,9 +23,7 @@ export default function Header({
   pages,
   onSelect,
   page,
-  seo,
   backups,
-  blocks: blocksState,
   setBlocks,
 }: {
   pages: Page[];
@@ -80,10 +79,12 @@ export default function Header({
                       toast.success(
                         `${item.label} toegevoegd aan ${page.name}`,
                       );
+                      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                       onSelect({
                         ...item,
                         uid: uuidv4(),
                         id: uuidv4(),
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       } as any);
                     }}
                     className="group relative flex items-center gap-x-6 rounded-lg p-4 hover:bg-gray-50"
@@ -114,10 +115,8 @@ export default function Header({
       </Popover>
 
       <PresetActions
-        blocks={blocksState}
         page={page}
         pages={pages}
-        seo={seo}
         pageIds={pages.map(({ id }) => id)}
       />
     </header>

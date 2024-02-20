@@ -10,7 +10,11 @@ import {
 import DragList from "./drag-list";
 import { Label } from "./label";
 
-type Item = { pathname: string; name: string; values: Item[] };
+export interface NavItem {
+  pathname: string;
+  name: string;
+  values: NavItem[];
+}
 
 const DynamicNavs = ({
   values,
@@ -18,13 +22,13 @@ const DynamicNavs = ({
   items,
   root,
 }: {
-  values: Item[];
+  values: NavItem[];
   items: { pathname: string; name: string }[];
-  onChange: (value: Item[]) => void;
+  onChange: (value: NavItem[]) => void;
   root?: boolean;
 }) => {
   const handleChange = useCallback(
-    (value: Item, index: number) => {
+    (value: NavItem, index: number) => {
       onChange(
         values.map((oldValue, idx) => (idx === index ? value : oldValue)),
       );
@@ -33,7 +37,7 @@ const DynamicNavs = ({
   );
 
   const dragItem = useCallback(
-    ({ value, index }: { value: Item; index: number }) => (
+    ({ value, index }: { value: NavItem; index: number }) => (
       <div className="w-full space-y-2">
         <Select
           value={value.pathname}

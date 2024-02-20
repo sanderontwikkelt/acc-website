@@ -4,10 +4,8 @@ import type { LucideIcon } from "lucide-react";
 import React from "react";
 import Link from "next/link";
 import {
-  ArchiveRestoreIcon,
   ChevronLeft,
   Command,
-  CrossIcon,
   MenuIcon,
   MonitorIcon,
   Option,
@@ -16,7 +14,6 @@ import {
   ArrowBigUp as Shift,
   Smartphone,
   TabletIcon,
-  TimerReset,
   Undo,
   XSquareIcon,
 } from "lucide-react";

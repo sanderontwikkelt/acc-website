@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { CheckIcon, PlusCircledIcon } from "@radix-ui/react-icons";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
-import { Page } from "@acme/db";
+import type { Page } from "@acme/db";
 import { cn } from "@acme/ui";
 
 import { Button } from "~/components/ui/button";

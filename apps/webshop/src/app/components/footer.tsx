@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
 
+import type { FooterType } from "~/lib/types";
 import { getArray } from "~/lib/getArray";
 import { setHtml } from "~/lib/setHtml";
-import { FooterType } from "~/lib/types";
 import Section from "./section";
 
 const Footer = ({ footer }: { footer: FooterType }) => {

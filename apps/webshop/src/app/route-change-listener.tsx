@@ -10,7 +10,7 @@ export function RouteChangeListener() {
 
   useEffect(() => {
     if (builder) parent.postMessage({ pathname, action: "PATH" }, "*");
-  }, [pathname]);
+  }, [pathname, builder]);
 
   return <></>;
 }

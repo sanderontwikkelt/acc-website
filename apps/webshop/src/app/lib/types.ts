@@ -1,11 +1,11 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 export interface Button {
   title: string;
   href: string;
   children: ReactNode;
-  variant?: 'main';
-  size?: 'lg';
+  variant?: "main";
+  size?: "lg";
   mobile?: {
     children?: ReactNode;
     href?: string;
@@ -33,16 +33,16 @@ export interface ImageType {
   objectPosition?: { x: number; y: number };
 }
 
-export type HeaderType = {
+export interface HeaderType {
   navigation: { pathname: string; name: string }[];
   links: { pathname: string; name: string }[];
   media: { url: string; width: number; height: number };
-};
+}
 
-export type FooterType = {
+export interface FooterType {
   navigation: { pathname: string; name: string }[];
   links: { pathname: string; name: string }[];
   informationLinks: { pathname: string; name: string }[];
   socials: { title: string; href: string }[];
   title: string;
-};
+}

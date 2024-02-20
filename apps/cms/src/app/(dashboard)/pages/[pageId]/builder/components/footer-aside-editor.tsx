@@ -1,7 +1,10 @@
 "use client";
 
-import { Footer, Page } from "@acme/db";
+import type { Footer, Page } from "@acme/db";
 
+import type { State } from "./client";
+import type { Item } from "~/components/ui/dynamic-links";
+import type { NavItem } from "~/components/ui/dynamic-navs";
 import Slider from "~/components/slider";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Badge } from "~/components/ui/badge";
@@ -10,7 +13,6 @@ import DynamicNavs from "~/components/ui/dynamic-navs";
 import { Label } from "~/components/ui/label";
 import RichInput from "~/components/ui/rich-input";
 import { getArray } from "~/lib/getArray";
-import { State } from "./client";
 
 const FooterAsideEditor = ({
   open,
@@ -27,18 +29,9 @@ const FooterAsideEditor = ({
   state: State;
   setState: (b: State) => void;
 }) => {
-  const navigation = getArray(footer.navigation) as {
-    pathname: string;
-    name: string;
-  }[];
-  const links = getArray(footer.links) as {
-    pathname: string;
-    name: string;
-  }[];
-  const informationLinks = getArray(footer.informationLinks) as {
-    pathname: string;
-    name: string;
-  }[];
+  const navigation = getArray(footer.navigation) as NavItem[];
+  const links = getArray(footer.links) as Item[];
+  const informationLinks = getArray(footer.informationLinks) as Item[];
   const socials = getArray(footer.socials) as {
     title: string;
     href: string;

@@ -1,15 +1,13 @@
 "use client";
 
-import React from "react";
 import { useKeenSlider } from "keen-slider/react";
 
-import { ImageType } from "~/lib/types";
+import type { ImageType } from "~/lib/types";
 
 import "keen-slider/keen-slider.min.css";
 
 import { setHtml } from "~/lib/setHtml";
 import Author from "../author";
-import NextImage from "../NextImage";
 
 interface Item {
   description: string;

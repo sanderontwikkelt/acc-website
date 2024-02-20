@@ -1,18 +1,19 @@
 import React, { useCallback } from "react";
 
+import type { MediaValue } from "./media-select";
 import DragList from "./drag-list";
 import { Input } from "./input";
-import MediaSelect, { MediaValue } from "./media-select";
+import MediaSelect from "./media-select";
 import RichText from "./rich-text";
 
-type Item = {
+interface Item {
   title?: string;
   subtitle?: string;
   author?: string;
   href?: string;
   description?: string;
   image?: MediaValue;
-};
+}
 
 const DynamicList = ({
   values,

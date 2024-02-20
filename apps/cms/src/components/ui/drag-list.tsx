@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { ReactNode } from "react";
-import React from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { DragHandleDots2Icon } from "@radix-ui/react-icons";
 import { CopyIcon, PlusIcon } from "lucide-react";
@@ -44,8 +44,15 @@ const DragList = ({
   const handleDrop = (droppedItem: any) => {
     if (!droppedItem.destination) return;
     const updatedList = [...values];
-    const [reorderedItem] = updatedList.splice(droppedItem.source.index, 1);
-    updatedList.splice(droppedItem.destination.index, 0, reorderedItem);
+    const [reorderedItem] = updatedList.splice(
+      droppedItem.source.index as number,
+      1,
+    );
+    updatedList.splice(
+      droppedItem.destination.index as number,
+      0,
+      reorderedItem,
+    );
     onChange(updatedList);
   };
   return (

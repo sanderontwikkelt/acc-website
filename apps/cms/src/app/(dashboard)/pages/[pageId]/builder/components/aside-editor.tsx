@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useCallback } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import type { BlockType } from "~/lib/html-blocks";
 import InfoTooltip from "~/components/info-tooltip";
 import Slider from "~/components/slider";
 import { Checkbox } from "~/components/ui/checkbox";
@@ -15,7 +17,6 @@ import DynamicLinks from "~/components/ui/dynamic-links";
 import DynamicList from "~/components/ui/dynamic-list";
 import DynamicListWithButton from "~/components/ui/dynamic-list-with-button";
 import DynamicStringList from "~/components/ui/dynamic-string-list";
-import DynamicTeachers from "~/components/ui/dynamic-teachers";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import MediaSelect from "~/components/ui/media-select";
@@ -31,7 +32,6 @@ import {
 import SizePicker from "~/components/ui/size-picker";
 import StyleForm from "~/components/ui/style-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import { BlockType } from "~/lib/html-blocks";
 import { CollapsibleButton } from "./collapsable-button";
 
 const AsideEditor = ({
@@ -91,7 +91,7 @@ const AsideEditor = ({
                         [
                           fieldName,
                           { label, type, options, value, showOnVariants },
-                        ]: any,
+                        ]: [any, any],
                         i: number,
                       ) => {
                         if (
@@ -227,14 +227,15 @@ const AsideEditor = ({
                                   }
                                 />
                               ),
-                              teachers: (
-                                <DynamicTeachers
-                                  values={value?.length ? value : []}
-                                  onChange={(list) =>
-                                    handleFields(fieldName, list)
-                                  }
-                                />
-                              ),
+                              // teachers: (
+                              //   <DynamicTeachers
+                              //     values={value?.length ? value : []}
+                              //     onChange={(list) =>
+                              //       handleFields(fieldName, list)
+                              //     }
+                              //     items={[]}
+                              //   />
+                              // ),
                               libraries: (
                                 <DynamicLibraries
                                   values={value?.length ? value : []}

@@ -1,4 +1,4 @@
-import { Media, Product, ProductCategory } from "@acme/db";
+import type { Media, Product, ProductCategory } from "@acme/db";
 
 import Products from "~/components/products";
 import Section from "~/components/section";

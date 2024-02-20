@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button as ButtonType } from "~/lib/types";
+import type { Button as ButtonType } from "~/lib/types";
 import { Button } from "../button";
 
 const callToAction = ({

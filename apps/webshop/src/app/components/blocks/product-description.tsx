@@ -1,9 +1,8 @@
-/* eslint-disable jsx-a11y/heading-has-content */
 import React from "react";
 import Link from "next/link";
 
+import type { Button as ButtonType } from "~/lib/types";
 import { setHtml } from "~/lib/setHtml";
-import { Button as ButtonType } from "~/lib/types";
 import Accordion from "../accordion";
 import { Button } from "../button";
 import Expandable from "../expandable";

@@ -2,7 +2,7 @@ import React from "react";
 
 import { cn } from "@acme/ui";
 
-import { ImageType } from "~/lib/types";
+import type { ImageType } from "~/lib/types";
 import NextImage from "../NextImage";
 
 interface Item {

@@ -1,13 +1,14 @@
 import React, { useCallback } from "react";
 
+import type { MediaValue } from "./media-select";
 import DragList from "./drag-list";
 import { Input } from "./input";
-import MediaSelect, { MediaValue } from "./media-select";
+import MediaSelect from "./media-select";
 
-type Item = {
+interface Item {
   href: string;
   image: MediaValue;
-};
+}
 
 const DynamicLinkImages = ({
   values,

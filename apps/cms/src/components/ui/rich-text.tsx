@@ -42,11 +42,11 @@ export const BtnStrikeThrough = createButton(
 export const BtnLink = createButton(
   "Link",
   <LinkIcon style={{ margin: "auto" }} width={16} height={16} />,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ({ $selection }: any) => {
     if ($selection?.nodeName === "A") {
       document.execCommand("unlink");
     } else {
-      // eslint-disable-next-line no-alert
       document.execCommand("createLink", false, prompt("URL", "") || undefined);
     }
   },

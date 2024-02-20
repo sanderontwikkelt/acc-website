@@ -1,26 +1,21 @@
 import { ArrowUpRightIcon, ClockIcon, Share2Icon } from "lucide-react";
 
-import { auth } from "@acme/auth";
-
 import { getDashboardData } from "~/actions/get-dashboard-data";
 import { Overview } from "~/components/overview";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { CalendarDateRangePicker } from "~/components/ui/date-range-picker";
 import { Heading } from "~/components/ui/heading";
-import { Separator } from "~/components/ui/separator";
 import { UserGeoOverview } from "~/components/user-geo-overview";
 import { ViewsPerTitle } from "~/components/views-per-title";
 import { getDateString } from "~/lib/utils";
 
 interface DashboardPageProps {
-  params: {};
-  searchParams?: { [key: string]: string | undefined };
+  searchParams?: Record<string, string | undefined>;
 }
 
 const DashboardPage: React.FC<DashboardPageProps> = async ({
   searchParams,
 }) => {
-  const session = await auth();
   const startDate = searchParams?.startDate ?? getDateString(7) ?? "";
   const endDate = searchParams?.endDate ?? getDateString() ?? "";
 

@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 import { cn } from "@acme/ui";
 
@@ -16,13 +16,11 @@ const Section = ({
   id,
   label,
   innerId,
-  isFirst,
-  isLast,
   ...props
 }: {
   children: ReactNode;
-  style?: any;
-  innerStyle?: any;
+  style?: CSSProperties;
+  innerStyle?: CSSProperties;
   fields?: { background?: string };
   maxWidth?: number | string;
   className?: string;

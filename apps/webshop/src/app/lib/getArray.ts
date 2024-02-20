@@ -1,4 +1,5 @@
-function isArrayOrJsonArray(input: any): input is Array<any> | string {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function isArrayOrJsonArray(input: any): input is any[] | string {
   return (
     Array.isArray(input) ||
     (typeof input === "string" &&

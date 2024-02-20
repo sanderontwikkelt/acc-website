@@ -7,8 +7,8 @@ import HamburgerMenu from "react-hamburger-menu";
 
 import { cn } from "@acme/ui";
 
+import type { HeaderType } from "~/lib/types";
 import { getArray } from "~/lib/getArray";
-import { HeaderType } from "~/lib/types";
 import { Button } from "./button";
 import MobileItem from "./mobileItem";
 import NavItems from "./nav-items";

@@ -1,18 +1,20 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
-import { MediaModal, MediaType } from "../modals/media-modal";
+import type { Media } from "@acme/db";
+
+import type { MediaType } from "../modals/media-modal";
 import DragList from "./drag-list";
 import MediaItem from "./media-item";
 
-export type MediaValue = {
+export interface MediaValue {
   src: string;
   width: number;
   height: number;
-  id: string;
+  id: number;
   name: string;
   objectFit?: "cover" | "contain";
   objectPosition?: { x: number; y: number };
-};
+}
 
 interface MediaSelectProps {
   disabled?: boolean;
@@ -29,7 +31,7 @@ const MediaSelect: React.FC<MediaSelectProps> = ({
   multiple = false,
 }) => {
   const dragItem = useCallback(
-    ({ value }: any, i: number) => (
+    ({ value }: { value: Media }, i: number) => (
       <MediaItem
         type={type}
         value={value}
@@ -40,7 +42,7 @@ const MediaSelect: React.FC<MediaSelectProps> = ({
         }
       />
     ),
-    [type, values],
+    [type, values, onChange],
   );
   return (
     <div>

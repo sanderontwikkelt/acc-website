@@ -1,7 +1,7 @@
 import React from "react";
 
+import type { Block } from "~/lib/blocks";
 import ServerWrapper from "~/components/server-wrapper";
-import { Block } from "~/lib/blocks";
 import { WEB_URL } from "~/lib/constants";
 import { getArray } from "~/lib/getArray";
 import BlocksRenderer from "./blocks-renderer";

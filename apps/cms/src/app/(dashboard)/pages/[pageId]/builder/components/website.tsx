@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 
-import { Page } from "@acme/db";
+import type { Page } from "@acme/db";
 
 const Website = ({
   page,
@@ -19,24 +19,28 @@ const Website = ({
 }) => {
   const frontendUrl = process.env.NEXT_PUBLIC_FRONT_URL;
 
-  const getMessage = (event: any) => {
-    if (event.origin === frontendUrl) {
-      if (event.data.action === "EDIT") {
-        setSectionId(event.data.id);
-      } else if (event.data.action === "PATH") {
-        onNavigate(event.data.pathname);
-      } else {
-        moveSection(event.data.id, event.data.action);
+  const getMessage = useCallback(
+    (event: MessageEvent) => {
+      if (event.origin === frontendUrl) {
+        if (event.data.action === "EDIT") {
+          setSectionId(event.data.id as string);
+        } else if (event.data.action === "PATH") {
+          onNavigate(event.data.pathname as string);
+        } else {
+          moveSection(event.data.id as string, event.data.action as "UP");
+        }
       }
-    }
-  };
+    },
+    [frontendUrl, moveSection, setSectionId, onNavigate],
+  );
+
   useEffect(() => {
     window.addEventListener("message", getMessage);
 
     return () => {
       window.removeEventListener("message", getMessage);
     };
-  }, []);
+  }, [getMessage]);
 
   const { width, height, maxHeight, borderRadius } = {
     desktop: {
@@ -67,6 +71,7 @@ const Website = ({
       >
         <iframe
           id="website-iframe"
+          title="builder"
           src={frontendUrl + page.pathname + "?mode=builder"}
           frameBorder="0"
           className="h-full w-full flex-grow"

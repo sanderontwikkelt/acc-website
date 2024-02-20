@@ -1,5 +1,6 @@
+import type { NextRequest } from "next/server";
 import { revalidateTag } from "next/cache";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -10,7 +11,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "INVALID TOKEN" }, { status: 500 });
   }
 
-  revalidateTag(tag);
+  revalidateTag(tag as string);
   try {
     return NextResponse.json({ revalidated: true });
   } catch (error) {

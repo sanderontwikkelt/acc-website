@@ -1,17 +1,19 @@
 "use client";
 
-import { ReactNode, useCallback } from "react";
+import type { ReactNode } from "react";
+import { useCallback } from "react";
 import Image from "next/image";
 import { EditIcon, PlusIcon } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 
-import { Page } from "@acme/db";
+import type { Page } from "@acme/db";
 import { cn } from "@acme/ui";
 import { toast } from "@acme/ui/toast";
 
+import type { BlockType } from "~/lib/html-blocks";
 import DragList from "~/components/ui/drag-list";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import htmlBlocks, { BlockType } from "~/lib/html-blocks";
+import htmlBlocks from "~/lib/html-blocks";
 
 const BlockNavigation = ({
   onClick,
@@ -155,10 +157,12 @@ export default function ComponentsMenu({
                         toast.success(
                           `${item.label} toegevoegd aan ${page.name}`,
                         );
+                        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                         onSelect({
                           ...item,
                           uid: uuidv4(),
                           id: uuidv4(),
+                          // eslint-disable-next-line @typescript-eslint/no-explicit-any
                         } as any);
                       }}
                     >

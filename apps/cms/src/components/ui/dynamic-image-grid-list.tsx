@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 
+import type { MediaValue } from "./media-select";
 import {
   Select,
   SelectContent,
@@ -8,9 +9,12 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import DragList from "./drag-list";
-import MediaSelect, { MediaValue } from "./media-select";
+import MediaSelect from "./media-select";
 
-type Item = { cols: number; image?: MediaValue };
+interface Item {
+  cols: number;
+  image?: MediaValue;
+}
 
 const DynamicImageGridList = ({
   values,

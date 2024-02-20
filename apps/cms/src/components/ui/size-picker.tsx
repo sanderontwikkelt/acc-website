@@ -19,7 +19,9 @@ function separateNumbersAndChars(input: string) {
   let numbers = "";
   let chars = "";
 
+  // eslint-disable-next-line @typescript-eslint/prefer-for-of
   for (let i = 0; i < input.length; i++) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     if (!isNaN(input[i] as any) && input[i] !== " ") {
       // Check if the character is a number (ignoring spaces)
       numbers += input[i];
@@ -37,7 +39,7 @@ const SizePicker = ({
   onChange,
 }: {
   value: string;
-  onChange: (v: any) => void;
+  onChange: (v: string) => void;
 }) => {
   const { numbers, chars = "px" } = separateNumbersAndChars(value);
   return (

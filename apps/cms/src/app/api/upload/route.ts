@@ -8,7 +8,7 @@ const storage = new Storage({
   projectId: process.env.GOOGLE_STORAGE_PROJECT_ID,
   credentials: {
     client_email: process.env.GOOGLE_STORAGE_EMAIL,
-    private_key: process.env.GOOGLE_STORAGE_PRIVATE_KEY!.replace(/\\n/g, "\n"),
+    private_key: process.env.GOOGLE_STORAGE_PRIVATE_KEY.replace(/\\n/g, "\n"),
   },
 });
 
@@ -41,6 +41,7 @@ export async function POST(request: NextRequest) {
         resolve(new NextResponse("Er is iets mis gegaan!", { status: 500 }));
       });
 
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       blobStream.on("finish", async () => {
         const url = `https://storage.googleapis.com/${bucketName}/${blob.name}`;
 

@@ -1,4 +1,4 @@
-import { Media, Teacher } from "@acme/db";
+import type { Media, Teacher } from "@acme/db";
 
 import GoogleMaps from "~/components/blocks/google-map";
 import ServerWrapper from "~/components/server-wrapper";

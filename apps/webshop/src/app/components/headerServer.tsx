@@ -33,7 +33,7 @@ const HeaderServer = async () => {
     <header
       className={cn(
         "fixed left-0 top-0 z-[99999] flex h-[6.25rem] w-full max-w-[100vw] items-center px-[calc(1.875rem+max((100vw-(1040rem/16))/2,0px))] transition-colors duration-300",
-        true ? "bg-accent" : "bg-accent max-md:bg-transparent",
+        "bg-accent max-md:bg-transparent",
       )}
     >
       <Link href="/" className="h-8 md:h-11" aria-label="Physis">
@@ -62,7 +62,7 @@ const HeaderServer = async () => {
         )}
       </Link>
       <nav className="ml-auto flex items-center max-md:hidden lg:space-x-3 xl:space-x-6">
-        <NavItems links={header.links} />
+        <NavItems links={header.links} setHoveredItem={console.log} />
         {!!cta && (
           <Button className="ml-6" href={cta.pathname} aria-label={cta.name}>
             {cta.name}

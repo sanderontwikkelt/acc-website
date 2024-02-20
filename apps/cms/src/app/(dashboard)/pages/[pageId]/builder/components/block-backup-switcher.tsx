@@ -3,9 +3,10 @@
 import * as React from "react";
 import { ClockIcon } from "lucide-react";
 
-import { PageBackup } from "@acme/db";
+import type { PageBackup } from "@acme/db";
 import { cn } from "@acme/ui";
 
+import type { BlockType } from "~/lib/html-blocks";
 import { Button } from "~/components/ui/button";
 import { Command, CommandItem, CommandList } from "~/components/ui/command";
 import { Dialog } from "~/components/ui/dialog";
@@ -14,7 +15,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { BlockType } from "~/lib/html-blocks";
 import { formatDate } from "~/lib/utils";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<

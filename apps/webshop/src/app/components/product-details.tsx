@@ -6,7 +6,6 @@ import type {
   ProductPaymentPlan,
   ProductVariant,
 } from "@acme/db";
-import { NextImage } from "@acme/ui";
 
 import { setHtml } from "~/lib/setHtml";
 import { formatter } from "~/lib/utils";

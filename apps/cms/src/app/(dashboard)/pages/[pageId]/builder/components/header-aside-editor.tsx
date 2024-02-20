@@ -1,16 +1,19 @@
 "use client";
 
-import { Header, Page } from "@acme/db";
+import type { Header, Page } from "@acme/db";
 
 import Slider from "~/components/slider";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Badge } from "~/components/ui/badge";
 import DynamicNavs from "~/components/ui/dynamic-navs";
 import { Label } from "~/components/ui/label";
-import SingleImageSelect from "~/components/ui/single-image-select";
 import { getArray } from "~/lib/getArray";
 
-type Item = { pathname: string; name: string; values: Item[] };
+interface Item {
+  pathname: string;
+  name: string;
+  values: Item[];
+}
 
 const HeaderAsideEditor = ({
   open,
@@ -41,13 +44,6 @@ const HeaderAsideEditor = ({
             </code>
           </AlertDescription>
         </Alert>
-        <div className="space-y-2">
-          <Label>Logo</Label>
-          <SingleImageSelect
-            value={header.mediaId || ""}
-            onChange={(mediaId) => setHeader({ ...header, mediaId })}
-          />
-        </div>
         <div className="space-y-2">
           <Label>Navigatie</Label>
           <DynamicNavs

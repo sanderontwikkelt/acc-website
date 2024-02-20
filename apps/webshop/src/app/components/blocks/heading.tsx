@@ -2,8 +2,8 @@ import React from "react";
 
 import { cn } from "@acme/ui";
 
+import type { Align, Button as ButtonType } from "~/lib/types";
 import { setHtml } from "~/lib/setHtml";
-import { Align, Button as ButtonType } from "~/lib/types";
 import { Button } from "../button";
 
 const heading = ({

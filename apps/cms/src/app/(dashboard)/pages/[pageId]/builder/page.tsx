@@ -2,7 +2,7 @@
 
 import { notFound, useParams } from "next/navigation";
 
-import { Footer, Header, Page } from "@acme/db";
+import type { Footer, Header, Page } from "@acme/db";
 
 import { api } from "~/trpc/react";
 import PageEditorClient from "./components/client";
@@ -48,7 +48,7 @@ const PageEditorPage = () => {
       page={
         {
           ...page,
-          blocks: JSON.parse(page.blocks),
+          blocks: JSON.parse(page.blocks as string),
           createdAt: new Date(page.createdAt),
           updatedAt: new Date(page.updatedAt),
         } as Page

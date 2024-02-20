@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { Page } from "@acme/db";
+import type { Page } from "@acme/db";
 import { cn } from "@acme/ui";
 import {
   Select,
@@ -33,7 +33,6 @@ import { api } from "~/trpc/react";
 
 const formSchema = z.object({
   name: z.string().min(1),
-  pageId: z.number().optional(),
   pathname: z.string().min(1),
   concept: z.boolean().optional(),
 });
@@ -55,30 +54,20 @@ export const PageForm: React.FC<PageFormProps> = ({
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
+  const [pageId, setPageId] = useState<number | null>(null);
 
   const toastMessage = initialData
     ? "Pagina opgeslagen."
     : "Pagina toegevoegd.";
   const action = initialData ? "Opslaan" : "Toevoegen";
 
-  const defaultValues = initialData
-    ? {
-        ...initialData,
-      }
-    : {
-        name: "",
-        pathname: "",
-        concept: true,
-      };
-
   const form = useForm<PageFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues,
   });
   const createPage = api.page.create.useMutation();
   const updatePage = api.page.update.useMutation();
 
-  const onSubmit = async ({ pageId, ...data }: PageFormValues) => {
+  const onSubmit = async (data: PageFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
@@ -108,7 +97,7 @@ export const PageForm: React.FC<PageFormProps> = ({
         router.push(`/pages`);
       }
       toast.success(toastMessage);
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
       toast.error("Er is iets mis gegaan.");
     } finally {
@@ -164,33 +153,23 @@ export const PageForm: React.FC<PageFormProps> = ({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="pageId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Pagina dupliceren</FormLabel>
-                  <FormControl>
-                    <Select
-                      value={field.pageId || undefined}
-                      onValueChange={(v) => field.onChange(+v)}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecteer een pagina" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {pages.map(({ id, name }) => (
-                          <SelectItem key={id} value={String(id)}>
-                            {name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
+            <Select
+              value={pageId ? String(pageId) : undefined}
+              onValueChange={(v) => setPageId(+v)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Selecteer een pagina" />
+              </SelectTrigger>
+              <SelectContent>
+                {pages.map(({ id, name }) => (
+                  <SelectItem key={id} value={String(id)}>
+                    {name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
             <FormField
               control={form.control}
               name="concept"
@@ -199,7 +178,6 @@ export const PageForm: React.FC<PageFormProps> = ({
                   <FormControl>
                     <Checkbox
                       checked={field.value}
-                      // @ts-ignore
                       onCheckedChange={field.onChange}
                     />
                   </FormControl>

@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import { cn } from "@acme/ui";
 
+import type { ImageType, LinksType } from "~/lib/types";
 import { setHtml } from "~/lib/setHtml";
-import { ImageType, LinksType } from "~/lib/types";
 import NextImage from "../NextImage";
 
 const card = ({

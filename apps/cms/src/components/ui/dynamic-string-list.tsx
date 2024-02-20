@@ -3,7 +3,10 @@ import React, { useCallback } from "react";
 import DragList from "./drag-list";
 import { Input } from "./input";
 
-type Value = { id: string; label: string };
+interface Value {
+  id: string;
+  label: string;
+}
 const DynamicStringList = ({
   values,
   onChange,

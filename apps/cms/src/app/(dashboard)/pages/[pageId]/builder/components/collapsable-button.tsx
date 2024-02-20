@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 
-export type ButtonValue = {
+export interface ButtonValue {
   title: string;
   children: React.ReactNode;
   href: string;
@@ -29,13 +29,13 @@ export type ButtonValue = {
   rounded: "default" | "sm" | "md";
   size: "default" | "lg";
   withArrow: boolean;
-};
+}
 
-type Props = {
+interface Props {
   children: React.ReactNode;
   value: ButtonValue;
   setValue: (v: ButtonValue) => void;
-};
+}
 
 export function CollapsibleButton({ children, value, setValue }: Props) {
   const { title, href, target, withArrow, variant, rounded, size } = value;
@@ -140,7 +140,7 @@ export function CollapsibleButton({ children, value, setValue }: Props) {
           <div className="flex items-center space-x-2 pt-1">
             <Checkbox
               checked={withArrow}
-              // @ts-ignore
+              // @ts-expect-error checked is always ok
               onCheckedChange={(checked) => onChange("withArrow", checked)}
             />
             <Label>Met pijl</Label>

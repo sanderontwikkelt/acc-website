@@ -1,20 +1,17 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 
-import {
-  ButtonValue,
-  CollapsibleButton,
-} from "~/app/(dashboard)/pages/[pageId]/builder/components/collapsable-button";
+import type { ButtonValue } from "~/app/(dashboard)/pages/[pageId]/builder/components/collapsable-button";
+import { CollapsibleButton } from "~/app/(dashboard)/pages/[pageId]/builder/components/collapsable-button";
 import DragList from "./drag-list";
 import { Input } from "./input";
 import RichText from "./rich-text";
-import { Textarea } from "./textarea";
 
-type Item = {
+interface Item {
   title: string;
   description: string;
   button?: ButtonValue;
   hasButton?: boolean;
-};
+}
 
 const DynamicListWithButton = ({
   values,

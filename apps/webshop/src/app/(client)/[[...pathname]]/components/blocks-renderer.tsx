@@ -1,7 +1,8 @@
 import React from "react";
 
+import type { Block } from "~/lib/blocks";
 import Section from "~/components/section";
-import { Block, blocks } from "~/lib/blocks";
+import { blocks } from "~/lib/blocks";
 
 const BlocksRenderer = ({
   blocks: blocksData,

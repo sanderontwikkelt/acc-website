@@ -9,7 +9,7 @@ const {
 
 const analyticsDataClient = new BetaAnalyticsDataClient({
   credentials: JSON.parse(
-    Buffer.from(GOOGLE_ANALITCS_CREDENTIALS_BASE64!, "base64").toString(),
+    Buffer.from(GOOGLE_ANALITCS_CREDENTIALS_BASE64, "base64").toString(),
   ),
 });
 
@@ -45,13 +45,13 @@ const fillDateRangeMap = (
     date.setDate(date.getDate() + 1)
   ) {
     const formattedDate = date.toISOString().split("T")[0];
-    dateMap.set(formattedDate!, 0);
+    dateMap.set(formattedDate, 0);
   }
 
   // Ensure the end date is included
   const endFormatted = end.toISOString().split("T")[0];
-  if (!dateMap.has(endFormatted!)) {
-    dateMap.set(endFormatted!, 0);
+  if (!dateMap.has(endFormatted)) {
+    dateMap.set(endFormatted, 0);
   }
 
   return dateMap;

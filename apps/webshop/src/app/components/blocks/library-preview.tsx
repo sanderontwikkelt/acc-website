@@ -2,12 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 
-import { Library, LibraryCategory, Media } from "@acme/db";
+import type { Library, LibraryCategory, Media } from "@acme/db";
 import { cn } from "@acme/ui";
 
+import type { Button as ButtonType } from "~/lib/types";
 import { WEB_URL } from "~/lib/constants";
 import { setHtml } from "~/lib/setHtml";
-import { Button as ButtonType } from "~/lib/types";
 import { Button } from "../button";
 import Libraries from "../libraries";
 

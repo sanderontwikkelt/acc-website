@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 
+import type { Block } from "~/lib/blocks";
+import type { FooterType, HeaderType } from "~/lib/types";
 import Footer from "~/components/footer";
 import Header from "~/components/header";
-import { Block } from "~/lib/blocks";
 import { API_URL } from "~/lib/constants";
-import { FooterType, HeaderType } from "~/lib/types";
 import BlocksRenderer from "./blocks-renderer";
 
 const Client = () => {

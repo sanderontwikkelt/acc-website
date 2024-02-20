@@ -1,15 +1,14 @@
-import React from "react";
-import Image, { ImageProps } from "next/image";
+import Image from "next/image";
 
-import { ImageType } from "~/lib/types";
+import type { ImageType } from "~/lib/types";
 
-type NextImageProps = {
+interface NextImageProps {
   image: ImageType;
   alt: string;
   className?: string;
   priority?: boolean;
   loading?: "eager";
-};
+}
 
 const NextImage = ({
   image: { objectPosition, ...image },
