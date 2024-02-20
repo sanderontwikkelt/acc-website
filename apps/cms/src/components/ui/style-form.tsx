@@ -1,4 +1,5 @@
-import React, { ReactNode, useCallback } from "react";
+import type { ReactNode } from "react";
+import React, { useCallback } from "react";
 
 import {
   Select,
@@ -50,14 +51,14 @@ const StyleForm = ({
   append,
 }: {
   append: string;
-  value: any;
-  onChange: (v: any) => void;
+  value: React.CSSProperties;
+  onChange: (v: React.CSSProperties) => void;
 }) => {
   const handleChange = useCallback(
     (v: string, field: string) => {
       onChange({ ...value, [field]: v });
     },
-    [value],
+    [value, onChange],
   );
 
   const label = (a: string, l: string) => (
@@ -120,12 +121,12 @@ const StyleForm = ({
         </Select>
       </div>
       <Padding
-        value={value.paddingTop}
+        value={String(value.paddingTop)}
         onChange={(v) => handleChange(v, "paddingTop")}
         label={label(append, "Ruimte boven")}
       />
       <Padding
-        value={value.paddingBottom}
+        value={String(value.paddingBottom)}
         onChange={(v) => handleChange(v, "paddingBottom")}
         label={label(append, "Ruimte onder")}
       />

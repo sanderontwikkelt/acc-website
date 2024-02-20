@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import { cn } from "@acme/ui";
 
+import type { ImageType, LinksType } from "~/lib/types";
 import { setHtml } from "~/lib/setHtml";
-import { ImageType, LinksType } from "~/lib/types";
 import Breadcrumbs from "../breadcrumbs";
 import NextImage from "../NextImage";
 import Section from "../section";
@@ -171,8 +171,8 @@ const hero = ({
               >
                 <path
                   opacity="0.5"
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
                   d="M3.50657 0V9.00471L0.697958 6.03797L0 6.77516L3.30229 10.2631L3.75353 10.7394L4.00025 11L8 6.77516L7.30229 6.03797L4.49368 9.00471V0H3.50657Z"
                   fill="#0F1012"
                 />

@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-redundant-type-constituents */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import type { VariantProps } from "class-variance-authority";
 import * as React from "react";
 import * as ToastPrimitives from "@radix-ui/react-toast";

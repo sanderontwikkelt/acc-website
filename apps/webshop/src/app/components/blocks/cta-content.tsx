@@ -2,8 +2,8 @@
 
 import React from "react";
 
+import type { Button as ButtonType, ImageType } from "~/lib/types";
 import { setHtml } from "~/lib/setHtml";
-import { Button as ButtonType, ImageType } from "~/lib/types";
 import Author from "../author";
 import { Button } from "../button";
 import NextImage from "../NextImage";

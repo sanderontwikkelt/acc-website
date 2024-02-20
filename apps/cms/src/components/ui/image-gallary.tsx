@@ -76,7 +76,6 @@ export function ImageGallary({
       const oldIndex = selected.findIndex((item) => item.id === active.id);
       const newIndex = selected.findIndex((item) => item.id === over.id);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       onChange(arrayMove(selected, oldIndex, newIndex));
     }
 

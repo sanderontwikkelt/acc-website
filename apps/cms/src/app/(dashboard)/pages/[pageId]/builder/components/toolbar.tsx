@@ -97,36 +97,36 @@ const Toolbar = ({
   publish: () => void;
   setShowMenu: (m: (m: boolean) => boolean) => void;
 }) => {
-  const handleKeyPress = (e: KeyboardEvent) => {
-    if (e.ctrlKey || e.metaKey) {
-      if (e.shiftKey && e.key === "r") {
-        e.preventDefault();
-        reset();
-      } else if (e.key === "s") {
-        e.preventDefault();
-        publish();
-      } else if (e.key === "z") {
-        if (e.shiftKey) {
-          redo();
-        } else {
-          undo();
+  React.useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey) {
+        if (e.shiftKey && e.key === "r") {
+          e.preventDefault();
+          reset();
+        } else if (e.key === "s") {
+          e.preventDefault();
+          publish();
+        } else if (e.key === "z") {
+          if (e.shiftKey) {
+            redo();
+          } else {
+            undo();
+          }
+        }
+      } else if (e.altKey) {
+        if (e.key === "m") {
+          setDisplay("mobile");
+        } else if (e.key === "d") {
+          setDisplay("desktop");
+        } else if (e.key === "t") {
+          setDisplay("tablet");
         }
       }
-    } else if (e.altKey) {
-      if (e.key === "m") {
-        setDisplay("mobile");
-      } else if (e.key === "d") {
-        setDisplay("desktop");
-      } else if (e.key === "t") {
-        setDisplay("tablet");
-      }
-    }
-  };
+    };
 
-  React.useEffect(() => {
     window.addEventListener("keydown", handleKeyPress);
     return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [redo, undo, reset, setDisplay]);
+  }, [redo, undo, reset, setDisplay, publish]);
 
   return (
     <div className="flex h-[39px] min-h-[39px] w-full items-center border-b border-input bg-secondary px-5">

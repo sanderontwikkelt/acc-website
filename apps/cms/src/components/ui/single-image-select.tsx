@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ImagePlus } from "lucide-react";
 
-import { Media } from "@acme/db";
+import type { Media } from "@acme/db";
 
 import { MediaModal } from "../modals/media-modal";
 import { Loader } from "./loader";

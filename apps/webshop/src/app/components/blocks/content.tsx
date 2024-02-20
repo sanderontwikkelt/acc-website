@@ -1,9 +1,7 @@
 "use client";
 
-import React from "react";
-
+import type { ImageType } from "~/lib/types";
 import { setHtml } from "~/lib/setHtml";
-import { Button as ButtonType, ImageType } from "~/lib/types";
 import { Button } from "../button";
 import NextImage from "../NextImage";
 

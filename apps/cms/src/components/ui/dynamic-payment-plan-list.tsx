@@ -26,7 +26,7 @@ const DynamicPaymentPlanList = ({
         />
       </div>
     ),
-    [values],
+    [values, onChange],
   );
 
   return (

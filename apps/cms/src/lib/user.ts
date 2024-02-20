@@ -1,6 +1,7 @@
-import { auth } from "@acme/auth";
+import type { ActionEnum, EntityEnum } from "types/permissions";
 
-import { ActionEnum, EntityEnum } from "~/types/permissions";
+import type { Permission } from "@acme/db";
+import { auth } from "@acme/auth";
 
 export const getUserServer = async () => {
   const session = await auth();

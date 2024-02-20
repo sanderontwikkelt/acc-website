@@ -1,8 +1,7 @@
-import { Prisma } from "@acme/db";
-
-export const getArray = (data: Prisma.JsonValue) => {
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+export const getArray = (data) => {
   if (data && typeof data === "object" && Array.isArray(data)) {
-    return data as Prisma.JsonArray;
+    return data;
   } else {
     return [];
   }

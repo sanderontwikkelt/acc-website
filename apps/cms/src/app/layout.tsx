@@ -14,7 +14,6 @@ import { Loader } from "~/components/ui/loader";
 import { env } from "~/env";
 import { ModalProvider } from "~/providers/modal-provider";
 import { TRPCReactProvider } from "~/trpc/react";
-import { RouteChangeListener } from "./route-change-listener";
 
 process.env.NODE_NO_WARNINGS = "stream/web";
 
@@ -46,7 +45,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <RouteChangeListener />
       <body
         className={cn(
           inter.className,

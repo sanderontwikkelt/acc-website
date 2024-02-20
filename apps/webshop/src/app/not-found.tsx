@@ -6,15 +6,6 @@ const Error3 = () => {
     <section className="dark:bg-dark bg-white py-20 lg:py-[120px]">
       <div className="container mx-auto">
         <div className="-mx-4 flex flex-wrap items-center">
-          <div className="w-full px-4 md:w-5/12 lg:w-6/12">
-            <div className="text-center">
-              <img
-                src="https://cdn.tailgrids.com/2.0/image/application/images/404/image-01.svg"
-                alt="error"
-                className="mx-auto max-w-full"
-              />
-            </div>
-          </div>
           <div className="w-full px-4 md:w-7/12 lg:w-6/12 xl:w-5/12">
             <div>
               <div className="mb-8">

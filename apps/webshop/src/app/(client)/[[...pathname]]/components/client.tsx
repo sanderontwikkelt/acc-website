@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import type { Block } from "~/lib/blocks";
 import type { FooterType, HeaderType } from "~/lib/types";
@@ -9,25 +9,32 @@ import Header from "~/components/header";
 import { API_URL } from "~/lib/constants";
 import BlocksRenderer from "./blocks-renderer";
 
-const Client = () => {
-  const [data, setData] = useState<{
-    header: HeaderType;
-    blocks: Block[];
-    footer: FooterType;
-  } | null>(null);
+interface Data {
+  header: HeaderType;
+  blocks: Block[];
+  footer: FooterType;
+}
 
-  const getMessage = (event: any) => {
-    if (event.origin === API_URL) {
-      setData(event.data);
-    }
-  };
+const Client = () => {
+  const [data, setData] = useState<Data | null>(null);
+
+  const getMessage = useCallback(
+    (event: MessageEvent) => {
+      if (event.origin === API_URL) {
+        setData(event.data as Data);
+      }
+    },
+    [setData],
+  );
+
   useEffect(() => {
     window.addEventListener("message", getMessage);
 
     return () => {
       window.removeEventListener("message", getMessage);
     };
-  }, []);
+  }, [getMessage]);
+
   return data ? (
     <>
       <Header header={data.header} />

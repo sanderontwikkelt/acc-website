@@ -1,7 +1,7 @@
 "use client";
 
 import type { Libraries } from "@react-google-maps/api";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { useQueryState } from "next-usequerystate";
@@ -21,6 +21,11 @@ const mapContainerStyle = {
 const center = {
   lat: 52.279723, // default latitude
   lng: 5.605069, // default longitude
+};
+const options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0,
 };
 
 const GoogleMaps = ({
@@ -63,11 +68,6 @@ const GoogleMaps = ({
     [selectedUserId, filteredTeachers],
   ) as (Teacher & { media: Media }) | null;
 
-  const options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0,
-  };
   function success(pos: GeolocationPosition) {
     const crd = pos.coords;
     console.log("Your current position is:");

@@ -28,7 +28,7 @@ const DynamicButtonList = ({
         </CollapsibleButton>
       </div>
     ),
-    [values],
+    [values, onChange],
   );
 
   return (

@@ -30,7 +30,7 @@ const DynamicLinkImages = ({
         ),
       );
     },
-    [values],
+    [values, onChange],
   );
 
   const dragItem = useCallback(
@@ -47,7 +47,7 @@ const DynamicLinkImages = ({
         />
       </div>
     ),
-    [values],
+    [handleChange],
   );
   return (
     <DragList

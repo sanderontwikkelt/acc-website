@@ -64,7 +64,7 @@ const AsideEditor = ({
     (field: string, value: any) => {
       block && setBlock({ ...block, [field]: value });
     },
-    [block],
+    [block, setBlock],
   );
 
   return (

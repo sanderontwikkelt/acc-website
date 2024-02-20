@@ -1,12 +1,23 @@
 import { NextResponse } from "next/server";
-import { createMollieClient, PaymentStatus } from "@mollie/api-client";
+import { PaymentStatus } from "@mollie/api-client";
 
 import { db, eq, schema } from "@acme/db";
+import { getPayment, validateToken } from "@acme/mollie";
 
-const MOLLIE_API_KEY = process.env.MOLLIE_API_KEY;
-
-export async function POST(req: Request) {
+export async function POST(
+  req: Request,
+  { params }: { params: { token: string } },
+) {
   try {
+    if (!validateToken(params.token)) {
+      return NextResponse.json(
+        {
+          message: "wrong token",
+          ok: false,
+        },
+        { status: 500 },
+      );
+    }
     const body = await req.text();
     const id = body.split("=")[1];
 
@@ -17,35 +28,28 @@ export async function POST(req: Request) {
         .where(eq(schema.orderPayment.paymentId, id));
     };
 
-    const mollieClient = createMollieClient({ apiKey: MOLLIE_API_KEY });
-    const payment = await mollieClient.payments.get(id);
+    const payment = await getPayment(id);
 
     switch (payment.status) {
       case PaymentStatus.failed:
-        // Update database for failed payment
         await updateStatus("failed");
         break;
       case PaymentStatus.canceled:
-        // Update database for cancelled payment
         await updateStatus("canceled");
         break;
       case PaymentStatus.expired:
-        // Update database for expired payment
         //   await updateStatus('expired');
         break;
       case PaymentStatus.paid:
-        // Update database for successful payment
         await updateStatus("paid", new Date());
         break;
       default:
-        // Handle any other status
         console.log("Unhandled payment status:", payment.status);
         break;
     }
     console.info({ payment });
     return NextResponse.json({ result: event, ok: true });
   } catch (error) {
-    console.error(error);
     return NextResponse.json(
       {
         message: "something went wrong",

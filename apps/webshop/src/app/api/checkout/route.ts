@@ -1,13 +1,10 @@
-import type { Locale, PaymentMethod } from "@mollie/api-client";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { createMollieClient } from "@mollie/api-client";
-import { env } from "src/env";
 import { api } from "src/trpc/server";
 
+import type { PaymentMethod } from "@acme/mollie";
 import { db, schema } from "@acme/db";
-
-import { WEB_URL } from "~/lib/constants";
+import { createPayment } from "@acme/mollie";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -31,19 +28,7 @@ export async function POST(req: NextRequest) {
 
     const charged = price.toFixed(2);
 
-    const mollie = createMollieClient({ apiKey: env.MOLLIE_API_KEY });
-    const payment = await mollie.payments.create({
-      amount: {
-        currency: "EUR",
-        value: String(charged),
-      },
-      description: "Bestelling by Physis Academy",
-      redirectUrl: `${WEB_URL}/success`,
-      webhookUrl: `${"https://d02a-2a02-a45b-aaea-1-415a-b1b5-222-de85.ngrok-free.app" || WEB_URL}/api/webhooks/mollie`,
-      locale: "nl_NL" as Locale,
-      metadata: { orderId },
-      method,
-    });
+    const payment = await createPayment({ charged, orderId, method });
 
     await db.insert(schema.orderPayment).values({
       paymentId: payment.id,

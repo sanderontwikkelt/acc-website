@@ -44,7 +44,7 @@ const DynamicVariants = ({
         />
       </div>
     ),
-    [values],
+    [values, onChange],
   );
 
   return (

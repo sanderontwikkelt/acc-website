@@ -4,11 +4,11 @@ import { useState } from "react";
 
 import { Button } from "./ui/button";
 
-type Data = {
+interface Data {
   pageTitle: string;
   pageViews: number;
   pagePath: string;
-};
+}
 
 export function ViewsPerTitle({ data }: { data: Data[] }) {
   const [limit, setLimit] = useState(true);

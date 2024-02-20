@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { EllipsisHorizontalIcon } from "@heroicons/react/20/solid";
 import { Dialog } from "@radix-ui/react-dialog";
 
-import { Page } from "@acme/db";
+import type { Page } from "@acme/db";
 import {
   Button,
   DialogContent,
@@ -62,9 +62,7 @@ export function PresetActions({
       router.push(
         `/pages/${
           pageIds.length > 1
-            ? `/${
-                pageIds[pageIds.indexOf(params.pageId as string) > 0 ? 0 : 1]
-              }/builder`
+            ? `/${pageIds[pageIds.indexOf(+params.pageId) > 0 ? 0 : 1]}/builder`
             : ""
         }`,
       );

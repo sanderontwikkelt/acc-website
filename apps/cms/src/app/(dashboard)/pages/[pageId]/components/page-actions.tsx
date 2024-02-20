@@ -25,13 +25,7 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { useHasPermissions } from "~/lib/utils";
 
-export function PageActions({
-  seo,
-  pathname,
-}: {
-  seo?: SEO;
-  pathname: string;
-}) {
+export function PageActions({ seo }: { seo?: SEO }) {
   const [open, setIsOpen] = React.useState(false);
   const router = useRouter();
   const params = useParams();

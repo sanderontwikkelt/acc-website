@@ -1,6 +1,7 @@
-import { Permission } from "@acme/db";
+/* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
+import type { ActionEnum, EntityEnum } from "types/permissions";
 
-import { ActionEnum, EntityEnum } from "~/types/permissions";
+import type { Permission } from "@acme/db";
 
 export const hasPermission = async (
   permissions: Permission[],

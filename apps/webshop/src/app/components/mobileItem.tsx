@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
 
 const MobileItem = ({
@@ -11,12 +11,7 @@ const MobileItem = ({
   onClick?: () => void;
 }) => (
   <>
-    <Link
-      href={href}
-      className="flex justify-between py-6"
-      aria-label={children?.toString()}
-      {...props}
-    >
+    <Link href={href} className="flex justify-between py-6" {...props}>
       {children}
     </Link>
     <svg

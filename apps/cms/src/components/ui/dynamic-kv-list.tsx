@@ -27,7 +27,7 @@ const DynamicKVList = ({
         </CollapsibleKV>
       </div>
     ),
-    [values],
+    [values, onChange],
   );
 
   return (

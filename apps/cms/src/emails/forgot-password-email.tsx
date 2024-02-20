@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Body,
   Button,
@@ -54,7 +53,7 @@ export const ForgotPasswordEmail = ({
                   onderstaande link:
                 </Text>
 
-                <Button pY={19} pX={0} style={button} href={href}>
+                <Button style={button} href={href}>
                   Wachtwoord resetten
                 </Button>
               </Row>
@@ -126,13 +125,6 @@ const paragraph = {
   fontSize: "18px",
   lineHeight: "1.4",
   color: "#484848",
-};
-
-const review = {
-  ...paragraph,
-  padding: "24px",
-  backgroundColor: "#f2f3f3",
-  borderRadius: "4px",
 };
 
 const button = {

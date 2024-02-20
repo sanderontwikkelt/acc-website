@@ -26,16 +26,19 @@ const Error3 = () => {
                   />
                 </svg>
               </div>
+              <h3 className="text-dark mb-6 text-2xl font-bold dark:text-white">
+                We hebben geen pagina gevonden.
+              </h3>
               <p className="text-body-color dark:text-dark-6 mb-8 text-lg">
-                Oops! The page you are looking for does not exist. It might have
-                been moved or deleted.
+                De pagina die je aanvraagt hebben wij niet gevonden. Het is
+                mogelijk verplaatst of verwijderd.
               </p>
 
               <Link
                 href="/"
                 className="rounded-lg bg-white px-8 py-3 text-base font-semibold text-primary shadow-md transition hover:bg-primary hover:text-white dark:bg-white/10"
               >
-                Go To Home
+                Terug naar Home
               </Link>
             </div>
           </div>

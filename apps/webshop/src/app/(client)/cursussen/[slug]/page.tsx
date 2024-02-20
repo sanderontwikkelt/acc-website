@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 
-import { Course, db, Media, schema, Teacher } from "@acme/db";
+import type { Course, Media, Teacher } from "@acme/db";
+import { db, schema } from "@acme/db";
 
 import type { Button as ButtonType } from "~/lib/types";
 import Accordion from "~/components/blocks/accordion";
@@ -23,7 +24,7 @@ async function getCourse(id: string) {
   try {
     const res = await fetch(url, {
       next: { tags, revalidate: 0 },
-    });
+    } as RequestInit);
 
     if (!res.ok) {
       throw new Error("Failed to fetch");

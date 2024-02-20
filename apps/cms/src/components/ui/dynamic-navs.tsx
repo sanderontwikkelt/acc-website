@@ -33,7 +33,7 @@ const DynamicNavs = ({
         values.map((oldValue, idx) => (idx === index ? value : oldValue)),
       );
     },
-    [values],
+    [values, onChange],
   );
 
   const dragItem = useCallback(
@@ -77,7 +77,7 @@ const DynamicNavs = ({
         )}
       </div>
     ),
-    [values],
+    [values, handleChange, items, root, onChange],
   );
 
   return (

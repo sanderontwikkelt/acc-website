@@ -26,8 +26,8 @@ export const useHasPermissions = (
       ([entity, action]) =>
         session.data.user.permissions?.some(
           (p) =>
-            [entity, "all"].includes(p.entity!) &&
-            [action, "all"].includes(p.action!),
+            [entity, "all"].includes(p.entity) &&
+            [action, "all"].includes(p.action),
         ) || false,
     );
   }, [session.data, permissions]);

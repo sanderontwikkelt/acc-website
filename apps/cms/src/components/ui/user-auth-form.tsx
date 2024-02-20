@@ -1,13 +1,13 @@
 "use client";
 
+import type { z } from "zod";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
-import { type z } from "zod";
 
 import { toast } from "@acme/ui/toast";
 

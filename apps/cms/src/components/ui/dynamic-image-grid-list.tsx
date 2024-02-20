@@ -36,7 +36,7 @@ const DynamicImageGridList = ({
         ),
       );
     },
-    [values],
+    [values, onChange],
   );
 
   const dragItem = useCallback(
@@ -67,7 +67,7 @@ const DynamicImageGridList = ({
         )}
       </div>
     ),
-    [values],
+    [handleChange],
   );
 
   return (

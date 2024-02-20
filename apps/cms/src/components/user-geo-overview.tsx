@@ -1,8 +1,8 @@
-type Data = {
+interface Data {
   country: string;
   city: string;
   userCount: number;
-};
+}
 
 export function UserGeoOverview({ data }: { data: Data[] }) {
   return (

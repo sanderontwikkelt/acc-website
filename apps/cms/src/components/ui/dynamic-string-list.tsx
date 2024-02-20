@@ -23,7 +23,7 @@ const DynamicStringList = ({
         })),
       );
     },
-    [values],
+    [values, onChange],
   );
 
   const dragItem = useCallback(
@@ -33,7 +33,7 @@ const DynamicStringList = ({
         onChange={(e) => handleChange(e.target.value, index)}
       />
     ),
-    [values],
+    [handleChange],
   );
 
   return (

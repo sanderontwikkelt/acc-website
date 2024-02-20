@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+
 import type { EntityEnum } from "types/permissions";
 import { useRouter } from "next/navigation";
 

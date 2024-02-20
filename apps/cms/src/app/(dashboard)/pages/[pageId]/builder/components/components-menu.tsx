@@ -74,7 +74,7 @@ export default function ComponentsMenu({
       setEditorOpen("blocks");
       setSectionId(id);
     },
-    [setSectionId],
+    [setSectionId, setEditorOpen],
   );
 
   const dragItem = useCallback(
@@ -92,7 +92,7 @@ export default function ComponentsMenu({
         </BlockNavigation>
       );
     },
-    [blocksState],
+    [handleSectionId],
   );
 
   return (

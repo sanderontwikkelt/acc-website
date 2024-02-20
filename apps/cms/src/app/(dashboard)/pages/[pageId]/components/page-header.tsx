@@ -1,16 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { ActionEnum, EntityEnum } from "@/types/permissions";
 import axios from "axios";
 import { Trash } from "lucide-react";
+import { ActionEnum, EntityEnum } from "types/permissions";
 
-import { SEO } from "@acme/db";
+import type { SEO } from "@acme/db";
 import { toast } from "@acme/ui/toast";
 
 import { AlertModal } from "~/components/modals/alert-modal";
-import { Button, buttonVariants } from "~/components/ui/button";
+import { Button } from "~/components/ui/button";
 import { Heading } from "~/components/ui/heading";
 import { Separator } from "~/components/ui/separator";
 import { useHasPermissions } from "~/lib/utils";
@@ -19,12 +19,10 @@ import { PageActions } from "./page-actions";
 const PageHeader = ({
   hasInitialData,
   withRedirect,
-  pathname,
   seo,
 }: {
   hasInitialData?: boolean;
   withRedirect?: boolean;
-  pathname: string;
   seo?: SEO;
 }) => {
   const [open, setOpen] = useState(false);
@@ -42,11 +40,11 @@ const PageHeader = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/pages/${params.pageId}`);
+      await axios.delete(`/api/pages/${params.pageId as string}`);
       router.refresh();
       if (withRedirect) router.push(`/pages`);
       toast.success("Pagina verwijderd.");
-    } catch (error: any) {
+    } catch (error) {
       toast.error("Er is iets mis gegaan.");
     } finally {
       setLoading(false);
@@ -66,7 +64,7 @@ const PageHeader = ({
         <Heading title={title} description={description}>
           {hasInitialData && (
             <div className="flex space-x-2">
-              <PageActions seo={seo} pathname={pathname} />
+              <PageActions seo={seo} />
               {canDelete && (
                 <Button
                   disabled={loading}

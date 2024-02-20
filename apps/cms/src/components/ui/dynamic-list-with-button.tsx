@@ -33,7 +33,7 @@ const DynamicListWithButton = ({
         ),
       );
     },
-    [values],
+    [values, onChange],
   );
 
   const dragItem = useCallback(
@@ -58,7 +58,7 @@ const DynamicListWithButton = ({
         )}
       </div>
     ),
-    [values],
+    [handleChange],
   );
 
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ChevronUp, Cog, LogOut, Settings, User, UserCog } from "lucide-react";
+import { ChevronUp, LogOut, Settings, User } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 

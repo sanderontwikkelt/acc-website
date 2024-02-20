@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 import React from "react";
 
 export const Video = ({ src }: { src: string }) => {
