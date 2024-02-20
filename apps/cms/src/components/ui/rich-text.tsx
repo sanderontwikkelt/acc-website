@@ -1,3 +1,4 @@
+import { sanitize } from "isomorphic-dompurify";
 import {
   BoldIcon,
   ItalicIcon,
@@ -87,7 +88,21 @@ export default function RichText({
 }) {
   return (
     <EditorProvider>
-      <Editor id={id} value={value} onChange={(e) => onChange(e.target.value)}>
+      <Editor
+        id={id}
+        value={value}
+        onChange={(e) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onChange(
+            sanitize(
+              e.target.value,
+              (e.nativeEvent as any).inputType === "insertFromPaste"
+                ? { USE_PROFILES: { html: false } }
+                : undefined,
+            ),
+          );
+        }}
+      >
         <Toolbar
           style={{
             backgroundColor: "hsl(210 40% 96.1%)",

@@ -12,7 +12,7 @@ const TextColumns = ({
   return (
     <>
       <h2
-        className="mb-10 text-2xl font-bold md:mb-[7.5rem] md:text-[2.5rem] md:leading-[1]"
+        className="mb-10 text-4xl font-bold md:mb-[7.5rem] md:text-[2.5rem] md:leading-[1]"
         {...setHtml(title)}
       />
       <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-x-[6.25rem] md:gap-y-28 md:pl-[12.5rem]">

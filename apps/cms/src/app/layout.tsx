@@ -21,9 +21,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    env.VERCEL_ENV === "production"
-      ? env.VERCEL_URL
-      : "http://localhost:3000",
+    env.VERCEL_ENV === "production" ? env.VERCEL_URL : "http://localhost:3000",
   ),
   title: "Physis Admin",
   description: "Physis Admin",

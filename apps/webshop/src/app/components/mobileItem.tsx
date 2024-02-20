@@ -11,19 +11,13 @@ const MobileItem = ({
   onClick?: () => void;
 }) => (
   <>
-    <Link href={href} className="flex justify-between py-6" {...props}>
+    <Link
+      href={href}
+      className="flex justify-between border-b border-gray-300 py-5"
+      {...props}
+    >
       {children}
     </Link>
-    <svg
-      width="370"
-      height="2"
-      viewBox="0 0 370 2"
-      fill="none"
-      className="max-w-full overflow-hidden"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path d="M0 1H370" stroke="#64BD6E" strokeDasharray="6 6" />
-    </svg>
   </>
 );
 

@@ -17,7 +17,7 @@ const images = ({ items }: { items: Item[] }) => {
         return (
           <div
             className={cn(
-              "relative min-h-[26rem] overflow-hidden max-md:min-w-full",
+              "relative overflow-hidden max-md:min-w-full md:min-h-[26rem]",
             )}
             style={{ width: cols / 0.12 + "%" }}
             key={i}

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { and, db, eq, schema } from "@acme/db";
+
 import { prefixPathname } from "~/lib/prefixPathname";
 
 export async function GET(req: Request) {

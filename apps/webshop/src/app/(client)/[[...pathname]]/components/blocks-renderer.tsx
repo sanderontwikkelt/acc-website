@@ -11,25 +11,21 @@ const BlocksRenderer = ({
   blocks: Block[];
   client?: boolean;
 }) => {
-  return blocksData.map(
-    ({ name, fields, id, uid, ...props }: Block, i: number) => {
-      const Component = blocks[name];
-      return (
-        <Section
-          key={uid}
-          fields={fields}
-          {...props}
-          id={uid}
-          innerId={id}
-          client={client}
-          isFirst={i === 0}
-          isLast={i === blocksData.length - 1}
-        >
-          <Component {...fields} />
-        </Section>
-      );
-    },
-  );
+  return blocksData.map(({ name, fields, id, uid, ...props }: Block) => {
+    const Component = blocks[name];
+    return (
+      <Section
+        key={uid}
+        fields={fields}
+        {...props}
+        id={uid}
+        innerId={id}
+        client={client}
+      >
+        <Component {...fields} />
+      </Section>
+    );
+  });
 };
 
 export default BlocksRenderer;

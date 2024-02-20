@@ -15,14 +15,17 @@ const accordion = ({
   return (
     <div className="">
       <h2
-        className="text-2m mb-24 max-w-[23rem] md:text-5xl"
+        className="text-2m mb-12 max-w-[23rem] text-4xl md:mb-24 md:text-5xl"
         {...setHtml(title)}
       />
       <div className="md:pl-[12.5rem]">
-        {list.map((item) => (
-          <Accordion key={item.title} {...item} />
+        {list.map((item, i) => (
+          <Accordion key={i} {...item} />
         ))}
-        <p className="mt-10 text-lg" {...setHtml(description)} />
+        <p
+          className="text-description mt-10 text-lg"
+          {...setHtml(description)}
+        />
       </div>
     </div>
   );

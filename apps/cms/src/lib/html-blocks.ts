@@ -723,7 +723,6 @@ const callToAction = {
         target: "_self",
         size: "lg",
         variant: "white",
-        withArray: true,
       },
     },
   },

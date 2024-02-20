@@ -10,13 +10,14 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "hover:bg-main bg-primary text-white",
+        default:
+          "bg-main h-14 scale-100 px-12 text-lg text-white transition-transform duration-300 hover:scale-105 md:h-[75px]",
         accent: "text-main hover:bg-main bg-accent hover:text-white",
         white:
-          "text-main h-[75px] scale-100 bg-white px-12 text-lg transition-transform duration-300 hover:scale-105",
-        main: "bg-main h-[75px] scale-100 px-12 text-lg text-white transition-transform duration-300 hover:scale-105",
+          "text-main h-14 scale-100 bg-white px-12 text-lg transition-transform duration-300 hover:scale-105 md:h-[75px]",
+        main: "bg-main h-14 scale-100 px-12 text-lg text-white transition-transform duration-300 hover:scale-105 md:h-[75px]",
         success:
-          "hover:bg-main h-[75px] scale-100 bg-[#2ADC84] px-12 text-lg text-white transition-transform duration-300 hover:scale-105",
+          "hover:bg-main h-14 scale-100 bg-[#2ADC84] px-12 text-lg text-white transition-transform duration-300 hover:scale-105 md:h-[75px]",
         outline:
           "border-main hover:bg-main border-2 bg-transparent hover:text-white",
         link: "px-0 text-lg font-normal underline underline-offset-4",
@@ -28,7 +29,7 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-10",
-        lg: "h-[75px]",
+        lg: "h-14 md:h-[75px]",
       },
     },
     defaultVariants: {
@@ -77,7 +78,10 @@ const Button = ({
             height="2"
             viewBox="0 0 100 2"
             preserveAspectRatio="none"
-            className="stroke-main -mr-[6px] -mt-[0.6px] inline-block w-4 transition-all duration-300 group-hover:w-8"
+            className={cn(
+              "-mr-[6px] -mt-[0.6px] inline-block w-4 transition-all duration-300 group-hover:w-8",
+              variant === "main" ? "stroke-white" : "stroke-main",
+            )}
             xmlns="http://www.w3.org/2000/svg"
           >
             <path d="M0 1L100 1" strokeWidth="1.3" strokeLinecap="round" />
@@ -85,7 +89,10 @@ const Button = ({
           <svg
             width="8"
             height="16"
-            className="fill-main inline-block duration-300"
+            className={cn(
+              "inline-block duration-300",
+              variant === "main" ? "fill-white" : "fill-main",
+            )}
             viewBox="0 0 8 16"
             xmlns="http://www.w3.org/2000/svg"
           >

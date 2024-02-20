@@ -12,12 +12,14 @@ import { env } from "../env";
 
 export type { Session } from "next-auth";
 
+interface User {
+  id: string;
+  permissions: Permission[];
+}
+
 declare module "next-auth" {
   interface Session {
-    user: {
-      id: string;
-      permissions: Permission[];
-    } & DefaultSession["user"];
+    user: User & DefaultSession["user"];
   }
 }
 
@@ -58,9 +60,9 @@ const authConfig = {
   },
 
   secret: env.AUTH_SECRET,
-  // session: {
-  //   strategy: "jwt",
-  // },
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
@@ -87,41 +89,42 @@ const authConfig = {
     }),
   ],
   callbacks: {
-    session: async ({ session, user: { id: userId } }) => {
-      const userWithPermissions = await db.query.user.findFirst({
-        where: eq(schema.user.id, userId),
-        with: {
-          role: {
-            with: {
-              permissions: {
-                with: {
-                  permission: true,
+    session: async ({ session, user, token }) => {
+      if (token?.user && session) session.user = token.user as User;
+
+      const userId = session?.user?.id || user?.id;
+
+      if (userId) {
+        const userWithPermissions = await db.query.user.findFirst({
+          where: eq(schema.user.id, userId),
+          with: {
+            role: {
+              with: {
+                permissions: {
+                  with: {
+                    permission: true,
+                  },
                 },
               },
             },
           },
-        },
-      });
-      const permissions = userWithPermissions?.role?.permissions.map(
-        ({ permission }) => permission,
-      );
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: userId,
-          permissions,
-        },
-      };
+        });
+        const permissions = userWithPermissions?.role?.permissions.map(
+          ({ permission }) => permission,
+        );
+        if (permissions) session.user.permissions = permissions;
+      }
+
+      return session;
     },
     // async session({ session, token }) {
     //   if (token?.user) session.user = token.user;
     //   return session;
     // },
-    // async jwt({ token, user }) {
-    //   if (user) token.user = user;
-    //   return token;
-    // },
+    jwt({ token, user }) {
+      if (user) token.user = user;
+      return token;
+    },
   },
 } satisfies NextAuthConfig;
 

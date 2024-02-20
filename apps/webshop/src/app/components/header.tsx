@@ -15,6 +15,18 @@ import NavItems from "./nav-items";
 
 type Values = { pathname: string; name: string }[];
 
+const defaultItems = [
+  { pathname: "/mijn-account", name: "Mijn account" },
+  {
+    pathname: "https://community.physis.academy/login",
+    name: "Cursist log in",
+  },
+  {
+    pathname: "/winkelmand",
+    name: "Winkelmand",
+  },
+];
+
 const Header = ({ header }: { header: HeaderType }) => {
   const [scrolled, setScrolled] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<Values | null>(null);
@@ -201,24 +213,14 @@ const Header = ({ header }: { header: HeaderType }) => {
               </svg>
             )}
           </Link>
-          <nav className="ml-12 flex items-center text-lg max-md:hidden lg:space-x-8 xl:space-x-12">
+          <nav className="ml-12 flex items-center text-lg max-md:hidden lg:space-x-6 xl:space-x-8">
             <NavItems
               links={getArray(header.navigation)}
               setHoveredItem={setHoveredItem}
             />
           </nav>
-          <nav className="ml-auto flex items-center space-x-4 lg:space-x-8 xl:space-x-12">
-            {[
-              { pathname: "/mijn-account", name: "Mijn account" },
-              {
-                pathname: "https://community.physis.academy/login",
-                name: "Cursist log in",
-              },
-              {
-                pathname: "/winkelmand",
-                name: "Winkelmand",
-              },
-            ].map((item) => (
+          <nav className="ml-auto flex items-center space-x-4 max-md:hidden lg:space-x-6 xl:space-x-8">
+            {defaultItems.map((item) => (
               <Link
                 href={item.pathname}
                 key={item.name}
@@ -247,7 +249,7 @@ const Header = ({ header }: { header: HeaderType }) => {
       </header>
       <div
         className={cn(
-          `max-w-screen fixed bottom-0 right-0 top-0 z-10 h-screen w-screen overflow-y-auto bg-accent px-6 py-6 pt-[6.25rem] shadow-md transition-all duration-500 md:hidden`,
+          `max-w-screen fixed bottom-0 right-0 top-0 z-[99] h-screen w-screen overflow-y-auto bg-accent px-6 py-6 pt-[6.25rem] shadow-md transition-all duration-500 md:hidden`,
           mobileMenuOpen
             ? "translate-x-0"
             : "right-[150vw] -translate-x-[150vw]",
@@ -257,7 +259,10 @@ const Header = ({ header }: { header: HeaderType }) => {
           <div className="-my-6 divide-y divide-gray-500/10">
             <div className="space-y-2 py-6">
               {!!navigation.length &&
-                navigation.slice(0, navigation.length - 1).map((item, i) => (
+                [
+                  ...navigation.slice(0, navigation.length - 1),
+                  ...defaultItems,
+                ].map((item, i) => (
                   <MobileItem
                     key={item.name + i}
                     href={item.pathname || "/"}
@@ -270,9 +275,10 @@ const Header = ({ header }: { header: HeaderType }) => {
             {!!navigation.length && (
               <div className="py-6">
                 <Button
-                  className=""
+                  className="w-full"
                   href={navigation[navigation.length - 1].pathname}
                   size="lg"
+                  variant="main"
                   withArrow
                   aria-label="Contact"
                 >
@@ -286,17 +292,18 @@ const Header = ({ header }: { header: HeaderType }) => {
       <div
         onMouseLeave={() => setHoveredItem(null)}
         className={cn(
-          "fixed left-0 top-0 z-50 w-screen overflow-hidden bg-accent pt-[6.25rem] transition-all duration-300",
-          hoveredItem ? "h-[14.25rem] pt-[6.25rem]" : "h-0 pt-0",
+          "fixed left-0 top-0 z-50 w-screen overflow-hidden border-b border-gray-300 bg-accent pt-[6.25rem] shadow-sm transition-all duration-500",
+          hoveredItem ? "h-[14.25rem] " : "h-0 ",
         )}
       >
-        <div className="h-28 w-full max-w-[100vw] px-[calc(1.875rem+max((100vw-(1300rem/16))/2,0px))]">
-          <div className="flex h-full min-w-[50%] items-center space-x-10">
-            {hoveredItem?.map(({ pathname, name }) => (
+        <div className="relative h-28 w-full max-w-[100vw] px-[calc(1.875rem+max((100vw-(1300rem/16))/2,0px))]">
+          <div className="absolute left-0 top-1/2 flex h-full min-w-[50%] -translate-y-1/2 items-center space-x-10">
+            {hoveredItem?.map(({ pathname, name }, i) => (
               <Link
                 href={pathname}
                 key={name}
-                className="text-main/0.3 hover:text-main p-10 text-2xl transition-all hover:underline"
+                style={{ animationDelay: 50 * i + "ms" }}
+                className="text-main/0.3 hover:text-main animate-moveUp p-10 text-2xl opacity-0 transition-all hover:underline"
               >
                 {name}
               </Link>

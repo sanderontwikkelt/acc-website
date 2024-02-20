@@ -1,3 +1,4 @@
+import { sanitize } from "isomorphic-dompurify";
 import {
   ItalicIcon,
   LinkIcon,
@@ -15,7 +16,6 @@ import {
   EditorProvider,
   Toolbar,
 } from "react-simple-wysiwyg";
-import sanitizeHtml from "sanitize-html";
 
 export const BtnBold = createButton(
   "Bold",
@@ -91,7 +91,18 @@ export default function RichInput({
       <Editor
         id={id}
         value={value}
-        onChange={(e) => onChange(sanitizeHtml(e.target.value) as string)}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        onChange={(e) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onChange(
+            sanitize(
+              e.target.value,
+              (e.nativeEvent as any).inputType === "insertFromPaste"
+                ? { USE_PROFILES: { html: false } }
+                : undefined,
+            ),
+          );
+        }}
       >
         <Toolbar
           style={{

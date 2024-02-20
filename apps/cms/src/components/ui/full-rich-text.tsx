@@ -1,5 +1,6 @@
 import React from "react";
 import { Editor } from "@tinymce/tinymce-react";
+import { sanitize } from "isomorphic-dompurify";
 
 const FullRichText = ({
   value,
@@ -15,7 +16,7 @@ const FullRichText = ({
       apiKey={process.env.NEXT_PUBLIC_TINY_MCE_API_KEY}
       value={value}
       id={id}
-      onEditorChange={onChange}
+      onEditorChange={(v) => onChange(sanitize(v))}
       init={{
         plugins:
           "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount",

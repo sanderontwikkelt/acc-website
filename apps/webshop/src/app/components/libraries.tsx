@@ -63,7 +63,7 @@ const Libraries = ({
           </button>
         ))}
       </div>
-      <div className="grid w-full gap-5 sm:grid-cols-2 md:grid-cols-3 md:gap-x-8 md:gap-y-12">
+      <div className="grid w-full gap-10 sm:grid-cols-2 md:grid-cols-3 md:gap-x-8 md:gap-y-12">
         {libraries
           .filter((library) => tab === "all" || tab === library.type)
           .map(({ id, title, media, createdAt, slug, category }) => (

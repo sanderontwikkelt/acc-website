@@ -32,6 +32,9 @@ export default {
         zoomIn: "zoomIn 1s forwards",
         draw: "draw 5s forwards",
         moveLeft: "moveLeft 15s linear infinite",
+        moveUp: "moveUp 0.5s ease-in forwards",
+        moveToRight: "moveToRight 1.25s forwards",
+        moveToDown: "moveToDown 1.25s forwards",
       },
       keyframes: {
         moveLeft: {
@@ -40,6 +43,36 @@ export default {
           },
           to: {
             transform: "translateX(-100vw)",
+          },
+        },
+        moveToRight: {
+          from: {
+            opacity: "0",
+            transform: "translateX(-100%)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateX(0)",
+          },
+        },
+        moveToDown: {
+          from: {
+            opacity: "0",
+            transform: "translateY(-100%)",
+          },
+          to: {
+            opacity: "1",
+            transform: "translateY(0)",
+          },
+        },
+        moveUp: {
+          from: {
+            transform: "translateX(-50px)",
+            opacity: "0",
+          },
+          to: {
+            transform: "translateY(0px)",
+            opacity: "1",
           },
         },
         fadeIn: {

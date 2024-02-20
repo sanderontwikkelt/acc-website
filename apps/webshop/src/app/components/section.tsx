@@ -30,8 +30,6 @@ const Section = ({
   innerClassName?: string;
   asChild?: boolean;
   client?: boolean;
-  isFirst?: boolean;
-  isLast?: boolean;
 }) => {
   return asChild ? (
     children
@@ -50,7 +48,7 @@ const Section = ({
       )}
       <div
         className={cn(
-          "mx-auto w-full py-5 md:py-24",
+          "mx-auto w-full py-10 md:py-24",
           innerClassName,
           innerStyle?.paddingTop === "0px" ? "scroll-m-[6.25rem]" : "",
         )}

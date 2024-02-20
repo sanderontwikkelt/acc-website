@@ -47,22 +47,22 @@ const hero = ({
       <article className="w-full py-[10.625rem]">
         <h1
           {...setHtml(title)}
-          className="mb-4 text-[2.125rem] font-medium leading-[2.5rem] md:text-[3.5rem] md:leading-[4.2rem]"
+          className="animate-moveToRight mb-4 text-[2.125rem] font-medium leading-[2.5rem] md:text-[3.5rem] md:leading-[4.2rem]"
         />
         <p className="text-2xl" {...setHtml(description)} />
       </article>
     );
 
   const arrow = (
-    <Link
-      href="#next-section"
-      className="transition-all duration-300 hover:scale-110 md:ml-16"
-    >
+    <Link href="#next-section" className=" animate-moveToDown md:ml-16">
       <svg
         width="51"
         height="67"
         viewBox="0 0 51 67"
-        className={dark ? "fill-white" : "fill-main"}
+        className={cn(
+          "transition-all duration-300 hover:scale-110",
+          dark ? "fill-white" : "fill-main",
+        )}
         xmlns="http://www.w3.org/2000/svg"
       >
         <path fillRule="evenodd" clipRule="evenodd" d="M23 63H29V0H23V63Z" />
@@ -90,7 +90,7 @@ const hero = ({
       >
         <article
           className={cn(
-            "w-full py-[10.625rem] md:pr-[9rem]",
+            "w-full py-10 md:py-[10.625rem] md:pr-[9rem]",
             isSideImage ? "md:max-w-[60%]" : "pb-[6.25rem] md:pr-0",
           )}
         >
@@ -109,7 +109,7 @@ const hero = ({
             <h1
               {...setHtml(title)}
               className={cn(
-                "text-[2.125rem] font-medium leading-[2.5rem] md:text-[3.5rem] md:leading-[4.2rem]",
+                "animate-moveToRight text-[2.125rem] font-medium leading-[2.5rem] md:text-[3.5rem] md:leading-[4.2rem]",
                 isArrow ? "mb-7" : "",
               )}
             />
@@ -134,7 +134,7 @@ const hero = ({
                 ? "absolute right-0 top-0 z-10 mt-[11rem] h-[calc(100%-11rem)] w-full md:w-[40%]"
                 : isBlog
                   ? "h-[40.625rem] w-full"
-                  : "absolute bottom-0 left-0 h-[35rem] w-screen"
+                  : "bottom-0 left-0 w-screen max-md:-ml-5 md:absolute md:h-[35rem]"
             }
           >
             <NextImage

@@ -44,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <Suspense>
-      <RouteChangeListener />
+        <RouteChangeListener />
       </Suspense>
       <body
         className={cn(

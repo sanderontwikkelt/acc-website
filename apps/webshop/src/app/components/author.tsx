@@ -22,8 +22,8 @@ const Author = ({
         />
       </div>
       <div>
-        <p className="">{author}</p>
-        <p className="opacity-50">{subtitle}</p>
+        <p className="max-md:text-base">{author}</p>
+        <p className="opacity-50 max-md:text-base">{subtitle}</p>
       </div>
     </div>
   );

@@ -66,7 +66,7 @@ const LibraryPreview = ({
       {!!title && (
         <h2
           {...setHtml(title)}
-          className="text-[2.125rem] font-medium leading-[2.5rem] md:text-[3.5rem] md:leading-[4.2rem]"
+          className="text-[2.125rem] font-medium leading-[2.5rem] max-md:text-center md:text-[3.5rem] md:leading-[4.2rem]"
         />
       )}
       {!!description && <p {...setHtml(description)} />}

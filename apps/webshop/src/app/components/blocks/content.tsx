@@ -23,7 +23,7 @@ const content = ({
 }) => {
   return (
     <div className="grid items-center gap-10 md:grid-cols-2">
-      <div className="w-full pr-20">
+      <div className="w-full md:pr-24">
         <NextImage image={image} alt={title} className="w-full object-cover" />
       </div>
       <article>
@@ -40,10 +40,10 @@ const content = ({
             />
           )}
         </div>
-        <p className="mb-10" {...setHtml(description)} />
-        <div className="flex space-x-5">
-          {links.map(({ href, title }) => (
-            <Button className="font-bold" key={href} variant="link">
+        <p className="mb-10 text-lg" {...setHtml(description)} />
+        <div className="flex space-x-7">
+          {links.map(({ href, title }, i) => (
+            <Button className="font-bold" key={i} href={href} variant="link">
               {title}
             </Button>
           ))}

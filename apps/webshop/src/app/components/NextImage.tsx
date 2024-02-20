@@ -15,12 +15,14 @@ const NextImage = ({
   alt = "",
   ...props
 }: NextImageProps) => {
+  const { width, height, url } = image;
   return (
     <Image
-      {...image}
+      width={width}
+      height={height}
       {...props}
       alt={alt}
-      src={image.url || image.src}
+      src={url || image.src}
       {...(!!(objectPosition && props.className?.includes("object-cover")) && {
         style: {
           objectPosition: `${objectPosition.x}% ${objectPosition.y}%`,
