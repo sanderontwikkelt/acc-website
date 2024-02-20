@@ -14,7 +14,6 @@ import { productRouter } from "./router/product";
 import { productCategoryRouter } from "./router/product-category";
 import { roleRouter } from "./router/role";
 import { seoRouter } from "./router/seo";
-import { stripeRouter } from "./router/stripe";
 import { teacherRouter } from "./router/teacher";
 import { userRouter } from "./router/user";
 import { createTRPCRouter } from "./trpc";
@@ -33,7 +32,6 @@ export const appRouter = createTRPCRouter({
   library: libraryRouter,
   libraryCategory: libraryCategoryRouter,
   page: pageRouter,
-  stripe: stripeRouter,
   cart: cartRouter,
   cartItem: cartItemRouter,
   header: headerRouter,
