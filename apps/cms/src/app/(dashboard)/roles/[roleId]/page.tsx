@@ -163,20 +163,6 @@ const RoleDetailPage = () => {
                     </FormItem>
                   )}
                 />
-
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Beschrijving</FormLabel>
-                      <FormControl>
-                        <Textarea disabled={loading} {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
                 <FormField
                   control={form.control}
                   name="permissionIds"
@@ -192,6 +178,19 @@ const RoleDetailPage = () => {
                           }
                           selectedValues={field.value.map((v) => String(v))}
                         />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                     <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Beschrijving</FormLabel>
+                      <FormControl>
+                        <Textarea disabled={loading} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
