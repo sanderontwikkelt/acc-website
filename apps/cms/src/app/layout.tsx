@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "dark" },
   ],
 };
 
@@ -44,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="nl" className={cn("scroll-smooth", inter.className)}>
       <body
         className={cn(
           inter.className,

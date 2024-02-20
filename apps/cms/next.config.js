@@ -4,7 +4,7 @@ import "@acme/auth/env";
 
 /** @type {import("next").NextConfig} */
 const config = {
-  optimizeFonts: false,
+  // optimizeFonts: false,
   reactStrictMode: false,
   experimental: {
     missingSuspenseWithCSRBailout: false,
