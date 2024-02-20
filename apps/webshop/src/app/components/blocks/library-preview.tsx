@@ -48,7 +48,6 @@ const LibraryPreview = ({
   ids: number[];
 }) => {
   const [libraries, setLibraries] = useState<Lib[]>([]);
-  console.log(libraries);
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getLibraries(ids, setLibraries);

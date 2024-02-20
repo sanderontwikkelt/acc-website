@@ -17,7 +17,7 @@ import { metadata } from "../../../../layout";
 
 async function getProduct(id: string) {
   const tags = ["product/" + id];
-  const url = `${WEB_URL}/api/products?slug=${id}`;
+  const url = `${WEB_URL}/api/products/${id}`;
   try {
     const res = await fetch(url, {
       next: { tags, revalidate: 0 },

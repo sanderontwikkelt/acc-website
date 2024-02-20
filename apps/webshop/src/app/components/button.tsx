@@ -57,7 +57,6 @@ const Button = ({
   variant,
   rounded,
   size,
-  asChild = false,
   href,
   disabled,
   type,

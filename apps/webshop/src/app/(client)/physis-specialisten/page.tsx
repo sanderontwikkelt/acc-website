@@ -1,12 +1,11 @@
 import { Media, Teacher } from "@acme/db";
 
 import GoogleMaps from "~/components/blocks/google-map";
-import Section from "~/components/section";
 import ServerWrapper from "~/components/server-wrapper";
 import { WEB_URL } from "~/lib/constants";
 
 async function getTeachers(id: string) {
-  const tags = ["product/" + id];
+  const tags = ["teachers"];
   const url = `${WEB_URL}/api/teachers?slug=${id}`;
   try {
     const res = await fetch(url, {

@@ -7,6 +7,7 @@ import { api } from "src/trpc/react";
 import { formatter } from "~/lib/utils";
 import { Button } from "./button";
 import Counter from "./counter";
+import PageHeader from "./page-header";
 
 const CartDetails = () => {
   const deleteCartItem = api.cartItem.delete.useMutation();
@@ -27,9 +28,9 @@ const CartDetails = () => {
 
   return (
     <div>
-      <h1 className="text-4xl">Inschrijven</h1>
-      <div className="bg-main mb-10 h-1 w-8" />
-      {isLoading ? null : data.items?.length ? (
+      <PageHeader>Inschrijven</PageHeader>
+
+      {isLoading ? null : data?.items?.length ? (
         <div className="flex flex-col space-y-6">
           <table>
             <thead className="text-sm">
@@ -132,25 +133,32 @@ const CartDetails = () => {
           </Button>
         </div>
       ) : (
-        <p>Winkelmand is leeg</p>
+        <div className="mx-auto flex flex-col items-center justify-normal">
+          <p className="mb-4 font-semibold">Winkelmand is leeg</p>
+          <Button variant="success" size="lg" href="/winkel">
+            Bekijk het aanbod
+          </Button>
+        </div>
       )}
-      <div className="mt-16 flex md:justify-end">
-        <div>
-          <h4 className="mb-10 text-xl">Jouw bestelling</h4>
-          <div className="text-description grid grid-cols-[80px_1fr] gap-3 text-lg">
-            <span>Subtotaal</span>
-            <span className="font-medium">{formatter.format(total)}</span>
-            <span>BTW</span>
-            <span className="font-medium">
-              {formatter.format(total * 0.21)}
-            </span>
-            <span>Totaal</span>
-            <span className="text-2xl font-semibold text-[#2ADC84]">
-              {formatter.format(total * 1.21)}
-            </span>
+      {!!data?.items?.length && (
+        <div className="mt-16 flex md:justify-end">
+          <div>
+            <h4 className="mb-10 text-xl">Jouw bestelling</h4>
+            <div className="text-description grid grid-cols-[80px_1fr] gap-3 text-lg">
+              <span>Subtotaal</span>
+              <span className="font-medium">{formatter.format(total)}</span>
+              <span>BTW</span>
+              <span className="font-medium">
+                {formatter.format(total * 0.21)}
+              </span>
+              <span>Totaal</span>
+              <span className="text-2xl font-semibold text-[#2ADC84]">
+                {formatter.format(total * 1.21)}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

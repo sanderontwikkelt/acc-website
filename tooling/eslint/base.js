@@ -16,6 +16,7 @@ const config = {
   plugins: ["@typescript-eslint", "import"],
   rules: {
     "turbo/no-undeclared-env-vars": "off",
+    "jsx-a11y/heading-has-content": "off",
     "@typescript-eslint/prefer-nullish-coalescing": "off",
     "@typescript-eslint/no-unsafe-call": "off",
     "react/no-unknown-property": "off",

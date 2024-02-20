@@ -25,6 +25,7 @@ import { WEB_URL } from "~/lib/constants";
 import { formatter } from "~/lib/utils";
 import { Button } from "./button";
 import { Input } from "./input";
+import PageHeader from "./page-header";
 import { paymentOptions } from "./payment-options";
 import { Textarea } from "./textarea";
 
@@ -81,12 +82,9 @@ const CheckoutDetails = () => {
     });
   };
 
-  console.log(form.formState.errors);
-
   return (
     <div>
-      <h1 className="text-4xl">Afrekenen</h1>
-      <div className="bg-main mb-10 h-1 w-8" />
+      <PageHeader>Afrekenen</PageHeader>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

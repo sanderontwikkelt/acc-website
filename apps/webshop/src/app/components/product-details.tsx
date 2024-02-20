@@ -10,6 +10,7 @@ import { NextImage } from "@acme/ui";
 
 import { setHtml } from "~/lib/setHtml";
 import { formatter } from "~/lib/utils";
+import PageHeader from "./page-header";
 import ProductForm from "./product-form";
 import ProductImages from "./product-images";
 
@@ -26,8 +27,7 @@ const ProductDetails = ({
     product;
   return (
     <div>
-      <h3>Details</h3>
-      <div className="bg-main mb-10 h-1 w-8" />
+      <PageHeader>Details</PageHeader>
       <div className="grid gap-10 md:grid-cols-2 md:gap-32">
         <ProductImages images={images} alt={title} />
         <div>
