@@ -6,7 +6,6 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const ids = searchParams.get("ids");
-    console.log({ ids });
     const libraries = await db.query.library.findMany({
       with: {
         category: true,

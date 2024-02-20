@@ -19,7 +19,6 @@ export const cartItemRouter = createTRPCRouter({
   createOwn: protectedProcedure
     .input(ownCartItemFormSchema)
     .mutation(async ({ ctx, input }) => {
-      console.log(9, ctx.session);
       if (!ctx.session) return new Error("UNAUTHENTICATED");
       let cartId: number;
       const cart = await ctx.db.query.cart.findFirst({

@@ -41,7 +41,6 @@ const hero = ({
   const isDefault = variant === "default";
   const isArrow = variant === "arrow";
   const dark = background === "#0F1012";
-  console.log(background);
 
   if (isDefault)
     return (
@@ -53,8 +52,6 @@ const hero = ({
         <p className="text-2xl" {...setHtml(description)} />
       </article>
     );
-
-  console.log(setHtml(title));
 
   const arrow = (
     <Link

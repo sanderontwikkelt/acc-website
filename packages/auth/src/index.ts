@@ -42,7 +42,6 @@ const authConfig = {
       return results?.user ?? null;
     },
     // async createUser(providerAccountId) {
-    //   console.log(234, {providerAccountId})
     //   // const results = await db
     //   //   .select()
     //   //   .from(schema.account)

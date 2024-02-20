@@ -70,11 +70,6 @@ const GoogleMaps = ({
 
   function success(pos: GeolocationPosition) {
     const crd = pos.coords;
-    console.log("Your current position is:");
-    console.log(`Latitude : ${crd.latitude}`);
-    console.log(`Longitude: ${crd.longitude}`);
-    console.log(`More or less ${crd.accuracy} meters.`);
-
     setLocation({ lat: crd.latitude, lng: crd.longitude });
   }
 
@@ -88,7 +83,6 @@ const GoogleMaps = ({
       navigator.permissions
         .query({ name: "geolocation" })
         .then(function (result) {
-          console.log(result);
           if (result.state === "granted") {
             //If granted then you can directly call your function here
             navigator.geolocation.getCurrentPosition(success, errors, options);

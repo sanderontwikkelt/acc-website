@@ -33,7 +33,7 @@ export const createTRPCContext = async (opts: {
   const session = opts.session ?? (await auth());
   const source = opts.headers.get("x-trpc-source") ?? "unknown";
 
-  console.log(">>> tRPC Request from", source, "by", session?.user);
+  console.info(">>> tRPC Request from", source, "by", session?.user);
 
   return {
     session,
@@ -89,7 +89,6 @@ export const publicProcedure = t.procedure;
  * @see https://trpc.io/docs/procedures
  */
 export const protectedProcedure = t.procedure.use(({ ctx, next }) => {
-  console.log(5, ctx.session);
   if (!ctx.session?.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
