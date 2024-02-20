@@ -23,9 +23,6 @@ export const env = createEnv({
     DATABASE_PASSWORD: z.string(),
     DATABASE_NAME: z.string(),
     MOLLIE_API_KEY: z.string(),
-    STRIPE_PK: z.string(),
-    STRIPE_SK: z.string(),
-    STRIPE_WEBHOOK_SECRET: z.string(),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -45,9 +42,6 @@ export const env = createEnv({
     MOLLIE_API_KEY: process.env.MOLLIE_API_KEY,
     PORT: process.env.PORT,
     VERCEL_URL: process.env.VERCEL_URL,
-    STRIPE_PK: process.env.STRIPE_PK,
-    STRIPE_SK: process.env.STRIPE_SK,
-    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
 
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
