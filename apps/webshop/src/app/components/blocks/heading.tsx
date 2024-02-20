@@ -43,8 +43,8 @@ const heading = ({
       />
       <Comp
         className={cn(
-          "max-w-[42.5rem]",
-          button ? "max-w-[56rem]" : "",
+          "max-w-[42.5rem] text-[2.125rem] font-medium leading-[2.5rem] md:text-[3.5rem] md:leading-[4.2rem]",
+          button ? "max-w-[60rem]" : "",
           headingTextAlign === "center"
             ? "mx-auto text-center"
             : headingTextAlign === "right"

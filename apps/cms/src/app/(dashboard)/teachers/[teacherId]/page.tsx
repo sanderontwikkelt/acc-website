@@ -4,7 +4,13 @@ import type { z } from "zod";
 import React, { useEffect, useState, useTransition } from "react";
 import { notFound, useParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ClipboardList, PlusIcon, SaveIcon, Trash } from "lucide-react";
+import {
+  ClipboardList,
+  MapPinIcon,
+  PlusIcon,
+  SaveIcon,
+  Trash,
+} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
@@ -171,7 +177,6 @@ const TeacherDetailPage = () => {
                     )}
                   />
                 </div>
-
                 <FormField
                   control={form.control}
                   name="mediaId"
@@ -202,6 +207,85 @@ const TeacherDetailPage = () => {
                         <RichText
                           disabled={loading}
                           id="description"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <MapPinIcon className="mr-2 w-5" />
+                  Landkaart
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Address</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="Docent address"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="website"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Website</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="Docent website"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phoneNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Telefoonnummer</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="Docent telefoonnummer"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>E-mail</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          type="email"
+                          placeholder="Docent e-mail"
                           {...field}
                         />
                       </FormControl>

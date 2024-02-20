@@ -1,4 +1,5 @@
 import accordion from "~/components/blocks/accordion";
+import callToAction from "~/components/blocks/call-to-action";
 import card from "~/components/blocks/card";
 import contactForm from "~/components/blocks/contact-form";
 import content from "~/components/blocks/content";
@@ -8,6 +9,7 @@ import googleMap from "~/components/blocks/google-map";
 import heading from "~/components/blocks/heading";
 import hero from "~/components/blocks/hero";
 import images from "~/components/blocks/images";
+import libraryPreview from "~/components/blocks/library-preview";
 import productDescription from "~/components/blocks/product-description";
 import testimonials from "~/components/blocks/testimonials";
 import textColumns from "~/components/blocks/text-columns";
@@ -38,4 +40,6 @@ export const blocks = {
   googleMap,
   contactForm,
   productDescription,
+  libraryPreview,
+  callToAction,
 };

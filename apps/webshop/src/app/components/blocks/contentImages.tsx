@@ -31,7 +31,10 @@ const ContentImages = ({
 }) => {
   return (
     <div className="flex flex-col">
-      <h2 className="mb-20 max-w-[21rem]" {...setHtml(title)} />
+      <h2
+        className="mb-20 max-w-[21rem] text-2xl md:text-[2.5rem]"
+        {...setHtml(title)}
+      />
       <div className="mb-16 grid grid-cols-1 gap-8 sm:grid-cols-2 md:mb-24 md:grid-cols-3">
         {items.map(({ title, image, href }, i) => (
           <Link key={i} href={href} className="group relative w-full">

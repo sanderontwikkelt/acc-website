@@ -51,10 +51,16 @@ export const seoFormSchema = z.object({
 });
 
 export const teacherFormSchema = z.object({
-  title: z.string().min(1),
-  name: z.string().min(1),
-  description: z.string().min(1),
-  mediaId: z.number(),
+  title: notEmptyString,
+  name: notEmptyString,
+  description: notEmptyString,
+  mediaId: notEmptyNumber,
+  address: optionalString,
+  website: optionalString,
+  phoneNumber: optionalString,
+  lat: optionalString,
+  lng: optionalString,
+  email: z.string().email().optional(),
 });
 
 export const CreateRoleSchema = z.object({
@@ -115,6 +121,7 @@ export const libraryFormSchema = z.object({
   mediaId: notEmptyNumber,
   mediaIds: z.array(z.number()).optional(),
   relatedLibraryIds: z.array(z.number()).optional(),
+  type: optionalString,
   seoDescription: optionalString,
   seoTitle: optionalString,
   seoMediaId: optionalNumber,

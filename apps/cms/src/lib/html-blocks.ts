@@ -86,6 +86,7 @@ export const hero = {
       type: "enum",
       options: [
         { key: "default", label: "Standaard" },
+        { key: "arrow", label: "Standaard met navigatie" },
         { key: "blog", label: "Blog" },
         { key: "full-width", label: "Volledige breedte" },
         { key: "side-image", label: "Zijafbeelding" },
@@ -437,7 +438,7 @@ const testimonials = {
 
 const ctaContent = {
   name: "ctaContent" as const,
-  label: "CTA met content",
+  label: "Content met auteur",
   previewurl: "/images/block/ctaContent.png",
   fields: {
     title: {
@@ -644,6 +645,7 @@ const videoIframe = {
 const googleMap = {
   name: "googleMap" as const,
   label: "Landkaart",
+  style: { padding: 0 },
   previewurl: "/images/block/googleMap.png",
   fields: {
     title: {
@@ -655,6 +657,74 @@ const googleMap = {
       label: "Zoekveld",
       type: "input",
       value: "Zoek op locatie",
+    },
+  },
+};
+
+const libraryPreview = {
+  name: "libraryPreview" as const,
+  label: "Bibliotheekitems",
+  previewurl: "/images/block/libraryPreview.png",
+  fields: {
+    title: {
+      label: "Titel",
+      type: "string",
+      value: "Wat kun je verwachten?",
+    },
+    description: {
+      label: "Beschrijving",
+      type: "string",
+      value: "",
+    },
+    align: {
+      label: "Centrering",
+      type: "enum",
+      options: [
+        { key: "left", label: "Links" },
+        { key: "center", label: "Gecentreerd" },
+        { key: "right", label: "Rechts" },
+      ],
+      value: "left",
+    },
+    ids: {
+      label: "Bibliotheek items",
+      type: "libraries",
+      value: [],
+    },
+    button: {
+      label: "Link",
+      type: "button",
+      value: {
+        title: "Naar bibliotheek",
+        href: "/",
+        target: "_self",
+        variant: "link",
+      },
+    },
+  },
+};
+
+const callToAction = {
+  name: "callToAction" as const,
+  label: "Call to action",
+  previewurl: "/images/block/callToAction.png",
+  fields: {
+    title: {
+      label: "Titel",
+      type: "string",
+      value: "Wat kun je verwachten?",
+    },
+    button: {
+      label: "Link",
+      type: "button",
+      value: {
+        title: "Klik hier!",
+        href: "/",
+        target: "_self",
+        size: "lg",
+        variant: "white",
+        withArray: true,
+      },
     },
   },
 };
@@ -867,6 +937,8 @@ const htmlBlocks = {
   googleMap,
   // productDescription,
   contactForm,
+  libraryPreview,
+  callToAction,
 };
 
 export default htmlBlocks;

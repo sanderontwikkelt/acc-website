@@ -12,6 +12,8 @@ const buttonVariants = cva(
       variant: {
         default: "hover:bg-main bg-primary text-white",
         accent: "text-main hover:bg-main bg-accent hover:text-white",
+        white:
+          "text-main h-[75px] scale-100 bg-white px-12 text-lg transition-transform duration-300 hover:scale-105",
         main: "bg-main h-[75px] scale-100 px-12 text-lg text-white transition-transform duration-300 hover:scale-105",
         success:
           "hover:bg-main h-[75px] scale-100 bg-[#2ADC84] px-12 text-lg text-white transition-transform duration-300 hover:scale-105",
@@ -71,12 +73,12 @@ const Button = ({
       </span>
       <span className={mobile?.children ? "hidden" : ""}>{children}</span>
       {!!withArrow && (
-        <div className="ml-[0.625rem] inline-block">
+        <div className="ml-8 inline-block">
           <svg
             height="2"
             viewBox="0 0 100 2"
             preserveAspectRatio="none"
-            className="stroke-main -mr-[6px] -mt-[0.6px] inline-block w-4 transition-all duration-300 group-hover:w-8 group-hover:stroke-primary"
+            className="stroke-main -mr-[6px] -mt-[0.6px] inline-block w-4 transition-all duration-300 group-hover:w-8"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path d="M0 1L100 1" strokeWidth="1.3" strokeLinecap="round" />
@@ -84,7 +86,7 @@ const Button = ({
           <svg
             width="8"
             height="16"
-            className="fill-main inline-block duration-300 group-hover:fill-primary"
+            className="fill-main inline-block duration-300"
             viewBox="0 0 8 16"
             xmlns="http://www.w3.org/2000/svg"
           >

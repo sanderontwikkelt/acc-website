@@ -43,7 +43,10 @@ const Testimonials = ({
   });
   return (
     <div className="flex w-full flex-col">
-      <h2 className="mb-16 max-w-[21rem]" {...setHtml(title)} />
+      <h2
+        className="text-2m mb-16 max-w-[30rem] md:text-[2.5rem]"
+        {...setHtml(title)}
+      />
       <div className="relative ml-auto h-full w-[80%]">
         <div ref={internalSliderRef} className="keen-slider">
           {items.map((item, i) => (
@@ -52,7 +55,7 @@ const Testimonials = ({
               className="keen-slider__slide group relative w-full overflow-hidden"
             >
               <p
-                className="mb-10 text-2xl font-bold md:text-lg"
+                className="font-heading mb-10 text-2xl font-bold md:text-2xl md:leading-[1.5]"
                 {...setHtml(item.description)}
               />
               <Author

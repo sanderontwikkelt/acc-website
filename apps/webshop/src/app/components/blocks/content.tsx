@@ -13,6 +13,7 @@ const content = ({
   title,
   description,
   image,
+  icon,
   links,
 }: {
   title: string;
@@ -20,12 +21,27 @@ const content = ({
   articleDescription: string;
   links: { href: string; title: string }[];
   image: ImageType;
+  icon: ImageType;
 }) => {
   return (
-    <div className="flex items-center gap-36 max-md:flex-col">
-      <NextImage image={image} alt={title} />
+    <div className="grid items-center gap-10 md:grid-cols-2">
+      <div className="w-full pr-20">
+        <NextImage image={image} alt={title} className="w-full object-cover" />
+      </div>
       <article>
-        <h1 className="mb-10" {...setHtml(title)} />
+        <div className="mb-10 flex items-center justify-between">
+          <h3
+            className="text-[2.125rem] font-medium leading-[2.5rem] md:text-[3.5rem] md:leading-[4.2rem]"
+            {...setHtml(title)}
+          />
+          {!!icon && (
+            <NextImage
+              image={icon}
+              alt="icon"
+              className="w-15 h-auto object-contain"
+            />
+          )}
+        </div>
         <p className="mb-10" {...setHtml(description)} />
         <div className="flex space-x-5">
           {links.map(({ href, title }) => (

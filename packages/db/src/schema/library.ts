@@ -17,6 +17,7 @@ export const library = mySqlTable(
     mediaLink: varChar("media_link"),
     mediaId: nnInt("media_id"),
     userId: nnInt("user_id"),
+    type: varChar("type"),
     seoTitle: varChar("seo_title"),
     seoDescription: text("seo_description"),
     seoMediaId: int("seo_media_id"),

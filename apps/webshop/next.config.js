@@ -16,7 +16,10 @@ const config = {
   ],
 
   images: {
-    domains: ["storage.googleapis.com", "storage.cloud.google.com"],
+    remotePatterns: [
+      { hostname: "storage.googleapis.com" },
+      { hostname: "storage.cloud.google.com" },
+    ],
   },
 
   /** We already do linting and typechecking as separate tasks in CI */

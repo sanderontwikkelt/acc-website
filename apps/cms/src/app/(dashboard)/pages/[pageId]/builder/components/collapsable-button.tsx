@@ -25,7 +25,7 @@ export type ButtonValue = {
   children: React.ReactNode;
   href: string;
   target: "_blank" | "_self";
-  variant: "default" | "accent" | "main" | "outline" | "link";
+  variant: "default" | "accent" | "main" | "outline" | "link" | "white";
   rounded: "default" | "sm" | "md";
   size: "default" | "lg";
   withArrow: boolean;
@@ -105,6 +105,7 @@ export function CollapsibleButton({ children, value, setValue }: Props) {
               <SelectItem value="default">Standaard</SelectItem>
               <SelectItem value="accent">Accent</SelectItem>
               <SelectItem value="main">Primair</SelectItem>
+              <SelectItem value="white">Wit</SelectItem>
               <SelectItem value="outline">Omranding</SelectItem>
               <SelectItem value="success">Succes</SelectItem>
               <SelectItem value="link">Link</SelectItem>

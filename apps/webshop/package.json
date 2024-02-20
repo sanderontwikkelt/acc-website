@@ -36,6 +36,7 @@
     "@trpc/react-query": "next",
     "@trpc/server": "next",
     "geist": "^1.2.0",
+    "isomorphic-dompurify": "^2.3.0",
     "keen-slider": "^6.8.6",
     "leva": "^0.9.35",
     "next": "^14.0.4",

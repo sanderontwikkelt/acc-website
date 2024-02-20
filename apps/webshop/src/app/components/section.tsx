@@ -40,7 +40,7 @@ const Section = ({
   ) : (
     <section
       className={cn(
-        "group/client block w-full px-[1.875rem]",
+        "group/client block w-full px-[1.25rem] md:px-[6.25rem]",
         className,
         fields?.background ? `bg-[${fields.background}]` : "",
       )}

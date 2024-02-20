@@ -16,9 +16,10 @@
   },
   "dependencies": {
     "@acme/auth": "workspace:^0.1.0",
-    "@acme/stripe": "workspace:^0.1.0",
     "@acme/db": "workspace:^0.1.0",
+    "@acme/stripe": "workspace:^0.1.0",
     "@acme/validators": "workspace:^0.1.0",
+    "@googlemaps/google-maps-services-js": "^3.3.42",
     "@trpc/client": "next",
     "@trpc/server": "next",
     "superjson": "2.2.1",
@@ -29,9 +30,9 @@
     "@acme/eslint-config": "workspace:^0.2.0",
     "@acme/prettier-config": "workspace:^0.1.0",
     "@acme/tsconfig": "workspace:^0.1.0",
+    "@types/uuid": "^9.0.7",
     "eslint": "^8.56.0",
     "prettier": "^3.1.1",
-    "@types/uuid": "^9.0.7",
     "typescript": "^5.3.3"
   },
   "eslintConfig": {

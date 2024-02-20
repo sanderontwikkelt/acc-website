@@ -335,9 +335,40 @@ const LibraryDetailPage = () => {
                 />
                 <FormField
                   control={form.control}
+                  name="type"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Type</FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecteer een type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {[
+                              { value: "read", label: "Lees" },
+                              { value: "watch", label: "Kijk" },
+                              { value: "listen", label: "Luister" },
+                            ].map(({ value, label }) => (
+                              <SelectItem key={value} value={value}>
+                                {label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="mediaLink"
                   render={({ field }) => (
-                    <FormItem className="md:col-span-2">
+                    <FormItem>
                       <FormLabel>Media link</FormLabel>
                       <FormControl>
                         <Input
@@ -350,6 +381,7 @@ const LibraryDetailPage = () => {
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={form.control}
                   name="body"

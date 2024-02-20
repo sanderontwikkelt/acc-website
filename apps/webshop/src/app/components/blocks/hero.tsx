@@ -9,7 +9,12 @@ import Breadcrumbs from "../breadcrumbs";
 import NextImage from "../NextImage";
 import Section from "../section";
 
-export type ContentVariant = "side-image" | "full-width" | "blog" | "default";
+export type ContentVariant =
+  | "side-image"
+  | "full-width"
+  | "blog"
+  | "default"
+  | "arrow";
 
 const hero = ({
   title,
@@ -34,21 +39,55 @@ const hero = ({
   const isSideImage = variant === "side-image";
   const isBlog = variant === "blog";
   const isDefault = variant === "default";
+  const isArrow = variant === "arrow";
   const dark = background === "#0F1012";
+  console.log(background);
 
   if (isDefault)
     return (
       <article className="w-full py-[10.625rem]">
-        <h1 {...setHtml(title)} />
-        <p className="text-4xl" {...setHtml(description)} />
+        <h1
+          {...setHtml(title)}
+          className="mb-4 text-[2.125rem] font-medium leading-[2.5rem] md:text-[3.5rem] md:leading-[4.2rem]"
+        />
+        <p className="text-2xl" {...setHtml(description)} />
       </article>
     );
+
+  console.log(setHtml(title));
+
+  const arrow = (
+    <Link
+      href="#next-section"
+      className="transition-all duration-300 hover:scale-110 md:ml-16"
+    >
+      <svg
+        width="51"
+        height="67"
+        viewBox="0 0 51 67"
+        className={dark ? "fill-white" : "fill-main"}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path fillRule="evenodd" clipRule="evenodd" d="M23 63H29V0H23V63Z" />
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M0 40.5472L23.6124 65L28 60.4528L4.39067 36L0 40.5472Z"
+        />
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M21 62.5446L25.4572 67L51 41.457L46.5459 37L21 62.5446Z"
+        />
+      </svg>
+    </Link>
+  );
 
   return (
     <>
       <div
         className={cn(
-          isSideImage || isBlog ? "" : "md:pb-[29rem]",
+          isSideImage || isBlog || isArrow ? "" : "md:pb-[29rem]",
           dark ? "text-white" : "",
         )}
       >
@@ -65,68 +104,51 @@ const hero = ({
           )}
           <div
             className={cn(
-              isBlog ? "mb-10" : "mb-4 flex justify-between",
+              "mb-4",
+              isBlog ? "mb-10" : "flex justify-between",
               isSideImage ? "items-center" : "items-end",
             )}
           >
             <h1
               {...setHtml(title)}
-              className={isSideImage ? "" : "text-6xl font-normal"}
+              className={cn(
+                "text-[2.125rem] font-medium leading-[2.5rem] md:text-[3.5rem] md:leading-[4.2rem]",
+                isArrow ? "mb-7" : "",
+              )}
             />
             {isSideImage ? (
               icon ? (
                 <NextImage image={icon} alt="Hero icon" />
               ) : null
-            ) : isBlog ? null : (
-              <Link href="#next-section">
-                <svg
-                  width="51"
-                  height="67"
-                  viewBox="0 0 51 67"
-                  className="fill-main"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M23 63H29V0H23V63Z"
-                  />
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M0 40.5472L23.6124 65L28 60.4528L4.39067 36L0 40.5472Z"
-                  />
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M21 62.5446L25.4572 67L51 41.457L46.5459 37L21 62.5446Z"
-                  />
-                </svg>
-              </Link>
+            ) : isBlog || isArrow ? null : (
+              arrow
             )}
           </div>
           {!!description && (
             <p className="text-4xl" {...setHtml(description)} />
           )}
+          {isArrow && <div className="flex justify-end">{arrow}</div>}
         </article>
 
-        <div
-          className={
-            isSideImage
-              ? "absolute right-0 top-0 z-10 mt-[11rem] h-[calc(100%-11rem)] w-full md:w-[40%]"
-              : isBlog
-                ? "h-[40.625rem] w-full"
-                : "absolute bottom-0 left-0 h-[35rem] w-screen"
-          }
-        >
-          <NextImage
-            image={image}
-            alt="Hero"
-            className="h-full w-full object-cover"
-          />
-        </div>
+        {!isArrow && (
+          <div
+            className={
+              isSideImage
+                ? "absolute right-0 top-0 z-10 mt-[11rem] h-[calc(100%-11rem)] w-full md:w-[40%]"
+                : isBlog
+                  ? "h-[40.625rem] w-full"
+                  : "absolute bottom-0 left-0 h-[35rem] w-screen"
+            }
+          >
+            <NextImage
+              image={image}
+              alt="Hero"
+              className="h-full w-full object-cover"
+            />
+          </div>
+        )}
       </div>
-      {!!links && isSideImage && (
+      {!!links && isSideImage && !isArrow && (
         <Section
           id="hero-links"
           className="absolute bottom-0 left-0 w-full bg-white"

@@ -63,7 +63,7 @@ const DynamicSelect = ({
   return (
     <DragList
       values={values?.length ? values.map((key) => ({ key, name: key })) : []}
-      onChange={(items) => onChange(items.map((i) => i.key))}
+      onChange={(items) => onChange(items?.map((i) => i.key) || [])}
       dragItem={dragItem}
       root
     />
