@@ -10,7 +10,7 @@ async function getTeachers(id: string) {
   try {
     const res = await fetch(url, {
       next: { tags, revalidate: 0 },
-    });
+    } as RequestInit);
 
     if (!res.ok) {
       throw new Error("Failed to fetch");

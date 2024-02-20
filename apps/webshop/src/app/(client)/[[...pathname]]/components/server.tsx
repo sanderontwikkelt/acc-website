@@ -2,7 +2,7 @@ import React from "react";
 
 import type { Block } from "~/lib/blocks";
 import ServerWrapper from "~/components/server-wrapper";
-import { WEB_URL } from "~/lib/constants";
+import { API_URL } from "~/lib/constants";
 import { getArray } from "~/lib/getArray";
 import BlocksRenderer from "./blocks-renderer";
 
@@ -10,10 +10,10 @@ async function getPage(pathname: string) {
   const tags = [pathname.replaceAll("/", "") || "index"];
   try {
     const res = await fetch(
-      `${WEB_URL}/api/pages?pathname=${pathname}&mode=server`,
+      `${API_URL}/api/pages?pathname=${pathname}&mode=server`,
       {
         next: { tags },
-      },
+      } as RequestInit,
     );
 
     if (!res.ok) {
@@ -22,7 +22,7 @@ async function getPage(pathname: string) {
 
     return res.json();
   } catch (e) {
-    console.log({ e, url: `${WEB_URL}/api/pages?${pathname}` });
+    console.log({ e, url: `${API_URL}/api/pages?${pathname}` });
   }
 }
 

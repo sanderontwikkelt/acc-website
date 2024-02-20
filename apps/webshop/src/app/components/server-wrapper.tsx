@@ -3,16 +3,16 @@ import React from "react";
 
 import Footer from "~/components/footer";
 import Header from "~/components/header";
-import { WEB_URL } from "~/lib/constants";
+import { API_URL } from "~/lib/constants";
 
 const getHeader = async () => {
   try {
-    const res = await fetch(`${WEB_URL}/api/header`, {
+    const res = await fetch(`${API_URL}/api/header`, {
       next: {
         tags: ["header"],
         revalidate: process.env.NODE_ENV === "production" ? undefined : 0,
       },
-    });
+    } as RequestInit);
 
     if (!res.ok) {
       throw new Error("Failed to fetch page");
@@ -20,13 +20,13 @@ const getHeader = async () => {
 
     return res.json();
   } catch (e) {
-    console.log({ e, url: `${WEB_URL}/api/header` });
+    console.log({ e, url: `${API_URL}/api/header` });
   }
 };
 
 const getFooter = async () => {
   try {
-    const res = await fetch(`${WEB_URL}/api/footer`, {
+    const res = await fetch(`${API_URL}/api/footer`, {
       next: { tags: ["footer"] },
     });
 
@@ -36,7 +36,7 @@ const getFooter = async () => {
 
     return res.json();
   } catch (e) {
-    console.log({ e, url: `${WEB_URL}/api/footer` });
+    console.log({ e, url: `${API_URL}/api/footer` });
   }
 };
 
