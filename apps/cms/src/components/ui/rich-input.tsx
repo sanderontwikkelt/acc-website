@@ -91,12 +91,12 @@ export default function RichInput({
       <Editor
         id={id}
         value={value}
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+         
         onChange={(e) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onChange(
             sanitize(
               e.target.value,
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               (e.nativeEvent as any).inputType === "insertFromPaste"
                 ? { USE_PROFILES: { html: false } }
                 : undefined,

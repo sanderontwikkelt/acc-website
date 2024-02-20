@@ -49,7 +49,10 @@ const hero = ({
           {...setHtml(title)}
           className="animate-moveToRight mb-4 text-[2.125rem] font-medium leading-[2.5rem] md:text-[3.5rem] md:leading-[4.2rem]"
         />
-        <p className="text-2xl" {...setHtml(description)} />
+        <p
+          className="animate-moveToRight text-2xl duration-1000"
+          {...setHtml(description)}
+        />
       </article>
     );
 
@@ -122,7 +125,10 @@ const hero = ({
             )}
           </div>
           {!!description && (
-            <p className="text-4xl" {...setHtml(description)} />
+            <p
+              className="animate-moveToRight duration-[1500ms] text-4xl"
+              {...setHtml(description)}
+            />
           )}
           {isArrow && <div className="flex justify-end">{arrow}</div>}
         </article>
@@ -131,7 +137,7 @@ const hero = ({
           <div
             className={
               isSideImage
-                ? "absolute right-0 top-0 z-10 mt-[11rem] h-[calc(100%-11rem)] w-full md:w-[40%]"
+                ? "absolute right-0 top-0 z-10 mt-[11rem] h-[calc(100%-11rem)] w-full md:right-20 md:w-[40%]"
                 : isBlog
                   ? "h-[40.625rem] w-full"
                   : "bottom-0 left-0 w-screen max-md:-ml-5 md:absolute md:h-[35rem]"

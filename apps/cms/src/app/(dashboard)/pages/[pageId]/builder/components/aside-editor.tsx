@@ -10,6 +10,7 @@ import InfoTooltip from "~/components/info-tooltip";
 import Slider from "~/components/slider";
 import { Checkbox } from "~/components/ui/checkbox";
 import DynamicButtonList from "~/components/ui/dynamic-button-list";
+import DynamicCourses from "~/components/ui/dynamic-courses";
 import DynamicImageGridList from "~/components/ui/dynamic-image-grid-list";
 import DynamicLibraries from "~/components/ui/dynamic-libraries";
 import DynamicLinkImages from "~/components/ui/dynamic-link-images";
@@ -238,6 +239,14 @@ const AsideEditor = ({
                               // ),
                               libraries: (
                                 <DynamicLibraries
+                                  values={value?.length ? value : []}
+                                  onChange={(list) =>
+                                    handleFields(fieldName, list)
+                                  }
+                                />
+                              ),
+                              courses: (
+                                <DynamicCourses
                                   values={value?.length ? value : []}
                                   onChange={(list) =>
                                     handleFields(fieldName, list)

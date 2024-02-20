@@ -32,7 +32,7 @@ const ContentImages = ({
   return (
     <div className="flex flex-col">
       <h2
-        className="mb-20 max-w-[21rem] text-4xl md:text-[2.5rem]"
+        className="mb-20 max-w-[21rem] text-4xl font-semibold md:text-5xl"
         {...setHtml(title)}
       />
       <div className="mb-16 grid grid-cols-1 gap-8 sm:grid-cols-2 md:mb-24 md:grid-cols-3">
@@ -45,7 +45,7 @@ const ContentImages = ({
                 className="h-full w-full scale-100 object-cover transition-transform group-hover:scale-[1.02]"
               />
             </div>
-            <p className="mt-3 text-2xl" {...setHtml(title)} />
+            <p className="mt-5 text-2xl" {...setHtml(title)} />
           </Link>
         ))}
       </div>

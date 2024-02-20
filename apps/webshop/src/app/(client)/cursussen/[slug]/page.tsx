@@ -18,9 +18,9 @@ interface ListItem {
   description: string;
 }
 
-async function getCourse(id: string) {
-  const tags = ["course/" + id];
-  const url = `${API_URL}/api/courses?slug=${id}`;
+async function getCourse(slug: string) {
+  const tags = ["course/" + slug];
+  const url = `${API_URL}/api/courses/${slug}`;
   try {
     const res = await fetch(url, {
       next: { tags, revalidate: 0 },

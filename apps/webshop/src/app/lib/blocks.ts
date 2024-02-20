@@ -5,7 +5,9 @@ import callToAction from "~/components/blocks/call-to-action";
 import card from "~/components/blocks/card";
 import contactForm from "~/components/blocks/contact-form";
 import content from "~/components/blocks/content";
+import contentImage from "~/components/blocks/content-image";
 import contentImages from "~/components/blocks/contentImages";
+import coursesPreview from "~/components/blocks/courses-preview";
 import ctaContent from "~/components/blocks/cta-content";
 import googleMap from "~/components/blocks/google-map";
 import heading from "~/components/blocks/heading";
@@ -44,5 +46,7 @@ export const blocks = {
   contactForm,
   productDescription,
   libraryPreview,
+  coursesPreview,
   callToAction,
+  contentImage,
 };

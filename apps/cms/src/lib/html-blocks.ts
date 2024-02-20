@@ -252,6 +252,46 @@ const content = {
   },
 };
 
+const contentImage = {
+  name: "contentImage" as const,
+  label: "Afbeelding met tekst",
+  previewurl: "/images/block/contentImage.png",
+  fields: {
+    title: {
+      label: "Titel",
+      type: "string",
+      value: "Physis Academy coach opleiding",
+    },
+    description: {
+      label: "Beschrijving",
+      type: "text",
+      value:
+        "De Physis Coach Opleiding is een opleiding speciaal voor behandelaars en trainers die coach willen worden. De opleiding omarmt het 6 domeinen model en word gegeven door een coach die enorm veel ervaring heeft met behandelaars en trainers.",
+    },
+    image: {
+      label: "Afbeelding",
+      type: "image",
+      value: {
+        name: "content.jpg",
+        src: "https://storage.googleapis.com/physis_cms_storage/media/12a1fb82-bfea-45a5-99f9-0a2f2a5eaca1_home-physis.jpg",
+        width: 389,
+        height: 397,
+      },
+    },
+    button: {
+      label: "Link",
+      type: "button",
+      value: {
+        title: "Schrijf je nu in!",
+        href: "/",
+        target: "_self",
+        size: "lg",
+        variant: "success",
+      },
+    },
+  },
+};
+
 const heading = {
   name: "heading" as const,
   label: "Koptitel",
@@ -704,6 +744,24 @@ const libraryPreview = {
   },
 };
 
+const coursesPreview = {
+  name: "coursesPreview" as const,
+  label: "Cursussen",
+  previewurl: "/images/block/coursesPreview.png",
+  fields: {
+    title: {
+      label: "Titel",
+      type: "string",
+      value: "Hoofdproducten",
+    },
+    ids: {
+      label: "Cursussen",
+      type: "courses",
+      value: [],
+    },
+  },
+};
+
 const callToAction = {
   name: "callToAction" as const,
   label: "Call to action",
@@ -937,7 +995,9 @@ const htmlBlocks = {
   // productDescription,
   contactForm,
   libraryPreview,
+  coursesPreview,
   callToAction,
+  contentImage,
 };
 
 export default htmlBlocks;

@@ -47,10 +47,8 @@ export const MediaModal: React.FC<MediaModalProps> = ({
     perPage,
   });
 
-  const [totalRoles] = api.role.count.useSuspenseQuery();
-  const pageCount = totalRoles[0]
-    ? Math.ceil(+totalRoles[0]?.count / perPage)
-    : 1;
+  const [total] = api.media.count.useSuspenseQuery();
+  const pageCount = total[0] ? Math.ceil(+total[0]?.count / perPage) : 1;
 
   useEffect(() => {
     setIsMounted(true);
@@ -87,11 +85,11 @@ export const MediaModal: React.FC<MediaModalProps> = ({
         <MediaGrid
           multiple={!!multiple}
           media={
-            media?.map((m) => ({
+            (media?.map((m) => ({
               ...m,
               createdAt: new Date(),
               updatedAt: new Date(),
-            })) as Media[]
+            })) as Media[]) || []
           }
           onSelect={setSelectedMedia}
           selected={selectedMedia || []}
@@ -100,6 +98,7 @@ export const MediaModal: React.FC<MediaModalProps> = ({
           <Pagination>
             <PaginationContent>
               <PaginationItem
+                onClick={() => setPage((prev) => prev - 1)}
                 className={page === 1 ? "pointer-events-none opacity-60" : ""}
               >
                 <PaginationPrevious href="#" />
@@ -127,7 +126,10 @@ export const MediaModal: React.FC<MediaModalProps> = ({
                   page === pageCount ? "pointer-events-none opacity-60" : ""
                 }
               >
-                <PaginationNext href="#" />
+                <PaginationNext
+                  href="#"
+                  onClick={() => setPage((prev) => prev + 1)}
+                />
               </PaginationItem>
             </PaginationContent>
           </Pagination>

@@ -6,7 +6,7 @@ import type { Library, LibraryCategory, Media } from "@acme/db";
 import { cn } from "@acme/ui";
 
 import type { Button as ButtonType } from "~/lib/types";
-import { WEB_URL } from "~/lib/constants";
+import { API_URL } from "~/lib/constants";
 import { setHtml } from "~/lib/setHtml";
 import { Button } from "../button";
 import Libraries from "../libraries";
@@ -18,7 +18,7 @@ interface Lib extends Library {
 
 async function getLibraries(ids: number[], setLibraries: (n: Lib[]) => void) {
   const tags = ["libraries"];
-  const url = `${WEB_URL}/api/libraries?ids=${ids.join(",")}`;
+  const url = `${API_URL}/api/libraries?ids=${ids.join(",")}`;
   try {
     const res = await fetch(url, {
       next: { tags, revalidate: 0 },

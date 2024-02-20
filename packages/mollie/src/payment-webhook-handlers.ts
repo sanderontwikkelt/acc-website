@@ -31,7 +31,7 @@ export const createPayment = async ({
       value: charged,
     },
     description: "Bestelling by Physis Academy",
-    redirectUrl: `${url}/success`,
+    redirectUrl: `${url}/bedankt-pagina`,
     webhookUrl: `${url}/api/webhooks/mollie/${secret}`,
     locale: "nl_NL" as Locale,
     metadata: { orderId },

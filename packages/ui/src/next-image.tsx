@@ -22,12 +22,12 @@ export const NextImage = ({
   alt = "",
   ...props
 }: NextImageProps) => {
-  const { width, height, url } = image;
+  const { width, height, src } = image;
   return (
     <Image
       width={width}
       height={height}
-      src={url}
+      src={src}
       {...props}
       alt={alt}
       {...(!!(objectPosition && props.className?.includes("object-cover")) && {

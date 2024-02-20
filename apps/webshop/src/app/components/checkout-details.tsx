@@ -21,7 +21,7 @@ import {
 } from "@acme/ui";
 import { orderFormSchema } from "@acme/validators";
 
-import { WEB_URL } from "~/lib/constants";
+import { API_URL } from "~/lib/constants";
 import { formatter } from "~/lib/utils";
 import { Button } from "./button";
 import { Input } from "./input";
@@ -69,7 +69,7 @@ const CheckoutDetails = () => {
   const onSubmit = async (orderData: OrderFormSchema) => {
     startTransition(async () => {
       const { id } = await createOrder.mutateAsync(orderData);
-      const response = await fetch(`${WEB_URL}/api/checkout`, {
+      const response = await fetch(`${API_URL}/api/checkout`, {
         method: "POST",
         body: JSON.stringify({
           cartId: data.id,
@@ -92,7 +92,7 @@ const CheckoutDetails = () => {
         >
           <section className="grid gap-5 md:grid-cols-2">
             <div>
-              <h2 className="text-3xl">Factuurgegevens</h2>
+              <h2 className="mb-4 text-3xl">Factuurgegevens</h2>
               <div className="grid gap-5 md:grid-cols-2">
                 <FormField
                   control={form.control}
@@ -289,7 +289,7 @@ const CheckoutDetails = () => {
               </div>
             </div>
             <div>
-              <h2 className="text-3xl">Extra informatie</h2>
+              <h2 className="mb-4 text-3xl">Extra informatie</h2>
               <FormField
                 control={form.control}
                 name="invoiceAdditionalInformation"
@@ -311,7 +311,7 @@ const CheckoutDetails = () => {
           </section>
 
           <section>
-            <h2 className="text-3xl">Jouw bestelling</h2>
+            <h2 className="mb-4 text-3xl">Jouw bestelling</h2>
 
             {isLoading ? null : data.items?.length ? (
               <div className="flex flex-col space-y-6">

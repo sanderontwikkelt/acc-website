@@ -33,7 +33,10 @@ const CtaContent = ({
 }) => {
   return (
     <div className="w-full">
-      <h2 className="mb-32" {...setHtml(title)} />
+      <h2
+        className="mb-16 text-4xl font-semibold md:mb-32 md:text-5xl"
+        {...setHtml(title)}
+      />
       <div className="grid grid-cols-1 gap-9 md:grid-cols-2">
         <article>
           <div className="ratio-[3/2] mb-4 w-full overflow-hidden">
@@ -43,12 +46,18 @@ const CtaContent = ({
               alt={title}
             />
           </div>
-          <h3 className="mb-8" {...setHtml(articleTitle)} />
+          <h3
+            className="font-primary mb-4 mt-8 text-xl font-semibold md:text-4xl"
+            {...setHtml(articleTitle)}
+          />
           <p className="mb-10 text-lg" {...setHtml(description)} />
           <Button {...button}>{button.title}</Button>
         </article>
         <div>
-          <h3 className="mb-16 text-2xl" {...setHtml(subtitle)} />
+          <h3
+            className="mb-6 text-xl font-semibold md:text-2xl"
+            {...setHtml(subtitle)}
+          />
           <Author
             image={authorImage}
             author={author}

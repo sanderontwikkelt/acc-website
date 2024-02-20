@@ -59,7 +59,7 @@ const Header = ({ header }: { header: HeaderType }) => {
       >
         <div
           className={cn(
-            "relative z-50 flex h-full w-full max-w-[100vw] items-center px-[calc(1.875rem+max((100vw-(1300rem/16))/2,0px))]",
+            "relative z-50 flex h-full w-full max-w-[100vw] items-center px-6",
           )}
         >
           <Link href="/" aria-label="Physis">
