@@ -3,11 +3,11 @@ import type { Media, Product, ProductCategory } from "@acme/db";
 import Products from "~/components/products";
 import Section from "~/components/section";
 import ServerWrapper from "~/components/server-wrapper";
-import { WEB_URL } from "~/lib/constants";
+import { API_URL } from "~/lib/constants";
 
 async function getProducts(id: string) {
   const tags = ["products/" + id];
-  const url = `${WEB_URL}/api/products?slug=${id}`;
+  const url = `${API_URL}/api/products?slug=${id}`;
   try {
     const res = await fetch(url, {
       next: { tags, revalidate: 0 },

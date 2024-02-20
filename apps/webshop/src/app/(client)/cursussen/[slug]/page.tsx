@@ -10,7 +10,7 @@ import Hero from "~/components/blocks/hero";
 import CourseDetails from "~/components/course";
 import Section from "~/components/section";
 import ServerWrapper from "~/components/server-wrapper";
-import { WEB_URL } from "~/lib/constants";
+import { API_URL, WEB_URL } from "~/lib/constants";
 import { metadata } from "../../../layout";
 
 interface ListItem {
@@ -20,7 +20,7 @@ interface ListItem {
 
 async function getCourse(id: string) {
   const tags = ["course/" + id];
-  const url = `${WEB_URL}/api/courses?slug=${id}`;
+  const url = `${API_URL}/api/courses?slug=${id}`;
   try {
     const res = await fetch(url, {
       next: { tags, revalidate: 0 },

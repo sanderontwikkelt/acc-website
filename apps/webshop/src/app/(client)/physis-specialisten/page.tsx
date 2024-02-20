@@ -2,11 +2,11 @@ import type { Media, Teacher } from "@acme/db";
 
 import GoogleMaps from "~/components/blocks/google-map";
 import ServerWrapper from "~/components/server-wrapper";
-import { WEB_URL } from "~/lib/constants";
+import { API_URL } from "~/lib/constants";
 
 async function getTeachers(id: string) {
   const tags = ["teachers"];
-  const url = `${WEB_URL}/api/teachers?slug=${id}`;
+  const url = `${API_URL}/api/teachers?slug=${id}`;
   try {
     const res = await fetch(url, {
       next: { tags, revalidate: 0 },

@@ -12,12 +12,12 @@ import { db } from "@acme/db";
 import ProductDetails from "~/components/product-details";
 import Section from "~/components/section";
 import ServerWrapper from "~/components/server-wrapper";
-import { WEB_URL } from "~/lib/constants";
+import { API_URL, WEB_URL } from "~/lib/constants";
 import { metadata } from "../../../../layout";
 
 async function getProduct(id: string) {
   const tags = ["product/" + id];
-  const url = `${WEB_URL}/api/products/${id}`;
+  const url = `${API_URL}/api/products/${id}`;
   try {
     const res = await fetch(url, {
       next: { tags, revalidate: 0 },
