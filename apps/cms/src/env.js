@@ -22,9 +22,6 @@ export const env = createEnv({
     DATABASE_HOST: z.string(),
     DATABASE_USERNAME: z.string(),
     DATABASE_PASSWORD: z.string(),
-    STRIPE_PK: z.string(),
-    STRIPE_SK: z.string(),
-    STRIPE_WEBHOOK_SECRET: z.string(),
   },
   /**
    * Specify your client-side environment variables schema here.
@@ -45,9 +42,6 @@ export const env = createEnv({
     VERCEL_URL: process.env.VERCEL_URL,
     GOOGLE_ANALITCS_CREDENTIALS_BASE64:
       process.env.GOOGLE_ANALITCS_CREDENTIALS_BASE64,
-    STRIPE_PK: process.env.STRIPE_PK,
-    STRIPE_SK: process.env.STRIPE_SK,
-    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
 
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },

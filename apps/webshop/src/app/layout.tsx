@@ -1,7 +1,7 @@
 import "./globals.css";
 
 import type { Metadata } from "next";
-import { cache } from "react";
+import { cache, Suspense } from "react";
 import { Inter, Playfair_Display, Poppins } from "next/font/google";
 import { headers } from "next/headers";
 import { SessionProvider } from "next-auth/react";
@@ -43,7 +43,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
+      <Suspense>
       <RouteChangeListener />
+      </Suspense>
       <body
         className={cn(
           inter.className,
