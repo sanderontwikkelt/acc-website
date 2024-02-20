@@ -39,7 +39,7 @@ export default async function Page() {
       <GoogleMaps
         title="Een overzicht van Physis specialisten."
         placeholder="Zoek op locatie"
-        teachers={[...teachers, ...teachers, ...teachers, ...teachers]}
+        teachers={teachers}
       />
     </ServerWrapper>
   );
