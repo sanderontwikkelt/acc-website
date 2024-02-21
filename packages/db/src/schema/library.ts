@@ -13,6 +13,7 @@ export const library = mySqlTable(
     id,
     slug: varChar("slug"),
     title: varChar("title"),
+    description: varChar("description"),
     body: text("body"),
     mediaLink: varChar("media_link"),
     mediaId: nnInt("media_id"),

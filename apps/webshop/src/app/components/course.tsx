@@ -110,7 +110,9 @@ const CourseDetails = ({
         <div id={sections[0].id}>
           <Reviews />
 
-          <h3 className="mb-12 mt-4">{sections[0].title}</h3>
+          <h3 className="mb-12 mt-4 text-2xl md:text-4xl">
+            {sections[0].title}
+          </h3>
           <Expandable maxHeight="200px">
             <p {...setHtml(description)} />
           </Expandable>
@@ -121,13 +123,13 @@ const CourseDetails = ({
           )}
         </div>
         <div id={sections[1].id}>
-          <h3 className="mb-6">{sections[1].title}</h3>
+          <h3 className="mb-6 text-2xl md:text-4xl">{sections[1].title}</h3>
           {infoItems.map((item) => (
             <Accordion key={item.title} {...item} />
           ))}
         </div>
         <div id={sections[2].id}>
-          <h3 className="mb-6">{sections[2].title}</h3>
+          <h3 className="mb-6 text-2xl md:text-4xl">{sections[2].title}</h3>
           <div className="space-y-8">
             {teachers.map(({ id, image, ...teacher }) => (
               <TeacherDetails
@@ -139,7 +141,7 @@ const CourseDetails = ({
           </div>
         </div>
         <div id={sections[3].id}>
-          <h3 className="mb-6">{sections[3].title}</h3>
+          <h3 className="mb-6 text-2xl md:text-4xl">{sections[3].title}</h3>
           <Reviews />
         </div>
       </div>

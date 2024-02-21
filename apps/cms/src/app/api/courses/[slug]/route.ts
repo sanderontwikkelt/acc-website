@@ -2,10 +2,13 @@ import { NextResponse } from "next/server";
 
 import { and, db, eq, ne, schema } from "@acme/db";
 
-export async function GET(req: Request) {
+export async function GET(
+  req: Request,
+  { params }: { params: { slug: string } },
+) {
   try {
     const { searchParams } = new URL(req.url);
-    const slug = searchParams.get("slug");
+    const slug = params.slug;
     const mode = searchParams.get("mode");
     const course = await db.query.course.findFirst({
       with: {

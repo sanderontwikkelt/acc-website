@@ -107,9 +107,7 @@ const ProductDescription = ({
           <Reviews />
 
           <h3 className="mb-12 mt-4" {...setHtml(sections[0].title)} />
-          <Expandable maxHeight="200px">
-            <p {...setHtml(descriptionDescription)} />
-          </Expandable>
+          <p {...setHtml(descriptionDescription)} />
           {descriptionVideoSrc && (
             <div className="py-16 md:py-40">
               <VideoIframe src={descriptionVideoSrc} />

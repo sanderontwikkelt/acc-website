@@ -219,7 +219,7 @@ const Header = ({ header }: { header: HeaderType }) => {
               setHoveredItem={setHoveredItem}
             />
           </nav>
-          <nav className="ml-auto flex items-center space-x-4 max-md:hidden lg:space-x-6 xl:space-x-8">
+          <nav className="ml-auto flex items-center space-x-4 text-lg max-md:hidden lg:space-x-6 xl:space-x-8">
             {defaultItems.map((item) => (
               <Link
                 href={item.pathname}
@@ -249,7 +249,7 @@ const Header = ({ header }: { header: HeaderType }) => {
       </header>
       <div
         className={cn(
-          `max-w-screen fixed bottom-0 right-0 top-0 z-[99] h-screen w-screen overflow-y-auto bg-accent px-6 py-6 pt-[6.25rem] shadow-md transition-all duration-500 md:hidden`,
+          `max-w-screen fixed right-0 top-[6.25rem] z-[99] h-[calc(100vh-6.25rem)] w-screen overflow-y-auto bg-accent px-6 py-6 shadow-md transition-all duration-500 md:hidden`,
           mobileMenuOpen
             ? "translate-x-0"
             : "right-[150vw] -translate-x-[150vw]",
@@ -260,7 +260,15 @@ const Header = ({ header }: { header: HeaderType }) => {
             <div className="space-y-2 py-6">
               {!!navigation.length &&
                 [
-                  ...navigation.slice(0, navigation.length - 1),
+                  ...navigation
+                    .slice(0, navigation.length - 1)
+                    .flatMap(
+                      (value) =>
+                        (value.values || [value]) as {
+                          name: string;
+                          pathname: string;
+                        }[],
+                    ),
                   ...defaultItems,
                 ].map((item, i) => (
                   <MobileItem
@@ -273,7 +281,7 @@ const Header = ({ header }: { header: HeaderType }) => {
                 ))}
             </div>
             {!!navigation.length && (
-              <div className="py-6">
+              <div className="sticky bottom-0 mt-6">
                 <Button
                   className="w-full"
                   href={navigation[navigation.length - 1].pathname}

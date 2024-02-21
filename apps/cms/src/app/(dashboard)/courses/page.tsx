@@ -20,7 +20,7 @@ import { useDataTable } from "~/hooks/use-data-table";
 import { formatCreatedAt, useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
 
-const title = "Cursessen";
+const title = "Cursussen";
 const entity = EntityEnum.COURSE;
 
 interface Column {

@@ -38,7 +38,7 @@ export default function Accordion({
         type="button"
         aria-label="accordion-item"
       >
-        <p className="text-left text-xl">{title}</p>
+        <p className="text-left text-base md:text-xl">{title}</p>
         <div className="relative h-5 w-5">
           <div
             className={cn(

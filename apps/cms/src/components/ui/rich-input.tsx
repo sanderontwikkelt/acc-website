@@ -91,7 +91,6 @@ export default function RichInput({
       <Editor
         id={id}
         value={value}
-         
         onChange={(e) => {
           onChange(
             sanitize(

@@ -36,13 +36,12 @@ const CoursePreview = ({ title, ids }: { title: string; ids: number[] }) => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     getCourses(ids, setCourses);
   }, [ids]);
-  console.log({ ids, courses });
   return (
     <div>
       {!!title && (
         <h2
           {...setHtml(title)}
-          className="font-primary mb-8 text-2xl max-md:text-center md:mb-12 md:text-[2.125rem] md:leading-[3.2rem]"
+          className="font-primary mb-8 text-2xl md:mb-12 md:text-[2.125rem] md:leading-[3.2rem]"
         />
       )}
       <Courses courses={courses} />

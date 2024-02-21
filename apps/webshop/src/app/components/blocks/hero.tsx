@@ -93,7 +93,7 @@ const hero = ({
       >
         <article
           className={cn(
-            "w-full py-10 md:py-[10.625rem] md:pr-[9rem]",
+            "w-full pb-20 pt-32 md:py-[10.625rem] md:pr-[9rem]",
             isSideImage ? "md:max-w-[60%]" : "pb-[6.25rem] md:pr-0",
           )}
         >
@@ -126,7 +126,7 @@ const hero = ({
           </div>
           {!!description && (
             <p
-              className="animate-moveToRight duration-[1500ms] text-4xl"
+              className="animate-moveToRight duration-[1500ms] text-xl md:text-4xl"
               {...setHtml(description)}
             />
           )}
@@ -137,7 +137,7 @@ const hero = ({
           <div
             className={
               isSideImage
-                ? "absolute right-0 top-0 z-10 mt-[11rem] h-[calc(100%-11rem)] w-full md:right-20 md:w-[40%]"
+                ? "right-0 top-0 z-10 h-[calc(100%-11rem)] w-full md:absolute md:right-20 md:mt-[11rem] md:w-[40%]"
                 : isBlog
                   ? "h-[40.625rem] w-full"
                   : "bottom-0 left-0 w-screen max-md:-ml-5 md:absolute md:h-[35rem]"

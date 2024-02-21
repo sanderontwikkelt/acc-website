@@ -42,10 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <Suspense>
-        <RouteChangeListener />
-      </Suspense>
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body
         className={cn(
           inter.className,
@@ -55,6 +52,9 @@ export default function RootLayout({
           "text-main w-full overflow-x-hidden bg-white",
         )}
       >
+        <Suspense>
+          <RouteChangeListener />
+        </Suspense>
         <GoogleAnalytics />
         <SessionProvider>
           <AnonymousSessionProvider>
