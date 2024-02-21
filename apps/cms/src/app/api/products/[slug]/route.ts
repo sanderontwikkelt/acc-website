@@ -1,15 +1,14 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import { and, db, eq, schema } from "@acme/db";
 
 export async function GET(
-  req: Request,
+  req: NextRequest,
   { params }: { params: { slug: string } },
 ) {
   try {
-    const { searchParams } = new URL(req.url);
+    const mode = req.nextUrl.searchParams.get("mode")
     const slug = params.slug;
-    const mode = searchParams.get("mode");
     const product = await db.query.product.findFirst({
       with: {
         variants: true,
