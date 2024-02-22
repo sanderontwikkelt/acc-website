@@ -34,7 +34,8 @@
   },
   "pnpm": {
     "overrides": {
-      "@auth/core": "0.18.1"
+      "@auth/core": "0.18.1",
+      "@react-email/render": "^0.0.9"
     }
   },
   "prettier": "@acme/prettier-config"
