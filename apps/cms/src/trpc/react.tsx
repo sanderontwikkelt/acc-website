@@ -38,7 +38,7 @@ export function TRPCReactProvider(props: {
           },
         }),
         httpLink({
-          url: process.env.NEXT_PUBLIC_API_URL,
+          url: "http://localhost:3000",
           transformer: SuperJSON,
         }),
       ],
