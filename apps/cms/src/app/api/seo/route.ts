@@ -5,6 +5,8 @@ import { and, db, eq, schema } from "@acme/db";
 
 import { prefixPathname } from "~/lib/prefixPathname";
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(req: NextRequest) {
   try {
     const mode = req.nextUrl.searchParams.get("mode")

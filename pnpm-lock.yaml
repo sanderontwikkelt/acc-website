@@ -6,7 +6,6 @@ settings:
 
 overrides:
   '@auth/core': 0.18.1
-  '@react-email/render': ^0.0.9
 
 importers:
 

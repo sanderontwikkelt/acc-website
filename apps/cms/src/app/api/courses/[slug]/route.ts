@@ -2,6 +2,7 @@ import type { NextRequest} from "next/server";
 import { NextResponse } from "next/server";
 
 import { and, db, eq, ne, schema } from "@acme/db";
+export const dynamic = 'force-dynamic'
 
 export async function GET(req: NextRequest,
   { params }: { params: { slug: string } },

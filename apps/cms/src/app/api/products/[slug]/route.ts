@@ -1,6 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest} from "next/server";
+import { NextResponse } from "next/server";
 
 import { and, db, eq, schema } from "@acme/db";
+
+export const dynamic = 'force-dynamic'
 
 export async function GET(
   req: NextRequest,
