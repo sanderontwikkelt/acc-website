@@ -63,6 +63,7 @@
     "react-simple-wysiwyg": "^3.0.2",
     "react-spinners": "^0.13.8",
     "recharts": "^2.10.3",
+    "request": "^2.88.2",
     "sanitize-html": "^2.11.0",
     "superjson": "2.2.1",
     "use-undo": "^1.1.1",

@@ -27,6 +27,7 @@ export const user = mySqlTable("user", {
   }).default(sql`CURRENT_TIMESTAMP(3)`),
   image: varChar("image"),
   anonymous: boolean("anonymous").default(false),
+  isAdmin: boolean("is_admin").default(false),
   createdAt,
   updatedAt,
 });

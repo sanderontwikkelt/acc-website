@@ -160,44 +160,46 @@ export async function AdminSideBar({
             canFindProducts ||
             canFindOrders ||
             canFindCarts) && (
-            <SidebarItem>
-              {/* <SidebarItemLabel>Shop</SidebarItemLabel> */}
-              <SidebarItemContent>
-                {canFindPages && (
-                  <SidebarItemLink href="/pages">
-                    <PanelsTopLeft className="mr-3 h-4 w-4" />
-                    Pagina&apos;s
-                  </SidebarItemLink>
-                )}
-                {canFindMedia && (
-                  <SidebarItemLink href="/media">
-                    <ImageIcon className="mr-3 h-4 w-4" />
-                    Media
-                  </SidebarItemLink>
-                )}
-                {canFindTeachers && (
-                  <SidebarItemLink href="/teachers">
-                    <GraduationCap className="mr-3 h-4 w-4" />
-                    Docenten
-                  </SidebarItemLink>
-                )}
-                {canFindMedia && (
-                  <SidebarItemLink href="/courses">
-                    <BookCopy className="mr-3 h-4 w-4" />
-                    Cursussen
-                  </SidebarItemLink>
-                )}
+            <>
+              <SidebarItem>
+                {/* <SidebarItemLabel>Shop</SidebarItemLabel> */}
+                <SidebarItemContent>
+                  {canFindPages && (
+                    <SidebarItemLink href="/pages">
+                      <PanelsTopLeft className="mr-3 h-4 w-4" />
+                      Pagina&apos;s
+                    </SidebarItemLink>
+                  )}
+                  {canFindMedia && (
+                    <SidebarItemLink href="/media">
+                      <ImageIcon className="mr-3 h-4 w-4" />
+                      Media
+                    </SidebarItemLink>
+                  )}
+                  {canFindTeachers && (
+                    <SidebarItemLink href="/teachers">
+                      <GraduationCap className="mr-3 h-4 w-4" />
+                      Docenten
+                    </SidebarItemLink>
+                  )}
+                  {canFindMedia && (
+                    <SidebarItemLink href="/courses">
+                      <BookCopy className="mr-3 h-4 w-4" />
+                      Cursussen
+                    </SidebarItemLink>
+                  )}
 
-                {canFindLibraries && (
-                  <SidebarItemLink href="/library-items">
-                    <BookUserIcon className="mr-3 h-4 w-4" />
-                    Bibliotheek
-                  </SidebarItemLink>
-                )}
-              </SidebarItemContent>
-            </SidebarItem>
+                  {canFindLibraries && (
+                    <SidebarItemLink href="/library-items">
+                      <BookUserIcon className="mr-3 h-4 w-4" />
+                      Bibliotheek
+                    </SidebarItemLink>
+                  )}
+                </SidebarItemContent>
+              </SidebarItem>
+              <Separator className="my-4" />
+            </>
           )}
-          <Separator className="my-4" />
           {(canFindPages ||
             canFindProducts ||
             canFindOrders ||

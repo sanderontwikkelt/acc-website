@@ -1,13 +1,13 @@
-export const dynamic = 'force-dynamic'
-
-import type { NextRequest} from "next/server";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { db, eq, or, schema } from "@acme/db";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   try {
-    const ids = req.nextUrl.searchParams.get("ids")
+    const ids = req.nextUrl.searchParams.get("ids");
     if (ids === "") return NextResponse.json([]);
     const libraries = await db.query.course.findMany({
       with: {

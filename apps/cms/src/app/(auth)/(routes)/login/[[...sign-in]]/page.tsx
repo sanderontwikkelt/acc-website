@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { auth } from "@acme/auth";
-import { SignInForm } from "@acme/ui/sign-in-form";
 
 import { AuthShowcase } from "../../components/auth-showcase";
 import AuthWrapper from "../../components/auth-wrapper";
 
 export const metadata: Metadata = {
-  title: "Authentication",
-  description: "Authentication forms built using the components.",
+  title: "Login | Physis Admin",
+  description: "Physis login.",
 };
 
 export default async function AuthenticationPage() {
@@ -21,9 +20,8 @@ export default async function AuthenticationPage() {
   return (
     <AuthWrapper
       title="Welkom bij Physis Admin"
-      description="Vul je gegevens in om in te loggen."
+      description="Kies hoe je wilt inloggen."
     >
-      <SignInForm />
       <AuthShowcase />
     </AuthWrapper>
   );

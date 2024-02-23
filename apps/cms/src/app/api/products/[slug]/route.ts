@@ -1,16 +1,16 @@
-import type { NextRequest} from "next/server";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { and, db, eq, schema } from "@acme/db";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 
 export async function GET(
   req: NextRequest,
   { params }: { params: { slug: string } },
 ) {
   try {
-    const mode = req.nextUrl.searchParams.get("mode")
+    const mode = req.nextUrl.searchParams.get("mode");
     const slug = params.slug;
     const product = await db.query.product.findFirst({
       with: {

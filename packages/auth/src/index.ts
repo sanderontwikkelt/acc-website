@@ -5,6 +5,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { v4 as uuidv4 } from "uuid";
 
+// import EmailProvider from "next-auth/providers/email";
+
 import type { Permission } from "@acme/db";
 import { and, db, eq, schema, tableCreator } from "@acme/db";
 
@@ -21,6 +23,9 @@ declare module "next-auth" {
   interface Session {
     user: User & DefaultSession["user"];
   }
+  interface JWT {
+    user: { id: string };
+  }
 }
 
 const authConfig = {
@@ -34,13 +39,14 @@ const authConfig = {
         .where(
           and(
             eq(schema.account.provider, providerAccountId.provider),
+            eq(schema.user.isAdmin, true),
             eq(
               schema.account.providerAccountId,
               providerAccountId.providerAccountId,
             ),
           ),
         );
-
+      console.log({ results });
       return results?.user ?? null;
     },
     // async createUser(providerAccountId) {
@@ -69,6 +75,24 @@ const authConfig = {
       clientSecret: env.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
     }),
+    // EmailProvider({
+    //   server: {
+    //     host: process.env.EMAIL_SERVER_HOST,
+    //     port: +process.env.EMAIL_SERVER_PORT!,
+    //     auth: {
+    //       user: process.env.EMAIL_SERVER_USER,
+    //       pass: process.env.EMAIL_SERVER_PASSWORD
+    //     }
+    //   },
+    //   from: process.env.EMAIL_FROM,
+    //   // sendVerificationRequest({
+    //   //   identifier: email,
+    //   //   url,
+    //   //   provider: { server, from },
+    //   // }) {
+    //   //   console.log({email, url, server, from})
+    //   // },
+    // }),
     CredentialsProvider({
       name: "anonymous",
       credentials: {},
@@ -109,22 +133,26 @@ const authConfig = {
             },
           },
         });
-        const permissions = userWithPermissions?.role?.permissions.map(
-          ({ permission }) => permission,
-        );
-        if (permissions) session.user.permissions = permissions;
+        const permissions =
+          userWithPermissions?.role?.permissions.map(
+            ({ permission }) => permission,
+          ) || [];
+        // if (!permissions) return { session: null }
+        session.user.permissions = permissions;
       }
 
       return session;
     },
-    // async session({ session, token }) {
-    //   if (token?.user) session.user = token.user;
-    //   return session;
-    // },
     jwt({ token, user }) {
       if (user) token.user = user;
       return token;
     },
+    authorized({ auth }) {
+      return !!auth?.user;
+    },
+  },
+  pages: {
+    signIn: "/login",
   },
 } satisfies NextAuthConfig;
 

@@ -1,14 +1,14 @@
-import type { NextRequest} from "next/server";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { and, db, eq, ne, schema } from "@acme/db";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   try {
-    const slug = req.nextUrl.searchParams.get("slug")
-    const mode = req.nextUrl.searchParams.get("mode")
+    const slug = req.nextUrl.searchParams.get("slug");
+    const mode = req.nextUrl.searchParams.get("mode");
 
     const course = await db.query.course.findFirst({
       with: {

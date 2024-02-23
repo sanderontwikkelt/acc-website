@@ -1,16 +1,16 @@
-import type { NextRequest} from "next/server";
+import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import { and, db, eq, schema } from "@acme/db";
 
 import { prefixPathname } from "~/lib/prefixPathname";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
   try {
-    const mode = req.nextUrl.searchParams.get("mode")
-    const pathname = req.nextUrl.searchParams.get("pathname")
+    const mode = req.nextUrl.searchParams.get("mode");
+    const pathname = req.nextUrl.searchParams.get("pathname");
 
     const page = await db.query.page.findFirst({
       where:

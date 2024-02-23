@@ -249,11 +249,11 @@ const Header = ({ header }: { header: HeaderType }) => {
       </header>
       <div
         className={cn(
-          `max-w-screen fixed right-0 top-[6.25rem] z-[99] h-[calc(100vh-6.25rem)] w-screen overflow-y-auto max-md:bg-accent px-6 py-6 transition-all duration-500 md:hidden`,
+          `max-w-screen fixed right-0 top-[6.25rem] z-[99] h-[calc(100vh-6.25rem)] w-screen overflow-y-auto px-6 py-6 transition-all duration-500 max-md:bg-accent md:hidden`,
           mobileMenuOpen
             ? "translate-x-0"
             : "right-[150vw] -translate-x-[150vw]",
-          scrolled ? "shadow-sm" : ""
+          scrolled ? "shadow-sm" : "",
         )}
       >
         <div className="flow-root">
@@ -261,15 +261,13 @@ const Header = ({ header }: { header: HeaderType }) => {
             <div className="space-y-2 py-6">
               {!!navigation.length &&
                 [
-                  ...navigation
-                    .slice(0, navigation.length - 1)
-                    .flatMap(
-                      (value) =>
-                        (value.values || [value]) as {
-                          name: string;
-                          pathname: string;
-                        }[],
-                    ),
+                  ...navigation.slice(0, navigation.length - 1).flatMap(
+                    (value) =>
+                      (value.values || [value]) as {
+                        name: string;
+                        pathname: string;
+                      }[],
+                  ),
                   ...defaultItems,
                 ].map((item, i) => (
                   <MobileItem
@@ -298,13 +296,13 @@ const Header = ({ header }: { header: HeaderType }) => {
           </div>
         </div>
       </div>
-      {!!hoveredItem && <div className="fixed bg-black/50 inset-0 z-50"></div>}
+      {!!hoveredItem && <div className="fixed inset-0 z-50 bg-black/50"></div>}
       <div
         onMouseLeave={() => setHoveredItem(null)}
         className={cn(
           "fixed left-0 top-0 z-50 w-screen overflow-hidden bg-accent pt-[6.25rem] transition-all duration-500",
           hoveredItem ? "h-[14.25rem] " : "h-0 ",
-          scrolled ? "shadow-sm" : ""
+          scrolled ? "shadow-sm" : "",
         )}
       >
         <div className="relative h-28 w-full max-w-[100vw] px-[calc(1.875rem+max((100vw-(1300rem/16))/2,0px))]">
