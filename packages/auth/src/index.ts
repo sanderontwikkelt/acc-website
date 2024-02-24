@@ -88,7 +88,7 @@ const authConfig = {
 
         console.log('vercel url: ', process.env.VERCEL_URL)
         const response = await fetch(
-          `${process.env.VERCEL_URL!}/api/email`,
+          `https://${process.env.VERCEL_URL!}/api/email`,
           {
             // The body format will vary depending on provider, please see their documentation
             // for further details.
