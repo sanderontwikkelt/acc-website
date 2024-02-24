@@ -19,8 +19,8 @@ export default async function AuthenticationPage() {
 
   return (
     <AuthWrapper
-      title="Welkom bij Physis Admin"
-      description="Kies hoe je wilt inloggen."
+      title="Welkom bij Physis Admin!"
+      description="Kies hoe je wilt inloggen"
     >
       <AuthShowcase />
     </AuthWrapper>
