@@ -28,6 +28,8 @@ export const sendEmail = async ({
   return new Promise<string>((resolve, reject) => {
     const transport = nodemailer.createTransport({
       service: "gmail",
+      from: mailOptions.from,
+      // name: "Physis Academy",
       auth: {
         user: env.SMTP_EMAIL,
         pass: env.SMTP_PASSWORD,
