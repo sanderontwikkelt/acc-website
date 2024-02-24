@@ -5,7 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@auth/core': 0.18.1
   '@react-email/render': ^0.0.9
 
 importers:
@@ -39,6 +38,9 @@ importers:
       '@acme/db':
         specifier: workspace:^0.1.0
         version: link:../../packages/db
+      '@acme/email':
+        specifier: workspace:^0.1.0
+        version: link:../../packages/email
       '@acme/mollie':
         specifier: workspace:^0.1.0
         version: link:../../packages/mollie
@@ -435,6 +437,9 @@ importers:
       '@acme/db':
         specifier: workspace:^0.1.0
         version: link:../db
+      '@acme/email':
+        specifier: workspace:^0.1.0
+        version: link:../email
       '@auth/drizzle-adapter':
         specifier: ^0.3.12
         version: 0.3.17(nodemailer@6.9.9)
@@ -445,8 +450,8 @@ importers:
         specifier: ^14.0.4
         version: 14.1.0(react-dom@18.2.0)(react@18.2.0)
       next-auth:
-        specifier: 5.0.0-beta.4
-        version: 5.0.0-beta.4(next@14.1.0)(nodemailer@6.9.9)(react@18.2.0)
+        specifier: 5.0.0-beta.13
+        version: 5.0.0-beta.13(next@14.1.0)(nodemailer@6.9.9)(react@18.2.0)
       nodemailer:
         specifier: ^6.9.7
         version: 6.9.9
@@ -845,8 +850,8 @@ packages:
       '@jridgewell/trace-mapping': 0.3.22
     dev: false
 
-  /@auth/core@0.18.1(nodemailer@6.9.9):
-    resolution: {integrity: sha512-L4MehYt/A7e5djsEid3jTSkRZ8sysxbirhmCXqSCPimGoFUtMCwTZrpzTALTSRwXGw/mps5fYlHROo3UQk9B3w==}
+  /@auth/core@0.23.0(nodemailer@6.9.9):
+    resolution: {integrity: sha512-vReM7RIX4BDj/EKyM6OiYnEw4u0MOEC+c2tB7V0qoZy2JZ/hn1xEuDMJwmdcvZNCjQ6kp4cW/6eTcCcEDsRbEA==}
     peerDependencies:
       nodemailer: ^6.8.0
     peerDependenciesMeta:
@@ -854,7 +859,32 @@ packages:
         optional: true
     dependencies:
       '@panva/hkdf': 1.1.1
-      cookie: 0.5.0
+      '@types/cookie': 0.6.0
+      cookie: 0.6.0
+      jose: 5.2.1
+      nodemailer: 6.9.9
+      oauth4webapi: 2.9.0
+      preact: 10.11.3
+      preact-render-to-string: 5.2.3(preact@10.11.3)
+    dev: false
+
+  /@auth/core@0.27.0(nodemailer@6.9.9):
+    resolution: {integrity: sha512-3bydnRJIM/Al6mkYmb53MsC+6G8ojw3lLPzwgVnX4dCo6N2lrib6Wq6r0vxZIhuHGjLObqqtUfpeaEj5aeTHFg==}
+    peerDependencies:
+      '@simplewebauthn/browser': ^9.0.1
+      '@simplewebauthn/server': ^9.0.2
+      nodemailer: ^6.8.0
+    peerDependenciesMeta:
+      '@simplewebauthn/browser':
+        optional: true
+      '@simplewebauthn/server':
+        optional: true
+      nodemailer:
+        optional: true
+    dependencies:
+      '@panva/hkdf': 1.1.1
+      '@types/cookie': 0.6.0
+      cookie: 0.6.0
       jose: 5.2.1
       nodemailer: 6.9.9
       oauth4webapi: 2.9.0
@@ -865,7 +895,7 @@ packages:
   /@auth/drizzle-adapter@0.3.17(nodemailer@6.9.9):
     resolution: {integrity: sha512-pyHwshtINeJfUGdA6e+2lIzklfTZB2V60iLPbGXbcMMiECmsKXeEPS+xlwtJryY2ckwOoxG9a781cVX371QxUg==}
     dependencies:
-      '@auth/core': 0.18.1(nodemailer@6.9.9)
+      '@auth/core': 0.23.0(nodemailer@6.9.9)
     transitivePeerDependencies:
       - nodemailer
     dev: false
@@ -4112,6 +4142,10 @@ packages:
     resolution: {integrity: sha512-hWtVTC2q7hc7xZ/RLbxapMvDMgUnDvKvMOpKal4DrMyfGBUfB1oKaZlIRr6mJL+If3bAP6sV/QneGzF6tJjZDg==}
     dev: false
 
+  /@types/cookie@0.6.0:
+    resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
+    dev: false
+
   /@types/d3-array@3.2.1:
     resolution: {integrity: sha512-Y2Jn2idRrLzUfAKV2LyRImR+y4oa2AntrgID95SHJxuMUrkNXmanDSed71sRNZysveJVt1hLLemQZIady0FpEg==}
     dev: false
@@ -5242,8 +5276,8 @@ packages:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
     dev: false
 
-  /cookie@0.5.0:
-    resolution: {integrity: sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==}
+  /cookie@0.6.0:
+    resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
     engines: {node: '>= 0.6'}
     dev: false
 
@@ -8187,17 +8221,23 @@ packages:
     engines: {node: '>= 0.4.0'}
     dev: true
 
-  /next-auth@5.0.0-beta.4(next@14.1.0)(nodemailer@6.9.9)(react@18.2.0):
-    resolution: {integrity: sha512-vgocjvwPA8gxd/zrIP/vr9lJ/HeNe+C56lPP1D3sdyenHt8KncQV6ro7q0xCsDp1fcOKx7WAWVZH5o8aMxDzgw==}
+  /next-auth@5.0.0-beta.13(next@14.1.0)(nodemailer@6.9.9)(react@18.2.0):
+    resolution: {integrity: sha512-2m2Gq69WQ0YXcHCCpHn2y5z1bxSlqD/XOuAgrdtz49/VIAdTFFeYZz97RYqf6xMF8VGmoG32VUnJ6LzaHk6Fwg==}
     peerDependencies:
+      '@simplewebauthn/browser': ^9.0.1
+      '@simplewebauthn/server': ^9.0.2
       next: ^14
       nodemailer: ^6.6.5
       react: ^18.2.0
     peerDependenciesMeta:
+      '@simplewebauthn/browser':
+        optional: true
+      '@simplewebauthn/server':
+        optional: true
       nodemailer:
         optional: true
     dependencies:
-      '@auth/core': 0.18.1(nodemailer@6.9.9)
+      '@auth/core': 0.27.0(nodemailer@6.9.9)
       next: 14.1.0(react-dom@18.2.0)(react@18.2.0)
       nodemailer: 6.9.9
       react: 18.2.0
