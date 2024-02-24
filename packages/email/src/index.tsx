@@ -1,68 +1,44 @@
-"use server";
-
 import type Mail from "nodemailer/lib/mailer";
-import { render } from "@react-email/render";
 import nodemailer from "nodemailer";
 
 import { env } from "../env";
-import { ContactEmail } from "./emails/contact";
-import { OrderReceivedEmail } from "./emails/order-received";
+
+export { render } from "@react-email/render";
+export * from "./emails";
 
 const stripHtml = (html: string) => html.replace(/<\/?[^>]+>/gi, "");
 
-interface OrderReceived {
-  data?: null;
-  name: "order_received";
-}
-
-interface Contact {
-  data: { name: string; email: string; message: string };
-  name: "contact";
-}
-
-type Name = OrderReceived | Contact;
-
-interface ToProps {
-  name: string;
-}
-
-export const sendEmail = async (
-  email: ToProps & Name,
-  to: string = env.SMTP_EMAIL,
-) => {
-  let comp;
-  let subject;
-  if (email.name === "contact") {
-    comp = <ContactEmail {...email.data} />;
-  } else {
-    comp = <OrderReceivedEmail />;
-  }
-  const html = render(comp, { pretty: true });
+export const sendEmail = async ({
+  subject,
+  html,
+  to = env.SMTP_EMAIL,
+}: {
+  subject: string;
+  html: string;
+  to?: string;
+}) => {
   const mailOptions: Mail.Options = {
-    from: "no-reply@physis.nl",
+    from: "noreply@physis.academy",
     to,
     subject,
     text: stripHtml(html),
     html,
   };
 
-  const sendMailPromise = () =>
-    new Promise<string>((resolve, reject) => {
-      const transport = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: env.SMTP_EMAIL,
-          pass: env.SMTP_PASSWORD,
-        },
-      });
-      transport.sendMail(mailOptions, function (err) {
-        if (!err) {
-          resolve("Email sent");
-        } else {
-          reject(err.message);
-        }
-      });
+  return new Promise<string>((resolve, reject) => {
+    const transport = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: env.SMTP_EMAIL,
+        pass: env.SMTP_PASSWORD,
+      },
     });
-
-  return sendMailPromise();
+    transport.sendMail(mailOptions, function (err) {
+      if (!err) {
+        resolve("Email sent");
+      } else {
+        reject(err.message);
+      }
+    });
+  });
 };

@@ -1,18 +1,18 @@
-import { redirect } from "next/navigation";
-
-import { auth, signIn } from "@acme/auth";
+import { signIn } from "@acme/auth";
 import { Input } from "@acme/ui";
 import { Button } from "@acme/ui/button";
 import { Separator } from "@acme/ui/separator";
 
 export async function AuthShowcase() {
-  const session = await auth();
-
-  if (session) redirect("/");
+  const onSubmitEmail = async (formData: FormData) => {
+    "use server";
+    const email = formData.get("email");
+    await signIn("email", { email });
+  };
 
   return (
     <div className="space-y-5">
-      <form className="space-y-2">
+      <form className="space-y-2" action={onSubmitEmail}>
         <Input
           className="w-full"
           placeholder="E-mail"
@@ -20,20 +20,14 @@ export async function AuthShowcase() {
           name="email"
           required
         />
-        <Input
+        {/* <Input
           className="w-full"
           placeholder="**********"
           type="password"
           name="password"
           required
-        />
-        <Button
-          className="w-full"
-          formAction={async () => {
-            "use server";
-            await signIn("email");
-          }}
-        >
+        /> */}
+        <Button className="w-full">
           <svg
             width="668"
             height="534"

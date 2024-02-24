@@ -5,8 +5,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { v4 as uuidv4 } from "uuid";
 
-// import EmailProvider from "next-auth/providers/email";
-
 import type { Permission } from "@acme/db";
 import { and, db, eq, schema, tableCreator } from "@acme/db";
 
@@ -17,6 +15,8 @@ export type { Session } from "next-auth";
 interface User {
   id: string;
   permissions: Permission[];
+  email: string;
+  emailVerified: Date;
 }
 
 declare module "next-auth" {
@@ -46,7 +46,7 @@ const authConfig = {
             ),
           ),
         );
-      console.log({ results });
+
       return results?.user ?? null;
     },
     // async createUser(providerAccountId) {
@@ -75,24 +75,40 @@ const authConfig = {
       clientSecret: env.GOOGLE_CLIENT_SECRET,
       allowDangerousEmailAccountLinking: true,
     }),
-    // EmailProvider({
-    //   server: {
-    //     host: process.env.EMAIL_SERVER_HOST,
-    //     port: +process.env.EMAIL_SERVER_PORT!,
-    //     auth: {
-    //       user: process.env.EMAIL_SERVER_USER,
-    //       pass: process.env.EMAIL_SERVER_PASSWORD
-    //     }
-    //   },
-    //   from: process.env.EMAIL_FROM,
-    //   // sendVerificationRequest({
-    //   //   identifier: email,
-    //   //   url,
-    //   //   provider: { server, from },
-    //   // }) {
-    //   //   console.log({email, url, server, from})
-    //   // },
-    // }),
+    {
+      id: "email",
+      type: "email",
+      name: "email",
+      from: "",
+      maxAge: 100000,
+      options: {},
+      async sendVerificationRequest({ identifier: email, url }) {
+        // Call the cloud Email provider API for sending emails
+        // See https://docs.sendgrid.com/api-reference/mail-send/mail-send
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL!}/api/email`,
+          {
+            // The body format will vary depending on provider, please see their documentation
+            // for further details.
+            body: JSON.stringify({
+              url,
+              email,
+            }),
+            headers: {
+              // Authentication will also vary from provider to provider, please see their docs.
+              Authorization: `Bearer ${process.env.SENDGRID_API}`,
+              "Content-Type": "application/json",
+            },
+            method: "POST",
+          },
+        );
+
+        if (!response.ok) {
+          const { errors } = await response.json();
+          throw new Error(JSON.stringify(errors));
+        }
+      },
+    },
     CredentialsProvider({
       name: "anonymous",
       credentials: {},
@@ -153,6 +169,7 @@ const authConfig = {
   },
   pages: {
     signIn: "/login",
+    verifyRequest: "/verify",
   },
 } satisfies NextAuthConfig;
 
