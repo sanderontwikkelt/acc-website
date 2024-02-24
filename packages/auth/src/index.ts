@@ -86,7 +86,7 @@ const authConfig = {
         // Call the cloud Email provider API for sending emails
         // See https://docs.sendgrid.com/api-reference/mail-send/mail-send
 
-        console.log('vercel url: ', process.env.VERCEL_URL)
+        console.log(`https://${process.env.VERCEL_URL!}/api/email`)
         const response = await fetch(
           `https://${process.env.VERCEL_URL!}/api/email`,
           {
