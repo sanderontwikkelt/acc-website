@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowLeft, InboxIcon } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 import { auth } from "@acme/auth";
 import { buttonVariants } from "@acme/ui";
 
-import { AuthShowcase } from "../../components/auth-showcase";
 import AuthWrapper from "../../components/auth-wrapper";
 
 export const metadata: Metadata = {

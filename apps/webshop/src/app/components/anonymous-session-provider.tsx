@@ -13,7 +13,7 @@ export const AnonymousSessionProvider = ({
   useEffect(() => {
     if (status === "unauthenticated") {
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      signIn("credentials");
+      signIn("credentials", { redirect: false });
     }
   }, [status]);
 
