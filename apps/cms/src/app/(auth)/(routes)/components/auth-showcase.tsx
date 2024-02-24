@@ -4,16 +4,14 @@ import { Button } from "@acme/ui/button";
 import { Separator } from "@acme/ui/separator";
 
 export async function AuthShowcase() {
+
   return (
     <div className="space-y-5">
-      <form
-        className="space-y-2"
-        action={async (formData: FormData) => {
-          "use server";
-          const email = formData.get("email");
-          await signIn("email", { email });
-        }}
-      >
+      <form className="space-y-2" action={async (formData: FormData) => {
+    "use server";
+    const email = formData.get("email");
+    await signIn("email", { email });
+  }}>
         <Input
           className="w-full"
           placeholder="E-mail"
@@ -21,6 +19,13 @@ export async function AuthShowcase() {
           name="email"
           required
         />
+        {/* <Input
+          className="w-full"
+          placeholder="**********"
+          type="password"
+          name="password"
+          required
+        /> */}
         <Button className="w-full">
           <svg
             width="668"
@@ -46,13 +51,13 @@ export async function AuthShowcase() {
           OF
         </div>
       </div>
+      <form className="space-y-2" action={async () => {
+    "use server";
+    await signIn("google");
+  }}>
       <Button
         variant="outline"
         className="w-full"
-        formAction={async () => {
-          "use server";
-          await signIn("google");
-        }}
       >
         <svg
           width="800"
@@ -89,6 +94,7 @@ export async function AuthShowcase() {
         </svg>
         Doorgaan met Google
       </Button>
+      </form>
     </div>
   );
 }

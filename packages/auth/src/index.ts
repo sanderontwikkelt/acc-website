@@ -88,7 +88,7 @@ const authConfig = {
 
         console.log(`https://${process.env.VERCEL_URL!}/api/email`)
         const response = await fetch(
-          `https://${process.env.VERCEL_URL!}/api/email`,
+          process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}/api/email` : process.env.NEXT_PUBLIC_API_URL! + "/api/email",
           {
             // The body format will vary depending on provider, please see their documentation
             // for further details.
@@ -131,6 +131,13 @@ const authConfig = {
     }),
   ],
   callbacks: {
+    signIn({ account, profile }) {
+      console.log({account, profile})
+             if (account && profile && account.provider === "google") {
+               return !!profile.email_verified && profile.email?.endsWith("@example.com")
+             }
+             return true // Do different verification for other providers that don't have `email_verified`
+           },
     session: async ({ session, user, token }) => {
       if (token?.user && session) session.user = token.user as User;
 
