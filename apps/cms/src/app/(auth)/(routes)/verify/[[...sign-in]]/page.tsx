@@ -9,8 +9,8 @@ import { buttonVariants } from "@acme/ui";
 import AuthWrapper from "../../components/auth-wrapper";
 
 export const metadata: Metadata = {
-  title: "Login | Physis Admin",
-  description: "Physis login.",
+  title: "Verificatie | Physis Admin",
+  description: "Physis verificatie.",
 };
 
 export default async function AuthenticationPage() {
