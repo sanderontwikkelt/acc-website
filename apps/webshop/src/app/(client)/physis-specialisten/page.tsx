@@ -1,12 +1,12 @@
-import type { Media, Teacher } from "@acme/db";
+import type { Media, Specialist } from "@acme/db";
 
 import GoogleMaps from "~/components/blocks/google-map";
 import ServerWrapper from "~/components/server-wrapper";
 import { API_URL } from "~/lib/constants";
 
-async function getTeachers(id: string) {
-  const tags = ["teachers"];
-  const url = `${API_URL}/api/teachers?slug=${id}`;
+async function getSpecialists(id: string) {
+  const tags = ["specialists"];
+  const url = `${API_URL}/api/specialists?slug=${id}`;
   try {
     const res = await fetch(url, {
       next: { tags, revalidate: 0 },
@@ -17,7 +17,7 @@ async function getTeachers(id: string) {
     }
 
     return res.json() as Promise<
-      (Teacher & {
+      (Specialist & {
         media: Media;
       })[]
     >;
@@ -31,7 +31,7 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const teachers = await getTeachers("");
+  const specialists = await getSpecialists("");
   return (
     <ServerWrapper>
       <div className="bg-main h-[6.25rem] w-full" />
@@ -39,7 +39,7 @@ export default async function Page() {
       <GoogleMaps
         title="Een overzicht van Physis specialisten."
         placeholder="Zoek op locatie"
-        teachers={teachers}
+        specialists={specialists}
       />
     </ServerWrapper>
   );

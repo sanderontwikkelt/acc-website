@@ -5,6 +5,7 @@ import * as auth from "./schema/auth";
 import * as cart from "./schema/cart";
 import * as contact from "./schema/contact";
 import * as course from "./schema/course";
+import * as email from "./schema/email";
 import * as library from "./schema/library";
 import * as media from "./schema/media";
 import * as order from "./schema/order";
@@ -13,6 +14,7 @@ import * as product from "./schema/product";
 import * as role from "./schema/role";
 import * as seo from "./schema/seo";
 import * as settings from "./schema/settings";
+import * as specialist from "./schema/specialist";
 import * as teacher from "./schema/teacher";
 
 export * from "drizzle-orm";
@@ -32,6 +34,8 @@ export const schema = {
   ...page,
   ...seo,
   ...teacher,
+  ...specialist,
+  ...email,
 };
 
 export { mySqlTable as tableCreator } from "./schema/_table";

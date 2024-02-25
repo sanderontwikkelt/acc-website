@@ -1,7 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import { LoginEmail, render, sendEmail } from "@acme/email";
+import { getEmailContent, sendEmail } from "./utils";
 
 export async function POST(req: NextRequest) {
   const { url, email } = (await req.json()) as {
@@ -13,11 +13,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "INVALID DATA" }, { status: 500 });
     }
 
-    const html = render(<LoginEmail url={url} />, { pretty: true });
+    const { html, subject } = getEmailContent({ type: "login", url });
+
+    if (!(subject && html)) {
+      return NextResponse.json({ error: "INVALID DATA" }, { status: 500 });
+    }
 
     await sendEmail({
       html,
-      subject: "Login bij Physis Academy",
+      subject,
       to: email,
     });
 

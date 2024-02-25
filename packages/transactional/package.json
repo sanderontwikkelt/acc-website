@@ -1,0 +1,38 @@
+{
+  "name": "@acme/transactional",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "workspaces": [
+    ".react-email"
+  ],
+  "exports": {
+    "./verify-email-login": "./emails/verify-email-login.tsx",
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "dev": "email dev -p 3002",
+    "export": "email export"
+  },
+  "dependencies": {
+    "@react-email/components": "0.0.15",
+    "react-email": "2.1.0"
+  },
+  "devDependencies": {
+    "@acme/eslint-config": "workspace:^0.2.0",
+    "@acme/prettier-config": "workspace:^0.1.0",
+    "@acme/tsconfig": "workspace:^0.1.0",
+    "@types/nodemailer": "^6.4.14",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1",
+    "typescript": "^5.3.3"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@acme/eslint-config/base",
+      "@acme/eslint-config/react"
+    ]
+  },
+  "prettier": "@acme/prettier-config"
+}

@@ -94,7 +94,7 @@ const UserDetailPage = () => {
       if (isDetails && canUpdate) {
         await updateUser({ ...data, id: userId });
       } else if (canCreate) {
-        await createUser(data);
+        await createUser({ ...data, isAdmin: true });
       }
     });
   };
@@ -154,7 +154,7 @@ const UserDetailPage = () => {
                       <FormControl>
                         <Input
                           disabled={loading}
-                          placeholder="User titel"
+                          placeholder="Gebruiker naam"
                           {...field}
                         />
                       </FormControl>
@@ -170,7 +170,11 @@ const UserDetailPage = () => {
                     <FormItem>
                       <FormLabel>E-mail</FormLabel>
                       <FormControl>
-                        <Input disabled={loading} {...field} />
+                        <Input
+                          placeholder="Gebruiker e-mail"
+                          disabled={loading}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

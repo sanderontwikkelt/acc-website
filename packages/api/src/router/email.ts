@@ -1,17 +1,19 @@
 import { z } from "zod";
 
 import { desc, eq, schema, sql } from "@acme/db";
-import { cartFormSchema } from "@acme/validators";
+import { emailFormSchema } from "@acme/validators";
 
+import { getEmailContent } from "../emails";
+import sendEmail from "../sendEmail";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 
-export const cartRouter = createTRPCRouter({
+export const emailRouter = createTRPCRouter({
   count: publicProcedure.query(({ ctx }) => {
-    return ctx.db.select({ count: sql<number>`count(*)` }).from(schema.cart);
+    return ctx.db.select({ count: sql<number>`count(*)` }).from(schema.email);
   }),
   all: publicProcedure.query(({ ctx }) => {
-    return ctx.db.query.cart.findMany({
-      orderBy: desc(schema.cart.id),
+    return ctx.db.query.email.findMany({
+      orderBy: desc(schema.email.id),
     });
   }),
   list: protectedProcedure
@@ -31,15 +33,15 @@ export const cartRouter = createTRPCRouter({
         const [sort, order] = input.sort.split(".") as ["id", "desc" | "asc"];
         if (sort) {
           if (order === "desc") {
-            orderBy = desc(schema.cart[sort]);
+            orderBy = desc(schema.email[sort]);
           } else {
-            orderBy = schema.cart[sort];
+            orderBy = schema.email[sort];
           }
         }
       } else {
-        orderBy = desc(schema.cart.id);
+        orderBy = desc(schema.email.id);
       }
-      return ctx.db.query.cart.findMany({
+      return ctx.db.query.email.findMany({
         limit,
         offset,
         orderBy,
@@ -51,8 +53,8 @@ export const cartRouter = createTRPCRouter({
   byId: publicProcedure
     .input(z.object({ id: z.number() }))
     .query(({ ctx, input }) => {
-      return ctx.db.query.cart.findFirst({
-        where: eq(schema.cart.id, input.id),
+      return ctx.db.query.email.findFirst({
+        where: eq(schema.email.id, input.id),
         with: {
           user: true,
           items: {
@@ -63,34 +65,9 @@ export const cartRouter = createTRPCRouter({
         },
       });
     }),
-  own: protectedProcedure.query(({ ctx }) => {
-    if (!ctx.session) return null;
-    return ctx.db.query.cart.findFirst({
-      where: eq(schema.cart.userId, ctx.session.user.id),
-      with: {
-        user: true,
-        items: {
-          with: {
-            productVariant: true,
-            productPaymentPlan: true,
-            product: {
-              with: {
-                category: true,
-                images: {
-                  with: {
-                    media: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    });
-  }),
   create: protectedProcedure
-    .input(cartFormSchema)
+    .input(emailFormSchema)
     .mutation(({ ctx, input }) => {
-      return ctx.db.insert(schema.cart).values(input);
+      return ctx.db.insert(schema.email).values(input);
     }),
 });

@@ -1,12 +1,15 @@
-'use client'
+"use client";
 
-import { Button } from '@acme/ui'
-import React from 'react'
+import React from "react";
+
+import { Button } from "@acme/ui";
 
 const CloseWindowButton = () => {
   return (
-    <Button onClick={window.close}>Venster sluiten</Button>
-    )
-}
+    <Button onClick={() => typeof window !== "undefined" && window.close()}>
+      Venster sluiten
+    </Button>
+  );
+};
 
-export default CloseWindowButton
+export default CloseWindowButton;

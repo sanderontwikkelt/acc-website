@@ -19,6 +19,7 @@
     "@acme/db": "workspace:^0.1.0",
     "@acme/mollie": "workspace:^0.1.0",
     "@acme/validators": "workspace:^0.1.0",
+    "@acme/transactional": "workspace:^0.1.0",
     "@googlemaps/google-maps-services-js": "^3.3.42",
     "@trpc/client": "next",
     "@trpc/server": "next",

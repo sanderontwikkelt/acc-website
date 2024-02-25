@@ -4,13 +4,19 @@ import type { z } from "zod";
 import React, { useEffect, useState, useTransition } from "react";
 import { notFound, useParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ClipboardList, PlusIcon, SaveIcon, Trash } from "lucide-react";
+import {
+  ClipboardList,
+  MapPinIcon,
+  PlusIcon,
+  SaveIcon,
+  Trash,
+} from "lucide-react";
 import { useForm } from "react-hook-form";
 import { ActionEnum, EntityEnum } from "types/permissions";
 
 import type { Media } from "@acme/db";
 import { Button, Input } from "@acme/ui";
-import { teacherFormSchema } from "@acme/validators";
+import { specialistFormSchema } from "@acme/validators";
 
 import { AlertModal } from "~/components/modals/alert-modal";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
@@ -29,36 +35,44 @@ import { useMutation } from "~/hooks/use-mutation";
 import { useHasPermissions } from "~/lib/utils";
 import { api } from "~/trpc/react";
 
-type TeacherFormValues = z.infer<typeof teacherFormSchema>;
+type SpecialistFormValues = z.infer<typeof specialistFormSchema>;
 
-const TeacherDetailPage = () => {
-  const { teacherId } = useParams();
-  const isDetails = !!(teacherId && teacherId !== "new");
+const SpecialistDetailPage = () => {
+  const { specialistId } = useParams();
+  const isDetails = !!(specialistId && specialistId !== "new");
   const [image, setImage] = useState<Media | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const [loading, startTransition] = useTransition();
 
   const [canCreate, canDelete, canUpdate] = useHasPermissions(
-    [EntityEnum.TEACHER, ActionEnum.CREATE],
-    [EntityEnum.TEACHER, ActionEnum.DELETE],
-    [EntityEnum.TEACHER, ActionEnum.UPDATE],
+    [EntityEnum.SPECIALIST, ActionEnum.CREATE],
+    [EntityEnum.SPECIALIST, ActionEnum.DELETE],
+    [EntityEnum.SPECIALIST, ActionEnum.UPDATE],
   );
 
-  const deleteTeacher = useMutation(EntityEnum.TEACHER, "delete", "/teachers");
-  const updateTeacher = useMutation(EntityEnum.TEACHER, "update");
-  const createTeacher = useMutation(EntityEnum.TEACHER, "create", "/teachers");
+  const deleteSpecialist = useMutation(
+    EntityEnum.SPECIALIST,
+    "delete",
+    "/specialists",
+  );
+  const updateSpecialist = useMutation(EntityEnum.SPECIALIST, "update");
+  const createSpecialist = useMutation(
+    EntityEnum.SPECIALIST,
+    "create",
+    "/specialists",
+  );
 
-  const { data: teacher, isLoading } = api.teacher.byId.useQuery({
-    id: isDetails ? +teacherId : 0,
+  const { data: specialist, isLoading } = api.specialist.byId.useQuery({
+    id: isDetails ? +specialistId : 0,
   });
 
-  if (isDetails && !isLoading && !teacher) notFound();
+  if (isDetails && !isLoading && !specialist) notFound();
 
   const action = isDetails ? "Opslaan" : "Toevoegen";
 
-  const form = useForm<TeacherFormValues>({
-    resolver: zodResolver(teacherFormSchema),
+  const form = useForm<SpecialistFormValues>({
+    resolver: zodResolver(specialistFormSchema),
     defaultValues: {
       name: "",
       title: "",
@@ -67,24 +81,24 @@ const TeacherDetailPage = () => {
   });
 
   useEffect(() => {
-    if (teacher) {
-      form.reset(teacher);
-      if (teacher.media) {
+    if (specialist) {
+      form.reset(specialist);
+      if (specialist.media) {
         setImage({
-          ...teacher.media,
-          createdAt: new Date(teacher.media.createdAt),
-          updatedAt: new Date(teacher.media.updatedAt),
+          ...specialist.media,
+          createdAt: new Date(specialist.media.createdAt),
+          updatedAt: new Date(specialist.media.updatedAt),
         } as Media);
       }
     }
-  }, [teacher, form]);
+  }, [specialist, form]);
 
-  const onSubmit = async (data: TeacherFormValues) => {
+  const onSubmit = async (data: SpecialistFormValues) => {
     startTransition(async () => {
       if (isDetails && canUpdate) {
-        await updateTeacher({ ...data, id: +teacherId });
+        await updateSpecialist({ ...data, id: +specialistId });
       } else if (canCreate) {
-        await createTeacher(data);
+        await createSpecialist(data);
       }
     });
   };
@@ -97,11 +111,11 @@ const TeacherDetailPage = () => {
           className="w-full space-y-4"
         >
           <Heading
-            title={isDetails ? "Docent aanpassen" : "Docent toevoegen"}
+            title={isDetails ? "Specialist aanpassen" : "Specialist toevoegen"}
             description={
               isDetails
-                ? "Bekijk docent gegevens en pas eventueel aan"
-                : "Voeg een nieuw docent toe"
+                ? "Bekijk specialist gegevens en pas eventueel aan"
+                : "Voeg een nieuw specialist toe"
             }
           >
             <div className="flex space-x-2">
@@ -210,17 +224,96 @@ const TeacherDetailPage = () => {
                 />
               </CardContent>
             </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <MapPinIcon className="mr-2 w-5" />
+                  Landkaart
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Address</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="Docent address"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="website"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Website</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="Docent website"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="phoneNumber"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Telefoonnummer</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          placeholder="Docent telefoonnummer"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>E-mail</FormLabel>
+                      <FormControl>
+                        <Input
+                          disabled={loading}
+                          type="email"
+                          placeholder="Docent e-mail"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
           </div>
         </form>
       </Form>
       <AlertModal
         isOpen={isDeleting}
         onClose={() => setIsDeleting(false)}
-        onConfirm={() => deleteTeacher(+teacherId)}
+        onConfirm={() => deleteSpecialist(+specialistId)}
         loading={false}
       />
     </>
   );
 };
 
-export default TeacherDetailPage;
+export default SpecialistDetailPage;

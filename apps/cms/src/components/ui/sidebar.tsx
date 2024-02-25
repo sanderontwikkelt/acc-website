@@ -13,7 +13,7 @@ const SidebarItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div ref={ref} className={cn("", className)} {...props} />
+  <div ref={ref} className={cn("px-5 py-3", className)} {...props} />
 ));
 SidebarItem.displayName = "SidebarItem";
 

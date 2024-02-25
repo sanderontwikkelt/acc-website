@@ -1,17 +1,15 @@
 import type Mail from "nodemailer/lib/mailer";
 import nodemailer from "nodemailer";
 
-import { env } from "../env";
-
-export { render } from "@react-email/render";
-export * from "./emails";
+import { render } from "@acme/transactional";
+import VerifyEmailLogin from "@acme/transactional/verify-email-login";
 
 const stripHtml = (html: string) => html.replace(/<\/?[^>]+>/gi, "");
 
 export const sendEmail = async ({
   subject,
   html,
-  to = env.SMTP_EMAIL,
+  to = process.env.SMTP_EMAIL,
 }: {
   subject: string;
   html: string;
@@ -29,10 +27,9 @@ export const sendEmail = async ({
     const transport = nodemailer.createTransport({
       service: "gmail",
       from: mailOptions.from,
-      // name: "Physis Academy",
       auth: {
-        user: env.SMTP_EMAIL,
-        pass: env.SMTP_PASSWORD,
+        user: process.env.SMTP_EMAIL,
+        pass: process.env.SMTP_PASSWORD,
       },
     });
     transport.sendMail(mailOptions, function (err) {
@@ -43,4 +40,22 @@ export const sendEmail = async ({
       }
     });
   });
+};
+
+export interface LoginValues {
+  type: "login";
+  url: string;
+}
+
+export const getEmailContent = (values: LoginValues) => {
+  switch (values.type) {
+    case "login":
+      return {
+        subject: "Log in bij Physis Academy",
+        html: render(<VerifyEmailLogin url={values.url} />),
+      };
+
+    default:
+      return { subject: null, html: null };
+  }
 };
