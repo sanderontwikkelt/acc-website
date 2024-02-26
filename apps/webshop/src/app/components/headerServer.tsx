@@ -36,7 +36,7 @@ const HeaderServer = async () => {
         "bg-accent max-md:bg-transparent",
       )}
     >
-      <Link href="/" className="h-8 md:h-11" aria-label="Physis">
+      <Link href="/" className="h-8 md:h-11" aria-label="Accuraat">
         {header.media?.url ? (
           <Image
             src={header.media.url}

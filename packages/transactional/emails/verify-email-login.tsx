@@ -19,13 +19,13 @@ interface VerifyEmailLoginProps {
   url?: string;
 }
 
-const baseUrl = 'https://storage.googleapis.com/physis_cms_storage/email';
+const baseUrl = 'https://storage.googleapis.com/accuraat_cms_storage/email';
 
 export const VerifyEmailLogin = ({
   email = 'sanderontwikkelt@gmail.com',
   url = 'http://localhost:3000',
 }: VerifyEmailLoginProps) => {
-  const previewText = `Log in bij Physis Academy`;
+  const previewText = `Log in bij Accuraat Verhuur`;
 
   return (
     <Html>
@@ -36,30 +36,30 @@ export const VerifyEmailLogin = ({
           <Container className="border border-gray-200 overflow-hidden shadow-md bg-white rounded my-[40px] mx-auto w-full max-w-[465px]">
             <Section className="mt-[20px] p-5 pb-0">
               <Img
-                src={`${baseUrl}/physis-logo.png`}
+                src={`${baseUrl}/accuraat-logo.png`}
                 width="40"
                 height="37"
-                alt="Physis"
+                alt="Accuraat"
                 className="my-0"
               />
             </Section>
             <Section className='p-5 pt-0'>
 
             <Heading className="text-black text-[24px] font-normal my-[30px] mx-0">
-              Log in bij <strong>Physis Academy</strong>
+              Log in bij <strong>Accuraat Verhuur</strong>
             </Heading>
             <Text className="text-black text-[14px] leading-[24px]">
               Hoi {email.split("@")[0]},
             </Text>
             <Text className="text-black text-[14px] leading-[24px]">
-              We hebben een aanvraag van je ontvangen om in te loggen bij Physis Academy. Klik op de volgende link om verder te gaan:
+              We hebben een aanvraag van je ontvangen om in te loggen bij Accuraat Verhuur. Klik op de volgende link om verder te gaan:
               </Text>
             <Section className="mt-[32px] mb-[32px]">
               <Button
                 className="bg-[#000000] rounded text-white text-[12px] font-semibold no-underline px-4 py-3"
                 href={url}
               >
-                Log in bij Physis Academy
+                Log in bij Accuraat Verhuur
               </Button>
             </Section>
             <Text className="text-black text-[14px] leading-[24px]">
@@ -77,14 +77,14 @@ export const VerifyEmailLogin = ({
 
            
       <Img
-        src={`${baseUrl}/physis-full-logo-white.png`}
+        src={`${baseUrl}/accuraat-full-logo-white.png`}
         width="160"
         height="40"
-        alt="Physis"
+        alt="Accuraat"
         className="my-0"
       />
        <Text className="text-white text-[12px] leading-[24px] mb-0">
-       © Physis Academy, all rights reserved.
+       © Accuraat Verhuur, all rights reserved.
             </Text>
        <Text className="text-gray-500 text-[12px] leading-[24px] my-0">
 

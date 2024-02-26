@@ -18,7 +18,7 @@ type Values = { pathname: string; name: string }[];
 const defaultItems = [
   { pathname: "/mijn-account", name: "Mijn account" },
   {
-    pathname: "https://community.physis.academy/login",
+    pathname: "https://community.accuraat.academy/login",
     name: "Cursist log in",
   },
   {
@@ -62,7 +62,7 @@ const Header = ({ header }: { header: HeaderType }) => {
             "relative z-50 flex h-full w-full max-w-[100vw] items-center px-6",
           )}
         >
-          <Link href="/" aria-label="Physis">
+          <Link href="/" aria-label="Accuraat">
             {header.media?.url ? (
               <Image
                 src={header.media.url}

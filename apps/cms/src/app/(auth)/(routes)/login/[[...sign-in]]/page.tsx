@@ -7,8 +7,8 @@ import { AuthShowcase } from "../../components/auth-showcase";
 import AuthWrapper from "../../components/auth-wrapper";
 
 export const metadata: Metadata = {
-  title: "Login | Physis Admin",
-  description: "Physis login.",
+  title: "Login | Accuraat Admin",
+  description: "Accuraat login.",
 };
 
 export default async function AuthenticationPage() {
@@ -19,7 +19,7 @@ export default async function AuthenticationPage() {
 
   return (
     <AuthWrapper
-      title="Welkom bij Physis Admin!"
+      title="Welkom bij Accuraat Admin!"
       description="Kies hoe je wilt inloggen"
     >
       <AuthShowcase />

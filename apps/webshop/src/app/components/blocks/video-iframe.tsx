@@ -7,7 +7,7 @@ const VideoIframe = ({ src }: { src: string }) => {
       frameBorder="0"
       allowFullScreen
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      title="Physis Academy Ondernemersdag #1 Aftermovie"
+      title="Accuraat Verhuur Ondernemersdag #1 Aftermovie"
       src={src}
     ></iframe>
   );

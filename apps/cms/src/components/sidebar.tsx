@@ -65,7 +65,7 @@ export async function AdminSideBar({
       <Card className="flex flex-grow flex-col p-0">
         <Link href="/">
           <SidebarItem className="relative flex w-full items-center justify-between p-5 pb-0">
-            <span className="sr-only text-xl font-bold">Physis</span>
+            <span className="sr-only text-xl font-bold">Accuraat</span>
             <svg
               width="52"
               height="52"

@@ -10,7 +10,7 @@ interface RecipientType {
   email: string;
 }
 
-const sentFrom = new Sender("noreply@physis.academy", "Physis Academy");
+const sentFrom = new Sender("noreply@accuraat.academy", "Accuraat Verhuur");
 
 const stripHtml = (html: string) => html.replace(/<\/?[^>]+>/gi, "");
 

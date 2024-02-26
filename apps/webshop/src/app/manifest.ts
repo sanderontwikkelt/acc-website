@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Physis",
-    short_name: "Physis",
+    name: "Accuraat",
+    short_name: "Accuraat",
     description: "Op Maat Gemaakte Sportsokken met Eigen Logo",
     start_url: "/",
     display: "standalone",

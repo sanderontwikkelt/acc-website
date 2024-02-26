@@ -196,7 +196,7 @@ const Footer = ({ footer }: { footer: FooterType }) => {
           </div>
         </nav>
         <p className="text-description mb-1 mt-16 max-md:text-base md:mt-24">
-          © Physis Academy, all rights reserved.
+          © Accuraat Verhuur, all rights reserved.
         </p>
         <div className="flex items-center">
           {getArray(footer.informationLinks).map(({ href, title }, i) => (

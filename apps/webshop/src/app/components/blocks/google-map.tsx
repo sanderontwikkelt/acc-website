@@ -222,7 +222,7 @@ const GoogleMaps = ({
           )}
           {filteredSpecialists.map((user) => (
             <Marker
-              icon="https://storage.googleapis.com/physis_cms_storage/marker.svg"
+              icon="https://storage.googleapis.com/accuraat_cms_storage/marker.svg"
               position={{ lat: +user.lat, lng: +user.lng }}
               key={user.id}
               animation={

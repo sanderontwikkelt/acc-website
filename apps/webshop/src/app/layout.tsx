@@ -31,9 +31,9 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   metadataBase: new URL(WEB_URL),
-  title: "Home - Physis Academy",
+  title: "Home - Accuraat Verhuur",
   description:
-    "Wij helpen behandelaars en trainers om nog meer impact te maken op de vitaliteit van hun klanten. Elke week waardevolle kennis in je mail? Ontvang gratis kennis! Wat we doen Wij bieden jou een breed cursusaanbod op de gebieden Physis, Coaching en Ondernemen.",
+    "Wij helpen behandelaars en trainers om nog meer impact te maken op de vitaliteit van hun klanten. Elke week waardevolle kennis in je mail? Ontvang gratis kennis! Wat we doen Wij bieden jou een breed cursusaanbod op de gebieden Accuraat, Coaching en Ondernemen.",
 };
 
 export default function RootLayout({

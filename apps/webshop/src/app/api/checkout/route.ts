@@ -1,9 +1,8 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { api } from "src/trpc/server";
 
 import type { PaymentMethod } from "@acme/mollie";
-import { db, schema } from "@acme/db";
+import { db, eq, schema } from "@acme/db";
 import { createPayment } from "@acme/mollie";
 
 export async function POST(req: NextRequest) {
@@ -19,7 +18,16 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "INVALID DATA" }, { status: 500 });
     }
 
-    const cart = await api.cart.byId.query({ id: cartId });
+    const cart = await db.query.cart.findFirst({
+      where: eq(schema.cart.id, cartId),
+      with: {
+        items: {
+          with: {
+            product: true,
+          },
+        },
+      },
+    });
 
     const price = cart.items.reduce(
       (total, item) => total + item.product.price * item.quantity,

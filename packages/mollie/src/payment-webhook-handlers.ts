@@ -30,7 +30,7 @@ export const createPayment = async ({
       currency: "EUR",
       value: charged,
     },
-    description: "Bestelling by Physis Academy",
+    description: "Bestelling by Accuraat Verhuur",
     redirectUrl: `${url}/bedankt-pagina`,
     webhookUrl: `${"https://c88e-2a02-a45b-aaea-1-28c5-1f58-15a3-7883.ngrok-free.app" || url}/api/webhooks/mollie/${secret}`,
     locale: "nl_NL" as Locale,

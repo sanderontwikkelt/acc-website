@@ -19,5 +19,5 @@ export default {
   schema: "./src/schema",
   driver: "mysql2",
   dbCredentials: { uri },
-  tablesFilter: ["physis_*"],
+  tablesFilter: ["accuraat_*"],
 } satisfies Config;

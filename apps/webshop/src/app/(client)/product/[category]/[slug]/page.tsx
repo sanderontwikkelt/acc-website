@@ -64,7 +64,7 @@ export async function generateMetadata({
       title,
       description,
       url: `${WEB_URL}/${slug}`,
-      siteName: "Physis",
+      siteName: "Accuraat",
       ...(product.images?.length && {
         images: product.images.map((image) => image.media.url),
       }),

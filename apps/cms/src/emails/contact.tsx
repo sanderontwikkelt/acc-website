@@ -43,10 +43,10 @@ export const Contact = ({
           <Container style={container}>
             <Section style={{ marginBottom: 20 }}>
               <Img
-                src={`${baseUrl}/physis.png`}
+                src={`${baseUrl}/accuraat.png`}
                 width="149"
                 height="43"
-                alt="Physis"
+                alt="Accuraat"
               />
             </Section>
             <Section>
@@ -86,7 +86,7 @@ export const Contact = ({
                 {!!phoneNumber && <Text>{phoneNumber}</Text>}
                 <Hr style={hr} />
                 <Text style={footer}>
-                  Physis {new Date().getFullYear()}, Protonstraat 9b, 9743 AL
+                  Accuraat {new Date().getFullYear()}, Protonstraat 9b, 9743 AL
                   Groningen
                 </Text>
               </Row>

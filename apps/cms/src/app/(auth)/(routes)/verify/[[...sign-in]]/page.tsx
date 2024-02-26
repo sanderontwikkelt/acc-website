@@ -10,8 +10,8 @@ import CloseWindowButton from "~/app/_components/close-window-button";
 import AuthWrapper from "../../components/auth-wrapper";
 
 export const metadata: Metadata = {
-  title: "Verificatie | Physis Admin",
-  description: "Physis verificatie.",
+  title: "Verificatie | Accuraat Admin",
+  description: "Accuraat verificatie.",
 };
 
 export default async function AuthenticationPage() {

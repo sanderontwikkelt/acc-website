@@ -27,7 +27,7 @@ export const ForgotPasswordEmail = ({
       <Head />
       <Preview>
         We hebben een verzoek ontvangen om het wachtwoord van uw account bij
-        Physis te resetten.
+        Accuraat te resetten.
       </Preview>
 
       <Body style={main}>
@@ -35,17 +35,17 @@ export const ForgotPasswordEmail = ({
           <Container style={container}>
             <Section style={{ marginBottom: 20 }}>
               <Img
-                src={`${baseUrl}/physis.png`}
+                src={`${baseUrl}/accuraat.png`}
                 width="149"
                 height="43"
-                alt="Physis"
+                alt="Accuraat"
               />
             </Section>
             <Section>
               <Row>
                 <Text style={heading}>
                   We hebben een verzoek ontvangen om het wachtwoord van uw
-                  account bij Physis te resetten.
+                  account bij Accuraat te resetten.
                 </Text>
                 <Text style={paragraph}>
                   Als u dit verzoek niet heeft ingediend, kunt u deze e-mail
@@ -86,7 +86,7 @@ export const ForgotPasswordEmail = ({
             <Section>
               <Row>
                 <Text style={footer}>
-                  Physis {new Date().getFullYear()}, Protonstraat 9b, 9743 AL
+                  Accuraat {new Date().getFullYear()}, Protonstraat 9b, 9743 AL
                   Groningen
                 </Text>
               </Row>

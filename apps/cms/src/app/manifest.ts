@@ -2,9 +2,9 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Physis",
-    short_name: "Physis",
-    description: "Physis: Verantwoorde Nederlandse Kledingproductie",
+    name: "Accuraat",
+    short_name: "Accuraat",
+    description: "Accuraat: Verantwoorde Nederlandse Kledingproductie",
     start_url: "/",
     display: "standalone",
     background_color: "#FCF9EC",
