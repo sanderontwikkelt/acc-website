@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ChevronUp, LogOut, Settings, User } from "lucide-react";
+import { ChevronUp, LogOut, Settings, User, User2Icon } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 
@@ -20,7 +20,6 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const themes = [
   { value: "light", label: "Licht" },
@@ -37,19 +36,8 @@ export function UserNav() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         {!!session?.user && (
-          <Button
-            variant="ghost"
-            className="relative mt-auto flex w-full justify-start pl-0"
-          >
-            <Avatar className="mr-2">
-              <AvatarImage src={session.user.image} alt={session.user.name} />
-              <AvatarFallback>
-                {session?.user.name
-                  .split(" ")
-                  .map(([n]) => n.toUpperCase())
-                  .join("")}
-              </AvatarFallback>
-            </Avatar>
+          <Button className="relative mt-auto flex h-12 w-full justify-start">
+            <User2Icon className="mr-2 w-4" />
             {session.user.name}
             <ChevronUp className="ml-auto w-4" />
           </Button>

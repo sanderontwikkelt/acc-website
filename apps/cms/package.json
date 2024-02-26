@@ -16,11 +16,11 @@
   "dependencies": {
     "@acme/api": "workspace:^0.1.0",
     "@acme/auth": "workspace:^0.1.0",
-    "@acme/email": "workspace:^0.1.0",
     "@acme/db": "workspace:^0.1.0",
     "@acme/mollie": "workspace:^0.1.0",
     "@acme/ui": "workspace:^0.1.0",
     "@acme/validators": "workspace:^0.1.0",
+    "@acme/transactional": "workspace:^0.1.0",
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/modifiers": "^6.0.1",
     "@dnd-kit/sortable": "^7.0.2",

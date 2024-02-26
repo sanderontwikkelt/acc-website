@@ -12,10 +12,11 @@ export enum EntityEnum {
   SEO = "seo",
   TEACHER = "teacher",
   COURSE = "course",
+  SPECIALIST = "specialist",
 }
 
 export enum ActionEnum {
-  FIND = "find",
+  FIND = "get",
   CREATE = "create",
   UPDATE = "update",
   DELETE = "delete",

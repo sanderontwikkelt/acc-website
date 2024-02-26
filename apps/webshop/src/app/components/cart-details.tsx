@@ -2,6 +2,7 @@
 
 import React, { useMemo } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { api } from "src/trpc/react";
 
 import { formatter } from "~/lib/utils";
@@ -92,7 +93,12 @@ const CartDetails = () => {
                       ) : null}
                     </td>
                     <td className="w-[99%] border-b border-l border-border p-2.5">
-                      <div className="underline">{product.title}</div>
+                      <Link
+                        href={`/product/${product.category?.slug || "geen-categorie"}/${product.slug}`}
+                        className="underline"
+                      >
+                        {product.title}
+                      </Link>
                       <div className="text-description">Datum:</div>
                       <div className="text-description">
                         {item.productVariant.title}

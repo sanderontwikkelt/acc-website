@@ -7,6 +7,7 @@ import type {
   ProductPaymentPlan,
   ProductVariant,
 } from "@acme/db";
+import { auth } from "@acme/auth";
 import { db } from "@acme/db";
 
 import ProductDetails from "~/components/product-details";
@@ -102,6 +103,8 @@ export default async function DynamicPage({
 }: {
   params: { slug: string };
 }) {
+  const session = await auth();
+  console.log(session);
   const product = await getProduct(params.slug);
   if (!product?.id) return notFound();
   return (

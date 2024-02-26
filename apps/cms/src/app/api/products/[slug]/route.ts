@@ -15,6 +15,7 @@ export async function GET(
     const product = await db.query.product.findFirst({
       with: {
         variants: true,
+        category: true,
         paymentPlans: true,
         images: {
           with: {

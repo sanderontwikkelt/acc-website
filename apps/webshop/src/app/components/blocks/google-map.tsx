@@ -6,7 +6,7 @@ import Link from "next/link";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 import { useQueryState } from "next-usequerystate";
 
-import type { Media, Teacher } from "@acme/db";
+import type { Media, Specialist } from "@acme/db";
 import { cn } from "@acme/ui";
 
 import { setHtml } from "~/lib/setHtml";
@@ -31,11 +31,11 @@ const options = {
 const GoogleMaps = ({
   title,
   placeholder,
-  teachers,
+  specialists,
 }: {
   title: string;
   placeholder: string;
-  teachers: (Teacher & {
+  specialists: (Specialist & {
     media: Media;
   })[];
 }) => {
@@ -49,24 +49,24 @@ const GoogleMaps = ({
     libraries,
   });
 
-  const filteredTeachers = useMemo(
+  const filteredSpecialists = useMemo(
     () =>
       address
-        ? teachers.filter((user) =>
+        ? specialists.filter((user) =>
             user.address
               .toLowerCase()
               .includes(address ? address.toLowerCase() : ""),
           )
-        : teachers,
-    [teachers, address],
+        : specialists,
+    [specialists, address],
   );
 
   const selectedUser = useMemo(
     () =>
       selectedUserId &&
-      filteredTeachers.find((user) => +user.id === +selectedUserId),
-    [selectedUserId, filteredTeachers],
-  ) as (Teacher & { media: Media }) | null;
+      filteredSpecialists.find((user) => +user.id === +selectedUserId),
+    [selectedUserId, filteredSpecialists],
+  ) as (Specialist & { media: Media }) | null;
 
   function success(pos: GeolocationPosition) {
     const crd = pos.coords;
@@ -176,7 +176,7 @@ const GoogleMaps = ({
           </div>
         </div>
         <div>
-          {filteredTeachers.map((user) => (
+          {filteredSpecialists.map((user) => (
             <button
               key={user.id}
               className={cn(
@@ -220,7 +220,7 @@ const GoogleMaps = ({
               animation={google.maps.Animation.DROP}
             />
           )}
-          {filteredTeachers.map((user) => (
+          {filteredSpecialists.map((user) => (
             <Marker
               icon="https://storage.googleapis.com/physis_cms_storage/marker.svg"
               position={{ lat: +user.lat, lng: +user.lng }}
@@ -421,7 +421,7 @@ const GoogleMaps = ({
             </div>
           </div>
           <div className="p-5 text-sm">
-            <p {...setHtml(selectedUser?.description)} />
+            <p {...setHtml((selectedUser?.description as string) || "")} />
           </div>
         </DialogContent>
       </Dialog>

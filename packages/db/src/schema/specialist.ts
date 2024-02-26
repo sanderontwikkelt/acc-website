@@ -3,17 +3,23 @@ import { index, text } from "drizzle-orm/mysql-core";
 
 import { createdAt, id, nnInt, updatedAt, varChar } from "../utils";
 import { mySqlTable } from "./_table";
-import { course } from "./course";
 import { media } from "./media";
 
-export const teacher = mySqlTable(
-  "teacher",
+export const specialist = mySqlTable(
+  "specialist",
   {
     id,
     title: varChar("title"),
     name: varChar("name"),
     description: text("description"),
     mediaId: nnInt("media_id"),
+    address: varChar("address"),
+    website: varChar("website"),
+    phoneNumber: varChar("phoneNumber"),
+    email: varChar("email"),
+    body: varChar("body"),
+    lat: varChar("lat"),
+    lng: varChar("lng"),
     createdAt,
     updatedAt,
   },
@@ -24,7 +30,6 @@ export const teacher = mySqlTable(
   },
 );
 
-export const teacherRelations = relations(teacher, ({ one, many }) => ({
-  media: one(media, { fields: [teacher.mediaId], references: [media.id] }),
-  courses: many(course, { relationName: "courseTeacher" }),
+export const specialistRelations = relations(specialist, ({ one }) => ({
+  media: one(media, { fields: [specialist.mediaId], references: [media.id] }),
 }));

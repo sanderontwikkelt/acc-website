@@ -17,6 +17,14 @@ export const userFormSchema = z.object({
   name: notEmptyString,
   roleId: notEmptyNumber,
   email: z.string().email({ message: "Vul een geldig e-mail in." }),
+  isAdmin: z.boolean().optional(),
+});
+
+export const emailFormSchema = z.object({
+  to: notEmptyString,
+  type: notEmptyString,
+  subject: notEmptyString,
+  mailId: notEmptyString,
 });
 
 export const courseFormSchema = z.object({
@@ -51,6 +59,13 @@ export const seoFormSchema = z.object({
 });
 
 export const teacherFormSchema = z.object({
+  title: notEmptyString,
+  name: notEmptyString,
+  description: notEmptyString,
+  mediaId: notEmptyNumber,
+});
+
+export const specialistFormSchema = z.object({
   title: notEmptyString,
   name: notEmptyString,
   description: notEmptyString,
